@@ -140,6 +140,18 @@ main {
   text-transform: uppercase;
 }
 
+a.btn {
+  display: inline;
+}
+
+a.btn:hover {
+  color: inherit;
+}
+
+a.btn.btn.inactive:hover {
+  color: #a8a8a8;
+}
+
 .btn-big {
   max-width: 150px;
   background: rgb(157 117 194 / 50%);

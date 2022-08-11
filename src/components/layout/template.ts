@@ -2,33 +2,14 @@ const headerInner = `
 <div class="wrapper header__wrapper">
 <h1>RS Lang</h1>
 <nav class="nav">
-<ul class="nav__list">
-<li>
-  <button class="btn" data-btn="main"> Главная </button>
-</li>
-<li>
-  <button class="btn" data-btn="textbook"> Учебник </button>
-</li>
-<li>
-  <button class="btn" data-btn="games"> Игры </button>
-</li>
-<li>
-  <button class="btn" data-btn="stat"> Статистика </button>
-</li>
-<li>
-  <button class="btn inactive" data-btn="login"> Login </button>
-</li>
-</ul>
 </nav>
 </div>
 `;
 
 const renderMainTemplate = () => `
-<div class="wrapper">
 <div class="whale">
     <img src="./assets/whale.svg" alt="">
   </div>
-</div>
 `;
 
 const footerInner = `<div class="wrapper footer__wrapper">

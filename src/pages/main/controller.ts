@@ -1,4 +1,4 @@
-import View from "./view/view";
+import View from "./view";
 import Model from "./model";
 
 class App {

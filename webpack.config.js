@@ -93,7 +93,8 @@ const baseConfig = {
         filename: '[name].js', // '[name].[contenthash].js',
         path: path.resolve(__dirname, './dist'),
         assetModuleFilename: "assets/[name][ext][query]", // "assets/[hash][ext][query]",
-        clean: true
+        clean: true,
+ 
     },
 
     plugins: [
@@ -114,6 +115,7 @@ const baseConfig = {
           ]
         }),
     ],
+ 
 };
 
 module.exports = ({ mode }) => {

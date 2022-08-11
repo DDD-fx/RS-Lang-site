@@ -2,7 +2,9 @@
 module.exports = {
     mode: 'development',
     devtool: 'inline-source-map',
-
+    output: {
+    //  publicPath: '/'
+    },
     devServer: {
       open: true,
         hot: true,
@@ -11,6 +13,7 @@ module.exports = {
             directory: './src',
             watch: true,
         },
+        historyApiFallback: true,
     },
     
 };
