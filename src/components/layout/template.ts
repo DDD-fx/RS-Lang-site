@@ -7,8 +7,15 @@ const headerInner = `
 `;
 
 const renderMainTemplate = () => `
-<div class="whale">
+<div class="img-x20">
     <img src="./assets/whale.svg" alt="">
+  </div>
+`;
+
+
+const renderTextbookTemplate = () => `
+<div class="img-x15">
+    <img src="./assets/skat.svg" alt="">
   </div>
 `;
 
@@ -25,4 +32,4 @@ const footerInner = `<div class="wrapper footer__wrapper">
 <a href="https://rs.school/js/" class="rss" target="_blank"> Rolling Scopes School </a>
 </div>`;
 
-export { headerInner, footerInner, renderMainTemplate };
+export { headerInner, footerInner, renderMainTemplate, renderTextbookTemplate };

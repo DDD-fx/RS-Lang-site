@@ -28,7 +28,12 @@ const routes: Routes[] = [
   {
     path: "/games",
     action: () => {
-      main.innerHTML = "<h1>Page Games</h1>";
+      main.innerHTML = `
+      <h1>Page Games</h1>
+      <div class="img-x5">
+      <img src="./assets/bubbles.svg" alt="">
+    </div>
+  `;
     },
   },
   {

@@ -1,4 +1,5 @@
 import { getElement } from "../utils/tools";
+import { renderTextbookTemplate } from "../components/layout/template";
 
 class Textbook {
   constructor() {
@@ -13,7 +14,7 @@ class Textbook {
   };
 
   renderTextbook = () => {
-   return '<h1>Page Textbook</h1>'
+   return renderTextbookTemplate();
   };
 
 }

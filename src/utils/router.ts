@@ -21,7 +21,7 @@ class Router {
   }
 
   render = async (location: Location) => {
-    await this.router.resolve(location.pathname).catch(() => {});;
+    await this.router.resolve(location.pathname).catch(() => {});
   };
 
   setRouter = () => {
