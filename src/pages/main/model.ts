@@ -1,10 +1,9 @@
 class Model {
-  state
+  state;
 
   constructor() {
-  this.state = {}
-}
-  
+    this.state = {};
+  }
 }
 
 export default Model;

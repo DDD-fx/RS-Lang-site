@@ -1,5 +1,5 @@
-import View from "./view";
-import Model from "./model";
+import View from './view';
+import Model from './model';
 
 class App {
   view: View;

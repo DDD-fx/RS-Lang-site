@@ -1,32 +1,30 @@
-import "./styles.scss";
-import App from "./pages/main/controller";
-import Textbook from "./pages/textbook";
-import Router from "./utils/router";
-import { getElement } from "./utils/tools";
-import { Routes } from "./types/types";
-
+import './styles.scss';
+import App from './pages/main/controller';
+import Textbook from './pages/textbook';
+import Router from './utils/router';
+import { getElement } from './utils/tools';
+import { Routes } from './types/types';
 
 const app = new App();
 app.init();
 
-const main = getElement("main .wrapper");
-
+const main = getElement('main .wrapper');
 
 const routes: Routes[] = [
   {
-    path: "",
+    path: '',
     action: () => {
       app.view.renderMain();
     },
   },
   {
-    path: "/textbook",
+    path: '/textbook',
     action: () => {
-      (new Textbook().render());
+      new Textbook().render();
     },
   },
   {
-    path: "/games",
+    path: '/games',
     action: () => {
       main.innerHTML = `
       <h1>Page Games</h1>
@@ -37,17 +35,17 @@ const routes: Routes[] = [
     },
   },
   {
-    path: "/stat",
+    path: '/stat',
     action: () => {
-      main.innerHTML = "<h1>Page Statistics</h1>";
+      main.innerHTML = '<h1>Page Statistics</h1>';
     },
   },
   {
-    path: "/login",
+    path: '/login',
     action: () => {
-      main.innerHTML = "<h1>Not Found</h1>";
+      main.innerHTML = '<h1>Not Found</h1>';
     },
   },
 ];
 
-const router = new Router(routes)
+const router = new Router(routes);

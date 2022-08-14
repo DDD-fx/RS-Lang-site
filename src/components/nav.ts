@@ -1,5 +1,5 @@
-import { createElement, getElement } from "../utils/tools";
-import { createBrowserHistory } from "history";
+import { createElement, getElement } from '../utils/tools';
+import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
 const navInner = `
@@ -23,17 +23,17 @@ const navInner = `
 class Nav {
   nav;
   constructor() {
-    this.nav = createElement("ul", "nav__list");
+    this.nav = createElement('ul', 'nav__list');
     this.nav.innerHTML = navInner;
     this.bind();
   }
   render = () => {
-    getElement('.nav').append(this.nav)
-  }
+    getElement('.nav').append(this.nav);
+  };
   bind = () => {
-    this.nav.addEventListener("click", (event) => {
+    this.nav.addEventListener('click', (event) => {
       event.preventDefault();
-      if ((<HTMLElement>event.target).tagName === "A") {
+      if ((<HTMLElement>event.target).tagName === 'A') {
         const anchor = event.target as HTMLAnchorElement;
         const url = anchor.pathname;
         history.push(url);
@@ -42,4 +42,4 @@ class Nav {
   };
 }
 
-export {Nav, history};
+export { Nav, history };

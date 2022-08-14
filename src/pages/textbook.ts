@@ -1,22 +1,19 @@
-import { getElement } from "../utils/tools";
-import { renderTextbookTemplate } from "../components/layout/template";
+import { getElement } from '../utils/tools';
+import { renderTextbookTemplate } from '../components/layout/template';
 
 class Textbook {
-  constructor() {
-  }
+  constructor() {}
 
   render = () => {
-    const mainWrapper = getElement("main .wrapper");
+    const mainWrapper = getElement('main .wrapper');
     const textbook = this.renderTextbook();
     mainWrapper.innerHTML = '';
-    mainWrapper.insertAdjacentHTML("afterbegin", textbook);
-
+    mainWrapper.insertAdjacentHTML('afterbegin', textbook);
   };
 
   renderTextbook = () => {
-   return renderTextbookTemplate();
+    return renderTextbookTemplate();
   };
-
 }
 
 export default Textbook;

@@ -1,14 +1,14 @@
-import UniversalRouter from "universal-router";
-import { Routes } from "../types/types";
-import { history } from "../components/nav";
+import UniversalRouter from 'universal-router';
+import { Routes } from '../types/types';
+import { history } from '../components/nav';
 
 type Location = {
-hash: string
-key: string
-pathname: string
-search: string
-state: null | unknown
-}
+  hash: string;
+  key: string;
+  pathname: string;
+  search: string;
+  state: null | unknown;
+};
 
 class Router {
   routes;
@@ -25,11 +25,9 @@ class Router {
   };
 
   setRouter = () => {
- 
-    history.listen( ({ action, location }) => {
-    this.render(location);
+    history.listen(({ action, location }) => {
+      this.render(location);
     });
-
   };
 }
 
