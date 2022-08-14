@@ -13,7 +13,7 @@ const navInner = `
   <a href="/textbook" class="btn" data-btn="textbook"> Учебник </a>
 </li>
 <li>
-  <a href="/games" class="btn" data-btn="games"> Игры </a>
+  <a href="/games" class="btn" data-btn="games"> Миниигры </a>
 </li>
 <li>
   <a href="/stat" class="btn" data-btn="stat"> Статистика </a>

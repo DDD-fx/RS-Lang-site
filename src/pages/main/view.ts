@@ -14,7 +14,7 @@ class View {
   constructor() {
     this.header = createElement('header', 'header');
     this.main = createElement('main');
-    this.mainWrapper = createElement('div', 'wrapper');
+    this.mainWrapper = createElement('div', ['wrapper', 'main__wrapper']);
     this.footer = createElement('footer');
   }
 

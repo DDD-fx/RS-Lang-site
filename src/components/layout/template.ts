@@ -9,8 +9,17 @@ const headerInner = `
 */
 
 const renderMainTemplate = () => `
-<div class="img-x20">
+
+<div class="main__container">
+<div class="article main__article">
+<h2 class="article__title">Погрузись в <span class="accent">океан</span> знаний вместе с RS Lang</h2>
+<p class="article__text">Добро пожаловать на образовательную игровую площадку, которая помогает детям выучить английский язык.
+  Также, у нас есть миниигры игры, которые помогают улучшить навыки мышления у детей.</p>
+  <a href="/textbook" class="btn btn-article" data-btn="textbook"> Начать </a>
+  </div>
+<div class="whale img-x20">
     <img src="./assets/whale.svg" alt="">
+  </div>
   </div>
 `;
 
