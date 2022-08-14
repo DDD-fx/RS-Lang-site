@@ -10,8 +10,10 @@
     "prettier": "prettier --write src/**/*.{ts,scss}",
     "test": "jest"
   },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier"
+    }
   },
   "repository": {
     "type": "git",
