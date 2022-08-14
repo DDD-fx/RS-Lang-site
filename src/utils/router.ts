@@ -1,14 +1,6 @@
 import UniversalRouter from 'universal-router';
-import { Routes } from '../types/types';
+import { Routes, HistoryLocation } from '../types/types';
 import { history } from '../components/nav';
-
-type Location = {
-  hash: string;
-  key: string;
-  pathname: string;
-  search: string;
-  state: null | unknown;
-};
 
 class Router {
   routes;
@@ -20,7 +12,7 @@ class Router {
     this.render(history.location);
   }
 
-  render = async (location: Location) => {
+  render = async (location: HistoryLocation) => {
     await this.router.resolve(location.pathname).catch(() => {});
   };
 

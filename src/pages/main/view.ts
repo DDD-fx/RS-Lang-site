@@ -1,4 +1,4 @@
-import { headerInner, footerInner, renderMainTemplate } from '../../components/layout/template';
+import { footerInner, renderMainTemplate } from '../../components/layout/template';
 import { Nav } from '../../components/nav';
 import { getElement, createElement } from '../../utils/tools';
 
@@ -19,11 +19,11 @@ class View {
   }
 
   render = () => {
-    this.header.insertAdjacentHTML('afterbegin', headerInner);
+    const nav = new Nav().render();
+    this.header.append(nav);
     this.main.append(this.mainWrapper);
     this.footer.insertAdjacentHTML('afterbegin', footerInner);
     document.body.append(this.header, this.main, this.footer);
-    const nav = new Nav().render();
   };
 
   renderMain = () => {

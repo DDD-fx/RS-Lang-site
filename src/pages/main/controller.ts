@@ -1,5 +1,5 @@
 import View from './view';
-import Model from './model';
+import Model from '../../model/model';
 
 class App {
   view: View;

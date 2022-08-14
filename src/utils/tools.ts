@@ -1,6 +1,10 @@
-const createElement = (tag: string, className?: string) => {
+const createElement = (tag: string, className?: string | string[]) => {
   const element = document.createElement(tag);
-  if (className) element.classList.add(className);
+  if (className) {
+    Array.isArray(className)
+      ? element.classList.add(...className)
+      : element.classList.add(className);
+  }
   return element;
 };
 
