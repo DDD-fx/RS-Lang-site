@@ -2,9 +2,8 @@
 
 :root {
   --body-color: #212529;
-  --maintheme: #A8EEE4;
-  ;
-  --bg-color: #1B6F7A;
+  --maintheme: #a8eee4;
+  --bg-color: #1b6f7a;
   --white: #fff;
 }
 
@@ -63,7 +62,7 @@ h3 {
 a:focus,
 a:active {
   outline: none;
-  color: inherit
+  color: inherit;
 }
 
 button {
@@ -79,7 +78,7 @@ a:link {
 
 a:hover {
   text-decoration: none;
-  color: var(--maintheme)
+  color: var(--maintheme);
 }
 
 nav,
@@ -114,7 +113,6 @@ p {
 
 main {
   display: flex;
-
 }
 
 .img-x20 img {
@@ -232,7 +230,6 @@ li {
   align-items: center;
   padding: 20px 0;
   font-size: 1rem;
-
 }
 
 .footer__info {
@@ -243,24 +240,20 @@ li {
 .footer__copyright {
   display: flex;
   align-items: center;
-
 }
 
 .year {
   padding: 0 20px;
-
 }
 
 .github-username,
 .rss {
-
   text-decoration: none;
 
   transition: 0.3s;
 }
 
 @media (max-width: 768px) {
-
   html {
     font-size: 14px;
   }
@@ -274,10 +267,9 @@ li {
     flex-wrap: wrap;
   }
 
-  >div,
+  > div,
   a,
   p {
     line-height: 1.5rem;
   }
-
 }
