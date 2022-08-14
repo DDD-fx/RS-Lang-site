@@ -26,11 +26,11 @@ class View {
     const nav = new Nav().render();
   };
 
-      renderMain = () => {
-    const mainTemplate = renderMainTemplate();
-    this.mainWrapper.innerHTML = '';
-    this.mainWrapper.insertAdjacentHTML('afterbegin', mainTemplate);
-      };
+          renderMain = () => {
+      const mainTemplate = renderMainTemplate();
+      this.mainWrapper.innerHTML = '';
+      this.mainWrapper.insertAdjacentHTML('afterbegin', mainTemplate);
+        };
 }
 
 export default View;

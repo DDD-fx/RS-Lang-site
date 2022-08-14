@@ -7,7 +7,7 @@
     "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod",
     "lint": "eslint . --ext .ts",
-    "prettier": "prettier --write src/**/*.{ts,css}",
+    "prettier": "prettier --write src/**/*.{ts,scss}",
     "test": "jest"
   },
   "husky": {
@@ -17,7 +17,7 @@
   },
   "lint-staged": {
     "linters": {
-      "src/**/*.{ts,css}": [
+      "src/**/*.{ts,scss}": [
         "prettier --write",
         "git add"
       ]
