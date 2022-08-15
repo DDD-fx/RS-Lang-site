@@ -9,7 +9,7 @@ const app = new App();
 app.init();
 
 const main = getElement('main__wrapper');
-console.log(main)
+console.log(main);
 
 const routes: Routes[] = [
   {
