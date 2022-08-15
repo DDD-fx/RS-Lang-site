@@ -5,7 +5,7 @@ class Textbook {
   constructor() {}
 
   render = () => {
-    const mainWrapper = getElement('main .wrapper');
+    const mainWrapper = getElement('main__wrapper');
     const textbook = this.renderTextbook();
     mainWrapper.innerHTML = '';
     mainWrapper.insertAdjacentHTML('afterbegin', textbook);

@@ -1,6 +1,6 @@
 import { footerInner, renderMainTemplate } from '../../components/layout/template';
 import { Nav } from '../../components/nav';
-import { getElement, createElement } from '../../utils/tools';
+import { createElement } from '../../utils/tools';
 
 class View {
   header: HTMLElement;

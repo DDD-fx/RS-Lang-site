@@ -9,8 +9,13 @@ const createElement = (tag: string, className?: string | string[]) => {
 };
 
 const getElement = (selector: string): Element => {
+  const element = document.getElementsByClassName(selector)[0] as Element;
+  return element;
+};
+
+const getElementQuery = (selector: string): Element => {
   const element = document.querySelector(selector) as Element;
   return element;
 };
 
-export { createElement, getElement };
+export { createElement, getElement, getElementQuery };

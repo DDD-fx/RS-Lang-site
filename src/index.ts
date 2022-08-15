@@ -8,7 +8,8 @@ import { Routes } from './types/types';
 const app = new App();
 app.init();
 
-const main = getElement('main .wrapper');
+const main = getElement('main__wrapper');
+console.log(main)
 
 const routes: Routes[] = [
   {
