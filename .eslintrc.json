@@ -1,5 +1,5 @@
 {
-  "plugins": ["prettier", "import", "@typescript-eslint", "jest"],
+  "plugins": ["import", "@typescript-eslint", "jest"],
 
   "extends": [
     "airbnb-typescript/base",
@@ -25,7 +25,11 @@
     "no-console": 0,
     "class-methods-use-this": "off",
     "@typescript-eslint/no-explicit-any": "error",
-    "no-new": 1
+    "no-new": 1,
+    "max-lines-per-function": [
+      "error",
+      40
+    ]
   },
   "globals": {
     "NodeJS": true

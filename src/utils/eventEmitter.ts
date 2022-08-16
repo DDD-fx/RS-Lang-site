@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
 // Example
-
+/*
 class Database extends EventEmitter {
   constructor() {
     super();
@@ -10,3 +10,4 @@ class Database extends EventEmitter {
 }
 
 new Database();
+*/

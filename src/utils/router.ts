@@ -4,12 +4,13 @@ import { history } from '../components/nav';
 
 class Router {
   routes;
+
   router;
+
   constructor(routes: Routes[]) {
     this.routes = routes;
     this.router = new UniversalRouter(routes);
     this.setRouter();
-    this.render(history.location);
   }
 
   render = async (location: HistoryLocation) => {
@@ -17,8 +18,8 @@ class Router {
   };
 
   setRouter = () => {
-    history.listen(({ action, location }) => {
-      this.render(location);
+    history.listen(({ location }) => {
+      this.render(location).catch((err) => console.error(err));
     });
   };
 }

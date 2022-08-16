@@ -3,23 +3,23 @@ import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
 const navInner = `
-<h1><a href="/">RS Lang</a></h1>
+<a href="/"><h1>RS Lang</h1></a>
 <nav class="nav">
 <ul class="nav__list">
 <li>
-<a href="/" class="btn" data-btn="main"> Главная </a>
+<a href="/"><button class="btn" data-btn="main"> Главная </button></a>
 </li>
 <li>
-  <a href="/textbook" class="btn" data-btn="textbook"> Учебник </a>
+  <a href="/textbook"><button class="btn" data-btn="textbook"> Учебник </button></a>
 </li>
 <li>
-  <a href="/games" class="btn" data-btn="games"> Миниигры </a>
+  <a href="/games" ><button class="btn" data-btn="games"> Миниигры </button></a>
 </li>
 <li>
-  <a href="/stat" class="btn" data-btn="stat"> Статистика </a>
+  <a href="/stat"><button  class="btn" data-btn="stat"> Статистика </button></a>
 </li>
 <li>
-  <a href="/login" class="btn inactive" data-btn="login"> Login </a>
+  <a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>
 </li>
 </ul>
 </nav>
@@ -27,19 +27,22 @@ const navInner = `
 
 class Nav {
   nav;
+
   constructor() {
     this.nav = createElement('div', ['wrapper', 'header__wrapper']);
     this.nav.innerHTML = navInner;
     this.bind();
   }
+
   render = () => {
     return this.nav; //getElement(parent).append(this.nav);
   };
+
   bind = () => {
     this.nav.addEventListener('click', (event) => {
       event.preventDefault();
-      if ((<HTMLElement>event.target).tagName === 'A') {
-        const anchor = event.target as HTMLAnchorElement;
+      const anchor = (<HTMLElement>event.target).closest('a') as HTMLAnchorElement;
+      if (anchor) {
         const url = anchor.pathname;
         history.push(url);
       }
