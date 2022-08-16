@@ -4,12 +4,12 @@ import Textbook from './pages/textbook';
 import Router from './utils/router';
 import { getElement } from './utils/tools';
 import { Routes } from './types/types';
+import { history } from './components/nav';
 
 const app = new App();
 app.init();
 
 const main = getElement('main__wrapper');
-console.log(main);
 
 const routes: Routes[] = [
   {
@@ -49,4 +49,4 @@ const routes: Routes[] = [
   },
 ];
 
-const router = new Router(routes);
+new Router(routes).render(history.location).catch((err) => console.error(err));

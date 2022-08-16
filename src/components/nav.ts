@@ -27,14 +27,17 @@ const navInner = `
 
 class Nav {
   nav;
+
   constructor() {
     this.nav = createElement('div', ['wrapper', 'header__wrapper']);
     this.nav.innerHTML = navInner;
     this.bind();
   }
+
   render = () => {
     return this.nav; //getElement(parent).append(this.nav);
   };
+
   bind = () => {
     this.nav.addEventListener('click', (event) => {
       event.preventDefault();

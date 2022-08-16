@@ -18,7 +18,7 @@ const removeData = (key: string) => {
   window.localStorage.removeItem(addLocalKey(key));
 };
 
-const getData = async (key?: LocalStorage) => {
+const getData = (key?: LocalStorage) => {
   const localItems = window.localStorage.getItem(addLocalKey(key as string));
   if (localItems) {
     return JSON.parse(localItems); //need types for Data in LS
