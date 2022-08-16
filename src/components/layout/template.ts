@@ -12,12 +12,22 @@ const renderMainTemplate = () => `
 
 <div class="main__container">
 <div class="article main__article">
+<div class="bubbles-top img-x3">
+<img src="./assets/bubbles.svg" alt="">
+</div>
+<div class="skat img-x15">
+    <img src="./assets/skat.svg" alt="">
+  </div>
 <h2 class="article__title">Погрузись в <span class="accent">океан</span> знаний вместе с RS Lang</h2>
 <p class="article__text">Добро пожаловать на образовательную игровую площадку, которая помогает детям выучить английский язык.
   Также, у нас есть миниигры игры, которые помогают улучшить навыки мышления у детей.</p>
   <a href="/textbook" class="btn btn-article" data-btn="textbook"> Начать </a>
   </div>
+  <div class="bubbles img-x5">
+  <img src="./assets/bubbles.svg" alt="">
+</div>
 <div class="whale img-x20">
+
     <img src="./assets/whale.svg" alt="">
   </div>
   </div>
