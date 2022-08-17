@@ -5,6 +5,7 @@ import Router from './utils/router';
 import { getElement } from './utils/tools';
 import { Routes } from './types/types';
 import { history } from './components/nav';
+import { GamesSection } from './pages/games/games';
 
 const app = new App();
 app.init();
@@ -27,12 +28,19 @@ const routes: Routes[] = [
   {
     path: '/games',
     action: () => {
-      main.innerHTML = `
-      <h1>Page Games</h1>
-      <div class="img-x5">
-      <img src="./assets/bubbles.svg" alt="">
-    </div>
-  `;
+      new GamesSection().render();
+    },
+  },
+  {
+    path: '/audiochallenge',
+    action: () => {
+      main.innerHTML = '<h1>Not Found</h1>';
+    },
+  },
+  {
+    path: '/sprint',
+    action: () => {
+      main.innerHTML = '<h1>Not Found</h1>';
     },
   },
   {
