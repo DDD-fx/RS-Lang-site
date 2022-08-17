@@ -47,23 +47,24 @@ app.init();
     </div>
   `;
       },
-  },
-  {
-    path: '/games',
-    action: () => {
-      new GamesSection().render();
     },
-  },
-  {
-    path: '/audiochallenge',
-    action: () => {
-      main.innerHTML = '<h1>Not Found</h1>';
+    {
+      path: '/games',
+      action: () => {
+        new GamesSection().render();
+      },
     },
-  },
-  {
-    path: '/sprint',
-    action: () => {
-      main.innerHTML = '<h1>Not Found</h1>';
+    {
+      path: '/audiochallenge',
+      action: () => {
+        main.innerHTML = '<h1>Not Found</h1>';
+      },
+    },
+    {
+      path: '/sprint',
+      action: () => {
+        main.innerHTML = '<h1>Not Found</h1>';
+      },
     },
     {
       path: '/stat',
@@ -78,9 +79,6 @@ app.init();
       },
     },
   ];
-
   new Router(routes).render(history.location).catch((err) => console.error(err));
 })();
-
-
 
