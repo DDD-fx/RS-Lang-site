@@ -7,6 +7,7 @@ import { history } from './components/nav';
 import { TextBookController } from './pages/textbook/textbookController';
 import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
+import { GamesSection } from './pages/games/games';
 
 const app = new App();
 app.init();
@@ -46,6 +47,23 @@ app.init();
     </div>
   `;
       },
+  },
+  {
+    path: '/games',
+    action: () => {
+      new GamesSection().render();
+    },
+  },
+  {
+    path: '/audiochallenge',
+    action: () => {
+      main.innerHTML = '<h1>Not Found</h1>';
+    },
+  },
+  {
+    path: '/sprint',
+    action: () => {
+      main.innerHTML = '<h1>Not Found</h1>';
     },
     {
       path: '/stat',

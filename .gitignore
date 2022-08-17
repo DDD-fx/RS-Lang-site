@@ -2,3 +2,5 @@ node_modules
 dist
 server
 .idea
+.DS_Store
+
