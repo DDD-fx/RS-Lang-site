@@ -10,7 +10,7 @@ const navInner = `
 <a href="/"><button class="btn" data-btn="main"> Главная </button></a>
 </li>
 <li>
-  <a href="/textbook"><button class="btn" data-btn="textbook"> Учебник </button></a>
+  <a href="/textbook"><button class="btn js-textbook-menu-btn" data-btn="textbook"> Учебник </button></a>
 </li>
 <li>
   <a href="/games" ><button class="btn" data-btn="games"> Миниигры </button></a>
