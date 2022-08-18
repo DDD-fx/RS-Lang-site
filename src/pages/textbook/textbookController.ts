@@ -1,6 +1,10 @@
-import { TextBookControllerInterface, TextBookModelInterface, TextBookViewInterface } from '../../types/types';
+import {
+    TextBookControllerInterface,
+    TextBookModelInterface,
+    TextBookViewInterface,
+} from '../../types/types';
 
-export class TextBookController implements TextBookControllerInterface  {
+export class TextBookController implements TextBookControllerInterface {
     textbookModel: TextBookModelInterface;
 
     textbookView: TextBookViewInterface;
@@ -9,10 +13,14 @@ export class TextBookController implements TextBookControllerInterface  {
         this.textbookModel = textBookModel;
         this.textbookView = textBookView;
         this.textbookView.on('textBookBtnClicked', () => this.getTextBookList())
+          .on('pageBtnClicked', (page) => this.getTextBookList(page))
     }
 
-    getTextBookList(): void {
-        console.log('contr');
-        this.textbookModel.getTextBookList();
+    getTextBookList(
+      page = this.textbookModel.state.currPage,
+      group = this.textbookModel.state.currGroup
+    ): void {
+        const query = `words?group=${group}&page=${page}`;
+        this.textbookModel.getTextBookList(query);
     }
 }
