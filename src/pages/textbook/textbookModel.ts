@@ -20,4 +20,8 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
         console.log(this.wordsChunk);
         this.emit('getTextBookList');
     }
+
+    getWordData(word: WordsChunkType): void {
+        this.emit('getWordData', word);
+    }
 }

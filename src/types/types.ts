@@ -19,29 +19,42 @@ export { Routes, HistoryLocation };
 
 export type TextBookEventsType = {
   textBookBtnClicked: () => void,
-  pageBtnClicked: (i: number) => void,
+  pageBtnClicked: (page: number) => void,
+  groupBtnClicked: (group: number) => void,
+  wordBtnClicked: (id: string) => void,
 
   getTextBookList: () => void,
+  getWordData: (word: WordsChunkType) => void,
 }
 
 export interface TextBookControllerInterface {
-  textbookModel: TextBookModelInterface;
-  textbookView: TextBookViewInterface;
-  getTextBookList(page: number, group: number): void;
+  textBookModel: TextBookModelInterface;
+  textBookView: TextBookViewInterface;
+  getTextBookList(): void;
+  changeTextBookPage(page: number): void;
+  changeTextBookGroup(group: number): void;
+  getWordData(id: string): void;
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
   textBookModel: TextBookModelInterface;
   drawTextBook(wordsChunk: WordsChunkType): void;
-  createTextBookBtn(): void;
+  createDifficultyBtns(): void;
   createWordsBtns({ word, wordTranslate }: WordsBtnsType): HTMLButtonElement;
+  createWordCard(word: WordsChunkType): void;
+  createAudioBtn(audio: string): HTMLButtonElement;
+  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement
   createPagination(): void;
+  checkActiveWordsBtns(): void;
+  checkActiveDifficultyBtn(activeGroupNum: number): void;
+  checkActivePage(currPage: number): void;
 }
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   state: StateType;
   wordsChunk: WordsChunkType[];
   getTextBookList(query: string): void;
+  getWordData(word: WordsChunkType): void;
 }
 
 export type StateType = {
@@ -67,7 +80,7 @@ export type WordsChunkType = {
   "wordTranslate": string,
 }
 
-export type WordsBtnsType = Pick<WordsChunkType, 'word' | 'wordTranslate'>
+export type WordsBtnsType = Pick<WordsChunkType, 'id' | 'word' | 'wordTranslate'>;
 
 /*export interface EventEmitterInterface {
   events: EventsType;
