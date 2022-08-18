@@ -1,7 +1,7 @@
 const renderTextbookTemplate = () => `
-<div class="img-x15">
+<!--<div class="img-x15">
     <img src="../assets/skat.svg" alt="">
-</div>
+</div>-->
 
 <h2 class="textbook-title">Учебник</h2>
 <p class="textbook-subtitle">Уровни сложности</p>
@@ -15,7 +15,7 @@ const renderTextbookTemplate = () => `
 </div>  
 <div class="pagination js-pagination">    <!--30 страниц-->
   <button class="pagination__prev-page js-pagination__prev-page">&#60;</button>
-  <button class="pagination__next-page js-pagination__prev-page">&#62;</button>
+  <button class="pagination__next-page js-pagination__next-page">&#62;</button>
 </div>
 
 `;

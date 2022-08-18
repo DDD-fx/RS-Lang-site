@@ -1,3 +1,5 @@
+import { TypedEmitter } from 'tiny-typed-emitter';
+
 type Routes = {
   path: string;
   action: () => void;
@@ -15,36 +17,37 @@ export { Routes, HistoryLocation };
 
 
 
-export interface EventEmitterInterface {
-  events: EventsType;
-  on(evt: string, listener: (arg: CallbackArgType) => void): EventEmitterInterface;
-  emit(evt: string, arg?: CallbackArgType): void;
-}
-export type CallbackArgType = WordsChunkType | string | number | null | undefined;
-export type EventsType = {
-  textBookBtnClicked?: Array<(data?: CallbackArgType) => void>,
-  getTextBookList?: Array<(data?: CallbackArgType) => void>,
+export type TextBookEventsType = {
+  textBookBtnClicked: () => void,
+  pageBtnClicked: (i: number) => void,
+
+  getTextBookList: () => void,
 }
 
 export interface TextBookControllerInterface {
-  getTextBookList(): void;
+  textbookModel: TextBookModelInterface;
+  textbookView: TextBookViewInterface;
+  getTextBookList(page: number, group: number): void;
 }
 
-export interface TextBookViewInterface extends EventEmitterInterface {
+export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
   textBookModel: TextBookModelInterface;
   drawTextBook(wordsChunk: WordsChunkType): void;
   createTextBookBtn(): void;
   createWordsBtns({ word, wordTranslate }: WordsBtnsType): HTMLButtonElement;
+  createPagination(): void;
 }
 
-export interface TextBookModelInterface extends EventEmitterInterface {
+export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   state: StateType;
   wordsChunk: WordsChunkType[];
-  getTextBookList(): void;
+  getTextBookList(query: string): void;
 }
 
 export type StateType = {
   id: string,
+  currPage: number,
+  currGroup: number,
 };
 
 export type WordsChunkType = {
@@ -65,3 +68,16 @@ export type WordsChunkType = {
 }
 
 export type WordsBtnsType = Pick<WordsChunkType, 'word' | 'wordTranslate'>
+
+/*export interface EventEmitterInterface {
+  events: EventsType;
+  on(evt: string, listener: (arg: CallbackArgType) => void): EventEmitterInterface;
+  emit(evt: string, arg?: CallbackArgType): void;
+}
+export type CallbackArgType = WordsChunkType | string | number | undefined;
+export type EventsType = {
+  textBookBtnClicked?: Array<(data?: CallbackArgType) => void>,
+  pageBtnClicked?: Array<(data?: CallbackArgType) => void>,
+
+  getTextBookList?: Array<(data?: CallbackArgType) => void>,
+}*/

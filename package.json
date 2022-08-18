@@ -10,7 +10,6 @@
     "pret": "prettier --write src/**/*.{ts,scss}",
     "test": "jest"
   },
-
   "repository": {
     "type": "git",
     "url": ""
@@ -54,6 +53,7 @@
   },
   "dependencies": {
     "history": "^5.3.0",
+    "tiny-typed-emitter": "^2.1.0",
     "universal-router": "^9.1.0"
   }
 }
