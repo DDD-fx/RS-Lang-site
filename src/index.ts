@@ -19,7 +19,6 @@ app.init();
   // check Auth
 
   const textBookView = new TextBookView(textBookModel);
-  textBookView.createTextBookBtn();
   // отрисовка авторизации
 
   (() => new TextBookController(textBookModel, textBookView))();
@@ -35,7 +34,7 @@ app.init();
     },
     {
       path: '/textbook',
-      action: () => {
+      action: () => { //прогружает только при клике. При рефреше - нет
         textBookView.drawTextBook();  //было new Textbook.render()
       },
     },
@@ -72,4 +71,6 @@ app.init();
   ];
   new Router(routes).render(history.location).catch((err) => console.error(err));
 })();
+
+console.log(document.getElementsByClassName('js-menu-textbook-btn')[0]);
 

@@ -1,3 +1,73 @@
-.page-btn--active {
-  background: yellow;
+@import "mixins";
+
+.textbook-title,
+.textbook-subtitle {
+  text-align: center;
 }
+
+.textbook-difficulty-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+
+  &__btn {
+    @include textbook-btns-effects;
+    border-radius: 10px;
+  }
+}
+
+.textbook-words {
+  display: flex;
+  gap: 30px;
+  padding-bottom: 60px;
+}
+
+.words-btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+
+  &__btn {
+    @include textbook-btns-effects;
+    border-radius: 20px;
+    border: none;
+  }
+}
+
+.word-description {
+  height: 500px;
+}
+
+.word-image {
+  width: 260px;
+  border-radius: 20px;
+}
+
+.title-audio-block {
+  display: flex;
+  align-items: center;
+}
+
+.audio-btn {
+  background: url(assets/audio-icon.svg) no-repeat;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+  border: none;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  max-width: 660px;
+
+  &__page-btn {
+    @include textbook-btns-effects;
+  }
+}
+

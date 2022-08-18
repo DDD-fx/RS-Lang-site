@@ -1,0 +1,9 @@
+
+@mixin textbook-btns-effects {
+  &:hover {
+    background-color: var(--maintheme);
+  }
+  &--active {
+    background-color: var(--maintheme);
+  }
+}
