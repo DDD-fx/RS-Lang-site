@@ -20,5 +20,4 @@ const renderTextbookTemplate = () => `
 
 `;
 
-
 export default renderTextbookTemplate;

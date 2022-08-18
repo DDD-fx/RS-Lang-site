@@ -8,6 +8,8 @@ import { TextBookController } from './pages/textbook/textbookController';
 import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
 import { GamesSection } from './pages/games/games';
+import { GamesEntranceModal } from './components/games/gamesModal';
+
 
 const app = new App();
 app.init();
@@ -39,30 +41,19 @@ app.init();
     {
       path: '/games',
       action: () => {
-        main.innerHTML = `
-      <h1>Page Games</h1>
-      <div class="img-x5">
-      <img src="./assets/bubbles.svg" alt="">
-    </div>
-  `;
-      },
-    },
-    {
-      path: '/games',
-      action: () => {
         new GamesSection().render();
       },
     },
     {
       path: '/audiochallenge',
       action: () => {
-        main.innerHTML = '<h1>Not Found</h1>';
+        new GamesEntranceModal('audiochallenge').render(); 
       },
     },
     {
       path: '/sprint',
       action: () => {
-        main.innerHTML = '<h1>Not Found</h1>';
+        new GamesEntranceModal('sprint').render(); 
       },
     },
     {

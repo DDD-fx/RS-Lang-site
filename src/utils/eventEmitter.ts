@@ -1,4 +1,3 @@
-
 /*
 export class EventEmitter extends TypedEmitter<EventsType> implements EventEmitterInterface {
     events: EventsType;

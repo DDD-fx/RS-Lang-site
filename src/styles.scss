@@ -2,5 +2,5 @@
 @use 'style/global';
 @use 'style/mainPage';
 @use 'style/textbook';
-@use './style/games';
-
+@use './style/games/gamesPage';
+@use './style/games/gamesModal';
