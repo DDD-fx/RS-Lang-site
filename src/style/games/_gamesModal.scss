@@ -1,0 +1,100 @@
+.game-entrance__wrapper {
+  margin-bottom: 15%;
+}
+
+.game-entrance {
+  width: 50%;
+  height: 100%;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.game-entrance__title {
+  margin: 0 auto;
+}
+
+.game-entrance__title_audiochallenge {
+  width: 10rem;
+}
+
+.game-entrance__title_sprint {
+  width: 5rem;
+}
+
+.game-entrance__text-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.select-input {
+  display: flex;
+  width: 25.6rem;
+  height: 64px;
+  background: var(--white);
+  box-shadow: 0px 15px 40px 5px var(--light-shadow);
+  border-radius: 30px;
+  border: none;
+  color: var(--grey);
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  padding-left: 3.4rem;
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.game-start-btn {
+  margin: 20px 0;
+  width: 25.6rem;
+  height: 64px;
+  background: var(--grey);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  border: none;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 28px;
+  color: var(--white);
+  &:hover {
+    cursor: pointer;
+    transition: all 0.3s linear;
+    opacity: 80%;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.game-modal-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 84vh;
+  min-width:  100%;
+  background: var(--modal-background);
+}
+
+@media (max-width: 540px) {
+  .select-input,
+  .game-start-btn {
+    width: 15rem;
+  }
+}

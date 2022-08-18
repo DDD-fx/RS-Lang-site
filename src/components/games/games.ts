@@ -1,6 +1,8 @@
-import { createElement } from '../../utils/tools';
+import { createElement, getElement } from '../../utils/tools';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
+import { TypedEmitter } from 'tiny-typed-emitter';
+import { GamesEntranceModal } from './gamesModal';
 
 const gamesTemplateInner = `
 <h1 class="games-title">Игры</h1>
@@ -38,10 +40,11 @@ const gamesTemplateInner = `
 </div>
 `;
 
-class Games {
+class Games extends TypedEmitter{
   games;
 
   constructor() {
+    super();
     this.games = createElement('section', 'games-section');
     this.games.innerHTML = gamesTemplateInner;
     this.bind();
@@ -58,10 +61,22 @@ class Games {
       if (anchor) {
         const url = anchor.pathname;
         history.push(url);
+        if (url === '/audiochallenge') {
+          this.gameEntranceModalRender('audiochallenge');
+        } else if (url === '/sprint') {
+          this.gameEntranceModalRender('sprint');
+        }
       }
-
     });
   };
+
+  gameEntranceModalRender = (game: string) => {
+    const main = getElement('main__wrapper');
+    main.innerHTML = '';
+    new GamesEntranceModal(game).render();
+  }
+
 }
+
 
 export { Games, history };

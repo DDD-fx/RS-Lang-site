@@ -15,14 +15,12 @@ type HistoryLocation = {
 
 export { Routes, HistoryLocation };
 
-
-
 export type TextBookEventsType = {
-  textBookBtnClicked: () => void,
-  pageBtnClicked: (i: number) => void,
+  textBookBtnClicked: () => void;
+  pageBtnClicked: (i: number) => void;
 
-  getTextBookList: () => void,
-}
+  getTextBookList: () => void;
+};
 
 export interface TextBookControllerInterface {
   textbookModel: TextBookModelInterface;
@@ -45,29 +43,29 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
 }
 
 export type StateType = {
-  id: string,
-  currPage: number,
-  currGroup: number,
+  id: string;
+  currPage: number;
+  currGroup: number;
 };
 
 export type WordsChunkType = {
-  "id": string,
-  "group": number,
-  "page": number,
-  "word": string,
-  "image": string,
-  "audio": string,
-  "audioMeaning": string,
-  "audioExample": string,
-  "textMeaning": string,
-  "textExample": string,
-  "transcription": string,
-  "textExampleTranslate": string,
-  "textMeaningTranslate": string,
-  "wordTranslate": string,
-}
+  id: string;
+  group: number;
+  page: number;
+  word: string;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  textMeaning: string;
+  textExample: string;
+  transcription: string;
+  textExampleTranslate: string;
+  textMeaningTranslate: string;
+  wordTranslate: string;
+};
 
-export type WordsBtnsType = Pick<WordsChunkType, 'word' | 'wordTranslate'>
+export type WordsBtnsType = Pick<WordsChunkType, 'word' | 'wordTranslate'>;
 
 /*export interface EventEmitterInterface {
   events: EventsType;
