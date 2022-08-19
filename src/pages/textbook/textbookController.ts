@@ -3,6 +3,7 @@ import {
     TextBookModelInterface,
     TextBookViewInterface,
 } from '../../types/types';
+import { LocalStorage } from '../../utils/storage';
 
 export class TextBookController implements TextBookControllerInterface {
     textBookModel: TextBookModelInterface;
@@ -18,26 +19,33 @@ export class TextBookController implements TextBookControllerInterface {
           .on('wordBtnClicked', (id) => this.getWordData(id))
     }
 
-    getTextBookList(): void {
-        const query = `words?group=${this.textBookModel.state.currGroup}&page=${this.textBookModel.state.currPage}`;
-        this.textBookModel.getTextBookList(query);
+    getTextBookList = (): void => {
+        const query = `words?group=${LocalStorage.currUserSettings.currGroup}&page=${LocalStorage.currUserSettings.currPage}`;
+        void this.textBookModel.getTextBookList(query);
     }
 
-    changeTextBookPage(page: number): void {
-        const query = `words?group=${this.textBookModel.state.currGroup}&page=${page}`;
-        this.textBookModel.state.currPage = page;
-        this.textBookModel.getTextBookList(query);
+    changeTextBookPage = (page: number): void => {
+        LocalStorage.currUserSettings.currPage = page;
+        LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
+
+        const query = `words?group=${LocalStorage.currUserSettings.currGroup}&page=${page}`;
+        void this.textBookModel.getTextBookList(query);
     }
 
-    changeTextBookGroup(group: number): void {
-        this.textBookModel.state.currPage = 0;
-        const query = `words?group=${group}&page=${this.textBookModel.state.currPage}`;
-        this.textBookModel.state.currGroup = group;
-        this.textBookModel.getTextBookList(query);
+    changeTextBookGroup = (group: number): void => {
+        LocalStorage.currUserSettings.currPage = 0;
+        LocalStorage.currUserSettings.currGroup = group;
+        LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
+
+        const query = `words?group=${group}&page=${LocalStorage.currUserSettings.currPage}`;
+        void this.textBookModel.getTextBookList(query);
     }
 
-    getWordData(id: string): void {
-        const selectedWord = this.textBookModel.wordsChunk.filter((el) => el.id === id);
-        this.textBookModel.getWordData(selectedWord[0]);
+    getWordData = (id: string): void => {
+        LocalStorage.currUserSettings.currWord = id;
+        LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
+
+        const selectedWord = this.textBookModel.wordsChunk.filter((el) => el.id === id)[0];
+        this.textBookModel.getWordData(selectedWord);
     }
 }

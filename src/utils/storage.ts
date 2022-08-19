@@ -1,28 +1,54 @@
-enum LocalStorage {
-  DefaultSettings = 'defaultSettings',
-  Settings = 'Settings',
-  InitSettings = 'initSettings',
+import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './constants';
+import { UserSettingsType } from '../types/types';
+
+// enum LocalStorageEnum {
+//   DefaultSettings = 'defaultSettings',
+//   Settings = 'Settings',
+//   InitSettings = 'initSettings',
+// }
+
+export class LocalStorage {
+  static createLocalKey = (key: string) => `rsl13-${key}`;
+
+  static loadData = async <T>(url: string): Promise<T> =>
+    fetch(url).then((response): Promise<T> => response.json()); //delete if no local .json items
+
+  static setLSData = <T>(key: string, value: T) => {
+    const stringData = JSON.stringify(value);
+    window.localStorage.setItem(LocalStorage.createLocalKey(key), stringData);
+  };
+
+  static removeLSData = (key: string) => {
+    window.localStorage.removeItem(LocalStorage.createLocalKey(key));
+  };
+
+  static getLSData = (key: string): UserSettingsType => {
+    const userSettings: string | null = window.localStorage.getItem(LocalStorage.createLocalKey(key));
+    if (userSettings) return <UserSettingsType>JSON.parse(userSettings);
+
+    const defaultUserSettings: string | null = window.localStorage.getItem(LocalStorage.createLocalKey(DEFAULT_USER_NAME));
+    if (defaultUserSettings) return <UserSettingsType>JSON.parse(defaultUserSettings);
+
+    return DEFAULT_USER_SETTINGS;
+  };
+
+  static initLS = (userID: string): void => {
+    const userSettings = LocalStorage.getLSData(LocalStorage.createLocalKey(userID));
+
+    LocalStorage.currUserID = userID;
+    LocalStorage.currUserSettings = userSettings;
+
+    // если дефолтный юзер уже создан и что-то тыкал в учебнике
+    if (userID === DEFAULT_USER_NAME && JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)) {
+      LocalStorage.createLocalKey(DEFAULT_USER_NAME);
+      LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
+    }
+  }
+
+  static currUserID = '';
+
+  static currUserSettings = DEFAULT_USER_SETTINGS;
 }
 
-const addLocalKey = (key: string) => `rsl13-${key}`;
 
-const loadData = async <T>(url: string): Promise<T> =>
-  fetch(url).then((response): Promise<T> => response.json()); //delete if no local .json items
-
-const setData = <T>(key: LocalStorage, value: T) => {
-  const stringData = JSON.stringify(value);
-  window.localStorage.setItem(addLocalKey(key), stringData);
-};
-
-const removeData = (key: string) => {
-  window.localStorage.removeItem(addLocalKey(key));
-};
-
-const getData = (key?: LocalStorage) => {
-  const localItems = window.localStorage.getItem(addLocalKey(key as string));
-  if (localItems) {
-    return JSON.parse(localItems); //need types for Data in LS
-  }
-};
-
-export { setData, getData, removeData, loadData };
+// export { setLSData, getLSData, removeLSData, loadData, initLS };

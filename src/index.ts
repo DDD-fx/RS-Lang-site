@@ -9,13 +9,18 @@ import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
 import { GamesSection } from './pages/games/games';
 import { GamesEntranceModal } from './components/games/gamesModal';
+import { LocalStorage } from './utils/storage';
+import { DEFAULT_USER_NAME } from './utils/constants';
 
+LocalStorage.initLS('' || DEFAULT_USER_NAME);
 
 const app = new App();
 app.init();
 
-(function textbook() {
+
+void (async function textbook() {
   const textBookModel = new TextBookModel();
+  await textBookModel.firstLoad();
   // check Auth
 
   const textBookView = new TextBookView(textBookModel);
@@ -24,7 +29,6 @@ app.init();
   (() => new TextBookController(textBookModel, textBookView))();
 
   const main = getElement('main__wrapper');
-
   const routes: Routes[] = [
     {
       path: '',
@@ -34,8 +38,10 @@ app.init();
     },
     {
       path: '/textbook',
-      action: () => { //прогружает только при клике. При рефреше - нет
-        textBookView.drawTextBook();  //было new Textbook.render()
+      action: () => { // костыли?
+        textBookView.drawTextBook();
+        const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0];
+        textBookBtn.addEventListener('click', () => textBookView.drawTextBook());
       },
     },
     {
@@ -47,13 +53,13 @@ app.init();
     {
       path: '/audiochallenge',
       action: () => {
-        new GamesEntranceModal('audiochallenge').render(); 
+        new GamesEntranceModal('audiochallenge').render();
       },
     },
     {
       path: '/sprint',
       action: () => {
-        new GamesEntranceModal('sprint').render(); 
+        new GamesEntranceModal('sprint').render();
       },
     },
     {
@@ -72,5 +78,4 @@ app.init();
   new Router(routes).render(history.location).catch((err) => console.error(err));
 })();
 
-console.log(document.getElementsByClassName('js-menu-textbook-btn')[0]);
 

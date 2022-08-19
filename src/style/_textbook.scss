@@ -21,27 +21,27 @@
   display: flex;
   gap: 30px;
   padding-bottom: 60px;
+  justify-content: space-between;
 }
 
 .words-btns {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  flex: 1 1 100%;
 
   &__btn {
     @include textbook-btns-effects;
-    border-radius: 20px;
-    border: none;
+    border-radius: 5px;
   }
 }
 
 .word-description {
-  height: 500px;
+  //height: 500px;
 }
 
 .word-image {
-  width: 260px;
+  width: clamp(150px, 30vw, 400px);
   border-radius: 20px;
 }
 
@@ -61,12 +61,18 @@
 .pagination {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   gap: 10px;
   max-width: 660px;
+  margin: 0 auto;
 
   &__page-btn {
+    width: 40px;
+    color: black;
+    background: none;
+    border-radius: 5px;
+    padding: 5px;
     @include textbook-btns-effects;
   }
 }

@@ -1,7 +1,11 @@
 
 @mixin textbook-btns-effects {
+  transition: 0.4s;
+  border: none;
+
   &:hover {
     background-color: var(--maintheme);
+    transition: 0.4s;
   }
   &--active {
     background-color: var(--maintheme);
