@@ -25,23 +25,27 @@ export class TextBookController implements TextBookControllerInterface {
     }
 
     changeTextBookPage = (page: number): void => {
-        const query = `words?group=${LocalStorage.currUserSettings.currGroup}&page=${page}`;
         LocalStorage.currUserSettings.currPage = page;
         LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
+
+        const query = `words?group=${LocalStorage.currUserSettings.currGroup}&page=${page}`;
         void this.textBookModel.getTextBookList(query);
     }
 
     changeTextBookGroup = (group: number): void => {
         LocalStorage.currUserSettings.currPage = 0;
-        const query = `words?group=${group}&page=${LocalStorage.currUserSettings.currPage}`;
         LocalStorage.currUserSettings.currGroup = group;
         LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
 
+        const query = `words?group=${group}&page=${LocalStorage.currUserSettings.currPage}`;
         void this.textBookModel.getTextBookList(query);
     }
 
     getWordData = (id: string): void => {
-        const selectedWord = this.textBookModel.wordsChunk.filter((el) => el.id === id);
-        this.textBookModel.getWordData(selectedWord[0]);
+        LocalStorage.currUserSettings.currWord = id;
+        LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
+
+        const selectedWord = this.textBookModel.wordsChunk.filter((el) => el.id === id)[0];
+        this.textBookModel.getWordData(selectedWord);
     }
 }

@@ -43,7 +43,7 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   createAudioBtn(audio: string): HTMLButtonElement;
   createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement
   createPagination(): void;
-  checkActiveWordsBtns(): void;
+  checkActiveWordsBtns(wordID: string): void;
   checkActiveDifficultyBtn(activeGroupNum: number): void;
   checkActivePage(currPage: number): void;
 }
@@ -87,5 +87,5 @@ export type UserSettingsType = {
   stats: string;  //obj?
   currPage: number;
   currGroup: number;
-  currWord: number;
+  currWord: string;
 }
