@@ -8,6 +8,7 @@ import { createElement, getElement } from '../../utils/tools';
 import renderTextbookTemplate from '../../components/textbook';
 import { baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
+import { LocalStorage } from '../../utils/storage';
 
 export class TextBookView extends TypedEmitter<TextBookEventsType> implements TextBookViewInterface {
     textBookModel: TextBookModelInterface;
@@ -20,30 +21,27 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
     }
 
     drawTextBook(): void {
-        const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0]; // для роутинга
-        textBookBtn.addEventListener('click', () => this.emit('textBookBtnClicked'));
-
-
         const mainWrapper = getElement('main__wrapper');
         const textbook = renderTextbookTemplate();
         mainWrapper.innerHTML = '';
         mainWrapper.insertAdjacentHTML('afterbegin', textbook);
+
         this.createDifficultyBtns();
-        this.checkActiveDifficultyBtn(this.textBookModel.state.currGroup);
+        this.checkActiveDifficultyBtn(LocalStorage.currUserSettings.currGroup);
 
         const wordsDiv = getElement('js-words-btns');
-        this.textBookModel.wordsChunk.forEach((wordObj) => {
+        this.textBookModel.wordsChunk.forEach((wordData) => {
             wordsDiv.append(this.createWordsBtns({
-                word: wordObj.word,
-                wordTranslate: wordObj.wordTranslate,
-                id: wordObj.id,
+                word: wordData.word,
+                wordTranslate: wordData.wordTranslate,
+                id: wordData.id,
             }));
         })
         this.checkActiveWordsBtns();
         this.createWordCard(this.textBookModel.wordsChunk[0]);
 
         this.createPagination();
-        this.checkActivePage(this.textBookModel.state.currPage);
+        this.checkActivePage(LocalStorage.currUserSettings.currPage);
     };
 
     createDifficultyBtns(): void {

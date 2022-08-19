@@ -1,16 +1,23 @@
-import { StateType, TextBookModelInterface, WordsChunkType } from '../../types/types';
+import { TextBookModelInterface, WordsChunkType } from '../../types/types';
 import { baseURL } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
+import { LocalStorage } from '../../utils/storage';
 
 export class TextBookModel extends TypedEmitter implements TextBookModelInterface {
-    state: StateType;
+    // state: StateType;
 
     wordsChunk: WordsChunkType[];
 
     constructor() {
         super();
-        this.state = {id: '', currPage: 0, currGroup: 0};
+        // this.state = {id: '', currPage: 0, currGroup: 0};
         this.wordsChunk = [];
+    }
+
+    async firstLoad() {
+        const query = `words?group=${LocalStorage.currUserSettings.currGroup}&page=${LocalStorage.currUserSettings.currPage}`;
+        const data = await fetch(baseURL + query);
+        this.wordsChunk = await data.json() as WordsChunkType[];
     }
 
     async getTextBookList(query: string): Promise<void> {

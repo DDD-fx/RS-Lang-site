@@ -49,7 +49,7 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
 }
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
-  state: StateType;
+  // state: StateType;
   wordsChunk: WordsChunkType[];
   getTextBookList(query: string): void;
   getWordData(word: WordsChunkType): void;
@@ -80,15 +80,18 @@ export type WordsChunkType = {
 
 export type WordsBtnsType = Pick<WordsChunkType, 'id' | 'word' | 'wordTranslate'>;
 
-/*export interface EventEmitterInterface {
-  events: EventsType;
-  on(evt: string, listener: (arg: CallbackArgType) => void): EventEmitterInterface;
-  emit(evt: string, arg?: CallbackArgType): void;
+export type LocalStorageType = {
+  userId: UserSettingsType;
 }
-export type CallbackArgType = WordsChunkType | string | number | undefined;
-export type EventsType = {
-  textBookBtnClicked?: Array<(data?: CallbackArgType) => void>,
-  pageBtnClicked?: Array<(data?: CallbackArgType) => void>,
 
-  getTextBookList?: Array<(data?: CallbackArgType) => void>,
-}*/
+export type UserSettingsType = {
+  userEmail: string;
+  userName: string;
+  avatarURL: string;
+  token: string;
+  refreshToken: string;
+  stats: string;  //obj?
+  currPage: number;
+  currGroup: number;
+  currWord: number;
+}

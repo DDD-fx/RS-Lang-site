@@ -3,6 +3,7 @@ import {
     TextBookModelInterface,
     TextBookViewInterface,
 } from '../../types/types';
+import { LocalStorage } from '../../utils/storage';
 
 export class TextBookController implements TextBookControllerInterface {
     textBookModel: TextBookModelInterface;
@@ -19,20 +20,23 @@ export class TextBookController implements TextBookControllerInterface {
     }
 
     getTextBookList(): void {
-        const query = `words?group=${this.textBookModel.state.currGroup}&page=${this.textBookModel.state.currPage}`;
+        const query = `words?group=${LocalStorage.currUserSettings.currGroup}&page=${LocalStorage.currUserSettings.currPage}`;
         this.textBookModel.getTextBookList(query);
     }
 
     changeTextBookPage(page: number): void {
-        const query = `words?group=${this.textBookModel.state.currGroup}&page=${page}`;
-        this.textBookModel.state.currPage = page;
+        const query = `words?group=${LocalStorage.currUserSettings.currGroup}&page=${page}`;
+        LocalStorage.currUserSettings.currPage = page;
+        LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
         this.textBookModel.getTextBookList(query);
     }
 
     changeTextBookGroup(group: number): void {
-        this.textBookModel.state.currPage = 0;
-        const query = `words?group=${group}&page=${this.textBookModel.state.currPage}`;
-        this.textBookModel.state.currGroup = group;
+        LocalStorage.currUserSettings.currPage = 0;
+        const query = `words?group=${group}&page=${LocalStorage.currUserSettings.currPage}`;
+        LocalStorage.currUserSettings.currGroup = group;
+        LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings)
+
         this.textBookModel.getTextBookList(query);
     }
 
