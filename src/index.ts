@@ -8,7 +8,9 @@ import { TextBookController } from './pages/textbook/textbookController';
 import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
 import { GamesSection } from './pages/games/games';
-import { GamesEntranceModal } from './components/games/gamesModal';
+import { GamesEntranceView } from './pages/games/gamesEntrance/gamesEntranceView';
+import gamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
+import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
 
 
 const app = new App();
@@ -20,6 +22,9 @@ app.init();
 
   const textBookView = new TextBookView(textBookModel);
   // отрисовка авторизации
+
+  const gamesEntranceModel = new GamesEntranceModel();
+  const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
 
   (() => new TextBookController(textBookModel, textBookView))();
 
@@ -47,13 +52,13 @@ app.init();
     {
       path: '/audiochallenge',
       action: () => {
-        new GamesEntranceModal('audiochallenge').render(); 
+        main.append(gamesEntranceView.buildAudioChallengeHTML());
       },
     },
     {
       path: '/sprint',
       action: () => {
-        new GamesEntranceModal('sprint').render(); 
+        main.append(gamesEntranceView.buildSprintHTML());
       },
     },
     {
@@ -74,3 +79,8 @@ app.init();
 
 console.log(document.getElementsByClassName('js-menu-textbook-btn')[0]);
 
+window.addEventListener('load', async () => {
+  const gamesEntranceModel = new GamesEntranceModel();
+  const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
+  (() => new gamesEntranceController(gamesEntranceView, gamesEntranceModel))();
+});

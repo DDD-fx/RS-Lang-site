@@ -2,7 +2,8 @@ import { createElement, getElement } from '../../utils/tools';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { GamesEntranceModal } from './gamesModal';
+import { GamesEntranceView } from '../../pages/games/gamesEntrance/gamesEntranceView';
+import { GamesEntranceModel } from '../../pages/games/gamesEntrance/gamesEntranceModel';
 
 const gamesTemplateInner = `
 <h1 class="games-title">Игры</h1>
@@ -73,7 +74,13 @@ class Games extends TypedEmitter{
   gameEntranceModalRender = (game: string) => {
     const main = getElement('main__wrapper');
     main.innerHTML = '';
-    new GamesEntranceModal(game).render();
+    if (game === 'audiochallenge') {
+      main.append(new GamesEntranceView(new GamesEntranceModel()).buildAudioChallengeHTML());
+    } else if (game === 'sprint') {
+      main.append(new GamesEntranceView(new GamesEntranceModel()).buildSprintHTML());
+    }
+    
+    
   }
 
 }

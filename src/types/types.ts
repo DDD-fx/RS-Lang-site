@@ -80,6 +80,41 @@ export type WordsChunkType = {
 
 export type WordsBtnsType = Pick<WordsChunkType, 'id' | 'word' | 'wordTranslate'>;
 
+export interface AudioChallengeGameModelInterface extends TypedEmitter<TextBookEventsType> {
+  state: StateType;
+  wordsChunk: WordsChunkType[];
+  getWordsList(query: string): void;
+  getWordData(word: WordsChunkType): void;
+}
+
+export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEventType> {
+  gamesEntranceModel: GamesEntranceModelInterface;
+  buildSprintHTML(): HTMLElement;
+  buildAudioChallengeHTML(): HTMLElement;
+  createAudioChallengeTitle(): HTMLElement;
+  createSprintTitle(): HTMLElement;
+  createSprintStartButton(): HTMLElement;
+  createAudioChallengeStartButton(): HTMLElement;
+  createSprintDescription(): HTMLElement;
+  createAudioChallengeDescription(): HTMLElement;
+  createSprintImage(): HTMLElement;
+  createAudioChallengeImage(): HTMLElement;
+}
+
+export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceEventType> {
+  startAudioChallengeGame(): void;
+  startSprintGame(): void;
+}
+
+export type GamesEntranceEventType = {
+  audioChallengeGameStarted: () => void,
+  sprintGameStarted: () => void,
+}
+export interface GamesEntranceControllerInterface {
+  gamesEntranceView: GamesEntranceViewInterface;
+  gamesEntranceModel: GamesEntranceModelInterface;
+}
+
 /*export interface EventEmitterInterface {
   events: EventsType;
   on(evt: string, listener: (arg: CallbackArgType) => void): EventEmitterInterface;
