@@ -49,17 +49,11 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
 }
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
-  // state: StateType;
   wordsChunk: WordsChunkType[];
-  getTextBookList(query: string): void;
+  firstLoad(): Promise<void>;
+  getTextBookList(query: string): Promise<void>;
   getWordData(word: WordsChunkType): void;
 }
-
-export type StateType = {
-  id: string;
-  currPage: number;
-  currGroup: number;
-};
 
 export type WordsChunkType = {
   id: string;
