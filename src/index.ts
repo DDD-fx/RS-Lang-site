@@ -68,8 +68,6 @@ void (async function textbook() {
       action: () => {
         main.append(gamesEntranceView.buildAudioChallengeHTML());
         const startAudioChallengeBtn = document.getElementsByClassName('game-start-btn_audio-challenge')[0];
-        const audioChallengeModel = new AudioChallengeModel();
-        const audioChallengeView = new AudioChallengeView(audioChallengeModel);
         startAudioChallengeBtn.addEventListener('click', () => audioChallengeView.drawAudioChallengeGame());
       },
     },
