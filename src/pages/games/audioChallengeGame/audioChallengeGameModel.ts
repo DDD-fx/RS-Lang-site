@@ -1,15 +1,13 @@
-import { AudioChallengeModelInterface, StateType, WordsChunkType } from '../../../types/types';
+import { AudioChallengeModelInterface, WordsChunkType } from '../../../types/types';
 import { baseURL } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
-    state: StateType;
 
     wordsChunk: WordsChunkType[];
 
     constructor() {
         super();
-        this.state = {id: '', currPage: 0, currGroup: 0};
         this.wordsChunk = [];
     }
   

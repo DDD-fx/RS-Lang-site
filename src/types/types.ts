@@ -43,23 +43,17 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   createAudioBtn(audio: string): HTMLButtonElement;
   createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement;
   createPagination(): void;
-  checkActiveWordsBtns(): void;
+  checkActiveWordsBtns(wordID: string): void;
   checkActiveDifficultyBtn(activeGroupNum: number): void;
   checkActivePage(currPage: number): void;
 }
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
-  state: StateType;
   wordsChunk: WordsChunkType[];
-  getTextBookList(query: string): void;
+  firstLoad(): Promise<void>;
+  getTextBookList(query: string): Promise<void>;
   getWordData(word: WordsChunkType): void;
 }
-
-export type StateType = {
-  id: string;
-  currPage: number;
-  currGroup: number;
-};
 
 export type WordsChunkType = {
   id: string;
@@ -119,7 +113,6 @@ export interface AudioChallengeControllerInterface {
 }
 
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventType> {
-  state: StateType;
   wordsChunk: WordsChunkType[];
   getWordsList(query: string): void;
   getWordData(word: WordsChunkType): void;
@@ -131,15 +124,18 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventType
   createCloseBtn(): void;
 }
 
-/*export interface EventEmitterInterface {
-  events: EventsType;
-  on(evt: string, listener: (arg: CallbackArgType) => void): EventEmitterInterface;
-  emit(evt: string, arg?: CallbackArgType): void;
+export type LocalStorageType = {
+  userId: UserSettingsType;
 }
-export type CallbackArgType = WordsChunkType | string | number | undefined;
-export type EventsType = {
-  textBookBtnClicked?: Array<(data?: CallbackArgType) => void>,
-  pageBtnClicked?: Array<(data?: CallbackArgType) => void>,
 
-  getTextBookList?: Array<(data?: CallbackArgType) => void>,
-}*/
+export type UserSettingsType = {
+  userEmail: string;
+  userName: string;
+  avatarURL: string;
+  token: string;
+  refreshToken: string;
+  stats: string;  //obj?
+  currPage: number;
+  currGroup: number;
+  currWord: string;
+}

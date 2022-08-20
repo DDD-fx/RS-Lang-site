@@ -14,13 +14,18 @@ import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceMod
 import { AudioChallengeModel } from './pages/games/audioChallengeGame/audioChallengeGameModel';
 import { AudioChallengeView } from './pages/games/audioChallengeGame/audioChallengeGameView';
 import { AudioChallengeController } from './pages/games/audioChallengeGame/audioChallengeGameController';
+import { LocalStorage } from './utils/storage';
+import { DEFAULT_USER_NAME } from './utils/constants';
 
+LocalStorage.initLS('' || DEFAULT_USER_NAME);
 
 const app = new App();
 app.init();
 
-(function textbook() {
+
+void (async function textbook() {
   const textBookModel = new TextBookModel();
+  await textBookModel.firstLoad();
   // check Auth
 
   const textBookView = new TextBookView(textBookModel);
@@ -37,7 +42,6 @@ app.init();
   (() => new AudioChallengeController(audioChallengeModel, audioChallengeView))();
 
   const main = getElement('main__wrapper');
-
   const routes: Routes[] = [
     {
       path: '',
@@ -47,8 +51,10 @@ app.init();
     },
     {
       path: '/textbook',
-      action: () => { //прогружает только при клике. При рефреше - нет
-        textBookView.drawTextBook();  //было new Textbook.render()
+      action: () => { // костыли?
+        textBookView.drawTextBook();
+        const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0];
+        textBookBtn.addEventListener('click', () => textBookView.drawTextBook());
       },
     },
     {
@@ -88,5 +94,3 @@ app.init();
   ];
   new Router(routes).render(history.location).catch((err) => console.error(err));
 })();
-
-console.log(document.getElementsByClassName('js-menu-textbook-btn')[0]);

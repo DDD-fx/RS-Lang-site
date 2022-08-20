@@ -13,8 +13,6 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
   }
 
   getWordsList(): void {
-      const query = `words?group=${this.audioChallengeModel.state.currGroup}&page=${this.audioChallengeModel.state.currPage}`;
-      this.audioChallengeModel.getWordsList(query);
   }
 
   getWordData(id: string): void {
