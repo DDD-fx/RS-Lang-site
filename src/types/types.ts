@@ -16,14 +16,14 @@ type HistoryLocation = {
 export { Routes, HistoryLocation };
 
 export type TextBookEventsType = {
-  textBookBtnClicked: () => void,
-  pageBtnClicked: (page: number) => void,
-  groupBtnClicked: (group: number) => void,
-  wordBtnClicked: (id: string) => void,
+  textBookBtnClicked: () => void;
+  pageBtnClicked: (page: number) => void;
+  groupBtnClicked: (group: number) => void;
+  wordBtnClicked: (id: string) => void;
 
-  getTextBookList: () => void,
-  getWordData: (word: WordsChunkType) => void,
-}
+  getTextBookList: () => void;
+  getWordData: (word: WordsChunkType) => void;
+};
 
 export interface TextBookControllerInterface {
   textBookModel: TextBookModelInterface;
@@ -41,7 +41,7 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   createWordsBtns({ word, wordTranslate }: WordsBtnsType): HTMLButtonElement;
   createWordCard(word: WordsChunkType): void;
   createAudioBtn(audio: string): HTMLButtonElement;
-  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement
+  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement;
   createPagination(): void;
   checkActiveWordsBtns(): void;
   checkActiveDifficultyBtn(activeGroupNum: number): void;
@@ -80,13 +80,6 @@ export type WordsChunkType = {
 
 export type WordsBtnsType = Pick<WordsChunkType, 'id' | 'word' | 'wordTranslate'>;
 
-export interface AudioChallengeGameModelInterface extends TypedEmitter<TextBookEventsType> {
-  state: StateType;
-  wordsChunk: WordsChunkType[];
-  getWordsList(query: string): void;
-  getWordData(word: WordsChunkType): void;
-}
-
 export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEventType> {
   gamesEntranceModel: GamesEntranceModelInterface;
   buildSprintHTML(): HTMLElement;
@@ -107,12 +100,35 @@ export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceE
 }
 
 export type GamesEntranceEventType = {
-  audioChallengeGameStarted: () => void,
-  sprintGameStarted: () => void,
-}
+  audioChallengeGameStarted: () => void;
+  sprintGameStarted: () => void;
+};
+
+export type GamesEventType = {
+  closeBtnClicked: () => void;
+};
+
 export interface GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
   gamesEntranceModel: GamesEntranceModelInterface;
+}
+
+export interface AudioChallengeControllerInterface {
+  audioChallengeView: AudioChallengeViewInterface;
+  audioChallengeModel: AudioChallengeModelInterface;
+}
+
+export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventType> {
+  state: StateType;
+  wordsChunk: WordsChunkType[];
+  getWordsList(query: string): void;
+  getWordData(word: WordsChunkType): void;
+  closeAudioChallengeGame(): void;
+}
+export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventType> {
+  audioChallengeModel: AudioChallengeModelInterface;
+  drawAudioChallengeGame(): void;
+  createCloseBtn(): void;
 }
 
 /*export interface EventEmitterInterface {

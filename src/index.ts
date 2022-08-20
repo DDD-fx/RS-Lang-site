@@ -9,8 +9,11 @@ import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
 import { GamesSection } from './pages/games/games';
 import { GamesEntranceView } from './pages/games/gamesEntrance/gamesEntranceView';
-import gamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
+import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
 import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
+import { AudioChallengeModel } from './pages/games/audioChallengeGame/audioChallengeGameModel';
+import { AudioChallengeView } from './pages/games/audioChallengeGame/audioChallengeGameView';
+import { AudioChallengeController } from './pages/games/audioChallengeGame/audioChallengeGameController';
 
 
 const app = new App();
@@ -23,10 +26,15 @@ app.init();
   const textBookView = new TextBookView(textBookModel);
   // отрисовка авторизации
 
+  (() => new TextBookController(textBookModel, textBookView))();
+
   const gamesEntranceModel = new GamesEntranceModel();
   const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
+  (() => new GamesEntranceController(gamesEntranceView, gamesEntranceModel))();
 
-  (() => new TextBookController(textBookModel, textBookView))();
+  const audioChallengeModel = new AudioChallengeModel();
+  const audioChallengeView = new AudioChallengeView(audioChallengeModel);
+  (() => new AudioChallengeController(audioChallengeModel, audioChallengeView))();
 
   const main = getElement('main__wrapper');
 
@@ -53,6 +61,10 @@ app.init();
       path: '/audiochallenge',
       action: () => {
         main.append(gamesEntranceView.buildAudioChallengeHTML());
+        const startAudioChallengeBtn = document.getElementsByClassName('game-start-btn_audio-challenge')[0];
+        const audioChallengeModel = new AudioChallengeModel();
+        const audioChallengeView = new AudioChallengeView(audioChallengeModel);
+        startAudioChallengeBtn.addEventListener('click', () => audioChallengeView.drawAudioChallengeGame());
       },
     },
     {
@@ -78,9 +90,3 @@ app.init();
 })();
 
 console.log(document.getElementsByClassName('js-menu-textbook-btn')[0]);
-
-window.addEventListener('load', async () => {
-  const gamesEntranceModel = new GamesEntranceModel();
-  const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
-  (() => new gamesEntranceController(gamesEntranceView, gamesEntranceModel))();
-});

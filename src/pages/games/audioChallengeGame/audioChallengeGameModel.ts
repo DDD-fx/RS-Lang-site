@@ -1,8 +1,8 @@
-import { AudioChallengeGameModelInterface, StateType, WordsChunkType } from '../../../types/types';
+import { AudioChallengeModelInterface, StateType, WordsChunkType } from '../../../types/types';
 import { baseURL } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 
-export class AudioChallengeGameModel extends TypedEmitter implements AudioChallengeGameModelInterface {
+export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
     state: StateType;
 
     wordsChunk: WordsChunkType[];
@@ -16,12 +16,14 @@ export class AudioChallengeGameModel extends TypedEmitter implements AudioChalle
     async getWordsList(query: string): Promise<void> {
       const data = await fetch(baseURL + query);
       this.wordsChunk = await data.json() as WordsChunkType[];
-
-      console.log(this.wordsChunk);
-      this.emit('getTextBookList');
+      this.emit('getWordList');
   }
 
     getWordData(word: WordsChunkType): void {
         this.emit('getWordData', word);
+    }
+
+    closeAudioChallengeGame(): void {
+        console.log("bye");
     }
 }

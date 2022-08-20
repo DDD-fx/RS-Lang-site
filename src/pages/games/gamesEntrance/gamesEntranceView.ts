@@ -1,6 +1,8 @@
 import { TypedEmitter } from "tiny-typed-emitter";
 import { GamesEntranceEventType, GamesEntranceModelInterface, GamesEntranceViewInterface } from "../../../types/types";
 import { createElement } from "../../../utils/tools";
+import { AudioChallengeModel } from "../audioChallengeGame/audioChallengeGameModel";
+import { AudioChallengeView } from "../audioChallengeGame/audioChallengeGameView";
 
 export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType> implements GamesEntranceViewInterface {
 
@@ -58,7 +60,7 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType> impl
   }
 
   createSprintStartButton = () => {
-    const startBtn = createElement('button', 'game-start-btn');
+    const startBtn = createElement('button', ['game-start-btn', 'game-start-btn_sprint']);
     startBtn.textContent = 'Начать';
     startBtn.addEventListener('click', () => {
       this.emit('sprintGameStarted');
@@ -67,9 +69,12 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType> impl
   }
 
   createAudioChallengeStartButton = () => {
-    const startBtn = createElement('button', 'game-start-btn');
+    const startBtn = createElement('button', ['game-start-btn', 'game-start-btn_audio-challenge']);
     startBtn.textContent = 'Начать';
+    const audioChallengeModel = new AudioChallengeModel();
+    const audioChallengeView = new AudioChallengeView(audioChallengeModel);
     startBtn.addEventListener('click', () => {
+      audioChallengeView.drawAudioChallengeGame();
       this.emit('audioChallengeGameStarted');
     });
     return startBtn;
@@ -114,16 +119,4 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType> impl
     image.innerHTML = `<img src="./assets/games/tail.svg" alt="whale tail" />`;
     return image;
   };
-
-  // render = () => {
-  //   const main = getElement('main__wrapper');
-  //   const modalWindow = createElement('div', 'game-modal-window');
-  //   if (this.game === 'audiochallenge') {
-  //     modalWindow.innerHTML = audioChallengeEntranceTemplate;
-  //   } else if (this.game === 'sprint') {
-  //     modalWindow.innerHTML = sprintEntranceTemplate;
-  //   }
-  //   main.append(modalWindow);
-  // };
-
 }

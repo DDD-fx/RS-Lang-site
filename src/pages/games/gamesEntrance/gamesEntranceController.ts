@@ -4,7 +4,7 @@ import {
   GamesEntranceViewInterface,
 } from "../../../types/types";
 
-export default class gamesEntranceController
+export default class GamesEntranceController
   implements GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
   gamesEntranceModel: GamesEntranceModelInterface;

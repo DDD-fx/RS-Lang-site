@@ -2,6 +2,8 @@ import { TypedEmitter } from "tiny-typed-emitter";
 import {
   GamesEntranceModelInterface,
 } from "../../../types/types";
+import { AudioChallengeModel } from "../audioChallengeGame/audioChallengeGameModel";
+import { AudioChallengeView } from "../audioChallengeGame/audioChallengeGameView";
 
 export class GamesEntranceModel extends TypedEmitter
   implements GamesEntranceModelInterface {
@@ -10,7 +12,9 @@ export class GamesEntranceModel extends TypedEmitter
   }
 
   startAudioChallengeGame = () => {
-    console.log("audio");
+    const audioChallengeModel = new AudioChallengeModel();
+    const audioChallengeView = new AudioChallengeView(audioChallengeModel);
+    audioChallengeView.drawAudioChallengeGame();
   };
 
   startSprintGame = () => {

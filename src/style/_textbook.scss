@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 .textbook-title,
 .textbook-subtitle {
@@ -70,4 +70,3 @@
     @include textbook-btns-effects;
   }
 }
-
