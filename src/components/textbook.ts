@@ -14,8 +14,8 @@ const renderTextbookTemplate = () => `
     <article class="word-description js-word-description"></article>
 </div>
 <div class="pagination js-pagination">    <!--30 страниц-->
-  <button class="pagination__prev-page js-pagination__prev-page">&#60;</button>
-  <button class="pagination__next-page js-pagination__next-page">&#62;</button>
+  <!--<button class="pagination__prev-page js-pagination__prev-page">&#60;</button>
+  <button class="pagination__next-page js-pagination__next-page">&#62;</button>-->
 </div>
 
 `;

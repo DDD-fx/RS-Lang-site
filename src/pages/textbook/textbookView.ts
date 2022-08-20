@@ -35,6 +35,7 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
                 word: wordData.word,
                 wordTranslate: wordData.wordTranslate,
                 id: wordData.id,
+                group: wordData.group,
             }));
         })
 
@@ -54,7 +55,7 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
         const levelsDiv = getElement('textbook-difficulty-group');
         const levels = ['Beginner/Elementary', 'Pre Intermediate', 'Intermediate', 'Upper Intermediate', 'Advanced', 'Proficient'];
         for (let i = 0; i < levels.length; i++) {
-            const difficultyBtn = createElement('button', ['textbook-difficulty-group__btn', 'js-textbook-difficulty-group__btn']);
+            const difficultyBtn = createElement('button', ['textbook-difficulty-group__btn', `group-${i}`, 'js-textbook-difficulty-group__btn']);
             difficultyBtn.addEventListener('click', () => this.emit('groupBtnClicked', i));
 
             const difficultyBtnTitle = createElement('h3') as HTMLHeadingElement;
@@ -64,12 +65,11 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
         }
     }
 
-    createWordsBtns = ({ id, word, wordTranslate }: WordsBtnsType): HTMLButtonElement => {
-        const wordBtn = createElement('button', 'words-btns__btn') as HTMLButtonElement;
+    createWordsBtns = ({ id, word, wordTranslate, group }: WordsBtnsType): HTMLButtonElement => {
+        const wordBtn = createElement('button', ['words-btns__btn', `group-${group}`]) as HTMLButtonElement;
         wordBtn.addEventListener('click', () => {
             this.emit('wordBtnClicked', id);
             this.checkActiveWordsBtns(id);
-            // wordBtn.classList.add('words-btns__btn--active');
         })
 
         const wordTitle = createElement('h3') as HTMLHeadingElement;
@@ -93,7 +93,7 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
         const wordTranslate = createElement('p') as HTMLParagraphElement;
         wordTranslate.textContent = word.wordTranslate;
         const transcription = createElement('p') as HTMLParagraphElement;
-        transcription.innerHTML = word.transcription;
+        transcription.innerHTML = `<b>${word.transcription}</b>`;
 
         const meaningTitle = createElement('h4') as HTMLHeadingElement;
         meaningTitle.textContent = 'Значение';
@@ -138,8 +138,8 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
             pageBtn.textContent = `${i}`;
             pageBtn.addEventListener('click', () => this.emit('pageBtnClicked', i - 1))
 
-            const prevPage = getElement('js-pagination__next-page');
-            prevPage.before(pageBtn);
+            const prevPage = getElement('js-pagination');
+            prevPage.append(pageBtn);
         }
     }
 

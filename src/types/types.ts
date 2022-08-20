@@ -38,7 +38,7 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   textBookModel: TextBookModelInterface;
   drawTextBook(wordsChunk: WordsChunkType): void;
   createDifficultyBtns(): void;
-  createWordsBtns({ word, wordTranslate }: WordsBtnsType): HTMLButtonElement;
+  createWordsBtns({ id, word, wordTranslate, group }: WordsBtnsType): HTMLButtonElement;
   createWordCard(word: WordsChunkType): void;
   createAudioBtn(audio: string): HTMLButtonElement;
   createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement
@@ -72,7 +72,7 @@ export type WordsChunkType = {
   wordTranslate: string;
 };
 
-export type WordsBtnsType = Pick<WordsChunkType, 'id' | 'word' | 'wordTranslate'>;
+export type WordsBtnsType = Pick<WordsChunkType, 'id' | 'word' | 'wordTranslate' | 'group'>;
 
 export type LocalStorageType = {
   userId: UserSettingsType;
