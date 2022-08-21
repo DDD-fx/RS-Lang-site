@@ -1,4 +1,4 @@
-import { UserSettingsType } from '../types/types';
+import { AudioChallengeGameType, UserSettingsType } from '../types/types';
 
 export const baseURL = 'https://react-rslang-be-13.herokuapp.com/';
 // 'https://react-rslang-be-13.herokuapp.com/';
@@ -18,4 +18,7 @@ export const DEFAULT_USER_SETTINGS: UserSettingsType = {
 };
 export const DEFAULT_USER_NAME = 'default-user';
 
-export const MAX_AUDIOCHALLENGE_WORDS_PER_PAGE = 5;
+export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
+  level: 0,
+  wordsPerPage: 5,
+};

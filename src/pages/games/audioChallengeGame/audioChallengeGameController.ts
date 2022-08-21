@@ -12,16 +12,16 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       this.audioChallengeView.on('closeBtnClicked', () => this.closeAudioChallengeGame())
   }
 
-  getWordsList(): void {
-    
+  getWordsList = () => {
+
   }
 
-  getWordData(id: string): void {
+  getWordData = (id: string) => {
       const selectedWord = this.audioChallengeModel.wordsChunk.filter((el) => el.id === id);
       this.audioChallengeModel.getWordData(selectedWord[0]);
   }
 
-  closeAudioChallengeGame(): void {
+  closeAudioChallengeGame = () => {
     this.audioChallengeModel.closeAudioChallengeGame();
   }
 }
