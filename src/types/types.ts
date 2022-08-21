@@ -1,3 +1,6 @@
+import { TypedEmitter } from 'tiny-typed-emitter';
+import { WordsChunkType } from './textbookTypes';
+
 type Routes = {
   path: string;
   action: () => void;
@@ -40,10 +43,14 @@ export type GamesEntranceEventType = {
   gameOptionClicked: (level: number) => void;
 };
 
-export type GamesEventType = {
-  closeBtnClicked(): void;
-  speakerClicked(): void;
-  wordBtnClicked(word: number): void;
+export type GamesEventsType = {
+  closeBtnClicked: () => void;
+  speakerClicked: () => void;
+  wordBtnClicked: (word: number) => void;
+
+  sprintGameStarted: () => void;
+  audioChallengeGameStarted: () => void;
+  gameOptionClicked: (i: number) => void;
 };
 
 export interface GamesEntranceControllerInterface {
@@ -56,13 +63,13 @@ export interface AudioChallengeControllerInterface {
   audioChallengeModel: AudioChallengeModelInterface;
 }
 
-export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventType> {
+export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
   getWordsList(query: string): void;
   getWordData(word: WordsChunkType): void;
   closeAudioChallengeGame(): void;
 }
-export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventType> {
+export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
   audioChallengeModel: AudioChallengeModelInterface;
   drawAudioChallengeGame(): void;
   createCloseBtn(): void;

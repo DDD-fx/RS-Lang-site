@@ -4,6 +4,7 @@ import { AudioChallengeControllerInterface, AudioChallengeModelInterface, AudioC
 export class AudioChallengeController implements AudioChallengeControllerInterface {
 
   audioChallengeView: AudioChallengeViewInterface;
+
   audioChallengeModel: AudioChallengeModelInterface;
 
   constructor(AudioChallengeModel: AudioChallengeModelInterface, AudioChallengeView: AudioChallengeViewInterface) {

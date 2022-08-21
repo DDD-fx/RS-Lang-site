@@ -7,6 +7,7 @@ import {
 export default class GamesEntranceController
   implements GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
+
   gamesEntranceModel: GamesEntranceModelInterface;
 
   constructor(
