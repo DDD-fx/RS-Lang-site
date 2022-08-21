@@ -1,4 +1,4 @@
-import { AudioChallengeControllerInterface, AudioChallengeModelInterface, AudioChallengeViewInterface } from "../../../types/types";
+import { AudioChallengeControllerInterface, AudioChallengeModelInterface, AudioChallengeViewInterface } from '../../../types/types';
 
 
 export class AudioChallengeController implements AudioChallengeControllerInterface {

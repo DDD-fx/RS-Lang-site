@@ -1,10 +1,10 @@
-import { TypedEmitter } from "tiny-typed-emitter";
+import { TypedEmitter } from 'tiny-typed-emitter';
 import {
   GamesEntranceEventType,
   GamesEntranceModelInterface,
   GamesEntranceViewInterface,
-} from "../../../types/types";
-import { createElement } from "../../../utils/tools";
+} from '../../../types/types';
+import { createElement } from '../../../utils/tools';
 
 export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
   implements GamesEntranceViewInterface {
@@ -16,9 +16,9 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
   }
 
   buildSprintHTML = () => {
-    const game = createElement("div", "game-entrance");
-    const gameWrapper = createElement("div", "game-entrance__wrapper");
-    const gameInfoBox = createElement("div", "game-entrance__text-box");
+    const game = createElement('div', 'game-entrance');
+    const gameWrapper = createElement('div', 'game-entrance__wrapper');
+    const gameInfoBox = createElement('div', 'game-entrance__text-box');
     gameInfoBox.append(
       this.createSprintDescription(),
       this.createSelect(),
@@ -30,9 +30,9 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
   };
 
   buildAudioChallengeHTML = () => {
-    const game = createElement("div", "game-entrance");
-    const gameWrapper = createElement("div", "game-entrance__wrapper");
-    const gameInfoBox = createElement("div", "game-entrance__text-box");
+    const game = createElement('div', 'game-entrance');
+    const gameWrapper = createElement('div', 'game-entrance__wrapper');
+    const gameInfoBox = createElement('div', 'game-entrance__text-box');
     gameInfoBox.append(
       this.createAudioChallengeDescription(),
       this.createSelect(),
@@ -44,66 +44,66 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
   };
 
   createSelect = () => {
-    const selectElem = createElement("select", "select-input");
+    const selectElem = createElement('select', 'select-input');
     for (let i = 0; i < 5; i += 1) {
-      const option = createElement("option", `game-option-${i + 1}`);
-      option.textContent = (i + 1).toString() + " уровень";
-      option.addEventListener("select", () => this.emit("gameOptionClicked", i));
+      const option = createElement('option', `game-option-${i + 1}`);
+      option.textContent = (i + 1).toString() + ' уровень';
+      option.addEventListener('select', () => this.emit('gameOptionClicked', i));
       selectElem.append(option);
     }
-    selectElem.addEventListener("change", () => {
+    selectElem.addEventListener('change', () => {
       const level = parseInt((selectElem as HTMLSelectElement).value.slice(0, 1));
-      return this.emit("gameOptionClicked", level)
+      return this.emit('gameOptionClicked', level)
     });
     return selectElem;
   };
 
   createAudioChallengeTitle = () => {
-    const titleElem = createElement("h1", [
-      "game-entrance__title",
-      "game-entrance__title_audiochallenge",
+    const titleElem = createElement('h1', [
+      'game-entrance__title',
+      'game-entrance__title_audiochallenge',
     ]);
-    titleElem.textContent = "Аудиовызов";
+    titleElem.textContent = 'Аудиовызов';
     return titleElem;
   };
 
   createSprintTitle = () => {
-    const titleElem = createElement("h1", [
-      "game-entrance__title",
-      "game-entrance__title_sprint",
+    const titleElem = createElement('h1', [
+      'game-entrance__title',
+      'game-entrance__title_sprint',
     ]);
-    titleElem.textContent = "Спринт";
+    titleElem.textContent = 'Спринт';
     return titleElem;
   };
 
   createSprintStartButton = () => {
-    const startBtn = createElement("button", [
-      "game-start-btn",
-      "game-start-btn_sprint",
+    const startBtn = createElement('button', [
+      'game-start-btn',
+      'game-start-btn_sprint',
     ]);
-    startBtn.textContent = "Начать";
-    startBtn.addEventListener("click", () => {
-      this.emit("sprintGameStarted");
+    startBtn.textContent = 'Начать';
+    startBtn.addEventListener('click', () => {
+      this.emit('sprintGameStarted');
     });
     return startBtn;
   };
 
   createAudioChallengeStartButton = () => {
-    const startBtn = createElement("button", [
-      "game-start-btn",
-      "game-start-btn_audio-challenge",
+    const startBtn = createElement('button', [
+      'game-start-btn',
+      'game-start-btn_audio-challenge',
     ]);
-    startBtn.textContent = "Начать";
-    startBtn.addEventListener("click", () => {
-      this.emit("audioChallengeGameStarted");
+    startBtn.textContent = 'Начать';
+    startBtn.addEventListener('click', () => {
+      this.emit('audioChallengeGameStarted');
     });
     return startBtn;
   };
 
   createSprintDescription = () => {
-    const descriptionDiv = createElement("div");
+    const descriptionDiv = createElement('div');
     const description = `
-    <p>Тренировка "Спринт" позволяет повторять слова из вашего словаря.</p>
+    <p>Тренировка 'Спринт' позволяет повторять слова из вашего словаря.</p>
     <ul>Чтобы выбрать:
       <li>Можно использовать мышь.</li>
       <li>Можно имспользовать клавиши влево и вправо</li>
@@ -114,29 +114,29 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
   };
 
   createAudioChallengeDescription = () => {
-    const descriptionDiv = createElement("div");
+    const descriptionDiv = createElement('div');
     const description = `
-    <p>Тренировка "Аудиовызов" улучшает восприятие речи на слух.</p>
+    <p>Тренировка 'Аудиовызов' улучшает восприятие речи на слух.</p>
       <ul>Чтобы играть с помощью клавиатуры, используй клавиши:
         <li>1, 2, 3, 4, 5 - чтобы выбрать ответ,</li>
         <li>Space - для воспроизведения звука,</li>
         <li>Enter - для перехода к следующему вопросу.</li>
       </ul>
-      <p class="bold">Выберите уровень сложности:
+      <p class='bold'>Выберите уровень сложности:
     `;
     descriptionDiv.innerHTML = description;
     return descriptionDiv;
   };
 
   createSprintImage = () => {
-    const image = createElement("div", "img-x15");
-    image.innerHTML = `<img src="./assets/games/delphins.svg" alt="delphins" />`;
+    const image = createElement('div', 'img-x15');
+    image.innerHTML = `<img src='./assets/games/delphins.svg' alt='delphins' />`;
     return image;
   };
 
   createAudioChallengeImage = () => {
-    const image = createElement("div", "img-x15");
-    image.innerHTML = `<img src="./assets/games/tail.svg" alt="whale tail" />`;
+    const image = createElement('div', 'img-x15');
+    image.innerHTML = `<img src='./assets/games/tail.svg' alt='whale tail' />`;
     return image;
   };
 }

@@ -23,7 +23,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
 
     closeAudioChallengeGame(): void {
-        console.log("bye");
+        console.log('bye');
     }
 }
 
