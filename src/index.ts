@@ -34,10 +34,6 @@ void (async function textbook() {
   (() => new TextBookController(textBookModel, textBookView))();
 
 
-  const audioChallengeModel = new AudioChallengeModel();
-  const audioChallengeView = new AudioChallengeView(audioChallengeModel);
-  (() => new AudioChallengeController(audioChallengeModel, audioChallengeView))();
-
   const gamesEntranceModel = new GamesEntranceModel();
   const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
   (() => new GamesEntranceController(gamesEntranceView, gamesEntranceModel))();
