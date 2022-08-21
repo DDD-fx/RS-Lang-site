@@ -1,14 +1,13 @@
 import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
-  GamesEventType,
+  GamesEventsType,
 } from "../../../types/types";
 import { createElement, getElement } from "../../../utils/tools";
-import { baseURL } from "../../../utils/constants";
 import { TypedEmitter } from "tiny-typed-emitter";
 import renderAudioChallengeGameTemplate from "../../../components/games/audioChallengeGame";
 
-export class AudioChallengeView extends TypedEmitter<GamesEventType>
+export class AudioChallengeView extends TypedEmitter<GamesEventsType>
   implements AudioChallengeViewInterface {
   audioChallengeModel: AudioChallengeModelInterface;
 
