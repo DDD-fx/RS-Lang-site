@@ -8,7 +8,12 @@ import { TextBookController } from './pages/textbook/textbookController';
 import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
 import { GamesSection } from './pages/games/games';
-import { GamesEntranceModal } from './components/games/gamesModal';
+import { GamesEntranceView } from './pages/games/gamesEntrance/gamesEntranceView';
+import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
+import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
+import { AudioChallengeModel } from './pages/games/audioChallengeGame/audioChallengeGameModel';
+import { AudioChallengeView } from './pages/games/audioChallengeGame/audioChallengeGameView';
+import { AudioChallengeController } from './pages/games/audioChallengeGame/audioChallengeGameController';
 import { LocalStorage } from './utils/storage';
 import { DEFAULT_USER_NAME } from './utils/constants';
 
@@ -27,6 +32,11 @@ void (async function textbook() {
   // отрисовка авторизации
 
   (() => new TextBookController(textBookModel, textBookView))();
+
+
+  const gamesEntranceModel = new GamesEntranceModel();
+  const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
+  (() => new GamesEntranceController(gamesEntranceView, gamesEntranceModel))();
 
   const main = getElement('main__wrapper');
   const routes: Routes[] = [
@@ -48,18 +58,28 @@ void (async function textbook() {
       path: '/games',
       action: () => {
         new GamesSection().render();
-      },
+        const challengeBtn = document.getElementsByClassName('games-link__audiochallenge')[0];
+        const sprintBtn = document.getElementsByClassName('games-link__sprint')[0];
+        challengeBtn.addEventListener('click', () => {
+          main.innerHTML = '';
+          main.append(gamesEntranceView.buildAudioChallengeHTML());
+        });
+        sprintBtn.addEventListener('click', () => {
+          main.innerHTML = '';
+          main.append(gamesEntranceView.buildSprintHTML());
+        });
+      }
     },
     {
       path: '/audiochallenge',
       action: () => {
-        new GamesEntranceModal('audiochallenge').render();
+        main.append(gamesEntranceView.buildAudioChallengeHTML());
       },
     },
     {
       path: '/sprint',
       action: () => {
-        new GamesEntranceModal('sprint').render();
+        main.append(gamesEntranceView.buildSprintHTML());
       },
     },
     {
@@ -77,5 +97,3 @@ void (async function textbook() {
   ];
   new Router(routes).render(history.location).catch((err) => console.error(err));
 })();
-
-
