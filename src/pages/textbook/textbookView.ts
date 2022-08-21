@@ -1,21 +1,25 @@
 import {
     TextBookEventsType,
     TextBookModelInterface,
-    TextBookViewInterface,
+    TextBookViewInterface, UserTextBookViewInterface,
     WordsBtnsType, WordsChunkType,
-} from '../../types/types';
+} from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
 import renderTextbookTemplate from '../../components/textbook';
 import { baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
+import { UserTextBookView } from './userTextbookView';
 
 export class TextBookView extends TypedEmitter<TextBookEventsType> implements TextBookViewInterface {
     textBookModel: TextBookModelInterface;
 
+    userTextBookView: UserTextBookViewInterface;
+
     constructor(textBookModel: TextBookModelInterface) {
         super();
         this.textBookModel = textBookModel;
+        this.userTextBookView = new UserTextBookView(textBookModel);
         this.textBookModel.on('getTextBookList', () => this.drawTextBook())
           .on('getWordData', (word) => this.createWordCard(word))
     }
@@ -28,6 +32,7 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
 
         this.createDifficultyBtns();
         this.checkActiveDifficultyBtn(LocalStorage.currUserSettings.currGroup);
+        this.checkGamesBtns();
 
         const wordsDiv = getElement('js-words-btns');
         this.textBookModel.wordsChunk.forEach((wordData) => {
@@ -49,6 +54,9 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
 
         this.createPagination();
         this.checkActivePage(LocalStorage.currUserSettings.currPage);
+
+        // USER VIEW
+        this.userTextBookView.drawUserTextBookView();
     };
 
     createDifficultyBtns = (): void => {
@@ -65,16 +73,16 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
         }
     }
 
-    createWordsBtns = ({ id, word, wordTranslate, group }: WordsBtnsType): HTMLButtonElement => {
-        const wordBtn = createElement('button', ['words-btns__btn', `group-${group}`]) as HTMLButtonElement;
+    createWordsBtns = ({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement => {
+        const wordBtn = createElement('div', ['words-btns__btn', `group-${group}`]) as HTMLDivElement;
         wordBtn.addEventListener('click', () => {
             this.emit('wordBtnClicked', id);
             this.checkActiveWordsBtns(id);
         })
 
-        const wordTitle = createElement('h3') as HTMLHeadingElement;
+        const wordTitle = createElement('h3', 'word-btn-title') as HTMLHeadingElement;
         wordTitle.textContent = word;
-        const wordTranslation = createElement('p') as HTMLParagraphElement;
+        const wordTranslation = createElement('p', 'word-btn-translate') as HTMLParagraphElement;
         wordTranslation.textContent = wordTranslate;
         wordBtn.append(wordTitle, wordTranslation);
         return wordBtn;
@@ -141,6 +149,12 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
             const prevPage = getElement('js-pagination');
             prevPage.append(pageBtn);
         }
+    }
+
+    checkGamesBtns = (): void => {
+        const currGroup = `group-${LocalStorage.currUserSettings.currGroup}`;
+        const gameBtns= document.getElementsByClassName('textbook-games-btn') as HTMLCollectionOf<HTMLButtonElement>;
+        [...gameBtns].forEach((btn) => btn.classList.add(currGroup));
     }
 
     checkActiveWordsBtns = (wordID: string): void => {

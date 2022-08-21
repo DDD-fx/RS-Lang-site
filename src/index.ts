@@ -40,8 +40,8 @@ void (async function textbook() {
       path: '/textbook',
       action: () => { // костыли?
         textBookView.drawTextBook();
-        const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0];
-        textBookBtn.addEventListener('click', () => textBookView.drawTextBook());
+        // const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0];
+        // textBookBtn.addEventListener('click', () => textBookView.drawTextBook());
       },
     },
     {

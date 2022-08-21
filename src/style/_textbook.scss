@@ -47,6 +47,22 @@
   background-color: $bg-color-group-5;
 }
 
+.textbook-games-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 30px;
+  gap: 20px;
+}
+
+.textbook-games-btn {
+  @include textbook-btns-effects;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
 .textbook-words {
   display: flex;
   gap: 30px;
@@ -62,9 +78,53 @@
 
   &__btn {
     @include textbook-btns-effects;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
     border-radius: 5px;
+    cursor: pointer;
   }
 }
+
+.word-btn-translate {
+  font-weight: bolder;
+}
+
+.word-btn__star {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+  width: 12%;
+}
+
+.star-svg {
+  fill: $wordcard-svg-incative;
+
+  &:hover {
+    fill: $star-svg-ative;
+  }
+}
+
+.word-btn__bin {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  z-index: 10;
+  width: 12%;
+}
+
+.bin-svg {
+  fill: $wordcard-svg-incative;
+
+  &:hover {
+    fill: $bin-svg-ative;
+  }
+}
+
 
 .word-description {
   min-height: 700px;
