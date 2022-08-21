@@ -33,13 +33,14 @@ void (async function textbook() {
 
   (() => new TextBookController(textBookModel, textBookView))();
 
-  const gamesEntranceModel = new GamesEntranceModel();
-  const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
-  (() => new GamesEntranceController(gamesEntranceView, gamesEntranceModel))();
 
   const audioChallengeModel = new AudioChallengeModel();
   const audioChallengeView = new AudioChallengeView(audioChallengeModel);
   (() => new AudioChallengeController(audioChallengeModel, audioChallengeView))();
+
+  const gamesEntranceModel = new GamesEntranceModel();
+  const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
+  (() => new GamesEntranceController(gamesEntranceView, gamesEntranceModel))();
 
   const main = getElement('main__wrapper');
   const routes: Routes[] = [
@@ -61,14 +62,22 @@ void (async function textbook() {
       path: '/games',
       action: () => {
         new GamesSection().render();
-      },
+        const challengeBtn = document.getElementsByClassName('games-link__audiochallenge')[0];
+        const sprintBtn = document.getElementsByClassName('games-link__sprint')[0];
+        challengeBtn.addEventListener('click', () => {
+          main.innerHTML = '';
+          main.append(gamesEntranceView.buildAudioChallengeHTML());
+        });
+        sprintBtn.addEventListener('click', () => {
+          main.innerHTML = '';
+          main.append(gamesEntranceView.buildSprintHTML());
+        });
+      }
     },
     {
       path: '/audiochallenge',
       action: () => {
         main.append(gamesEntranceView.buildAudioChallengeHTML());
-        const startAudioChallengeBtn = document.getElementsByClassName('game-start-btn_audio-challenge')[0];
-        startAudioChallengeBtn.addEventListener('click', () => audioChallengeView.drawAudioChallengeGame());
       },
     },
     {

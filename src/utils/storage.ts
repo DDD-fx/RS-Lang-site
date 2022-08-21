@@ -23,10 +23,14 @@ export class LocalStorage {
   };
 
   static getLSData = (key: string): UserSettingsType => {
-    const userSettings: string | null = window.localStorage.getItem(LocalStorage.createLocalKey(key));
+    const userSettings: string | null = window.localStorage.getItem(
+      LocalStorage.createLocalKey(key),
+    );
     if (userSettings) return <UserSettingsType>JSON.parse(userSettings);
 
-    const defaultUserSettings: string | null = window.localStorage.getItem(LocalStorage.createLocalKey(DEFAULT_USER_NAME));
+    const defaultUserSettings: string | null = window.localStorage.getItem(
+      LocalStorage.createLocalKey(DEFAULT_USER_NAME),
+    );
     if (defaultUserSettings) return <UserSettingsType>JSON.parse(defaultUserSettings);
 
     return DEFAULT_USER_SETTINGS;
@@ -39,16 +43,18 @@ export class LocalStorage {
     LocalStorage.currUserSettings = userSettings;
 
     // если дефолтный юзер уже создан и что-то тыкал в учебнике
-    if (userID === DEFAULT_USER_NAME && JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)) {
+    if (
+      userID === DEFAULT_USER_NAME &&
+      JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)
+    ) {
       LocalStorage.createLocalKey(DEFAULT_USER_NAME);
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
     }
-  }
+  };
 
   static currUserID = '';
 
   static currUserSettings = DEFAULT_USER_SETTINGS;
 }
-
 
 // export { setLSData, getLSData, removeLSData, loadData, initLS };

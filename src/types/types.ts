@@ -96,10 +96,13 @@ export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceE
 export type GamesEntranceEventType = {
   audioChallengeGameStarted: () => void;
   sprintGameStarted: () => void;
+  drawChallenge: () => void;
 };
 
 export type GamesEventType = {
   closeBtnClicked: () => void;
+  speakerClicked: () => void;
+  wordBtnClicked: (words: number) => void;
 };
 
 export interface GamesEntranceControllerInterface {
@@ -123,10 +126,14 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventType
   drawAudioChallengeGame(): void;
   createCloseBtn(): void;
 }
+export interface AudioChallengeEntranceViewInterface extends TypedEmitter<GamesEventType> {
+  drawAudioChallengeGame(): void;
+  createCloseBtn(): void;
+}
 
 export type LocalStorageType = {
   userId: UserSettingsType;
-}
+};
 
 export type UserSettingsType = {
   userEmail: string;
@@ -134,8 +141,8 @@ export type UserSettingsType = {
   avatarURL: string;
   token: string;
   refreshToken: string;
-  stats: string;  //obj?
+  stats: string; //obj?
   currPage: number;
   currGroup: number;
   currWord: string;
-}
+};

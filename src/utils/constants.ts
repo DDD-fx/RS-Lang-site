@@ -18,3 +18,4 @@ export const DEFAULT_USER_SETTINGS: UserSettingsType = {
 };
 export const DEFAULT_USER_NAME = 'default-user';
 
+export const MAX_AUDIOCHALLENGE_WORDS_PER_PAGE = 5;

@@ -14,6 +14,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     async getWordsList(query: string): Promise<void> {
       const data = await fetch(baseURL + query);
       this.wordsChunk = await data.json() as WordsChunkType[];
+      console.log(this.wordsChunk);
       this.emit('getWordList');
   }
 

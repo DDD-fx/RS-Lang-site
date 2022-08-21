@@ -1,9 +1,85 @@
 .game-operations-group__close-btn {
   width: 40px;
   height: 40px;
+  margin-left: auto;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+}
+
+.game-section {
+  width: 80%;
+  margin: 20px auto;
 }
 
 .game-operations-group__cross-img {
   width: 40px;
   height: 40px;
+  cursor: pointer;
+}
+
+.game-section__speaker-wrapper {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border: solid 1px var(--maintheme);
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+}
+
+.game-section__speaker-img {
+  width: 80%;
+  height: 80%;
+  display: block;
+  margin: 8% auto;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+}
+
+.game-section__answer-speaker-wrapper {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  cursor: pointer;
+}
+
+.game-section__word-wrapper {
+  width: 90%;
+  margin: 0 auto;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.game-section__word {
+  text-align: center;
+  line-height: 1.5rem;
+  margin-left: 1%;
+  font-size: 2rem;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+}
+
+.game-section__words-wrapper,
+.game-section__btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+}
+
+.game-section__word {
+  margin-left: 2%;
+  background-color: transparent;
+  border: none;
+  color: var(--white);
 }

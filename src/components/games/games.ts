@@ -2,16 +2,14 @@ import { createElement, getElement } from '../../utils/tools';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { GamesEntranceView } from '../../pages/games/gamesEntrance/gamesEntranceView';
-import { GamesEntranceModel } from '../../pages/games/gamesEntrance/gamesEntranceModel';
 
 const gamesTemplateInner = `
-<h1 class="games-title">Игры</h1>
+<h2 class="games-title">Игры</h1>
 <div class="img-x5 position-left">
   <img src="./assets/bubbles.svg" alt="bubbles"/>
 </div>
 <article class="games-wrapper">
-  <a href="/audiochallenge" class="games-link">
+  <a href="/audiochallenge" class="games-link games-link__audiochallenge">
     <figure class="games-figure">
       <p>
         <img
@@ -23,7 +21,7 @@ const gamesTemplateInner = `
       <figcaption class="games-figcaption">Аудиовызов</figcaption>
     </figure>
   </a>
-  <a href="/sprint" class="games-link">
+  <a href="/sprint" class="games-link games-link__sprint">
     <figure class="games-figure">
       <p>
         <img
@@ -62,27 +60,9 @@ class Games extends TypedEmitter{
       if (anchor) {
         const url = anchor.pathname;
         history.push(url);
-        if (url === '/audiochallenge') {
-          this.gameEntranceModalRender('audiochallenge');
-        } else if (url === '/sprint') {
-          this.gameEntranceModalRender('sprint');
-        }
       }
     });
   };
-
-  gameEntranceModalRender = (game: string) => {
-    const main = getElement('main__wrapper');
-    main.innerHTML = '';
-    if (game === 'audiochallenge') {
-      main.append(new GamesEntranceView(new GamesEntranceModel()).buildAudioChallengeHTML());
-    } else if (game === 'sprint') {
-      main.append(new GamesEntranceView(new GamesEntranceModel()).buildSprintHTML());
-    }
-    
-    
-  }
-
 }
 
 

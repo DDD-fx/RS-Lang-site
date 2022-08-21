@@ -13,6 +13,7 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
   }
 
   getWordsList(): void {
+    
   }
 
   getWordData(id: string): void {

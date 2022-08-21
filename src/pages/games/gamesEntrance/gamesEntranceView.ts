@@ -1,5 +1,5 @@
 import { TypedEmitter } from "tiny-typed-emitter";
-import { GamesEntranceEventType, GamesEntranceModelInterface, GamesEntranceViewInterface } from "../../../types/types";
+import { AudioChallengeEntranceViewInterface, AudioChallengeViewInterface, GamesEntranceEventType, GamesEntranceModelInterface, GamesEntranceViewInterface } from "../../../types/types";
 import { createElement } from "../../../utils/tools";
 import { AudioChallengeModel } from "../audioChallengeGame/audioChallengeGameModel";
 import { AudioChallengeView } from "../audioChallengeGame/audioChallengeGameView";
