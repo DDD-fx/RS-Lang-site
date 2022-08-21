@@ -1,4 +1,4 @@
-import { TextBookModelInterface, WordsChunkType } from '../../types/types';
+import { TextBookModelInterface, WordsChunkType } from '../../types/textbookTypes';
 import { baseURL } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';

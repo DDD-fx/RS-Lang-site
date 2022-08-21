@@ -1,12 +1,16 @@
+@import "variables";
+
 @mixin textbook-btns-effects {
   transition: 0.4s;
   border: none;
 
   &:hover {
-    background-color: var(--maintheme);
+    background-color: $bg-color-active-btn;
+    box-shadow: $active-shadow;
     transition: 0.4s;
   }
   &--active {
-    background-color: var(--maintheme);
+    background-color: $bg-color-active-btn;
+    box-shadow: $active-shadow;
   }
 }
