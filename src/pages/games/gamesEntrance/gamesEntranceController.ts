@@ -1,8 +1,5 @@
-import {
-  GamesEntranceControllerInterface,
-  GamesEntranceModelInterface,
-  GamesEntranceViewInterface,
-} from "../../../types/types";
+import { GamesEntranceControllerInterface, GamesEntranceModelInterface, GamesEntranceViewInterface } from "../../../types/gamesTypes";
+
 
 export default class GamesEntranceController
   implements GamesEntranceControllerInterface {

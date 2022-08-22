@@ -1,5 +1,5 @@
-@import "mixins";
-@import "variables";
+@import 'mixins';
+@import 'variables';
 
 .textbook-title,
 .textbook-subtitle {
@@ -124,7 +124,6 @@
     fill: $bin-svg-ative;
   }
 }
-
 
 .word-description {
   min-height: 700px;

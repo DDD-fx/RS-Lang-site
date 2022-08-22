@@ -1,14 +1,14 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 export type TextBookEventsType = {
-  textBookBtnClicked: () => void,
-  pageBtnClicked: (page: number) => void,
-  groupBtnClicked: (group: number) => void,
-  wordBtnClicked: (id: string) => void,
+  textBookBtnClicked: () => void;
+  pageBtnClicked: (page: number) => void;
+  groupBtnClicked: (group: number) => void;
+  wordBtnClicked: (id: string) => void;
 
-  getTextBookList: () => void,
-  getWordData: (word: WordsChunkType) => void,
-}
+  getTextBookList: () => void;
+  getWordData: (word: WordsChunkType) => void;
+};
 
 export interface TextBookControllerInterface {
   textBookModel: TextBookModelInterface;
@@ -26,7 +26,7 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   createWordsBtns({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement;
   createWordCard(word: WordsChunkType): void;
   createAudioBtn(audio: string): HTMLButtonElement;
-  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement
+  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement;
   createPagination(): void;
   checkGamesBtns(): void;
   checkActiveWordsBtns(wordID: string): void;

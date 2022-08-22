@@ -1,7 +1,5 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import {
-  GamesEntranceModelInterface,
-} from '../../../types/types';
+import { GamesEntranceModelInterface } from '../../../types/gamesTypes';
 import { AUDIOCHALLENGE_GAME_SETTINGS } from '../../../utils/constants';
 import { AudioChallengeController } from '../audioChallengeGame/audioChallengeGameController';
 import { AudioChallengeModel } from '../audioChallengeGame/audioChallengeGameModel';
@@ -13,11 +11,12 @@ export class GamesEntranceModel extends TypedEmitter
     super();
   }
 
-  startAudioChallengeGame = () => {
+  startAudioChallengeGame = async () => {
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
-    const audioChallengeController = new AudioChallengeController(audioChallengeModel, audioChallengeView)
-    audioChallengeView.drawAudioChallengeGame();
+    const audioChallengeController = new AudioChallengeController(audioChallengeModel, audioChallengeView);
+    await audioChallengeController.getWordsList();
+    setTimeout(audioChallengeView.drawAudioChallengeGame, 500)
   };
 
   startSprintGame = () => {
