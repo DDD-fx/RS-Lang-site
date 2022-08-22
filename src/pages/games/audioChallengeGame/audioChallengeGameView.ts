@@ -21,8 +21,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
     this.audioChallengeModel = audioChallengeModel;
     this.audioChallengeModel
       .on('getWordList', () => this.drawAudioChallengeGame())
-      .on('nextBtnClicked', () => this.updateWordBtnsWrapper())
-      .on('pageChanged', () => this.updateWordBtnsWrapper());
+      .on('drawGameBtns', () => this.updateWordBtnsWrapper());
   }
 
   drawAudioChallengeGame = () => {
@@ -174,6 +173,5 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
 
   showRightAnswer = (id: string) => {
     console.log('hi');
-    
   };
 }

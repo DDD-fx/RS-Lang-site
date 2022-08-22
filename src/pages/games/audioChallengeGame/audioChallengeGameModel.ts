@@ -33,7 +33,7 @@ export class AudioChallengeModel extends TypedEmitter
   turnGamePage = () => {
     AUDIOCHALLENGE_GAME_SETTINGS.wordCount +=
       AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
-    this.emit('nextBtnClicked');
+    this.emit('drawGameBtns');
     console.log(AUDIOCHALLENGE_GAME_SETTINGS.wordCount);
   };
 
@@ -44,7 +44,7 @@ export class AudioChallengeModel extends TypedEmitter
       AUDIOCHALLENGE_GAME_SETTINGS.page = 0;
     }
     AUDIOCHALLENGE_GAME_SETTINGS.wordCount = 0;
-    this.emit('pageChanged');
+    this.emit('drawGameBtns');
     console.log(AUDIOCHALLENGE_GAME_SETTINGS.page);
   };
 }

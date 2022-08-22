@@ -17,7 +17,6 @@ export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEv
 
 export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceEventType> {
   addGameLevel(level: number): void;
-  startAudioChallengeGame(): void;
   startSprintGame(): void;
 }
 
@@ -36,8 +35,8 @@ export type GamesEventsType = {
   getWordList: () => void;
   wordBtnClicked: (id: string) => void;
   nextBtnClicked: () => void;
+  drawGameBtns: () => void;
   wordsAreOver: () => void;
-  pageChanged: () => void;
 };
 
 export interface GamesEntranceControllerInterface {

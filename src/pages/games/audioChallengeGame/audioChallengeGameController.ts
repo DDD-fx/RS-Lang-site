@@ -19,7 +19,7 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
   
   getWordsList = async () => {
     const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${AUDIOCHALLENGE_GAME_SETTINGS.page}`;
-    this.audioChallengeModel.getWordsList(query);
+    await this.audioChallengeModel.getWordsList(query);
   }
 
   getWordData = (id: string) => {
