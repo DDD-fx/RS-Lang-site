@@ -1,24 +1,41 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import {
   TextBookEventsType,
-  TextBookModelInterface,
+  TextBookModelInterface, TextBookViewInterface,
   UserTextBookViewInterface,
 } from '../../types/textbookTypes';
-import { createElement } from '../../utils/tools';
+import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, STAR_SVG } from '../../utils/constants';
+import { renderDictTemplate } from '../../components/textbook';
 
 export class UserTextBookView extends TypedEmitter<TextBookEventsType> implements UserTextBookViewInterface {
-  textBookModel: TextBookModelInterface;
+  textBookModel;
 
-  constructor(textBookModel: TextBookModelInterface) {
+  textBookView;
+
+  constructor(textBookModel: TextBookModelInterface, textBookView: TextBookViewInterface) {
     super();
     this.textBookModel = textBookModel;
+    this.textBookView = textBookView;
   }
+
+  drawDict = (): void => {
+    const mainWrapper = getElement('main__wrapper');
+    mainWrapper.innerHTML = '';
+    mainWrapper.insertAdjacentHTML('afterbegin', renderDictTemplate());
+    this.textBookView.addReadMeListeners();
+
+    const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
+    backToWordsBtn.addEventListener('click', () => this.textBookView.drawTextBook());
+
+    console.log('userview');
+  };
 
   drawUserTextBookView = (): void => {
     this.createDifficultWordBtn();
     this.createDeleteWordBtn();
-  }
+    this.addDictBtnListener();
+  };
 
   createDifficultWordBtn = (): void => {
     const wordBtn = document.getElementsByClassName('words-btns__btn');
@@ -27,7 +44,7 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
       wordBtnStar.innerHTML = STAR_SVG;
       btn.append(wordBtnStar);
     });
-  }
+  };
 
   createDeleteWordBtn = (): void => {
     const wordBtn = document.getElementsByClassName('words-btns__btn');
@@ -36,5 +53,10 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
       wordBtnBin.innerHTML = BIN_SVG;
       btn.append(wordBtnBin);
     });
-  }
+  };
+
+  addDictBtnListener = (): void => {
+    const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;
+    dictBtn.addEventListener('click', () => this.emit.call(this.textBookView,'dictBtnClicked'));
+  };
 }

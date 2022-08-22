@@ -2,17 +2,17 @@ import { TextBookControllerInterface, TextBookModelInterface, TextBookViewInterf
 import { LocalStorage } from '../../utils/storage';
 
 export class TextBookController implements TextBookControllerInterface {
-  textBookModel: TextBookModelInterface;
+  textBookModel;
 
-  textBookView: TextBookViewInterface;
+  textBookView;
 
   constructor(textBookModel: TextBookModelInterface, textBookView: TextBookViewInterface) {
     this.textBookModel = textBookModel;
     this.textBookView = textBookView;
-    this.textBookView.on('textBookBtnClicked', () => this.getTextBookList())
-      .on('pageBtnClicked', (page) => this.changeTextBookPage(page))
+    this.textBookView.on('pageBtnClicked', (page) => this.changeTextBookPage(page))
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
-      .on('wordBtnClicked', (id) => this.getWordData(id));
+      .on('wordBtnClicked', (id) => this.getWordData(id))
+      .on('dictBtnClicked', () => this.getUserDictWords());
   }
 
   getTextBookList = (): void => {
@@ -28,13 +28,14 @@ export class TextBookController implements TextBookControllerInterface {
     void this.textBookModel.getTextBookList(query);
   };
 
-  changeTextBookGroup = (group: number): void => {
+  changeTextBookGroup = (group: number) => {
     LocalStorage.currUserSettings.currPage = 0;
     LocalStorage.currUserSettings.currGroup = group;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
 
     const query = `words?group=${group}&page=${LocalStorage.currUserSettings.currPage}`;
     void this.textBookModel.getTextBookList(query);
+    LocalStorage.currUserSettings.currWord = this.textBookModel.wordsChunk[0].id;
   };
 
   getWordData = (id: string): void => {
@@ -44,4 +45,9 @@ export class TextBookController implements TextBookControllerInterface {
     const selectedWord = this.textBookModel.wordsChunk.filter((el) => el.id === id)[0];
     this.textBookModel.getWordData(selectedWord);
   };
+
+  getUserDictWords = (): void => {
+    const query = 'querytomodel';
+    void this.textBookModel.getUserDictWords(query);
+  }
 }

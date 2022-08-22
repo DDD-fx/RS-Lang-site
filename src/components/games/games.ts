@@ -1,4 +1,4 @@
-import { createElement, getElement } from '../../utils/tools';
+import { createElement } from '../../utils/tools';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 import { TypedEmitter } from 'tiny-typed-emitter';
@@ -39,7 +39,7 @@ const gamesTemplateInner = `
 </div>
 `;
 
-class Games extends TypedEmitter{
+class Games extends TypedEmitter {
   games;
 
   constructor() {
