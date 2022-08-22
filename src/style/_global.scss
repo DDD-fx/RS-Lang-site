@@ -128,8 +128,8 @@ p {
   font-size: 1rem;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
-  -webkit-backdrop-filter: blur(73px);
-  backdrop-filter: blur(73px);
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
   border-radius: 8px;
   margin: 40px auto 20px auto;
 }
@@ -249,16 +249,6 @@ a.btn.btn.inactive:hover {
   border-radius: 0.5rem;
   font-weight: 500;
   opacity: 0;
-}
-
-input {
-  background: rgb(255 255 255 / 25%);
-  border-radius: 4px;
-  height: 1.8rem;
-}
-
-input:focus {
-  background: rgb(255 255 255 / 45%);
 }
 
 ul,

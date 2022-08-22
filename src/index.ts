@@ -11,17 +11,16 @@ import { GamesSection } from './pages/games/games';
 import { GamesEntranceView } from './pages/games/gamesEntrance/gamesEntranceView';
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
 import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
-import { AudioChallengeModel } from './pages/games/audioChallengeGame/audioChallengeGameModel';
-import { AudioChallengeView } from './pages/games/audioChallengeGame/audioChallengeGameView';
-import { AudioChallengeController } from './pages/games/audioChallengeGame/audioChallengeGameController';
 import { LocalStorage } from './utils/storage';
 import { DEFAULT_USER_NAME } from './utils/constants';
+import Login from './pages/login';
 
 LocalStorage.initLS('' || DEFAULT_USER_NAME);
 
 const app = new App();
 app.init();
 
+const login = new Login();
 
 void (async function textbook() {
   const textBookModel = new TextBookModel();
@@ -91,7 +90,13 @@ void (async function textbook() {
     {
       path: '/login',
       action: () => {
-        main.innerHTML = '<h1>Not Found</h1>';
+        login.renderLoginForm();
+      },
+    },
+    {
+      path: '/auth',
+      action: () => {
+        login.renderRegForm();
       },
     },
   ];
