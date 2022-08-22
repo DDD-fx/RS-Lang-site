@@ -11,9 +11,6 @@ import { GamesSection } from './pages/games/games';
 import { GamesEntranceView } from './pages/games/gamesEntrance/gamesEntranceView';
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
 import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
-import { AudioChallengeModel } from './pages/games/audioChallengeGame/audioChallengeGameModel';
-import { AudioChallengeView } from './pages/games/audioChallengeGame/audioChallengeGameView';
-import { AudioChallengeController } from './pages/games/audioChallengeGame/audioChallengeGameController';
 import { LocalStorage } from './utils/storage';
 import { DEFAULT_USER_NAME } from './utils/constants';
 
@@ -33,7 +30,6 @@ void (async function textbook() {
 
   (() => new TextBookController(textBookModel, textBookView))();
 
-
   const gamesEntranceModel = new GamesEntranceModel();
   const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
   (() => new GamesEntranceController(gamesEntranceView, gamesEntranceModel))();
@@ -48,10 +44,8 @@ void (async function textbook() {
     },
     {
       path: '/textbook',
-      action: () => { // костыли?
+      action: () => {
         textBookView.drawTextBook();
-        // const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0];
-        // textBookBtn.addEventListener('click', () => textBookView.drawTextBook());
       },
     },
     {
