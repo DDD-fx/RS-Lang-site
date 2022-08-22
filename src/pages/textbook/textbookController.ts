@@ -1,4 +1,8 @@
-import { TextBookControllerInterface, TextBookModelInterface, TextBookViewInterface } from '../../types/textbookTypes';
+import {
+  TextBookControllerInterface,
+  TextBookModelInterface,
+  TextBookViewInterface,
+} from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 
 export class TextBookController implements TextBookControllerInterface {
@@ -9,7 +13,8 @@ export class TextBookController implements TextBookControllerInterface {
   constructor(textBookModel: TextBookModelInterface, textBookView: TextBookViewInterface) {
     this.textBookModel = textBookModel;
     this.textBookView = textBookView;
-    this.textBookView.on('textBookBtnClicked', () => this.getTextBookList())
+    this.textBookView
+      .on('textBookBtnClicked', () => this.getTextBookList())
       .on('pageBtnClicked', (page) => this.changeTextBookPage(page))
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
       .on('wordBtnClicked', (id) => this.getWordData(id));

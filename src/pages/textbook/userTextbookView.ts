@@ -7,7 +7,10 @@ import {
 import { createElement } from '../../utils/tools';
 import { BIN_SVG, STAR_SVG } from '../../utils/constants';
 
-export class UserTextBookView extends TypedEmitter<TextBookEventsType> implements UserTextBookViewInterface {
+export class UserTextBookView
+  extends TypedEmitter<TextBookEventsType>
+  implements UserTextBookViewInterface
+{
   textBookModel: TextBookModelInterface;
 
   constructor(textBookModel: TextBookModelInterface) {
@@ -18,7 +21,7 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
   drawUserTextBookView = (): void => {
     this.createDifficultWordBtn();
     this.createDeleteWordBtn();
-  }
+  };
 
   createDifficultWordBtn = (): void => {
     const wordBtn = document.getElementsByClassName('words-btns__btn');
@@ -27,7 +30,7 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
       wordBtnStar.innerHTML = STAR_SVG;
       btn.append(wordBtnStar);
     });
-  }
+  };
 
   createDeleteWordBtn = (): void => {
     const wordBtn = document.getElementsByClassName('words-btns__btn');
@@ -36,5 +39,5 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
       wordBtnBin.innerHTML = BIN_SVG;
       btn.append(wordBtnBin);
     });
-  }
+  };
 }

@@ -10,11 +10,11 @@ const registerInner = `
   <img src="./assets/whale.svg" alt="">
 </div>
 </div>
-<form class="form register__form" id="form">
+<form class="form register__form" id="registerForm" name="registerForm">
 <h2 class="register__title">Создать аккаунт</h2>
   <label>
- <span class="input-title">Ваше имя*</span>
-    <input class="input" type="text" name="name" id="name" placeholder="Илон Маск" autocomplete="on" required="required" autofocus>
+ <span class="input-title">Ваше имя</span>
+    <input class="input" type="text" name="login" id="name" placeholder="Илон Маск" autocomplete="on" autofocus>
   </label>
   <label>
    <span class="input-title">Почта*</span>
@@ -22,7 +22,7 @@ const registerInner = `
   </label>
   <label>
   <span class="input-title">Пароль*</span>
-  <input class="input" type="password" name="pass" id="pass" placeholder="Qweasdzxc123" autocomplete="new-password" required="required">
+  <input class="input" type="password" name="pass" id="pass" placeholder="Qweasdzxc123" minlength="8" autocomplete="new-password" required="required">
 </label>
   <button class="btn btn-register" type="submit">Регистрация</button>
   
@@ -33,28 +33,28 @@ const registerInner = `
 class RegForm {
   regForm;
 
-  constructor() {
+  constructor(handler: (form: HTMLFormElement) => void) {
     this.regForm = createElement('div', 'register');
     this.regForm.innerHTML = registerInner;
-    this.bind();
+    this.bind(handler);
   }
 
   render = () => {
     return this.regForm; //getElement(parent).append(this.nav);
   };
 
-  bind = () => {
+  bind = (handler: (form: HTMLFormElement) => void) => {
     this.regForm.addEventListener('click', (event) => {
       event.preventDefault();
       if ((<HTMLElement>event.target).classList.contains('btn-register')) {
-       console.log('.btn-register')
+        const form = document.forms.namedItem('registerForm') as HTMLFormElement;
+        handler(form);
       }
       if ((<HTMLElement>event.target).classList.contains('register__link-link')) {
         const anchor = event.target as HTMLAnchorElement;
         const url = anchor.pathname;
         history.push(url);
       }
-      
     });
   };
 }

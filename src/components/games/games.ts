@@ -39,7 +39,7 @@ const gamesTemplateInner = `
 </div>
 `;
 
-class Games extends TypedEmitter{
+class Games extends TypedEmitter {
   games;
 
   constructor() {
@@ -64,6 +64,5 @@ class Games extends TypedEmitter{
     });
   };
 }
-
 
 export { Games, history };

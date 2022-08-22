@@ -2,13 +2,15 @@ import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
   GamesEventsType,
-} from "../../../types/types";
-import { createElement, getElement } from "../../../utils/tools";
-import { TypedEmitter } from "tiny-typed-emitter";
-import renderAudioChallengeGameTemplate from "../../../components/games/audioChallengeGame";
+} from '../../../types/types';
+import { createElement, getElement } from '../../../utils/tools';
+import { TypedEmitter } from 'tiny-typed-emitter';
+import renderAudioChallengeGameTemplate from '../../../components/games/audioChallengeGame';
 
-export class AudioChallengeView extends TypedEmitter<GamesEventsType>
-  implements AudioChallengeViewInterface {
+export class AudioChallengeView
+  extends TypedEmitter<GamesEventsType>
+  implements AudioChallengeViewInterface
+{
   audioChallengeModel: AudioChallengeModelInterface;
 
   constructor(audioChallengeModel: AudioChallengeModelInterface) {
@@ -31,10 +33,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
   createCloseBtn(): void {
     const gameOperationsGroup = getElement('game-operations-group');
     const closeBtn = createElement('div', 'game-operations-group__close-btn');
-    const cross = createElement(
-      'img',
-      'game-operations-group__cross-img'
-    ) as HTMLImageElement;
+    const cross = createElement('img', 'game-operations-group__cross-img') as HTMLImageElement;
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
     closeBtn.addEventListener('click', () => this.emit('closeBtnClicked'));
@@ -43,10 +42,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
 
   createSpeakerWrapper(): void {
     const speakerWrapper = getElement('game-section__speaker-wrapper');
-    const speaker = createElement(
-      'img',
-      'game-section__speaker-img'
-    ) as HTMLImageElement;
+    const speaker = createElement('img', 'game-section__speaker-img') as HTMLImageElement;
     speaker.src = './assets/games/speaker.svg';
     speaker.addEventListener('click', () => this.emit('speakerClicked'));
     speakerWrapper.append(speaker);
@@ -54,19 +50,10 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
 
   createAnswerWrapper(): void {
     const answerWrapper = getElement('game-section__answer-wrapper');
-    const wordAndSpeakerWrapper = createElement(
-      'div',
-      'game-section__word-wrapper'
-    );
+    const wordAndSpeakerWrapper = createElement('div', 'game-section__word-wrapper');
     const word = createElement('span', 'game-section__word');
-    const speakerWrapper = createElement(
-      'div',
-      'game-section__answer-speaker-wrapper'
-    );
-    const speaker = createElement(
-      'img',
-      'game-section__speaker-img'
-    ) as HTMLImageElement;
+    const speakerWrapper = createElement('div', 'game-section__answer-speaker-wrapper');
+    const speaker = createElement('img', 'game-section__speaker-img') as HTMLImageElement;
     speaker.src = './assets/games/speaker.svg';
     word.innerText = 'word';
     speakerWrapper.append(speaker);
@@ -82,9 +69,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
         'game-section__word',
         `game-section__word-${i + 1}`,
       ]);
-      wordBtn.addEventListener('click', () =>
-        this.emit('wordBtnClicked', i + 1)
-      );
+      wordBtn.addEventListener('click', () => this.emit('wordBtnClicked', i + 1));
       wordBtn.textContent = i.toString();
       wordsWrapper.append(wordBtn);
     }

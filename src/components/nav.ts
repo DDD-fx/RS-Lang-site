@@ -1,8 +1,13 @@
 import { createElement } from '../utils/tools';
 import { createBrowserHistory } from 'history';
+import { DEFAULT_USER_NAME } from '../utils/constants';
+import { LocalStorage } from '../utils/storage';
 const history = createBrowserHistory();
 
-const navInner = `
+const logIn = `<a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>`;
+const logOut = `<a href="/logout"><button class="btn btn-logout " data-btn="login"> Выйти </button></a>`;
+
+const navInner = (isAuthorized: boolean) => `
 <a href="/"><h1>RS Lang</h1></a>
 <nav class="nav">
 <ul class="nav__list">
@@ -19,8 +24,7 @@ const navInner = `
   <a href="/stat"><button  class="btn" data-btn="stat"> Статистика </button></a>
 </li>
 <li>
-  <a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>
-</li>
+${isAuthorized ? logIn : logOut}
 </ul>
 </nav>
 `;
@@ -30,11 +34,13 @@ class Nav {
 
   constructor() {
     this.nav = createElement('div', ['wrapper', 'header__wrapper']);
-    this.nav.innerHTML = navInner;
+
     this.bind();
   }
 
   render = () => {
+    const isAuthorized = LocalStorage.getLSData(DEFAULT_USER_NAME).token === '';
+    this.nav.innerHTML = navInner(isAuthorized);
     return this.nav; //getElement(parent).append(this.nav);
   };
 

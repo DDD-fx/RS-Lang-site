@@ -12,8 +12,8 @@ import { GamesEntranceView } from './pages/games/gamesEntrance/gamesEntranceView
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
 import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
 import { LocalStorage } from './utils/storage';
-import { DEFAULT_USER_NAME } from './utils/constants';
-import Login from './pages/login';
+import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
+import Login from './pages/login/loginController';
 
 LocalStorage.initLS('' || DEFAULT_USER_NAME);
 
@@ -32,7 +32,6 @@ void (async function textbook() {
 
   (() => new TextBookController(textBookModel, textBookView))();
 
-
   const gamesEntranceModel = new GamesEntranceModel();
   const gamesEntranceView = new GamesEntranceView(gamesEntranceModel);
   (() => new GamesEntranceController(gamesEntranceView, gamesEntranceModel))();
@@ -47,7 +46,8 @@ void (async function textbook() {
     },
     {
       path: '/textbook',
-      action: () => { // костыли?
+      action: () => {
+        // костыли?
         textBookView.drawTextBook();
         // const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0];
         // textBookBtn.addEventListener('click', () => textBookView.drawTextBook());
@@ -67,7 +67,7 @@ void (async function textbook() {
           main.innerHTML = '';
           main.append(gamesEntranceView.buildSprintHTML());
         });
-      }
+      },
     },
     {
       path: '/audiochallenge',
@@ -90,13 +90,20 @@ void (async function textbook() {
     {
       path: '/login',
       action: () => {
-        login.renderLoginForm();
+        login.view.renderLoginForm();
+      },
+    },
+    {
+      path: '/logout',
+      action: () => {
+        LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
+        history.push('/');
       },
     },
     {
       path: '/auth',
       action: () => {
-        login.renderRegForm();
+        login.view.renderRegForm();
       },
     },
   ];

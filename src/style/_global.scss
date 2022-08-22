@@ -208,6 +208,10 @@ a.btn.btn.inactive:hover {
   //border: 2px solid rgba(255, 255, 255, 0.25);
 }
 
+.nav__list .btn.btn-logout {
+  background: rgba(0, 0, 0, 0.2);
+}
+
 .btn:hover {
   opacity: 0.9;
 }
@@ -242,7 +246,7 @@ a.btn.btn.inactive:hover {
   top: 30%;
   transform: translate(-50%, -50%);
   transition: 0.5s;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: var(--maintheme);
   background: rgba(0, 0, 0, 0.44);
   padding: 1rem 2rem;
