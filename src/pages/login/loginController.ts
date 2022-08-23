@@ -4,7 +4,9 @@ import { createUser, loginUser } from '../../model/api/usersApi';
 import { UserSuccessLogin } from '../../types/userTypes';
 import { LocalStorage } from '../../utils/storage';
 import { UserSettingsType } from '../../types/types';
-import { history } from '../../components/nav';
+import history from '../../index';
+import Nav from '../../components/nav';
+import { getElement } from '../../utils/tools';
 
 class Login {
   view: LoginView;
@@ -24,7 +26,7 @@ class Login {
       };
       const response = (await loginUser(userData)) as [number, UserSuccessLogin]; //типизировать нормальнО!
       if (response[0] === 200) {
-        showModal('Успешная регистрация!');
+        showModal('Успешная авторизация!');
 
         const { token, refreshToken, userId, name } = response[1];
         const loginUserSettings: UserSettingsType = {
@@ -41,6 +43,7 @@ class Login {
         LocalStorage.currUserSettings = loginUserSettings;
         LocalStorage.setLSData(LocalStorage.currUserID, loginUserSettings);
         history.push('/');
+        new Nav(getElement('header') as HTMLElement).render();
       } else showModal('Неверный логин или пароль!');
     }
 

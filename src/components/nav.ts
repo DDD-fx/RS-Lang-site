@@ -1,8 +1,7 @@
-import { createElement } from '../utils/tools';
-import { createBrowserHistory } from 'history';
+import { createElement, getElement } from '../utils/tools';
 import { DEFAULT_USER_NAME } from '../utils/constants';
 import { LocalStorage } from '../utils/storage';
-const history = createBrowserHistory();
+import history from '../index';
 
 const logIn = `<a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>`;
 const logOut = `<a href="/logout"><button class="btn btn-logout " data-btn="login"> Выйти </button></a>`;
@@ -31,17 +30,22 @@ ${isAuthorized ? logIn : logOut}
 
 class Nav {
   nav;
+  parent;
 
-  constructor() {
+  constructor(parent: HTMLElement) {
     this.nav = createElement('div', ['wrapper', 'header__wrapper']);
-
+    this.parent = parent;
     this.bind();
   }
 
   render = () => {
     const isAuthorized = LocalStorage.getLSData(DEFAULT_USER_NAME).token === '';
     this.nav.innerHTML = navInner(isAuthorized);
-    return this.nav; //getElement(parent).append(this.nav);
+    //const parentElem = getElement('.header')
+    // console.log(parentElem)
+    this.parent.innerHTML = '';
+    this.parent.append(this.nav);
+    // return this.nav; //getElement(parent).append(this.nav);
   };
 
   bind = () => {
@@ -56,4 +60,4 @@ class Nav {
   };
 }
 
-export { Nav, history };
+export default Nav;

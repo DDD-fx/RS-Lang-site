@@ -3,7 +3,6 @@ import App from './pages/main/controller';
 import Router from './utils/router';
 import { getElement } from './utils/tools';
 import { Routes } from './types/types';
-import { history } from './components/nav';
 import { TextBookController } from './pages/textbook/textbookController';
 import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
@@ -13,7 +12,12 @@ import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceCo
 import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
 import { LocalStorage } from './utils/storage';
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
+import { createBrowserHistory } from 'history';
+import Nav from './components/nav';
+
 import Login from './pages/login/loginController';
+
+const history = createBrowserHistory();
 
 LocalStorage.initLS('' || DEFAULT_USER_NAME);
 
@@ -47,10 +51,7 @@ void (async function textbook() {
     {
       path: '/textbook',
       action: () => {
-        // костыли?
         textBookView.drawTextBook();
-        // const textBookBtn = document.getElementsByClassName('js-menu-textbook-btn')[0];
-        // textBookBtn.addEventListener('click', () => textBookView.drawTextBook());
       },
     },
     {
@@ -98,6 +99,7 @@ void (async function textbook() {
       action: () => {
         LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
         history.push('/');
+        new Nav(getElement('header') as HTMLElement).render();
       },
     },
     {
@@ -109,3 +111,5 @@ void (async function textbook() {
   ];
   new Router(routes).render(history.location).catch((err) => console.error(err));
 })();
+
+export default history;

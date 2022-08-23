@@ -1,5 +1,5 @@
 import { createElement } from '../utils/tools';
-import { history } from './nav';
+import history from '../index';
 
 const registerInner = `
 <div class="register__images">

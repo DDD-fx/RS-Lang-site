@@ -1,5 +1,5 @@
 import { footerInner, renderMainTemplate } from '../../components/layout/template';
-import { Nav } from '../../components/nav';
+import Nav from '../../components/nav';
 import { createElement } from '../../utils/tools';
 
 class View {
@@ -20,8 +20,8 @@ class View {
 
   render = () => {
     const modal = createElement('div', 'modal');
-    const nav = new Nav().render();
-    this.header.append(nav);
+    const nav = new Nav(this.header).render();
+    // this.header.append(nav);
     this.main.append(this.mainWrapper, modal);
     this.footer.insertAdjacentHTML('afterbegin', footerInner);
     document.body.append(this.header, this.main, this.footer);
