@@ -1,15 +1,15 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 export type TextBookEventsType = {
-  pageBtnClicked: (page: number) => void,
-  groupBtnClicked: (group: number) => void,
-  wordBtnClicked: (id: string) => void,
-  dictBtnClicked: () => void,
+  pageBtnClicked: (page: number) => void;
+  groupBtnClicked: (group: number) => void;
+  wordBtnClicked: (id: string) => void;
+  dictBtnClicked: () => void;
 
-  getTextBookList: () => void,
-  getWordData: (word: WordsChunkType) => void,
-  getUserDict: (/*userDictWords: WordsChunkType[]*/) => void,
-}
+  getTextBookList: () => void;
+  getWordData: (word: WordsChunkType) => void;
+  getUserDict: (/*userDictWords: WordsChunkType[]*/) => void;
+};
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   wordsChunk: WordsChunkType[];
@@ -58,7 +58,7 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
 export interface TextBookViewUtilsInerface extends TypedEmitter<TextBookEventsType> {
   textBookModel: TextBookModelInterface;
   textBookView: TextBookViewInterface;
-  createTextBookMain (template: string): void
+  createTextBookMain(template: string): void;
   addReadMeListeners(): void;
   checkGamesBtnsColor(): void;
   checkActiveWordsBtns(wordID: string): void;

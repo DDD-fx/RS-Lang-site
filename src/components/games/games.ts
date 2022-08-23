@@ -65,5 +65,4 @@ class Games extends TypedEmitter {
   };
 }
 
-
 export { Games, history };

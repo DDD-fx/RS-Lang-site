@@ -2,12 +2,16 @@ import { TypedEmitter } from 'tiny-typed-emitter';
 import {
   TextBookEventsType,
   TextBookModelInterface,
-  TextBookViewInterface, TextBookViewUtilsInerface,
+  TextBookViewInterface,
+  TextBookViewUtilsInerface,
 } from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 import { getElement } from '../../utils/tools';
 
-export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implements TextBookViewUtilsInerface {
+export class TextBookViewUtils
+  extends TypedEmitter<TextBookEventsType>
+  implements TextBookViewUtilsInerface
+{
   textBookModel;
 
   textBookView;
@@ -22,7 +26,7 @@ export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implemen
     const mainWrapper = getElement('main__wrapper');
     mainWrapper.innerHTML = '';
     mainWrapper.insertAdjacentHTML('afterbegin', template);
-  }
+  };
 
   addReadMeListeners = (): void => {
     const readMeBtn = getElement('textbook-instructions-btn') as HTMLButtonElement;
@@ -37,11 +41,13 @@ export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implemen
       readMeBlock.classList.toggle('hide');
       readMeBlock.classList.toggle('overlay');
     });
-  }
+  };
 
   checkGamesBtnsColor = (): void => {
     const currGroup = `group-${LocalStorage.currUserSettings.currGroup}`;
-    const gameBtns = document.getElementsByClassName('textbook-games-btn') as HTMLCollectionOf<HTMLButtonElement>;
+    const gameBtns = document.getElementsByClassName(
+      'textbook-games-btn',
+    ) as HTMLCollectionOf<HTMLButtonElement>;
     [...gameBtns].forEach((btn) => btn.classList.add(currGroup));
   };
 
@@ -53,7 +59,9 @@ export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implemen
 
     const wordBtns = document.getElementsByClassName('words-btns__btn');
     if (wordID) {
-      const activeWordIdx = this.textBookModel.wordsChunk.map((word) => word.id).indexOf(`${wordID}`);
+      const activeWordIdx = this.textBookModel.wordsChunk
+        .map((word) => word.id)
+        .indexOf(`${wordID}`);
       if (activeWordIdx === -1) {
         wordBtns[0].classList.add('words-btns__btn--active');
       } else {
@@ -66,18 +74,24 @@ export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implemen
   };
 
   checkActiveWordCard = (): void => {
-    const activeWordIdx = this.textBookModel.wordsChunk.map((word) => word.id).indexOf(`${LocalStorage.currUserSettings.currWord}`);
+    const activeWordIdx = this.textBookModel.wordsChunk
+      .map((word) => word.id)
+      .indexOf(`${LocalStorage.currUserSettings.currWord}`);
     if (activeWordIdx === -1) {
       this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
     } else {
       this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
     }
-  }
+  };
 
   checkActiveDifficultyBtn = (activeGroupNum: number): void => {
-    const activeDifficultyBtns = document.getElementsByClassName('textbook-difficulty-group__btn--active');
+    const activeDifficultyBtns = document.getElementsByClassName(
+      'textbook-difficulty-group__btn--active',
+    );
     if (activeDifficultyBtns.length > 0) {
-      [...activeDifficultyBtns].forEach((btn) => btn.classList.remove('textbook-difficulty-group__btn--active'));
+      [...activeDifficultyBtns].forEach((btn) =>
+        btn.classList.remove('textbook-difficulty-group__btn--active'),
+      );
     }
     const difficultyBtns = document.getElementsByClassName('textbook-difficulty-group__btn');
     difficultyBtns[activeGroupNum].classList.add('textbook-difficulty-group__btn--active');

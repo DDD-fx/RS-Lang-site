@@ -1,7 +1,8 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import {
   TextBookEventsType,
-  TextBookModelInterface, TextBookViewInterface,
+  TextBookModelInterface,
+  TextBookViewInterface,
   UserTextBookViewInterface,
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
@@ -9,7 +10,10 @@ import { BIN_SVG, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate } from '../../components/textbook';
 import { LocalStorage } from '../../utils/storage';
 
-export class UserTextBookView extends TypedEmitter<TextBookEventsType> implements UserTextBookViewInterface {
+export class UserTextBookView
+  extends TypedEmitter<TextBookEventsType>
+  implements UserTextBookViewInterface
+{
   textBookModel;
 
   textBookView;
@@ -21,18 +25,19 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
   }
 
   drawDict = (/*userDictWords: WordsChunkType[]*/): void => {
-    this.textBookView.textBookViewUtils.createTextBookMain(renderDictTemplate())
+    this.textBookView.textBookViewUtils.createTextBookMain(renderDictTemplate());
     this.textBookView.textBookViewUtils.addReadMeListeners();
     this.addBackToTextBookListener();
 
     this.appendUserWordsBtns();
 
-    this.textBookView.textBookViewUtils.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
+    this.textBookView.textBookViewUtils.checkActiveWordsBtns(
+      LocalStorage.currUserSettings.currWord,
+    );
     this.textBookView.textBookViewUtils.checkActiveWordCard();
 
     this.textBookView.createPagination();
     this.textBookView.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
-
 
     console.log('userview');
   };
@@ -46,14 +51,16 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
   appendUserWordsBtns = (): void => {
     const wordsDiv = getElement('js-user-words');
     this.textBookModel.wordsChunk.forEach((wordData) => {
-      wordsDiv.append(this.textBookView.createWordsBtns({
-        id: wordData.id,
-        word: wordData.word,
-        wordTranslate: wordData.wordTranslate,
-        group: wordData.group,
-      }));
+      wordsDiv.append(
+        this.textBookView.createWordsBtns({
+          id: wordData.id,
+          word: wordData.word,
+          wordTranslate: wordData.wordTranslate,
+          group: wordData.group,
+        }),
+      );
     });
-  }
+  };
 
   createDifficultWordBtn = (): void => {
     const wordBtn = document.getElementsByClassName('words-btns__btn');
@@ -76,10 +83,10 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
   addBackToTextBookListener = (): void => {
     const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
     backToWordsBtn.addEventListener('click', () => this.textBookView.drawTextBook());
-  }
+  };
 
   addDictBtnListener = (): void => {
     const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;
-    dictBtn.addEventListener('click', () => this.emit.call(this.textBookView,'dictBtnClicked'));
+    dictBtn.addEventListener('click', () => this.emit.call(this.textBookView, 'dictBtnClicked'));
   };
 }

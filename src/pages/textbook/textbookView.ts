@@ -1,7 +1,9 @@
 import {
   TextBookEventsType,
   TextBookModelInterface,
-  TextBookViewInterface, TextBookViewUtilsInerface, UserTextBookViewInterface,
+  TextBookViewInterface,
+  TextBookViewUtilsInerface,
+  UserTextBookViewInterface,
   WordsBtnsType,
   WordsChunkType,
 } from '../../types/textbookTypes';
@@ -13,7 +15,10 @@ import { LocalStorage } from '../../utils/storage';
 import { UserTextBookView } from './userTextbookView';
 import { TextBookViewUtils } from './textBookViewUtils';
 
-export class TextBookView extends TypedEmitter<TextBookEventsType> implements TextBookViewInterface {
+export class TextBookView
+  extends TypedEmitter<TextBookEventsType>
+  implements TextBookViewInterface
+{
   textBookModel;
 
   userTextBookView: UserTextBookViewInterface;
@@ -25,7 +30,8 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
     this.textBookModel = textBookModel;
     this.userTextBookView = new UserTextBookView(textBookModel, this);
     this.textBookViewUtils = new TextBookViewUtils(textBookModel, this);
-    this.textBookModel.on('getTextBookList', () => this.drawTextBook())
+    this.textBookModel
+      .on('getTextBookList', () => this.drawTextBook())
       .on('getWordData', (word) => this.createWordCard(word))
       .on('getUserDict', (/*userDictWords*/) => this.userTextBookView.drawDict(/*userDictWords*/));
   }
@@ -51,9 +57,20 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
 
   createDifficultyBtns = (): void => {
     const levelsDiv = getElement('textbook-difficulty-group');
-    const levels = ['Beginner/Elementary', 'Pre Intermediate', 'Intermediate', 'Upper Intermediate', 'Advanced', 'Proficient'];
+    const levels = [
+      'Beginner/Elementary',
+      'Pre Intermediate',
+      'Intermediate',
+      'Upper Intermediate',
+      'Advanced',
+      'Proficient',
+    ];
     for (let i = 0; i < levels.length; i++) {
-      const difficultyBtn = createElement('button', ['textbook-difficulty-group__btn', `group-${i}`, 'js-textbook-difficulty-group__btn']);
+      const difficultyBtn = createElement('button', [
+        'textbook-difficulty-group__btn',
+        `group-${i}`,
+        'js-textbook-difficulty-group__btn',
+      ]);
       difficultyBtn.addEventListener('click', () => this.emit('groupBtnClicked', i));
 
       const difficultyBtnTitle = createElement('h3') as HTMLHeadingElement;
@@ -66,14 +83,16 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
   appendWordsBtns = (): void => {
     const wordsDiv = getElement('js-words-btns');
     this.textBookModel.wordsChunk.forEach((wordData) => {
-      wordsDiv.append(this.createWordsBtns({
-        id: wordData.id,
-        word: wordData.word,
-        wordTranslate: wordData.wordTranslate,
-        group: wordData.group,
-      }));
+      wordsDiv.append(
+        this.createWordsBtns({
+          id: wordData.id,
+          word: wordData.word,
+          wordTranslate: wordData.wordTranslate,
+          group: wordData.group,
+        }),
+      );
     });
-  }
+  };
 
   createWordsBtns = ({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement => {
     const wordBtn = createElement('div', ['words-btns__btn', `group-${group}`]) as HTMLDivElement;
@@ -119,10 +138,18 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
     const textExampleTranslate = createElement('p') as HTMLParagraphElement;
     textExampleTranslate.innerHTML = word.textExampleTranslate;
 
-    wordCard.append(wordImg, this.createTitleAudioBlock(wordTitle, this.createAudioBtn(word.audio)),
-      wordTranslate, transcription, this.createTitleAudioBlock(meaningTitle, this.createAudioBtn(word.audioMeaning)),
-      textMeaning, textMeaningTranslate, this.createTitleAudioBlock(exampleTitle, this.createAudioBtn(word.audioExample)),
-      textExample, textExampleTranslate);
+    wordCard.append(
+      wordImg,
+      this.createTitleAudioBlock(wordTitle, this.createAudioBtn(word.audio)),
+      wordTranslate,
+      transcription,
+      this.createTitleAudioBlock(meaningTitle, this.createAudioBtn(word.audioMeaning)),
+      textMeaning,
+      textMeaningTranslate,
+      this.createTitleAudioBlock(exampleTitle, this.createAudioBtn(word.audioExample)),
+      textExample,
+      textExampleTranslate,
+    );
   };
 
   createAudioBtn = (audio: string): HTMLButtonElement => {
@@ -131,7 +158,7 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
       (async () => {
         const audioElem = new Audio(baseURL + audio);
         await audioElem.play();
-      })().catch(err => console.error(err));
+      })().catch((err) => console.error(err));
     });
     return audioBtn;
   };
