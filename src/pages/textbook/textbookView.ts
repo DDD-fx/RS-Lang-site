@@ -2,6 +2,8 @@ import {
   TextBookEventsType,
   TextBookModelInterface,
   TextBookViewInterface,
+  TextBookViewUtilsInerface,
+  UserTextBookViewInterface,
   WordsBtnsType,
   WordsChunkType,
 } from '../../types/textbookTypes';
@@ -11,63 +13,64 @@ import { baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
 import { UserTextBookView } from './userTextbookView';
+import { TextBookViewUtils } from './textBookViewUtils';
 
-export class TextBookView extends TypedEmitter<TextBookEventsType> implements TextBookViewInterface {
+export class TextBookView
+  extends TypedEmitter<TextBookEventsType>
+  implements TextBookViewInterface
+{
   textBookModel;
 
-  userTextBookView;
+  userTextBookView: UserTextBookViewInterface;
+
+  textBookViewUtils: TextBookViewUtilsInerface;
 
   constructor(textBookModel: TextBookModelInterface) {
     super();
     this.textBookModel = textBookModel;
     this.userTextBookView = new UserTextBookView(textBookModel, this);
-    this.textBookModel.on('getTextBookList', () => this.drawTextBook())
+    this.textBookViewUtils = new TextBookViewUtils(textBookModel, this);
+    this.textBookModel
+      .on('getTextBookList', () => this.drawTextBook())
       .on('getWordData', (word) => this.createWordCard(word))
-      .on('getUserDict', () => this.userTextBookView.drawDict());
+      .on('getUserDict', (/*userDictWords*/) => this.userTextBookView.drawDict(/*userDictWords*/));
   }
 
   drawTextBook = (): void => {
-    this.createTextBookMain();
-    this.addReadMeListeners();
+    this.textBookViewUtils.createTextBookMain(renderTextbookTemplate());
+    this.textBookViewUtils.addReadMeListeners();
     this.createDifficultyBtns();
-    this.checkActiveDifficultyBtn(LocalStorage.currUserSettings.currGroup);
-    this.checkGamesBtns();
+    this.textBookViewUtils.checkActiveDifficultyBtn(LocalStorage.currUserSettings.currGroup);
+    this.textBookViewUtils.checkGamesBtnsColor();
 
-    const wordsDiv = getElement('js-words-btns');
-    this.textBookModel.wordsChunk.forEach((wordData) => {
-      wordsDiv.append(this.createWordsBtns({
-        word: wordData.word,
-        wordTranslate: wordData.wordTranslate,
-        id: wordData.id,
-        group: wordData.group,
-      }));
-    });
-    this.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
-    const activeWordIdx = this.textBookModel.wordsChunk.map((word) => word.id).indexOf(`${LocalStorage.currUserSettings.currWord}`);
-    if (activeWordIdx === -1) {
-      this.createWordCard(this.textBookModel.wordsChunk[0]);
-    } else {
-      this.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
-    }
+    this.appendWordsBtns();
+
+    this.textBookViewUtils.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
+    this.textBookViewUtils.checkActiveWordCard();
 
     this.createPagination();
-    this.checkActivePage(LocalStorage.currUserSettings.currPage);
+    this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
 
     // USER VIEW
     this.userTextBookView.drawUserTextBookView();
   };
 
-  createTextBookMain = (): void => {
-    const mainWrapper = getElement('main__wrapper');
-    mainWrapper.innerHTML = '';
-    mainWrapper.insertAdjacentHTML('afterbegin', renderTextbookTemplate());
-  };
-
   createDifficultyBtns = (): void => {
     const levelsDiv = getElement('textbook-difficulty-group');
-    const levels = ['Beginner/Elementary', 'Pre Intermediate', 'Intermediate', 'Upper Intermediate', 'Advanced', 'Proficient'];
+    const levels = [
+      'Beginner/Elementary',
+      'Pre Intermediate',
+      'Intermediate',
+      'Upper Intermediate',
+      'Advanced',
+      'Proficient',
+    ];
     for (let i = 0; i < levels.length; i++) {
-      const difficultyBtn = createElement('button', ['textbook-difficulty-group__btn', `group-${i}`, 'js-textbook-difficulty-group__btn']);
+      const difficultyBtn = createElement('button', [
+        'textbook-difficulty-group__btn',
+        `group-${i}`,
+        'js-textbook-difficulty-group__btn',
+      ]);
       difficultyBtn.addEventListener('click', () => this.emit('groupBtnClicked', i));
 
       const difficultyBtnTitle = createElement('h3') as HTMLHeadingElement;
@@ -77,11 +80,25 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
     }
   };
 
+  appendWordsBtns = (): void => {
+    const wordsDiv = getElement('js-words-btns');
+    this.textBookModel.wordsChunk.forEach((wordData) => {
+      wordsDiv.append(
+        this.createWordsBtns({
+          id: wordData.id,
+          word: wordData.word,
+          wordTranslate: wordData.wordTranslate,
+          group: wordData.group,
+        }),
+      );
+    });
+  };
+
   createWordsBtns = ({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement => {
     const wordBtn = createElement('div', ['words-btns__btn', `group-${group}`]) as HTMLDivElement;
     wordBtn.addEventListener('click', () => {
       this.emit('wordBtnClicked', id);
-      this.checkActiveWordsBtns(id);
+      this.textBookViewUtils.checkActiveWordsBtns(id);
     });
 
     const wordTitle = createElement('h3', 'word-btn-title') as HTMLHeadingElement;
@@ -121,10 +138,18 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
     const textExampleTranslate = createElement('p') as HTMLParagraphElement;
     textExampleTranslate.innerHTML = word.textExampleTranslate;
 
-    wordCard.append(wordImg, this.createTitleAudioBlock(wordTitle, this.createAudioBtn(word.audio)),
-      wordTranslate, transcription, this.createTitleAudioBlock(meaningTitle, this.createAudioBtn(word.audioMeaning)),
-      textMeaning, textMeaningTranslate, this.createTitleAudioBlock(exampleTitle, this.createAudioBtn(word.audioExample)),
-      textExample, textExampleTranslate);
+    wordCard.append(
+      wordImg,
+      this.createTitleAudioBlock(wordTitle, this.createAudioBtn(word.audio)),
+      wordTranslate,
+      transcription,
+      this.createTitleAudioBlock(meaningTitle, this.createAudioBtn(word.audioMeaning)),
+      textMeaning,
+      textMeaningTranslate,
+      this.createTitleAudioBlock(exampleTitle, this.createAudioBtn(word.audioExample)),
+      textExample,
+      textExampleTranslate,
+    );
   };
 
   createAudioBtn = (audio: string): HTMLButtonElement => {
@@ -133,7 +158,7 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
       (async () => {
         const audioElem = new Audio(baseURL + audio);
         await audioElem.play();
-      })().catch(err => console.error(err));
+      })().catch((err) => console.error(err));
     });
     return audioBtn;
   };
@@ -154,63 +179,4 @@ export class TextBookView extends TypedEmitter<TextBookEventsType> implements Te
       prevPage.append(pageBtn);
     }
   };
-
-  checkGamesBtns = (): void => {
-    const currGroup = `group-${LocalStorage.currUserSettings.currGroup}`;
-    const gameBtns = document.getElementsByClassName('textbook-games-btn') as HTMLCollectionOf<HTMLButtonElement>;
-    [...gameBtns].forEach((btn) => btn.classList.add(currGroup));
-  };
-
-  checkActiveWordsBtns = (wordID: string): void => {
-    const activeWordBtns = document.getElementsByClassName('words-btns__btn--active');
-    if (activeWordBtns.length > 0) {
-      [...activeWordBtns].forEach((btn) => btn.classList.remove('words-btns__btn--active'));
-    }
-
-    const wordBtns = document.getElementsByClassName('words-btns__btn');
-    if (wordID) {
-      const activeWordIdx = this.textBookModel.wordsChunk.map((word) => word.id).indexOf(`${wordID}`);
-      if (activeWordIdx === -1) {
-        wordBtns[0].classList.add('words-btns__btn--active');
-      } else {
-        wordBtns[activeWordIdx].classList.add('words-btns__btn--active');
-      }
-    } else {
-      const firstWordBtn = getElement('words-btns__btn');
-      firstWordBtn.classList.add('words-btns__btn--active');
-    }
-  };
-
-  checkActiveDifficultyBtn = (activeGroupNum: number): void => {
-    const activeDifficultyBtns = document.getElementsByClassName('textbook-difficulty-group__btn--active');
-    if (activeDifficultyBtns.length > 0) {
-      [...activeDifficultyBtns].forEach((btn) => btn.classList.remove('textbook-difficulty-group__btn--active'));
-    }
-    const difficultyBtns = document.getElementsByClassName('textbook-difficulty-group__btn');
-    difficultyBtns[activeGroupNum].classList.add('textbook-difficulty-group__btn--active');
-  };
-
-  checkActivePage = (currPage: number): void => {
-    const activePagesBtns = document.getElementsByClassName('pagination__page-btn--active');
-    if (activePagesBtns.length > 0) {
-      [...activePagesBtns].forEach((btn) => btn.classList.remove('pagination__page-btn--active'));
-    }
-    const pagesBtns = document.getElementsByClassName('pagination__page-btn');
-    pagesBtns[currPage].classList.add('pagination__page-btn--active');
-  };
-
-  addReadMeListeners(): void {
-    const readMeBtn = getElement('textbook-instructions-btn') as HTMLButtonElement;
-    const readMeBlock = getElement('textbook-readme-block') as HTMLDivElement;
-    readMeBtn.addEventListener('click', () => {
-      readMeBlock.classList.toggle('hide');
-      readMeBlock.classList.toggle('overlay');
-    });
-
-    const closeReadmeBtn = getElement('close-readme-btn') as HTMLButtonElement;
-    closeReadmeBtn.addEventListener('click', () => {
-      readMeBlock.classList.toggle('hide');
-      readMeBlock.classList.toggle('overlay');
-    });
-  }
 }
