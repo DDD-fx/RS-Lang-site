@@ -1,4 +1,4 @@
-export const renderTextbookTemplate = () => `
+export const renderTextbookTemplate = (): string => `
 <!--<div class="img-x15">
     <img src="../assets/skat.svg" alt="">
 </div>-->
@@ -32,7 +32,7 @@ export const renderTextbookTemplate = () => `
 </div>
 `;
 
-export const renderDictTemplate = () => `
+export const renderDictTemplate = (): string => `
   <div class='textbook-title-wrapper'>
     <button class='textbook-instructions-btn js-textbook-instructions-btn'>Readme</button>
     <button class='textbook-title-btn'>Вернуться Учебник</button>
