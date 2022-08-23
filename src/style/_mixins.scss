@@ -14,3 +14,18 @@
     box-shadow: $active-shadow;
   }
 }
+
+@mixin textbook-btns-common {
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+@mixin disabled-btn {
+  &:hover {
+    cursor: auto;
+    background-color: $btn-disabled;
+    box-shadow: none;
+  }
+}

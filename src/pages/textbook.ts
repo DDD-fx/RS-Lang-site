@@ -1,5 +1,5 @@
 import { getElement } from '../utils/tools';
-import renderTextbookTemplate from '../components/textbook';
+import { renderTextbookTemplate } from '../components/textbook';
 
 class Textbook {
   render = () => {
