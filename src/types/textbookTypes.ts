@@ -37,7 +37,7 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   createWordsBtns({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement;
   createWordCard(word: WordsChunkType): void;
   createAudioBtn(audio: string): HTMLButtonElement;
-  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement
+  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement;
   createPagination(): void;
   checkGamesBtns(): void;
   checkActiveWordsBtns(wordID: string): void;
