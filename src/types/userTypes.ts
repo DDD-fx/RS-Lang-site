@@ -29,7 +29,10 @@ type CreateUserErrorsType = {
   message: string;
 };
 
-
-
-
-export { CreateUserType, UserLoginType, UserSuccessLoginType, CreateUserResponseType,CreateUserErrorsType };
+export {
+  CreateUserType,
+  UserLoginType,
+  UserSuccessLoginType,
+  CreateUserResponseType,
+  CreateUserErrorsType,
+};

@@ -27,5 +27,5 @@ export type UserSettingsType = {
   currPage: number;
   currGroup: number;
   currWord: string;
-  userId: string
+  userId: string;
 };
