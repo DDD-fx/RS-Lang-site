@@ -1,4 +1,4 @@
-import { createElement, getElement } from '../../utils/tools';
+import { createElement } from '../../utils/tools';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 import { TypedEmitter } from 'tiny-typed-emitter';
@@ -64,5 +64,6 @@ class Games extends TypedEmitter {
     });
   };
 }
+
 
 export { Games, history };

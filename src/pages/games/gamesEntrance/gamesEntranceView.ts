@@ -1,9 +1,5 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import {
-  GamesEntranceEventType,
-  GamesEntranceModelInterface,
-  GamesEntranceViewInterface,
-} from '../../../types/types';
+import { GamesEntranceEventType, GamesEntranceModelInterface, GamesEntranceViewInterface } from '../../../types/gamesTypes';
 import { createElement } from '../../../utils/tools';
 
 export class GamesEntranceView

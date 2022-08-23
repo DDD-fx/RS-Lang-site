@@ -1,26 +1,40 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import {
   TextBookEventsType,
-  TextBookModelInterface,
+  TextBookModelInterface, TextBookViewInterface,
   UserTextBookViewInterface,
 } from '../../types/textbookTypes';
-import { createElement } from '../../utils/tools';
+import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, STAR_SVG } from '../../utils/constants';
+import { renderDictTemplate } from '../../components/textbook';
 
-export class UserTextBookView
-  extends TypedEmitter<TextBookEventsType>
-  implements UserTextBookViewInterface
-{
-  textBookModel: TextBookModelInterface;
+export class UserTextBookView extends TypedEmitter<TextBookEventsType> implements UserTextBookViewInterface {
+  textBookModel;
 
-  constructor(textBookModel: TextBookModelInterface) {
+  textBookView;
+
+  constructor(textBookModel: TextBookModelInterface, textBookView: TextBookViewInterface) {
     super();
     this.textBookModel = textBookModel;
+    this.textBookView = textBookView;
   }
+
+  drawDict = (): void => {
+    const mainWrapper = getElement('main__wrapper');
+    mainWrapper.innerHTML = '';
+    mainWrapper.insertAdjacentHTML('afterbegin', renderDictTemplate());
+    this.textBookView.addReadMeListeners();
+
+    const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
+    backToWordsBtn.addEventListener('click', () => this.textBookView.drawTextBook());
+
+    console.log('userview');
+  };
 
   drawUserTextBookView = (): void => {
     this.createDifficultWordBtn();
     this.createDeleteWordBtn();
+    this.addDictBtnListener();
   };
 
   createDifficultWordBtn = (): void => {
@@ -39,5 +53,10 @@ export class UserTextBookView
       wordBtnBin.innerHTML = BIN_SVG;
       btn.append(wordBtnBin);
     });
+  };
+
+  addDictBtnListener = (): void => {
+    const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;
+    dictBtn.addEventListener('click', () => this.emit.call(this.textBookView,'dictBtnClicked'));
   };
 }

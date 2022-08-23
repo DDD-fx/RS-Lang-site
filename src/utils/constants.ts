@@ -1,4 +1,5 @@
-import { AudioChallengeGameType, UserSettingsType } from '../types/types';
+import { AudioChallengeGameType } from '../types/gamesTypes';
+import { UserSettingsType } from '../types/types';
 
 export const baseURL = 'https://react-rslang-be-13.herokuapp.com/';
 // 'https://react-rslang-be-13.herokuapp.com/';
@@ -21,6 +22,9 @@ export const DEFAULT_USER_NAME = 'default-user';
 export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   level: 0,
   wordsPerPage: 5,
+  page: 0,
+  wordCount: 0,
+  soundingWordId: '',
 };
 
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>

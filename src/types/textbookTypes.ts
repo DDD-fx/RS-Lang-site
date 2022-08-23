@@ -1,14 +1,23 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 export type TextBookEventsType = {
-  textBookBtnClicked: () => void;
-  pageBtnClicked: (page: number) => void;
-  groupBtnClicked: (group: number) => void;
-  wordBtnClicked: (id: string) => void;
+  pageBtnClicked: (page: number) => void,
+  groupBtnClicked: (group: number) => void,
+  wordBtnClicked: (id: string) => void,
+  dictBtnClicked: () => void,
 
-  getTextBookList: () => void;
-  getWordData: (word: WordsChunkType) => void;
-};
+  getTextBookList: () => void,
+  getWordData: (word: WordsChunkType) => void,
+  getUserDict: () => void,
+}
+
+export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
+  wordsChunk: WordsChunkType[];
+  firstLoad(): Promise<void>;
+  getTextBookList(query: string): Promise<void>;
+  getWordData(word: WordsChunkType): void;
+  getUserDictWords(query: string): void;
+}
 
 export interface TextBookControllerInterface {
   textBookModel: TextBookModelInterface;
@@ -17,11 +26,13 @@ export interface TextBookControllerInterface {
   changeTextBookPage(page: number): void;
   changeTextBookGroup(group: number): void;
   getWordData(id: string): void;
+  getUserDictWords(): void;
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
   textBookModel: TextBookModelInterface;
-  drawTextBook(wordsChunk: WordsChunkType): void;
+  drawTextBook(): void;
+  createTextBookMain(): void;
   createDifficultyBtns(): void;
   createWordsBtns({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement;
   createWordCard(word: WordsChunkType): void;
@@ -32,20 +43,17 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   checkActiveWordsBtns(wordID: string): void;
   checkActiveDifficultyBtn(activeGroupNum: number): void;
   checkActivePage(currPage: number): void;
+  addReadMeListeners(): void;
 }
 
 export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsType> {
   textBookModel: TextBookModelInterface;
+  textBookView: TextBookViewInterface;
+  drawDict(userDictWords: WordsChunkType[]): void;
   drawUserTextBookView(): void;
   createDifficultWordBtn(): void;
   createDeleteWordBtn(): void;
-}
-
-export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
-  wordsChunk: WordsChunkType[];
-  firstLoad(): Promise<void>;
-  getTextBookList(query: string): Promise<void>;
-  getWordData(word: WordsChunkType): void;
+  addDictBtnListener(): void;
 }
 
 export type WordsChunkType = {

@@ -1,9 +1,39 @@
 @import 'mixins';
 @import 'variables';
 
+
+.textbook-title-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 30px;
+}
+
+.textbook-instructions-btn {
+  @include textbook-btns-effects;
+  @include textbook-btns-common;
+  color: darkred;
+}
+
+.textbook-dictionary,
+.textbook-title-btn {
+  @include textbook-btns-effects;
+  @include textbook-btns-common;
+
+  &[disabled] {
+    &:hover {
+      @include disabled-btn
+    }
+  }
+}
+
 .textbook-title,
 .textbook-subtitle {
-  text-align: center;
+  margin: 0;
+}
+
+.textbook-subtitle {
+ font-weight: bolder;
 }
 
 .textbook-difficulty-group {
@@ -12,6 +42,17 @@
   justify-content: center;
   gap: 20px;
   padding-top: 20px;
+
+  @media (max-width: 750px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr) minmax(180px, 1fr));
+    font-size: 0.8em;
+    gap: 10px;
+  }
+
+  @media (max-width: 450px) {
+    grid-template-columns: auto;
+  }
 
   &__btn {
     border-radius: 10px;
@@ -53,28 +94,46 @@
   align-items: center;
   padding-top: 30px;
   gap: 20px;
+
+  @media (max-width: 450px) {
+    gap: 10px;
+  }
 }
 
 .textbook-games-btn {
   @include textbook-btns-effects;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 1.17em;
-  font-weight: bold;
+  @include textbook-btns-common;
+
+  @media (max-width: 750px) {
+    font-size: 0.9em;
+  }
 }
 
 .textbook-words {
   display: flex;
   gap: 30px;
-  justify-content: space-between;
+
+  @media (max-width: 550px) {
+    gap: 15px;
+    font-size: 0.9em;
+  }
 }
 
 .words-btns {
   display: grid;
   gap: 15px;
-  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(237px, 1fr));
   grid-auto-rows: minmax(min-content, 80px);
-  flex: 1 1 60%;
+  flex: 1 0 60%;
+
+  @media (max-width: 994px) {
+    flex: 1 0 40%;
+  }
+
+  @media (max-width: 765px) {
+    grid-template-columns: minmax(100px, auto);
+    overflow-wrap: anywhere;
+  }
 
   &__btn {
     @include textbook-btns-effects;
@@ -82,11 +141,21 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     color: black;
     border-radius: 5px;
     cursor: pointer;
+    padding: 10px 40px 10px 10px;
   }
+}
+
+.word-btn-title,
+.word-btn-translate {
+  margin: 0;
+}
+
+.word-btn-title {
+  padding-bottom: 10px;
 }
 
 .word-btn-translate {
@@ -98,7 +167,7 @@
   top: 5px;
   right: 5px;
   z-index: 10;
-  width: 12%;
+  width: 25px;
 }
 
 .star-svg {
@@ -114,7 +183,7 @@
   bottom: 5px;
   right: 5px;
   z-index: 10;
-  width: 12%;
+  width: 25px;
 }
 
 .bin-svg {
@@ -128,10 +197,17 @@
 .word-description {
   min-height: 700px;
   flex: 1 1 40%;
+  align-self: flex-start;
+
+  @media (max-width: 994px) {
+    flex: 1 1 60%;
+    position: sticky;
+    top: 20px;
+  }
 }
 
 .word-image {
-  width: clamp(150px, 30vw, 400px);
+  width: 100%;
   border-radius: 20px;
   margin-bottom: 20px;
 }
@@ -171,4 +247,29 @@
       box-shadow: none;
     }
   }
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: rgba(82, 82, 82, 0.95);
+  display: flex;
+  justify-content: center;
+}
+
+.instructions {
+  margin-top: 100px;
+
+}
+
+.close-readme-btn {
+  @include textbook-btns-effects;
+  @include textbook-btns-common;
+  position: absolute;
+  top: 30px;
+  right: 30px;
 }
