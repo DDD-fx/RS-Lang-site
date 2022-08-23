@@ -61,7 +61,7 @@
 
 .game-section__word {
   text-align: center;
-  line-height: 1.5rem;
+  line-height: 2.5rem;
   margin-left: 1%;
   font-size: 2rem;
   &:hover {
@@ -82,4 +82,8 @@
   background-color: transparent;
   border: none;
   color: var(--white);
+}
+
+.hidden {
+  display: none;
 }

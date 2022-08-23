@@ -1,8 +1,8 @@
-import {
-  GamesEntranceControllerInterface,
-  GamesEntranceModelInterface,
-  GamesEntranceViewInterface,
-} from "../../../types/types";
+import { GamesEntranceControllerInterface, GamesEntranceModelInterface, GamesEntranceViewInterface } from "../../../types/gamesTypes";
+import { AudioChallengeController } from "../audioChallengeGame/audioChallengeGameController";
+import { AudioChallengeModel } from "../audioChallengeGame/audioChallengeGameModel";
+import { AudioChallengeView } from "../audioChallengeGame/audioChallengeGameView";
+
 
 export default class GamesEntranceController
   implements GamesEntranceControllerInterface {
@@ -22,8 +22,12 @@ export default class GamesEntranceController
       .on('gameOptionClicked', (i) => this.addGameLevel(i))
   }
 
-  startAudioChallengeGame = () =>{
-    this.gamesEntranceModel.startAudioChallengeGame();
+  startAudioChallengeGame = async () =>{
+    const audioChallengeModel = new AudioChallengeModel();
+    const audioChallengeView = new AudioChallengeView(audioChallengeModel);
+    const audioChallengeController = new AudioChallengeController(audioChallengeModel, audioChallengeView);
+    await audioChallengeController.getWordsList();
+    audioChallengeView.drawAudioChallengeGame();
   };
 
   startSprintGame = () => {
