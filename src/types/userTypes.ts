@@ -1,15 +1,15 @@
-type User = {
+type CreateUserType = {
   name?: string;
   email: string;
   password: string;
 };
 
-type UserLogin = {
+type UserLoginType = {
   email: string;
   password: string;
 };
 
-type UserSuccessLogin = {
+type UserSuccessLoginType = {
   message: 'string';
   token: 'string';
   refreshToken: 'string';
@@ -17,4 +17,19 @@ type UserSuccessLogin = {
   name: 'string';
 };
 
-export { User, UserLogin, UserSuccessLogin };
+type CreateUserResponseType = {
+  error: {
+    status: 'failed' | 'OK';
+    errors: CreateUserErrorsType[];
+  };
+};
+
+type CreateUserErrorsType = {
+  path: string[];
+  message: string;
+};
+
+
+
+
+export { CreateUserType, UserLoginType, UserSuccessLoginType, CreateUserResponseType,CreateUserErrorsType };

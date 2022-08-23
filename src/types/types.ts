@@ -23,8 +23,9 @@ export type UserSettingsType = {
   avatarURL: string;
   token: string;
   refreshToken: string;
-  stats: string; //obj?
+  //stats: string; //obj?
   currPage: number;
   currGroup: number;
   currWord: string;
+  userId: string
 };

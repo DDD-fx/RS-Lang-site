@@ -47,7 +47,7 @@ export class LocalStorage {
       userID === DEFAULT_USER_NAME &&
       JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)
     ) {
-      LocalStorage.createLocalKey(DEFAULT_USER_NAME);
+      LocalStorage.createLocalKey(DEFAULT_USER_NAME);                          //эта строчка лишняя
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
     }
   };

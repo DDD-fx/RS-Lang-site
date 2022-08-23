@@ -1,7 +1,7 @@
-import { User, UserLogin } from '../../types/userTypes';
+import { CreateUserType, UserLoginType } from '../../types/userTypes';
 import { baseURL } from '../../utils/constants';
 
-const createUser = async (user: User) => {
+const createUser = async (user:CreateUserType) => {
   //типизировать!!!
   try {
     const rawResponse = await fetch(`${baseURL}users`, {
@@ -18,7 +18,7 @@ const createUser = async (user: User) => {
   } catch (error) {}
 };
 
-const loginUser = async (user: UserLogin) => {
+const loginUser = async (user: UserLoginType) => {
   //типизировать!!!
   try {
     const rawResponse = await fetch(`${baseURL}signin`, {
