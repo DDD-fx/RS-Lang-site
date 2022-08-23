@@ -1,6 +1,6 @@
 import UniversalRouter from 'universal-router';
 import { Routes, HistoryLocation } from '../types/types';
-import { history } from '../components/nav';
+import history from '../index';
 
 class Router {
   routes;

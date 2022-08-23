@@ -3,7 +3,6 @@ import App from './pages/main/controller';
 import Router from './utils/router';
 import { getElement } from './utils/tools';
 import { Routes } from './types/types';
-import { history } from './components/nav';
 import { TextBookController } from './pages/textbook/textbookController';
 import { TextBookModel } from './pages/textbook/textbookModel';
 import { TextBookView } from './pages/textbook/textbookView';
@@ -12,13 +11,20 @@ import { GamesEntranceView } from './pages/games/gamesEntrance/gamesEntranceView
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
 import { GamesEntranceModel } from './pages/games/gamesEntrance/gamesEntranceModel';
 import { LocalStorage } from './utils/storage';
-import { DEFAULT_USER_NAME } from './utils/constants';
+import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
+import { createBrowserHistory } from 'history';
+import Nav from './components/nav';
+
+import Login from './pages/login/loginController';
+
+const history = createBrowserHistory();
 
 LocalStorage.initLS('' || DEFAULT_USER_NAME);
 
 const app = new App();
 app.init();
 
+const login = new Login();
 
 void (async function textbook() {
   const textBookModel = new TextBookModel();
@@ -62,7 +68,7 @@ void (async function textbook() {
           main.innerHTML = '';
           main.append(gamesEntranceView.buildSprintHTML());
         });
-      }
+      },
     },
     {
       path: '/audiochallenge',
@@ -85,9 +91,25 @@ void (async function textbook() {
     {
       path: '/login',
       action: () => {
-        main.innerHTML = '<h1>Not Found</h1>';
+        login.view.renderLoginForm();
+      },
+    },
+    {
+      path: '/logout',
+      action: () => {
+        LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
+        history.push('/');
+        new Nav(getElement('header') as HTMLElement).render();
+      },
+    },
+    {
+      path: '/auth',
+      action: () => {
+        login.view.renderRegForm();
       },
     },
   ];
   new Router(routes).render(history.location).catch((err) => console.error(err));
 })();
+
+export default history;

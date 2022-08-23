@@ -2,8 +2,10 @@ import { TypedEmitter } from 'tiny-typed-emitter';
 import { GamesEntranceEventType, GamesEntranceModelInterface, GamesEntranceViewInterface } from '../../../types/gamesTypes';
 import { createElement } from '../../../utils/tools';
 
-export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
-  implements GamesEntranceViewInterface {
+export class GamesEntranceView
+  extends TypedEmitter<GamesEntranceEventType>
+  implements GamesEntranceViewInterface
+{
   gamesEntranceModel: GamesEntranceModelInterface;
 
   constructor(gamesEntranceModel: GamesEntranceModelInterface) {
@@ -18,7 +20,7 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
     gameInfoBox.append(
       this.createSprintDescription(),
       this.createSelect(),
-      this.createSprintStartButton()
+      this.createSprintStartButton(),
     );
     gameWrapper.append(this.createSprintTitle(), gameInfoBox);
     game.append(gameWrapper, this.createSprintImage());
@@ -32,7 +34,7 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
     gameInfoBox.append(
       this.createAudioChallengeDescription(),
       this.createSelect(),
-      this.createAudioChallengeStartButton()
+      this.createAudioChallengeStartButton(),
     );
     gameWrapper.append(this.createAudioChallengeTitle(), gameInfoBox);
     game.append(gameWrapper, this.createAudioChallengeImage());
@@ -49,7 +51,7 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
     }
     selectElem.addEventListener('change', () => {
       const level = parseInt((selectElem as HTMLSelectElement).value.slice(0, 1));
-      return this.emit('gameOptionClicked', level)
+      return this.emit('gameOptionClicked', level);
     });
     return selectElem;
   };
@@ -64,19 +66,13 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
   };
 
   createSprintTitle = () => {
-    const titleElem = createElement('h1', [
-      'game-entrance__title',
-      'game-entrance__title_sprint',
-    ]);
+    const titleElem = createElement('h1', ['game-entrance__title', 'game-entrance__title_sprint']);
     titleElem.textContent = 'Спринт';
     return titleElem;
   };
 
   createSprintStartButton = () => {
-    const startBtn = createElement('button', [
-      'game-start-btn',
-      'game-start-btn_sprint',
-    ]);
+    const startBtn = createElement('button', ['game-start-btn', 'game-start-btn_sprint']);
     startBtn.textContent = 'Начать';
     startBtn.addEventListener('click', () => {
       this.emit('sprintGameStarted');
@@ -85,10 +81,7 @@ export class GamesEntranceView extends TypedEmitter<GamesEntranceEventType>
   };
 
   createAudioChallengeStartButton = () => {
-    const startBtn = createElement('button', [
-      'game-start-btn',
-      'game-start-btn_audio-challenge',
-    ]);
+    const startBtn = createElement('button', ['game-start-btn', 'game-start-btn_audio-challenge']);
     startBtn.textContent = 'Начать';
     startBtn.addEventListener('click', () => {
       this.emit('audioChallengeGameStarted');
