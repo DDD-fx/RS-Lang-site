@@ -7,6 +7,7 @@ import {
 import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate } from '../../components/textbook';
+import { LocalStorage } from '../../utils/storage';
 
 export class UserTextBookView extends TypedEmitter<TextBookEventsType> implements UserTextBookViewInterface {
   textBookModel;
@@ -19,14 +20,19 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
     this.textBookView = textBookView;
   }
 
-  drawDict = (): void => {
-    const mainWrapper = getElement('main__wrapper');
-    mainWrapper.innerHTML = '';
-    mainWrapper.insertAdjacentHTML('afterbegin', renderDictTemplate());
-    this.textBookView.addReadMeListeners();
+  drawDict = (/*userDictWords: WordsChunkType[]*/): void => {
+    this.textBookView.textBookViewUtils.createTextBookMain(renderDictTemplate())
+    this.textBookView.textBookViewUtils.addReadMeListeners();
+    this.addBackToTextBookListener();
 
-    const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
-    backToWordsBtn.addEventListener('click', () => this.textBookView.drawTextBook());
+    this.appendUserWordsBtns();
+
+    this.textBookView.textBookViewUtils.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
+    this.textBookView.textBookViewUtils.checkActiveWordCard();
+
+    this.textBookView.createPagination();
+    this.textBookView.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
+
 
     console.log('userview');
   };
@@ -36,6 +42,18 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
     this.createDeleteWordBtn();
     this.addDictBtnListener();
   };
+
+  appendUserWordsBtns = (): void => {
+    const wordsDiv = getElement('js-user-words');
+    this.textBookModel.wordsChunk.forEach((wordData) => {
+      wordsDiv.append(this.textBookView.createWordsBtns({
+        id: wordData.id,
+        word: wordData.word,
+        wordTranslate: wordData.wordTranslate,
+        group: wordData.group,
+      }));
+    });
+  }
 
   createDifficultWordBtn = (): void => {
     const wordBtn = document.getElementsByClassName('words-btns__btn');
@@ -54,6 +72,11 @@ export class UserTextBookView extends TypedEmitter<TextBookEventsType> implement
       btn.append(wordBtnBin);
     });
   };
+
+  addBackToTextBookListener = (): void => {
+    const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
+    backToWordsBtn.addEventListener('click', () => this.textBookView.drawTextBook());
+  }
 
   addDictBtnListener = (): void => {
     const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;

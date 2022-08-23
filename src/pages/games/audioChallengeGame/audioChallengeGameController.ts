@@ -16,10 +16,10 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       .on('nextBtnClicked', () => this.turnGamePage())
       .on('wordsAreOver', () => this.changeSettingsPage())
   }
-  
-  getWordsList = async () => {
+
+  getWordsList = () => {
     const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${AUDIOCHALLENGE_GAME_SETTINGS.page}`;
-    await this.audioChallengeModel.getWordsList(query);
+    this.audioChallengeModel.getWordsList(query);
   }
 
   getWordData = (id: string) => {

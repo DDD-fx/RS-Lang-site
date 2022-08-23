@@ -28,18 +28,24 @@ export const renderTextbookTemplate = (): string => `
     <section class='words-btns js-words-btns'></section>
     <article class='word-description js-word-description'></article>
 </div>
-<div class='pagination js-pagination'>    <!--30 страниц-->
-</div>
+<div class='pagination js-pagination'></div>    <!--30 страниц-->
 `;
 
 export const renderDictTemplate = (): string => `
   <div class='textbook-title-wrapper'>
     <button class='textbook-instructions-btn js-textbook-instructions-btn'>Readme</button>
-    <button class='textbook-title-btn'>Вернуться Учебник</button>
+    <button class='textbook-title-btn'>Вернуться в учебник</button>
     <button class='textbook-dictionary js-textbook-dictionary' disabled>Сложные слова</button>
   </div>
   <div class='textbook-readme-block hide'>
     <button class='close-readme-btn'>Зыкрыть</button>
     <h2 class='instructions'>Руководство</h2>
   </div>
+  
+  <h2 class='words-title'>Сложные слова:</h2>
+  <div class='textbook-words js-textbook-words'>  <!--20 слов-->
+    <section class='words-btns js-words-btns user-words js-user-words'></section>
+    <article class='word-description js-word-description'></article>
+  </div>
+  <div class='pagination js-pagination'></div>    <!--30 страниц-->
 `;

@@ -22,11 +22,11 @@ export default class GamesEntranceController
       .on('gameOptionClicked', (i) => this.addGameLevel(i))
   }
 
-  startAudioChallengeGame = async () =>{
+  startAudioChallengeGame = () => {
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
     const audioChallengeController = new AudioChallengeController(audioChallengeModel, audioChallengeView);
-    await audioChallengeController.getWordsList();
+    audioChallengeController.getWordsList();
     audioChallengeView.drawAudioChallengeGame();
   };
 
