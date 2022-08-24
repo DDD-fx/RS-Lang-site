@@ -36,7 +36,7 @@ class LoginForm {
   }
 
   render = () => {
-    return this.regForm; //getElement(parent).append(this.nav);
+    return this.regForm;
   };
 
   bind = (handler: (form: HTMLFormElement) => void) => {

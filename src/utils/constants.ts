@@ -12,10 +12,10 @@ export const DEFAULT_USER_SETTINGS: UserSettingsType = {
   avatarURL: '',
   token: '',
   refreshToken: '',
-  stats: '',
   currPage: 0,
   currGroup: 0,
   currWord: '',
+  userId: '',
 };
 export const DEFAULT_USER_NAME = 'default-user';
 

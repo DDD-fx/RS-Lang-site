@@ -1,4 +1,3 @@
-import Model from '../../model/model';
 import { getElement } from '../../utils/tools';
 import LoginForm from '../../components/loginForm';
 import RegForm from '../../components/registerForm';
