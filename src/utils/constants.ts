@@ -19,6 +19,8 @@ export const DEFAULT_USER_SETTINGS: UserSettingsType = {
 };
 export const DEFAULT_USER_NAME = 'default-user';
 
+export const WORDS_PER_TEXTBOOK_PAGE = 20;
+
 export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   level: 0,
   wordsPerPage: 5,

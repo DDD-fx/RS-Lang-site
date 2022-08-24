@@ -24,14 +24,14 @@ export default class GamesEntranceController implements GamesEntranceControllerI
       .on('gameOptionClicked', (i) => this.addGameLevel(i));
   }
 
-  startAudioChallengeGame = () => {
+  startAudioChallengeGame = async () => {
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
     const audioChallengeController = new AudioChallengeController(
       audioChallengeModel,
       audioChallengeView,
     );
-    audioChallengeController.getWordsList();
+    await audioChallengeController.getWordsList();
     audioChallengeView.drawAudioChallengeGame();
   };
 
