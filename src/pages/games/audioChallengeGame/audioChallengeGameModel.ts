@@ -20,13 +20,13 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     this.wordsChunk = (await data.json()) as WordsChunkType[];
   };
 
-  turnGamePage = () => {
+  turnGamePage = (): void => {
     AUDIOCHALLENGE_GAME_SETTINGS.wordCount += AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
     this.emit('drawGameBtns');
     console.log(AUDIOCHALLENGE_GAME_SETTINGS.wordCount);
   };
 
-  changeSettingsPage = () => {
+  changeSettingsPage = (): void => {
     if (AUDIOCHALLENGE_GAME_SETTINGS.page < MAX_TEXTBOOK_PAGES) {
       AUDIOCHALLENGE_GAME_SETTINGS.page += 1;
       AUDIOCHALLENGE_GAME_SETTINGS.wordCount = 0;
@@ -40,7 +40,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     console.log(AUDIOCHALLENGE_GAME_SETTINGS.wordCount);
   };
 
-  getNewPage = async () => {
+  getNewPage = async (): Promise<void> => {
     const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${AUDIOCHALLENGE_GAME_SETTINGS.page}`;
     await this.getWordsList(query);
     this.emit('turnThePage');
