@@ -7,13 +7,12 @@ import {
   GamesEventsType,
   WordBtnType,
 } from '../../../types/gamesTypes';
-import {
-  AUDIOCHALLENGE_GAME_SETTINGS,
-  baseURL,
-} from '../../../utils/constants';
+import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
 
-export class AudioChallengeView extends TypedEmitter<GamesEventsType>
-  implements AudioChallengeViewInterface {
+export class AudioChallengeView
+  extends TypedEmitter<GamesEventsType>
+  implements AudioChallengeViewInterface
+{
   audioChallengeModel: AudioChallengeModelInterface;
 
   constructor(audioChallengeModel: AudioChallengeModelInterface) {
@@ -42,9 +41,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
     wordsWrapper.innerHTML = '';
     for (
       let i = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
-      i <
-      AUDIOCHALLENGE_GAME_SETTINGS.wordCount +
-        AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
+      i < AUDIOCHALLENGE_GAME_SETTINGS.wordCount + AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
       i += 1
     ) {
       if (this.audioChallengeModel.wordsChunk[i]) {
@@ -61,7 +58,6 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
         this.emit('wordsAreOver');
       }
     }
-
     const soundingWord = this.audioChallengeModel.wordsChunk[randomWord]?.word;
     this.createAnswerWrapper(soundingWord);
     this.createSpeakerWrapper(soundingWord);
@@ -70,9 +66,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
 
   selectRandomSoundingWord = () => {
     const min = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
-    const max =
-      AUDIOCHALLENGE_GAME_SETTINGS.wordCount +
-      AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
+    const max = AUDIOCHALLENGE_GAME_SETTINGS.wordCount + AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
     const randomIndex = Math.floor(Math.random() * (max - min)) + min;
     console.log(randomIndex);
     return randomIndex;
@@ -81,10 +75,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
   createCloseBtn = () => {
     const gameOperationsGroup = getElement('game-operations-group');
     const closeBtn = createElement('div', 'game-operations-group__close-btn');
-    const cross = createElement(
-      'img',
-      'game-operations-group__cross-img'
-    ) as HTMLImageElement;
+    const cross = createElement('img', 'game-operations-group__cross-img') as HTMLImageElement;
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
     closeBtn.addEventListener('click', () => window.location.reload());
@@ -94,10 +85,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
   createSpeakerWrapper = (soundingWord: string) => {
     const speakerWrapper = getElement('game-section__speaker-wrapper');
     speakerWrapper.innerHTML = '';
-    const word = this.audioChallengeModel.wordsChunk.find(
-      (el) => el.word === soundingWord
-    );
-
+    const word = this.audioChallengeModel.wordsChunk.find((el) => el.word === soundingWord);
     const speaker = createElement('img', [
       'game-section__speaker-img',
       'game-section__speaker-img_big',

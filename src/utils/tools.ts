@@ -17,4 +17,11 @@ const getElementQuery = (selector: string): Element => {
   return document.querySelector(selector) as Element;
 };
 
-export { createElement, getElement, getElementQuery };
+const showModal = (message: string) => {
+  const modal = getElement('modal') as HTMLElement;
+  modal.innerHTML = message;
+  modal.style.opacity = '1';
+  setTimeout(() => (modal.style.opacity = '0'), 3000);
+};
+
+export { createElement, getElement, getElementQuery, showModal };

@@ -1,4 +1,8 @@
-import { TextBookControllerInterface, TextBookModelInterface, TextBookViewInterface } from '../../types/textbookTypes';
+import {
+  TextBookControllerInterface,
+  TextBookModelInterface,
+  TextBookViewInterface,
+} from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 
 export class TextBookController implements TextBookControllerInterface {
@@ -9,7 +13,8 @@ export class TextBookController implements TextBookControllerInterface {
   constructor(textBookModel: TextBookModelInterface, textBookView: TextBookViewInterface) {
     this.textBookModel = textBookModel;
     this.textBookView = textBookView;
-    this.textBookView.on('pageBtnClicked', (page) => this.changeTextBookPage(page))
+    this.textBookView
+      .on('pageBtnClicked', (page) => this.changeTextBookPage(page))
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
       .on('wordBtnClicked', (id) => this.getWordData(id))
       .on('dictBtnClicked', () => this.getUserDictWords());
@@ -49,5 +54,5 @@ export class TextBookController implements TextBookControllerInterface {
   getUserDictWords = (): void => {
     const query = 'querytomodel';
     void this.textBookModel.getUserDictWords(query);
-  }
+  };
 }

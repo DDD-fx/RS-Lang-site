@@ -5,15 +5,16 @@ import {
 } from '../../../types/gamesTypes';
 import { AUDIOCHALLENGE_GAME_SETTINGS } from '../../../utils/constants';
 
-export class AudioChallengeController
-  implements AudioChallengeControllerInterface {
+export class AudioChallengeController implements AudioChallengeControllerInterface {
+
   audioChallengeView: AudioChallengeViewInterface;
 
   audioChallengeModel: AudioChallengeModelInterface;
 
   constructor(
     AudioChallengeModel: AudioChallengeModelInterface,
-    AudioChallengeView: AudioChallengeViewInterface
+
+    AudioChallengeView: AudioChallengeViewInterface,
   ) {
     this.audioChallengeModel = AudioChallengeModel;
     this.audioChallengeView = AudioChallengeView;
