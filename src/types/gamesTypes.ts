@@ -28,7 +28,6 @@ export type GamesEntranceEventType = {
 };
 
 export type GamesEventsType = {
-  closeBtnClicked: () => void;
   sprintGameStarted: () => void;
   audioChallengeGameStarted: () => void;
   gameOptionClicked: (i: number) => void;
@@ -37,6 +36,7 @@ export type GamesEventsType = {
   nextBtnClicked: () => void;
   drawGameBtns: () => void;
   wordsAreOver: () => void;
+  turnThePage: () => void;
 };
 
 export interface GamesEntranceControllerInterface {
@@ -52,8 +52,7 @@ export interface AudioChallengeControllerInterface {
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
   getWordsList(query: string): void;
-  getWordData(word: WordsChunkType): void;
-  closeAudioChallengeGame(): void;
+  // getWordData(word: WordsChunkType): void;
   turnGamePage(): void;
   changeSettingsPage(): void;
 }
@@ -62,11 +61,11 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   audioChallengeModel: AudioChallengeModelInterface;
   drawAudioChallengeGame(): void;
   createCloseBtn(): void;
-  createWordsBtns({ id, wordTranslate, group }: WordBtnType): HTMLButtonElement;
+  createWordsBtns({ id, wordTranslate, group }: WordBtnType): HTMLElement;
   createAnswerWrapper(word: string): void;
 }
 
-export type WordBtnType = Pick<WordsChunkType, 'id' | 'wordTranslate' | 'group'>;
+export type WordBtnType = Pick<WordsChunkType, 'id' | 'wordTranslate' | 'group' | 'word'>;
 
 export type AudioChallengeGameType = {
   level: number;

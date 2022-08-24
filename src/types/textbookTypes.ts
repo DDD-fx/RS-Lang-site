@@ -1,15 +1,15 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 export type TextBookEventsType = {
-  pageBtnClicked: (page: number) => void,
-  groupBtnClicked: (group: number) => void,
-  wordBtnClicked: (id: string) => void,
-  dictBtnClicked: () => void,
+  pageBtnClicked: (page: number) => void;
+  groupBtnClicked: (group: number) => void;
+  wordBtnClicked: (id: string) => void;
+  dictBtnClicked: () => void;
 
-  getTextBookList: () => void,
-  getWordData: (word: WordsChunkType) => void,
-  getUserDict: () => void,
-}
+  getTextBookList: () => void;
+  getWordData: (word: WordsChunkType) => void;
+  getUserDict: () => void;
+};
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   wordsChunk: WordsChunkType[];

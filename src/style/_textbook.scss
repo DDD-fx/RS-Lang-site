@@ -1,7 +1,6 @@
 @import 'mixins';
 @import 'variables';
 
-
 .textbook-title-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -22,7 +21,7 @@
 
   &[disabled] {
     &:hover {
-      @include disabled-btn
+      @include disabled-btn;
     }
   }
 }
@@ -33,7 +32,7 @@
 }
 
 .textbook-subtitle {
- font-weight: bolder;
+  font-weight: bolder;
 }
 
 .textbook-difficulty-group {
@@ -263,7 +262,6 @@
 
 .instructions {
   margin-top: 100px;
-
 }
 
 .close-readme-btn {
