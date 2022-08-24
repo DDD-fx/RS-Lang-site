@@ -47,14 +47,17 @@ export interface GamesEntranceControllerInterface {
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
   audioChallengeModel: AudioChallengeModelInterface;
+  getWordsList(query: string): void;
+  turnGamePage(): void;
+  changeSettingsPage(): void;
 }
 
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
   getWordsList(query: string): void;
-  // getWordData(word: WordsChunkType): void;
   turnGamePage(): void;
   changeSettingsPage(): void;
+  getNewPage(): void;
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
@@ -63,6 +66,23 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   createCloseBtn(): void;
   createWordsBtns({ id, wordTranslate, group }: WordBtnType): HTMLElement;
   createAnswerWrapper(word: string): void;
+  updateWordBtnsWrapper(): void;
+  selectRandomSoundingWord(): void;
+  createSpeakerWrapper(word: string): void;
+  enableWordSounding(): void;
+  createAnswerWrapper(word: string): void;
+  createAnswerSigns(word: string): void;
+  createContinueBtn(): void;
+  createSkipBtn(): void;
+  getRightAnswer(): void;
+  showRightAnswer(): void;
+  hideRightAnswer(): void;
+  hideSkipBtn(): void;
+  showSkipBtn(): void;
+  showSign(word: string): void;
+  makeWordsTransparent(word: string): void;
+  crossWrongWord(word: string): void;
+  wordsBtnsDisable(): void;
 }
 
 export type WordBtnType = Pick<WordsChunkType, 'id' | 'wordTranslate' | 'group' | 'word'>;
