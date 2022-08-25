@@ -28,7 +28,7 @@ const login = new Login();
 
 void (async function textbook() {
   const textBookModel = new TextBookModel();
-  await textBookModel.firstLoad();
+  await textBookModel.getTextBookList();
   // check Auth
 
   const textBookView = new TextBookView(textBookModel);

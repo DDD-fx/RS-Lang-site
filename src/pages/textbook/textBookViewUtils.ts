@@ -3,14 +3,14 @@ import {
   TextBookEventsType,
   TextBookModelInterface,
   TextBookViewInterface,
-  TextBookViewUtilsInerface,
+  TextBookViewUtilsInterface,
 } from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 import { getElement } from '../../utils/tools';
 
 export class TextBookViewUtils
   extends TypedEmitter<TextBookEventsType>
-  implements TextBookViewUtilsInerface
+  implements TextBookViewUtilsInterface
 {
   textBookModel;
 
@@ -104,5 +104,10 @@ export class TextBookViewUtils
     }
     const pagesBtns = document.getElementsByClassName('pagination__page-btn');
     pagesBtns[currPage].classList.add('pagination__page-btn--active');
+  };
+
+  disableDictBtn = (): void => {
+    const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;
+    dictBtn.disabled = true;
   };
 }
