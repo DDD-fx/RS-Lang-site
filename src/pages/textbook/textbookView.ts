@@ -2,7 +2,7 @@ import {
   TextBookEventsType,
   TextBookModelInterface,
   TextBookViewInterface,
-  TextBookViewUtilsInerface,
+  TextBookViewUtilsInterface,
   UserTextBookViewInterface,
   WordsBtnsType,
   WordsChunkType,
@@ -23,7 +23,7 @@ export class TextBookView
 
   userTextBookView: UserTextBookViewInterface;
 
-  textBookViewUtils: TextBookViewUtilsInerface;
+  textBookViewUtils: TextBookViewUtilsInterface;
 
   constructor(textBookModel: TextBookModelInterface) {
     super();
@@ -33,7 +33,7 @@ export class TextBookView
     this.textBookModel
       .on('getTextBookList', () => this.drawTextBook())
       .on('getWordData', (word) => this.createWordCard(word))
-      .on('getUserDict', (/*userDictWords*/) => this.userTextBookView.drawDict(/*userDictWords*/));
+      .on('getUserDict', () => this.userTextBookView.drawDict());
   }
 
   drawTextBook = (): void => {
@@ -52,7 +52,7 @@ export class TextBookView
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
 
     // USER VIEW
-    this.userTextBookView.drawUserTextBookView();
+    if (LocalStorage.currUserSettings.userId) this.userTextBookView.drawUserTextBookView();
   };
 
   createDifficultyBtns = (): void => {
@@ -96,6 +96,7 @@ export class TextBookView
 
   createWordsBtns = ({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement => {
     const wordBtn = createElement('div', ['words-btns__btn', `group-${group}`]) as HTMLDivElement;
+    wordBtn.id = id;
     wordBtn.addEventListener('click', () => {
       this.emit('wordBtnClicked', id);
       this.textBookViewUtils.checkActiveWordsBtns(id);
@@ -109,6 +110,7 @@ export class TextBookView
     return wordBtn;
   };
 
+  // eslint-disable-next-line max-lines-per-function
   createWordCard = (word: WordsChunkType): void => {
     const wordCard = getElement('js-word-description');
     wordCard.innerHTML = '';

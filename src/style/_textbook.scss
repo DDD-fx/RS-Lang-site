@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding-bottom: 30px;
+  gap: 20px;
 }
 
 .textbook-instructions-btn {
@@ -170,10 +171,14 @@
 }
 
 .star-svg {
-  fill: $wordcard-svg-incative;
+  fill: $wordcard-svg-inactive;
 
   &:hover {
-    fill: $star-svg-ative;
+    fill: $star-svg-active;
+  }
+
+  &--active {
+    fill: $star-svg-active;
   }
 }
 
@@ -186,10 +191,10 @@
 }
 
 .bin-svg {
-  fill: $wordcard-svg-incative;
+  fill: $wordcard-svg-inactive;
 
   &:hover {
-    fill: $bin-svg-ative;
+    fill: $bin-svg-active;
   }
 }
 
