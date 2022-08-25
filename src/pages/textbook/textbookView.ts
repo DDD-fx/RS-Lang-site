@@ -1,4 +1,5 @@
 import {
+  AggregatedWordType,
   TextBookEventsType,
   TextBookModelInterface,
   TextBookViewInterface,
@@ -46,7 +47,6 @@ export class TextBookView
     this.appendWordsBtns();
 
     this.textBookViewUtils.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
-    this.textBookViewUtils.checkActiveWordCard();
 
     this.createPagination();
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
@@ -99,7 +99,7 @@ export class TextBookView
     wordBtn.id = id;
     wordBtn.addEventListener('click', () => {
       this.emit('wordBtnClicked', id);
-      this.textBookViewUtils.checkActiveWordsBtns(id);
+      if (!this.userTextBookView.onDictPage) this.textBookViewUtils.checkActiveWordsBtns(id);
     });
 
     const wordTitle = createElement('h3', 'word-btn-title') as HTMLHeadingElement;
@@ -111,7 +111,7 @@ export class TextBookView
   };
 
   // eslint-disable-next-line max-lines-per-function
-  createWordCard = (word: WordsChunkType): void => {
+  createWordCard = (word: WordsChunkType | AggregatedWordType): void => {
     const wordCard = getElement('js-word-description');
     wordCard.innerHTML = '';
     const wordImg = createElement('img', 'word-image') as HTMLImageElement;
