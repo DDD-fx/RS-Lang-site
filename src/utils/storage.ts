@@ -1,12 +1,6 @@
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './constants';
 import { UserSettingsType } from '../types/types';
 
-// enum LocalStorageEnum {
-//   DefaultSettings = 'defaultSettings',
-//   Settings = 'Settings',
-//   InitSettings = 'initSettings',
-// }
-
 export class LocalStorage {
   static createLocalKey = (key: string) => `rsl13-${key}`;
 
@@ -49,10 +43,19 @@ export class LocalStorage {
     ) {
       LocalStorage.createLocalKey(DEFAULT_USER_NAME); //эта строчка лишняя
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
-    }
+    } else LocalStorage.isAuth = true;
+  };
+
+  static saveToken = (token: string, refreshToken: string): void => {
+    sessionStorage.setItem('tokenData', JSON.stringify(token));
+    LocalStorage.currUserSettings.token = token;
+    LocalStorage.currUserSettings.refreshToken = refreshToken;
+    LocalStorage.setLSData(DEFAULT_USER_NAME, LocalStorage.currUserSettings);
   };
 
   static currUserID = '';
+
+  static isAuth = false;
 
   static currUserSettings = DEFAULT_USER_SETTINGS;
 }

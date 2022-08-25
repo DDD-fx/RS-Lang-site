@@ -20,8 +20,7 @@ class View {
 
   render = () => {
     const modal = createElement('div', 'modal');
-    const nav = new Nav(this.header).render();
-    // this.header.append(nav);
+    new Nav(this.header).render();
     this.main.append(this.mainWrapper, modal);
     this.footer.insertAdjacentHTML('afterbegin', footerInner);
     document.body.append(this.header, this.main, this.footer);

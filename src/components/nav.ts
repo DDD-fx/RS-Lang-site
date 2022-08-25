@@ -1,5 +1,4 @@
-import { createElement, getElement } from '../utils/tools';
-import { DEFAULT_USER_NAME } from '../utils/constants';
+import { createElement } from '../utils/tools';
 import { LocalStorage } from '../utils/storage';
 import history from '../index';
 
@@ -23,13 +22,14 @@ const navInner = (isAuthorized: boolean) => `
   <a href="/stat"><button  class="btn" data-btn="stat"> Статистика </button></a>
 </li>
 <li>
-${isAuthorized ? logIn : logOut}
+${isAuthorized ? logOut : logIn}
 </ul>
 </nav>
 `;
 
 class Nav {
   nav;
+
   parent;
 
   constructor(parent: HTMLElement) {
@@ -39,8 +39,9 @@ class Nav {
   }
 
   render = () => {
-    const isAuthorized = LocalStorage.getLSData(DEFAULT_USER_NAME).token === '';
+    const isAuthorized = LocalStorage.isAuth;
     this.nav.innerHTML = navInner(isAuthorized);
+    console.log(isAuthorized);
     //const parentElem = getElement('.header')
     // console.log(parentElem)
     this.parent.innerHTML = '';
