@@ -39,11 +39,11 @@ class RegForm {
     this.bind(handler);
   }
 
-  render = () => {
+  render = (): HTMLElement => {
     return this.regForm;
   };
 
-  bind = (handler: (form: HTMLFormElement) => Promise<void>) => {
+  bind = (handler: (form: HTMLFormElement) => Promise<void>): void => {
     this.regForm.addEventListener('click', (event) => {
       if ((<HTMLElement>event.target).classList.contains('register__link-link')) {
         event.preventDefault();

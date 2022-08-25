@@ -66,7 +66,7 @@ const getExpirationDate = (token: string): number => {
   return +decodedToken.exp * 1000;
 };
 
-const isExpired = (exp?: number) => {
+const isExpired = (exp?: number): boolean => {
   if (!exp) {
     return false;
   }

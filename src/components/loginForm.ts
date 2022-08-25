@@ -35,24 +35,22 @@ class LoginForm {
     this.bind(handler);
   }
 
-  render = () => {
+  render = (): HTMLElement => {
     return this.regForm;
   };
 
   bind = (handler: (form: HTMLFormElement) => Promise<void>) => {
     this.regForm.addEventListener('click', (event) => {
-      event.preventDefault();
-
-      if ((<HTMLElement>event.target).classList.contains('btn-register')) {
-        const form = document.forms.namedItem('loginForm') as HTMLFormElement;
-        handler(form).catch((err) => console.error(err));
-      }
-
       if ((<HTMLElement>event.target).classList.contains('register__link-link')) {
         const anchor = event.target as HTMLAnchorElement;
         const url = anchor.pathname;
         history.push(url);
       }
+    });
+    this.regForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = document.forms.namedItem('loginForm') as HTMLFormElement;
+      handler(form).catch((err) => console.error(err));
     });
   };
 }
