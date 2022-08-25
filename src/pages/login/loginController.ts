@@ -29,7 +29,8 @@ class Login {
       if (response[0] === 200) {
         showModal('Успешная авторизация!');
         this.setUserSettings(userData.email, response[1]);
-        history.push('/');
+        window.location.replace('/')
+      //  history.push('/');
         new Nav(getElement('header') as HTMLElement).render();
       } else showModal('Неверный логин или пароль!');
     }
@@ -50,7 +51,7 @@ class Login {
       const response = (await createUser(userData)) as [number, CreateUserResponseType];
       if (response[0] === 200) {
         showModal('Успешная регистрация!');
-        //window.location.replace('/login')
+       // window.location.replace('/login')
         history.push('/login');
       } else showModal(response[1].error.errors[0].message);
     }
@@ -58,7 +59,7 @@ class Login {
 
   setUserSettings = (email: string, responseData: UserSuccessLoginType): void => {
     const { token, refreshToken, userId, name } = responseData;
-    const expireOn = getExpirationDate(token) as number;
+    const expireOn = getExpirationDate(token) - 300000 as number;
     const loginUserSettings: UserSettingsType = {
       userEmail: email,
       userName: name,

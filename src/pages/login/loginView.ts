@@ -1,4 +1,4 @@
-import { getElement } from '../../utils/tools';
+import { getElement, createElement } from '../../utils/tools';
 import LoginForm from '../../components/loginForm';
 import RegForm from '../../components/registerForm';
 
@@ -15,10 +15,12 @@ class LoginView {
   }
 
   renderLoginForm = (): void => {
+   // const modal = createElement('div', 'modal');
     const mainWrapper = getElement('main__wrapper');
     const loginForm = new LoginForm(this.handleLogin);
     mainWrapper.innerHTML = '';
     mainWrapper.append(loginForm.render());
+   // getElement('main').append(modal);
   };
 
   renderRegForm = (): void => {

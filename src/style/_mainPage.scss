@@ -51,11 +51,12 @@ main {
     position: absolute;
     right: 5rem;
     bottom: 3rem;
+    z-index: -1;
   }
 
   & .bubbles-top {
     position: absolute;
-    left: 12rem;
+    left: 13%;
     top: 2rem;
   }
 
@@ -63,16 +64,48 @@ main {
     position: absolute;
     right: 4rem;
     top: 14rem;
+    z-index: -1;
   }
 
   & .skat {
     position: absolute;
-    left: 18rem;
+    left: 20%;
     top: -6rem;
+    z-index: -1;
   }
 
   & .img-x20 img {
     max-width: 30rem;
     width: 100%;
+
   }
+}
+
+@media (max-width: 1300px) {
+  .main__container .img-x20 img {
+    max-width: 20rem;
+  }
+
+  .main__container .skat {
+    top: -4rem;
+  }
+
+  .main__container .bubbles {
+    top: 19rem;
+  }
+
+  .img-x15 img {
+    max-width: 12rem;
+  }
+
+  .img-x5 img {
+    max-width: 4rem;
+  }
+
+  .article__title {
+    font-size: 2.5rem;
+
+    line-height: 3.3rem;
+  }
+
 }
