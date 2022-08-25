@@ -61,7 +61,7 @@ const getNewToken = async (
   }
 };
 
-const getExpirationDate = (token: string): number | null => {
+const getExpirationDate = (token: string): number => {
   const decodedToken = JSON.parse(atob(token.split('.')[1])) as DecodedTokenType;
   return +decodedToken.exp * 1000;
 };

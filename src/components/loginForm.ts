@@ -10,15 +10,15 @@ const loginInner = `
   <img src="./assets/whale.svg" alt="">
 </div>
 </div>
-<form class="form register__form" id="loginForm" name="loginForm">
+<form class="form register__form" id="loginForm" name="loginForm" >
 <h2 class="register__title">Авторизация</h2>
   <label>
    <span class="input-title">Почта</span>
-    <input class="input" type="email" name="email" id="email" placeholder="elon@musk.com" autocomplete="on" required="required" autofocus>
+    <input class="input" type="email" name="email" id="email" placeholder="elon@musk.com" autocomplete="email" required="required" autofocus>
   </label>
   <label>
   <span class="input-title">Пароль</span>
-  <input class="input" type="password" name="pass" id="pass" placeholder="Qweasdzxc123" minlength="8" autocomplete="on" required="required">
+  <input class="input" type="password" name="password" id="password" placeholder="Qweasdzxc123" minlength="8" autocomplete="current-password" required="required">
 </label>
   <button class="btn btn-register" type="submit">Вход</button>
   

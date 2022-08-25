@@ -17,7 +17,7 @@ class Login {
 
   loginHandler = async (form: HTMLFormElement): Promise<void> => {
     const email = (form.email as HTMLInputElement).value;
-    const password = (form.pass as HTMLInputElement).value;
+    const password = (form.password as HTMLInputElement).value;
     if (email.length === 0) showModal('Введите почту!');
     else if (password.length < 8) showModal('Пароль более 8 символов!');
     else {
@@ -36,9 +36,9 @@ class Login {
   };
 
   authHandler = async (form: HTMLFormElement): Promise<void> => {
-    const name = (form.login as HTMLInputElement).value;
+    const name = (form.username as HTMLInputElement).value;
     const email = (form.email as HTMLInputElement).value;
-    const password = (form.pass as HTMLInputElement).value;
+    const password = (form.password as HTMLInputElement).value;
     if (email.length === 0) showModal('Введите почту!');
     else if (password.length < 8) showModal('Пароль более 8 символов!');
     else {
@@ -50,6 +50,7 @@ class Login {
       const response = (await createUser(userData)) as [number, CreateUserResponseType];
       if (response[0] === 200) {
         showModal('Успешная регистрация!');
+        //window.location.replace('/login')
         history.push('/login');
       } else showModal(response[1].error.errors[0].message);
     }
