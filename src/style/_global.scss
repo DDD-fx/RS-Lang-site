@@ -268,6 +268,7 @@ input:focus {
   border-radius: 0.5rem;
   font-weight: 500;
   opacity: 0;
+  display: none;
 }
 
 ul,
@@ -310,6 +311,12 @@ li {
   transition: 0.3s;
 }
 
+@media (max-width: 950px) {
+  .nav__list {
+    gap: 3px;
+  }
+}
+
 @media (max-width: 768px) {
   html {
     font-size: 14px;
@@ -324,7 +331,7 @@ li {
     flex-wrap: wrap;
   }
 
-  > div,
+  >div,
   a,
   p {
     line-height: 1.5rem;

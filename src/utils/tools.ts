@@ -21,7 +21,8 @@ const showModal = (message: string) => {
   const modal = getElement('modal') as HTMLElement;
   modal.innerHTML = message;
   modal.style.opacity = '1';
-  setTimeout(() => (modal.style.opacity = '0'), 3000);
+  modal.style.display = 'block';
+  setTimeout(() => {modal.style.opacity = '0'; modal.style.display = 'none';}, 3000);
 };
 
 export { createElement, getElement, getElementQuery, showModal };

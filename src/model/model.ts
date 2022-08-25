@@ -4,18 +4,20 @@ import { getNewToken, getExpirationDate, isExpired } from './api/usersApi';
 import { ResponseOptionType } from '../types/types';
 import { UserSuccessLoginType } from '../types/userTypes';
 
-const checkToken = async (): Promise<void> => {
+const checkToken = async (): Promise<boolean> => {
   const { userId, refreshToken, expireOn } = LocalStorage.currUserSettings;
-  if (isExpired(getExpirationDate(refreshToken) as number)) {
-    // если истёк refresh token то заново авторизоваться надо
-
-    LocalStorage.isAuth = false;
-    LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
-    console.log(LocalStorage.isAuth);
-  } else if (isExpired(expireOn)) {
-    const newTokenData = (await getNewToken(userId, refreshToken)) as UserSuccessLoginType;
-    LocalStorage.saveToken(newTokenData.token, newTokenData.refreshToken);
+  if (isExpired(expireOn)) {
+    if (isExpired(getExpirationDate(refreshToken) as number)) {
+      LocalStorage.isAuth = false;
+      LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
+      window.location.replace('/login');
+    } else {
+      const newTokenData = (await getNewToken(userId, refreshToken)) as UserSuccessLoginType;
+      LocalStorage.saveToken(newTokenData.token, newTokenData.refreshToken);
+      return true;
+    }
   }
+  return false;
 };
 
 class Model {
@@ -26,8 +28,8 @@ class Model {
 }
 
 export const authFetch = async (url: string, options: ResponseOptionType): Promise<Response> => {
-  await checkToken();
-  options.headers.Authorization = `Bearer ${LocalStorage.currUserSettings.token}`; // добавляем токен в headers запроса
+  if (await checkToken())
+    options.headers.Authorization = `Bearer ${LocalStorage.currUserSettings.token}`; // добавляем токен в headers запроса
   return fetch(url, options); // возвращаем изначальную функцию, но уже с валидным токеном в headers
 };
 
