@@ -35,8 +35,9 @@ export class UserTextBookView
 
     this.drawUserTextBookView();
     this.textBookView.textBookViewUtils.disableDictBtn();
+    this.textBookView.textBookViewUtils.checkActiveWordsBtns('');
 
-    this.makeStartBtnActive();
+    this.makeStarBtnActive();
   };
 
   drawUserTextBookView = (): void => {
@@ -113,7 +114,7 @@ export class UserTextBookView
     });
   };
 
-  makeStartBtnActive = (): void => {
+  makeStarBtnActive = (): void => {
     const star = document.getElementsByClassName('star-svg') as HTMLCollectionOf<SVGElement>;
     [...star].forEach((el) => el.classList.add('star-svg--active'));
   };

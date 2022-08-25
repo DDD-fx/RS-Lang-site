@@ -64,25 +64,32 @@ export class TextBookViewUtils
         .indexOf(`${wordID}`);
       if (activeWordIdx === -1) {
         wordBtns[0].classList.add('words-btns__btn--active');
+        this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
       } else {
         wordBtns[activeWordIdx].classList.add('words-btns__btn--active');
+        this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
       }
     } else {
       const firstWordBtn = getElement('words-btns__btn');
       firstWordBtn.classList.add('words-btns__btn--active');
+      if (this.textBookView.userTextBookView.onDictPage) {
+        this.textBookView.createWordCard(this.textBookModel.difficultWords[0]);
+      } else {
+        this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
+      }
     }
   };
 
-  checkActiveWordCard = (): void => {
-    const activeWordIdx = this.textBookModel.wordsChunk
-      .map((word) => word.id)
-      .indexOf(`${LocalStorage.currUserSettings.currWord}`);
-    if (activeWordIdx === -1) {
-      this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
-    } else {
-      this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
-    }
-  };
+  // checkActiveWordCard = (): void => {
+  //   const activeWordIdx = this.textBookModel.wordsChunk
+  //     .map((word) => word.id)
+  //     .indexOf(`${LocalStorage.currUserSettings.currWord}`);
+  //   if (activeWordIdx === -1) {
+  //     this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
+  //   } else {
+  //     this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
+  //   }
+  // };
 
   checkActiveDifficultyBtn = (activeGroupNum: number): void => {
     const activeDifficultyBtns = document.getElementsByClassName(

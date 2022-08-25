@@ -43,8 +43,8 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?filter={"userWord.difficulty":"${WordStatusEnum.difficult}"}`;
     await this.getDifficultWords(query);
     console.log('DICT diffic', this.difficultWords);
-    setTimeout(() => this.emit('getUserDict'), 1000);
-    // this.emit('getUserDict');
+    // setTimeout(() => this.emit('getUserDict'), 1000);
+    this.emit('getUserDict');
   };
 
   getDifficultWordsForCurrGroup = async (): Promise<void> => {
@@ -78,7 +78,6 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
       });
       const content = (await rawResponse.json()) as AggregatedWordsRespType[];
       this.difficultWords = content[0].paginatedResults.slice();
-      console.log('getDifficultWords');
     } catch (e) {
       console.error(e);
     }
@@ -100,10 +99,11 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
   deleteUserWord = async (wordID: string): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
     try {
-      await fetch(baseURL + query, {
+      const rawResponse = await fetch(baseURL + query, {
         method: 'DELETE',
         headers: this.API_USER_REQ_HEADER,
       });
+      console.log(rawResponse);
       console.log('word deleted');
     } catch (e) {
       console.error(e);

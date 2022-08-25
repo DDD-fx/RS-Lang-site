@@ -49,7 +49,7 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   createDifficultyBtns(): void;
   appendWordsBtns(): void;
   createWordsBtns({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement;
-  createWordCard(word: WordsChunkType): void;
+  createWordCard(word: WordsChunkType | AggregatedWordType): void;
   createAudioBtn(audio: string): HTMLButtonElement;
   createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement;
   createPagination(): void;
@@ -66,7 +66,7 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
   createBinBtn(): void;
   addBackToTextBookListenerBtn(): void;
   addDictBtnListener(): void;
-  makeStartBtnActive(): void;
+  makeStarBtnActive(): void;
 }
 
 export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsType> {
@@ -76,7 +76,6 @@ export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsT
   addReadMeListeners(): void;
   checkGamesBtnsColor(): void;
   checkActiveWordsBtns(wordID: string): void;
-  checkActiveWordCard(): void;
   checkActiveDifficultyBtn(activeGroupNum: number): void;
   checkActivePage(currPage: number): void;
   disableDictBtn(): void;
