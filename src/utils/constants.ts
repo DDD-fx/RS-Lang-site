@@ -12,6 +12,7 @@ export const DEFAULT_USER_SETTINGS: UserSettingsType = {
   avatarURL: '',
   token: '',
   refreshToken: '',
+  expireOn: 0,
   currPage: 0,
   currGroup: 0,
   currWord: '',
