@@ -42,6 +42,7 @@ class LoginForm {
   bind = (handler: (form: HTMLFormElement) => Promise<void>) => {
     this.regForm.addEventListener('click', (event) => {
       if ((<HTMLElement>event.target).classList.contains('register__link-link')) {
+        event.preventDefault();
         const anchor = event.target as HTMLAnchorElement;
         const url = anchor.pathname;
         history.push(url);

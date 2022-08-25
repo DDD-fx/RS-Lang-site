@@ -1,5 +1,6 @@
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './constants';
 import { UserSettingsType } from '../types/types';
+import { getExpirationDate } from '../model/api/usersApi';
 
 export class LocalStorage {
   static createLocalKey = (key: string) => `rsl13-${key}`;
@@ -47,9 +48,9 @@ export class LocalStorage {
   };
 
   static saveToken = (token: string, refreshToken: string): void => {
-    sessionStorage.setItem('tokenData', JSON.stringify(token));
     LocalStorage.currUserSettings.token = token;
     LocalStorage.currUserSettings.refreshToken = refreshToken;
+    LocalStorage.currUserSettings.expireOn = getExpirationDate(token)
     LocalStorage.setLSData(DEFAULT_USER_NAME, LocalStorage.currUserSettings);
   };
 
