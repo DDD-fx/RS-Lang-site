@@ -11,12 +11,10 @@ class App {
     this.view = new View();
   }
 
-  init = () => {
+  init = (): void => {
+    this.model.mount().catch((err) => console.error(err));
     this.view.render();
-    this.mountListeners();
   };
-
-  mountListeners = () => {};
 }
 
 export default App;

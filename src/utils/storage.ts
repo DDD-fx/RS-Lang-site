@@ -1,11 +1,6 @@
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './constants';
 import { UserSettingsType } from '../types/types';
-
-// enum LocalStorageEnum {
-//   DefaultSettings = 'defaultSettings',
-//   Settings = 'Settings',
-//   InitSettings = 'initSettings',
-// }
+import { getExpirationDate } from '../model/api/usersApi';
 
 export class LocalStorage {
   static createLocalKey = (key: string) => `rsl13-${key}`;
@@ -47,12 +42,21 @@ export class LocalStorage {
       userID === DEFAULT_USER_NAME &&
       JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)
     ) {
-      LocalStorage.createLocalKey(DEFAULT_USER_NAME); //эта строчка лишняя
+      // LocalStorage.createLocalKey(DEFAULT_USER_NAME); //эта строчка лишняя
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
-    }
+    } else LocalStorage.isAuth = true;
+  };
+
+  static saveToken = (token: string, refreshToken: string): void => {
+    LocalStorage.currUserSettings.token = token;
+    LocalStorage.currUserSettings.refreshToken = refreshToken;
+    LocalStorage.currUserSettings.expireOn = getExpirationDate(token) - 300000
+    LocalStorage.setLSData(DEFAULT_USER_NAME, LocalStorage.currUserSettings);
   };
 
   static currUserID = '';
+
+  static isAuth = false;
 
   static currUserSettings = DEFAULT_USER_SETTINGS;
 }

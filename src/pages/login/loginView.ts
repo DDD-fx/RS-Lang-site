@@ -1,24 +1,29 @@
-import { getElement } from '../../utils/tools';
+import { getElement, createElement } from '../../utils/tools';
 import LoginForm from '../../components/loginForm';
 import RegForm from '../../components/registerForm';
 
-type handler = (form: HTMLFormElement) => void;
+type Handler = (form: HTMLFormElement) => Promise<void>;
 
 class LoginView {
   handleLogin;
+
   handleAuth;
-  constructor(handleLogin: handler, handleAuth: handler) {
+
+  constructor(handleLogin: Handler, handleAuth: Handler) {
     this.handleLogin = handleLogin;
     this.handleAuth = handleAuth;
   }
-  renderLoginForm = () => {
+
+  renderLoginForm = (): void => {
+   // const modal = createElement('div', 'modal');
     const mainWrapper = getElement('main__wrapper');
     const loginForm = new LoginForm(this.handleLogin);
     mainWrapper.innerHTML = '';
     mainWrapper.append(loginForm.render());
+   // getElement('main').append(modal);
   };
 
-  renderRegForm = () => {
+  renderRegForm = (): void => {
     const mainWrapper = getElement('main__wrapper');
     const regForm = new RegForm(this.handleAuth);
     mainWrapper.innerHTML = '';

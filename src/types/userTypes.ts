@@ -10,11 +10,11 @@ type UserLoginType = {
 };
 
 type UserSuccessLoginType = {
-  message: 'string';
-  token: 'string';
-  refreshToken: 'string';
-  userId: 'string';
-  name: 'string';
+  message: string;
+  token: string;
+  refreshToken: string;
+  userId: string;
+  name: string;
 };
 
 type CreateUserResponseType = {
@@ -29,10 +29,17 @@ type CreateUserErrorsType = {
   message: string;
 };
 
+type DecodedTokenType = {
+  id: string;
+  iat: string;
+  exp: string;
+};
+
 export {
   CreateUserType,
   UserLoginType,
   UserSuccessLoginType,
   CreateUserResponseType,
   CreateUserErrorsType,
+  DecodedTokenType,
 };

@@ -18,16 +18,15 @@ class View {
     this.footer = createElement('footer');
   }
 
-  render = () => {
+  render = (): void => {
     const modal = createElement('div', 'modal');
-    const nav = new Nav(this.header).render();
-    // this.header.append(nav);
+    new Nav(this.header).render();
     this.main.append(this.mainWrapper, modal);
     this.footer.insertAdjacentHTML('afterbegin', footerInner);
     document.body.append(this.header, this.main, this.footer);
   };
 
-  renderMain = () => {
+  renderMain = (): void => {
     const mainTemplate = renderMainTemplate();
     this.mainWrapper.innerHTML = '';
     this.mainWrapper.insertAdjacentHTML('afterbegin', mainTemplate);

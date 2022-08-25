@@ -19,8 +19,6 @@ import Login from './pages/login/loginController';
 
 const history = createBrowserHistory();
 
-LocalStorage.initLS('' || DEFAULT_USER_NAME);
-
 const app = new App();
 app.init();
 
@@ -28,7 +26,7 @@ const login = new Login();
 
 void (async function textbook() {
   const textBookModel = new TextBookModel();
-  await textBookModel.firstLoad();
+  await textBookModel.getTextBookList();
   // check Auth
 
   const textBookView = new TextBookView(textBookModel);
@@ -98,6 +96,7 @@ void (async function textbook() {
       path: '/logout',
       action: () => {
         LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
+        LocalStorage.isAuth = false;
         history.push('/');
         new Nav(getElement('header') as HTMLElement).render();
       },

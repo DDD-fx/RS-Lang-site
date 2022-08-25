@@ -6,7 +6,7 @@ export const renderTextbookTemplate = (): string => `
 <div class='textbook-title-wrapper'>
   <button class='textbook-instructions-btn js-textbook-instructions-btn'>Readme</button>
   <h2 class='textbook-title'>Учебник</h2>
-  <button class='textbook-dictionary js-textbook-dictionary'>Сложные слова</button>
+  <button class='textbook-dictionary js-textbook-dictionary' disabled>Сложные слова</button>
 </div>
 <div class='textbook-readme-block hide'>
 <button class='close-readme-btn'>Зыкрыть</button>
