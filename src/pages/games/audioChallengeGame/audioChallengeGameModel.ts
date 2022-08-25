@@ -17,7 +17,7 @@ export class AudioChallengeModel extends TypedEmitter
   }
 
   getWordsList = async (queries: string[]): Promise<void> => {
-    let data: any = [];
+    let data: Response[] = [];
     queries.forEach(async (query) => data.push(await fetch(baseURL + query)));
 
     for (let i = 0; i < queries.length; i += 1) {
