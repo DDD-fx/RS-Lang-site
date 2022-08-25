@@ -41,12 +41,8 @@ class Nav {
   render = () => {
     const isAuthorized = LocalStorage.isAuth;
     this.nav.innerHTML = navInner(isAuthorized);
-    console.log(isAuthorized);
-    //const parentElem = getElement('.header')
-    // console.log(parentElem)
     this.parent.innerHTML = '';
     this.parent.append(this.nav);
-    // return this.nav; //getElement(parent).append(this.nav);
   };
 
   bind = () => {
