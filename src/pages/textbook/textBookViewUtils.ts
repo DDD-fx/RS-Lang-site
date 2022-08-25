@@ -3,14 +3,14 @@ import {
   TextBookEventsType,
   TextBookModelInterface,
   TextBookViewInterface,
-  TextBookViewUtilsInerface,
+  TextBookViewUtilsInterface,
 } from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 import { getElement } from '../../utils/tools';
 
 export class TextBookViewUtils
   extends TypedEmitter<TextBookEventsType>
-  implements TextBookViewUtilsInerface
+  implements TextBookViewUtilsInterface
 {
   textBookModel;
 
@@ -64,25 +64,32 @@ export class TextBookViewUtils
         .indexOf(`${wordID}`);
       if (activeWordIdx === -1) {
         wordBtns[0].classList.add('words-btns__btn--active');
+        this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
       } else {
         wordBtns[activeWordIdx].classList.add('words-btns__btn--active');
+        this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
       }
     } else {
       const firstWordBtn = getElement('words-btns__btn');
       firstWordBtn.classList.add('words-btns__btn--active');
+      if (this.textBookView.userTextBookView.onDictPage) {
+        this.textBookView.createWordCard(this.textBookModel.difficultWords[0]);
+      } else {
+        this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
+      }
     }
   };
 
-  checkActiveWordCard = (): void => {
-    const activeWordIdx = this.textBookModel.wordsChunk
-      .map((word) => word.id)
-      .indexOf(`${LocalStorage.currUserSettings.currWord}`);
-    if (activeWordIdx === -1) {
-      this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
-    } else {
-      this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
-    }
-  };
+  // checkActiveWordCard = (): void => {
+  //   const activeWordIdx = this.textBookModel.wordsChunk
+  //     .map((word) => word.id)
+  //     .indexOf(`${LocalStorage.currUserSettings.currWord}`);
+  //   if (activeWordIdx === -1) {
+  //     this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
+  //   } else {
+  //     this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
+  //   }
+  // };
 
   checkActiveDifficultyBtn = (activeGroupNum: number): void => {
     const activeDifficultyBtns = document.getElementsByClassName(
@@ -104,5 +111,10 @@ export class TextBookViewUtils
     }
     const pagesBtns = document.getElementsByClassName('pagination__page-btn');
     pagesBtns[currPage].classList.add('pagination__page-btn--active');
+  };
+
+  disableDictBtn = (): void => {
+    const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;
+    dictBtn.disabled = true;
   };
 }

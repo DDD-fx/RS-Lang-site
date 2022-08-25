@@ -39,8 +39,8 @@
   box-shadow: 0px 15px 40px 5px var(--light-shadow);
   border-radius: 30px;
   border: none;
-  color: var(--grey);
-  font-family: 'Poppins';
+  color: var(--light-grey);
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -59,7 +59,7 @@
   margin: 20px 0;
   width: 25.6rem;
   height: 64px;
-  background: var(--grey);
+  background: var(--light-grey);
   border-radius: 30px;
   display: flex;
   align-items: center;
@@ -77,6 +77,7 @@
     transition: all 0.3s linear;
     opacity: 80%;
   }
+
 }
 
 .hidden {
