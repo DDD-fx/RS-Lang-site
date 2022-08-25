@@ -5,9 +5,14 @@
   --body-color: #212529;
   --maintheme: #a8eee4;
   --bg-color: #1b6f7a;
+  --dark-bg-color: #1b4a58;
+  --light-bg-color: #31777d;
   --white: #fff;
   --light-shadow: #ededed;
   --grey: #525252;
+  --light-grey: #8692a6;
+  --light-red: #db6666e6;
+  --white-transparent: rgba(255, 255, 255, 0.5);
 }
 
 /*html {
@@ -238,6 +243,16 @@ a.btn.btn.inactive:hover {
 .nav__list .btn {
   background: transparent;
   border-color: transparent;
+}
+
+input {
+  background: rgb(255 255 255 / 25%);
+  border-radius: 4px;
+  height: 1.8rem;
+}
+
+input:focus {
+  background: rgb(255 255 255 / 45%);
 }
 
 .modal {

@@ -28,7 +28,6 @@ export type GamesEntranceEventType = {
 };
 
 export type GamesEventsType = {
-  closeBtnClicked: () => void;
   sprintGameStarted: () => void;
   audioChallengeGameStarted: () => void;
   gameOptionClicked: (i: number) => void;
@@ -37,6 +36,7 @@ export type GamesEventsType = {
   nextBtnClicked: () => void;
   drawGameBtns: () => void;
   wordsAreOver: () => void;
+  turnThePage: () => void;
 };
 
 export interface GamesEntranceControllerInterface {
@@ -47,26 +47,45 @@ export interface GamesEntranceControllerInterface {
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
   audioChallengeModel: AudioChallengeModelInterface;
+  getWordsList(query: string): void;
+  turnGamePage(): void;
+  changeSettingsPage(): void;
 }
 
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
   getWordsList(query: string): void;
-  getWordData(word: WordsChunkType): void;
-  closeAudioChallengeGame(): void;
   turnGamePage(): void;
   changeSettingsPage(): void;
+  getNewPage(): void;
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
   audioChallengeModel: AudioChallengeModelInterface;
   drawAudioChallengeGame(): void;
   createCloseBtn(): void;
-  createWordsBtns({ id, wordTranslate, group }: WordBtnType): HTMLButtonElement;
+  createWordsBtns({ id, wordTranslate, group }: WordBtnType): HTMLElement;
   createAnswerWrapper(word: string): void;
+  updateWordBtnsWrapper(): Element;
+  selectRandomSoundingWord(): number;
+  createSpeakerWrapper(word: string): void;
+  enableWordSounding(): Promise<void>;
+  createAnswerWrapper(word: string): void;
+  createAnswerSigns(word: string): Element;
+  createContinueBtn(): void;
+  createSkipBtn(): void;
+  getRightAnswer(): string;
+  showRightAnswer(): void;
+  hideRightAnswer(): void;
+  hideSkipBtn(): void;
+  showSkipBtn(): void;
+  showSign(word: string): void;
+  makeWordsTransparent(word: string): void;
+  crossWrongWord(word: string): void;
+  wordsBtnsDisable(): void;
 }
 
-export type WordBtnType = Pick<WordsChunkType, 'id' | 'wordTranslate' | 'group'>;
+export type WordBtnType = Pick<WordsChunkType, 'id' | 'wordTranslate' | 'group' | 'word'>;
 
 export type AudioChallengeGameType = {
   level: number;
