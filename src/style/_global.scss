@@ -255,6 +255,21 @@ input:focus {
   background: rgb(255 255 255 / 45%);
 }
 
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  transition: 0.5s;
+  font-size: 1.5rem;
+  color: var(--maintheme);
+  background: rgba(0, 0, 0, 0.44);
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  opacity: 0;
+}
+
 ul,
 li {
   line-height: 25px;
