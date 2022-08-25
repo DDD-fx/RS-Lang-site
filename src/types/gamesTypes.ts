@@ -36,7 +36,7 @@ export type GamesEventsType = {
   nextBtnClicked: () => void;
   drawGameBtns: () => void;
   wordsAreOver: () => void;
-  turnThePage: () => void;
+  // turnThePage: () => void;
 };
 
 export interface GamesEntranceControllerInterface {
@@ -47,17 +47,17 @@ export interface GamesEntranceControllerInterface {
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
   audioChallengeModel: AudioChallengeModelInterface;
-  getWordsList(query: string): void;
+  getWordsList(query: string[]): void;
   turnGamePage(): void;
   changeSettingsPage(): void;
 }
 
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
-  getWordsList(query: string): void;
+  getWordsList(query: string[]): void;
   turnGamePage(): void;
   changeSettingsPage(): void;
-  getNewPage(): void;
+  // getNewPage(): void;
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
@@ -86,11 +86,15 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
 }
 
 export type WordBtnType = Pick<WordsChunkType, 'id' | 'wordTranslate' | 'group' | 'word'>;
+export type ResultBtnType = Pick<WordsChunkType, 'wordTranslate' | 'word'>;
 
 export type AudioChallengeGameType = {
   level: number;
   wordsPerPage: number;
-  page: number;
+  gamePage: number;
+  textbookPage: number;
   wordCount: number;
   soundingWordId: string;
+  learnedWords: string[];
+  unlearnedWords: string[];
 };

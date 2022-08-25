@@ -3,6 +3,7 @@ import {
   GamesEntranceModelInterface,
   GamesEntranceViewInterface,
 } from '../../../types/gamesTypes';
+import { AUDIOCHALLENGE_GAME_SETTINGS } from '../../../utils/constants';
 import { AudioChallengeController } from '../audioChallengeGame/audioChallengeGameController';
 import { AudioChallengeModel } from '../audioChallengeGame/audioChallengeGameModel';
 import { AudioChallengeView } from '../audioChallengeGame/audioChallengeGameView';
@@ -25,7 +26,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
   }
 
   startAudioChallengeGame = async () => {
-    const audioChallengeModel = new AudioChallengeModel();
+    const audioChallengeModel = new AudioChallengeModel(AUDIOCHALLENGE_GAME_SETTINGS.textbookPage);
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
     const audioChallengeController = new AudioChallengeController(
       audioChallengeModel,

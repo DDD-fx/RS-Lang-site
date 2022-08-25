@@ -24,9 +24,12 @@ export const WORDS_PER_TEXTBOOK_PAGE = 20;
 export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   level: 0,
   wordsPerPage: 5,
-  page: 0,
+  gamePage: 0,
+  textbookPage: 0,
   wordCount: 0,
   soundingWordId: '',
+  learnedWords: [],
+  unlearnedWords: [],
 };
 
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>

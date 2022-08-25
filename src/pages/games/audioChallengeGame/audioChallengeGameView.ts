@@ -5,22 +5,25 @@ import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
   GamesEventsType,
+  ResultBtnType,
   WordBtnType,
 } from '../../../types/gamesTypes';
-import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
+import {
+  AUDIOCHALLENGE_GAME_SETTINGS,
+  baseURL,
+} from '../../../utils/constants';
+import { WordsChunkType } from '../../../types/textbookTypes';
 
-export class AudioChallengeView
-  extends TypedEmitter<GamesEventsType>
-  implements AudioChallengeViewInterface
-{
+export class AudioChallengeView extends TypedEmitter<GamesEventsType>
+  implements AudioChallengeViewInterface {
   audioChallengeModel: AudioChallengeModelInterface;
 
   constructor(audioChallengeModel: AudioChallengeModelInterface) {
     super();
     this.audioChallengeModel = audioChallengeModel;
-    this.audioChallengeModel
-      .on('drawGameBtns', () => this.updateWordBtnsWrapper())
-      .on('turnThePage', () => this.drawAudioChallengeGame());
+    this.audioChallengeModel.on('drawGameBtns', () =>
+      this.updateWordBtnsWrapper()
+    );
   }
 
   drawAudioChallengeGame = (): void => {
@@ -41,7 +44,9 @@ export class AudioChallengeView
     wordsWrapper.innerHTML = '';
     for (
       let i = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
-      i < AUDIOCHALLENGE_GAME_SETTINGS.wordCount + AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
+      i <
+      AUDIOCHALLENGE_GAME_SETTINGS.wordCount +
+        AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
       i += 1
     ) {
       if (this.audioChallengeModel.wordsChunk[i]) {
@@ -54,7 +59,9 @@ export class AudioChallengeView
           })
         );
       } else {
-        console.log(this.audioChallengeModel.wordsChunk[i]);
+        console.log(`${i}Game over`);
+        this.stopTheGame();
+        this.showGameResults();
         this.emit('wordsAreOver');
       }
     }
@@ -66,16 +73,20 @@ export class AudioChallengeView
 
   selectRandomSoundingWord = (): number => {
     const min = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
-    const max = AUDIOCHALLENGE_GAME_SETTINGS.wordCount + AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
+    const max =
+      AUDIOCHALLENGE_GAME_SETTINGS.wordCount +
+      AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
     const randomIndex = Math.floor(Math.random() * (max - min)) + min;
-    console.log(randomIndex);
     return randomIndex;
   };
 
   createCloseBtn = (): void => {
     const gameOperationsGroup = getElement('game-operations-group');
     const closeBtn = createElement('div', 'game-operations-group__close-btn');
-    const cross = createElement('img', 'game-operations-group__cross-img') as HTMLImageElement;
+    const cross = createElement(
+      'img',
+      'game-operations-group__cross-img'
+    ) as HTMLImageElement;
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
     closeBtn.addEventListener('click', () => window.location.reload());
@@ -85,19 +96,26 @@ export class AudioChallengeView
   createSpeakerWrapper = (soundingWord: string): void => {
     const speakerWrapper = getElement('game-section__speaker-wrapper');
     speakerWrapper.innerHTML = '';
-    const word = this.audioChallengeModel.wordsChunk.find((el) => el.word === soundingWord);
-    const speaker = createElement('img', [
-      'game-section__speaker-img',
-      'game-section__speaker-img_big',
-    ]) as HTMLImageElement;
+    const word = this.audioChallengeModel.wordsChunk.find(
+      (el) => el.word === soundingWord
+    );
+    if (word) {
+      const speaker = this.createSpeaker(word, 'game-section__speaker-img');
+      speaker.classList.add('game-section__speaker-img_big');
+      speakerWrapper.append(speaker);
+    }
+  };
+
+  createSpeaker = (word: WordsChunkType, className?: string): HTMLElement => {
+    const speaker = createElement('img', `${className}`) as HTMLImageElement;
     speaker.src = './assets/games/speaker.svg';
     speaker.addEventListener('click', () => {
       (async () => {
-        const audio = new Audio(baseURL + word!.audio);
+        const audio = new Audio(baseURL + word.audio);
         await audio.play();
       })().catch();
     });
-    speakerWrapper.append(speaker);
+    return speaker;
   };
 
   enableWordSounding = async (): Promise<void> => {
@@ -105,9 +123,10 @@ export class AudioChallengeView
     const word = this.audioChallengeModel.wordsChunk.find(
       (el) => el.word === answer
     );
-    console.log(word);
-    const audio = new Audio(baseURL + word!.audio);
-    await audio.play().catch();
+    if (word) {
+      const audio = new Audio(baseURL + word!.audio);
+      await audio.play().catch();
+    }
   };
 
   createAnswerWrapper = (soundingWord: string): void => {
@@ -125,19 +144,11 @@ export class AudioChallengeView
       'div',
       'game-section__answer-speaker-wrapper'
     );
-    const speaker = createElement('img', [
-      'game-section__speaker-img',
-      'game-section__speaker-img_small',
-    ]) as HTMLImageElement;
-    speaker.src = './assets/games/speaker.svg';
-    speaker.alt = 'speaker image';
-    speaker.addEventListener('click', () => {
-      (async () => {
-        const audio = new Audio(baseURL + word!.audio);
-        await audio.play();
-      })().catch();
-    });
-
+    if (word) {
+      const speaker = this.createSpeaker(word, 'game-section__speaker-img');
+      speaker.classList.add('game-section__speaker-img_small');
+      speakerWrapper.append(speaker);
+    }
     const imageWrapper = createElement('game-section__answer-image-wrapper');
     const image = createElement(
       'img',
@@ -147,7 +158,6 @@ export class AudioChallengeView
     image.alt = 'word image';
     imageWrapper.append(image);
     selectedWord.innerText = soundingWord;
-    speakerWrapper.append(speaker);
     wordAndSpeakerWrapper.append(speakerWrapper, selectedWord);
     answerWrapper.append(imageWrapper, wordAndSpeakerWrapper);
   };
@@ -174,6 +184,7 @@ export class AudioChallengeView
       this.makeWordsTransparent(word);
       this.crossWrongWord(word);
       this.wordsBtnsDisable();
+      this.checkRightAnswer(word);
     });
     wordBtn.textContent = wordTranslate;
     wordWrapper.append(this.createAnswerSigns(word), wordBtn);
@@ -255,6 +266,7 @@ export class AudioChallengeView
       this.showSign(answer);
       this.makeWordsTransparent(answer);
       this.wordsBtnsDisable();
+      AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
     });
     skipBtnWrapper.append(skipBtn);
   };
@@ -264,7 +276,7 @@ export class AudioChallengeView
     return answer;
   };
 
-  showRightAnswer = (): void  => {
+  showRightAnswer = (): void => {
     const answerWrapper = getElement('game-section__answer-wrapper');
     if (answerWrapper.classList.contains('hidden')) {
       answerWrapper.classList.remove('hidden');
@@ -275,7 +287,7 @@ export class AudioChallengeView
     }
   };
 
-  hideRightAnswer = (): void  => {
+  hideRightAnswer = (): void => {
     const answerWrapper = getElement('game-section__answer-wrapper');
     if (!answerWrapper.classList.contains('hidden')) {
       answerWrapper.classList.add('hidden');
@@ -286,7 +298,7 @@ export class AudioChallengeView
     }
   };
 
-  hideSkipBtn = (): void  => {
+  hideSkipBtn = (): void => {
     const skipBtnWrapper = getElement('game-section__skip-btn-wrapper');
     if (!skipBtnWrapper.classList.contains('hidden')) {
       skipBtnWrapper.classList.add('hidden');
@@ -297,7 +309,7 @@ export class AudioChallengeView
     }
   };
 
-  showSkipBtn = (): void  => {
+  showSkipBtn = (): void => {
     const skipBtnWrapper = getElement('game-section__skip-btn-wrapper');
     if (skipBtnWrapper.classList.contains('hidden')) {
       skipBtnWrapper.classList.remove('hidden');
@@ -308,7 +320,7 @@ export class AudioChallengeView
     }
   };
 
-  showSign = (word: string): void  => {
+  showSign = (word: string): void => {
     const answer = this.getRightAnswer();
     const correctAnswerSignWrapper = getElement(
       `game-section__correct-sign-wrapper-${word}`
@@ -346,7 +358,7 @@ export class AudioChallengeView
     }
   };
 
-  makeWordsTransparent = (word: string): void  => {
+  makeWordsTransparent = (word: string): void => {
     const words = Array.from(
       document.getElementsByClassName('game-section__word')
     );
@@ -357,7 +369,7 @@ export class AudioChallengeView
     });
   };
 
-  crossWrongWord = (word: string): void  => {
+  crossWrongWord = (word: string): void => {
     const answer = this.getRightAnswer();
     const selectedWord = getElement(`game-section__word-${word}`);
 
@@ -368,12 +380,120 @@ export class AudioChallengeView
     }
   };
 
-  wordsBtnsDisable = (): void  => {
+  wordsBtnsDisable = (): void => {
     const buttons = Array.from(
       document.getElementsByClassName('game-section__word')
     );
     buttons.forEach((button) => {
       (button as HTMLButtonElement).disabled = true;
     });
+  };
+
+  checkRightAnswer = (word: string): void => {
+    const answer = this.getRightAnswer();
+    if (word === answer) {
+      AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(word);
+    } else {
+      AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(word);
+    }
+  };
+
+  stopTheGame = (): void => {
+    const gameWrapper = getElement('fixed-window');
+    if (!gameWrapper.classList.contains('hidden')) {
+      gameWrapper.classList.add('hidden');
+    }
+  };
+
+  showGameResults = (): void => {
+    const gameWrapper = getElement('fixed-result-window');
+    if (gameWrapper.classList.contains('hidden')) {
+      gameWrapper.classList.remove('hidden');
+    }
+    (gameWrapper as HTMLDivElement).style.height = '50vh';
+    const resultWrapper = getElement('result-section');
+    this.updateUnlearnedResultWordsWrapper();
+    this.updateLearnedResultWordsWrapper();
+  };
+
+  updateUnlearnedResultWordsWrapper = (): Element => {
+    const wordsWrapper = getElement('result-section__unlearned-words');
+    wordsWrapper.innerHTML = '';
+    const wordsWrapperHeader = createElement('h2', 'result-section__header');
+    wordsWrapperHeader.textContent = `Ошибок ${AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length}`;
+    wordsWrapper.append(wordsWrapperHeader);
+    for (
+      let i = 0;
+      i < AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length;
+      i += 1
+    ) {
+      const word = this.audioChallengeModel.wordsChunk.find(
+        (el) => el.word === AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords[i]
+      );
+      if (word) {
+        wordsWrapper.append(
+          this.createResultWordsBtns({
+            wordTranslate: word.wordTranslate,
+            word: word.word,
+          })
+        );
+      } else {
+        console.log(`no words`);
+      }
+    }
+    return wordsWrapper;
+  };
+
+  updateLearnedResultWordsWrapper = (): Element => {
+    const wordsWrapper = getElement('result-section__learned-words');
+    wordsWrapper.innerHTML = '';
+    const wordsWrapperHeader = createElement('h2', 'result-section__header');
+    wordsWrapperHeader.textContent = `Знаю ${AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length}`;
+    wordsWrapper.append(wordsWrapperHeader);
+    for (
+      let i = 0;
+      i < AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length;
+      i += 1
+    ) {
+      const word = this.audioChallengeModel.wordsChunk.find(
+        (el) => el.word === AUDIOCHALLENGE_GAME_SETTINGS.learnedWords[i]
+      );
+      if (word) {
+        wordsWrapper.append(
+          this.createResultWordsBtns({
+            wordTranslate: word.wordTranslate,
+            word: word.word,
+          })
+        );
+      } else {
+        console.log(`no words`);
+      }
+    }
+    return wordsWrapper;
+  };
+
+  createResultWordsBtns = ({
+    word,
+    wordTranslate,
+  }: ResultBtnType): HTMLElement => {
+    const wordWrapper = createElement('div', 'result-section__word-wrapper');
+    const wordText = createElement('span', [
+      'result-section__word',
+      `result-section__word-${word}`,
+    ]) as HTMLElement;
+    wordText.textContent = `${word} - ${wordTranslate}`;
+    const soundingWord = this.audioChallengeModel.wordsChunk.find(
+      (el) => el.word === word
+    );
+    if (soundingWord) {
+      const speaker = this.createSpeaker(
+        soundingWord,
+        'result-section__speaker-img'
+      );
+      speaker.classList.add('result-section__speaker-img_small');
+      wordWrapper.append(speaker);
+    }
+    wordWrapper.append(wordText);
+    return wordWrapper;
   };
 }
