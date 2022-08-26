@@ -25,12 +25,12 @@ export class TextBookController implements TextBookControllerInterface {
       )
       .on('deleteDifficultWordBtnClicked', (wordID, onDictPage) =>
         this.deleteDifficultWord(wordID, onDictPage),
+      )
+      .on('addLearnedWordBtnClicked', (wordID, difficulty) => this.addUserWord(wordID, difficulty))
+      .on('deleteLearnedWordBtnClicked', (wordID, onDictPage) =>
+        this.deleteLearnedWord(wordID, onDictPage),
       );
   }
-
-  getTextBookList = (): void => {
-    void this.textBookModel.getTextBookList();
-  };
 
   changeTextBookPage = (page: number): void => {
     LocalStorage.currUserSettings.currPage = page;
@@ -44,9 +44,7 @@ export class TextBookController implements TextBookControllerInterface {
     LocalStorage.currUserSettings.currWord = '';
     LocalStorage.currUserSettings.currGroup = group;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
-
     void this.textBookModel.getTextBookList();
-    // LocalStorage.currUserSettings.currWord = this.textBookModel.wordsChunk[0].id;
   };
 
   getWordData = (id: string, onDictPage: boolean): void => {
@@ -69,5 +67,9 @@ export class TextBookController implements TextBookControllerInterface {
 
   deleteDifficultWord = (wordID: string, onDictPage: boolean): void => {
     void this.textBookModel.deleteDifficultWord(wordID, onDictPage);
+  };
+
+  deleteLearnedWord = (wordID: string, onDictPage: boolean): void => {
+    void this.textBookModel.deleteLearnedWord(wordID, onDictPage);
   };
 }

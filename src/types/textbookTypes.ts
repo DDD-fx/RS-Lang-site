@@ -7,6 +7,8 @@ export type TextBookEventsType = {
   dictBtnClicked: () => void;
   addDifficultWordBtnClicked: (wordID: string, difficulty: WordStatusEnum.difficult) => void;
   deleteDifficultWordBtnClicked: (wordID: string, onDictPage: boolean) => void;
+  addLearnedWordBtnClicked: (wordID: string, difficulty: WordStatusEnum.learned) => void;
+  deleteLearnedWordBtnClicked: (wordID: string, onDictPage: boolean) => void;
 
   getTextBookList: () => void;
   getWordData: (word: WordsChunkType) => void;
@@ -22,24 +24,26 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
   learnedWords: WordsChunkType[];
   getTextBookList(): Promise<void>;
   getWordData(id: string, onDictPage: boolean): void;
-  getDifficultWordsForCurrGroup(): Promise<void>;
+  getUserWordsForCurrGroup(query: string, wordStatus: WordStatusEnum): Promise<void>;
   getUserDictWords(): Promise<void>;
-  updateUserDictWords(): Promise<void>;
-  getDifficultWords(query: string): Promise<void>;
+  updateUserWords(wordStatus: WordStatusEnum): Promise<void>;
+  getUserWords(query: string, wordStatus: WordStatusEnum): Promise<void>;
   addUserWord(addUserWordReq: AddUserWordReqType, wordID: string): Promise<void>;
   deleteDifficultWord(wordID: string, onDictPage: boolean): Promise<void>;
+  deleteLearnedWord(wordID: string, onDictPage: boolean): Promise<void>;
   getAggregatedWords(query: string): Promise<AggregatedWordType[] | void>;
+  mapUserWordsID(difficultWords: AggregatedWordType[]): WordsChunkType[];
 }
 
 export interface TextBookControllerInterface {
   textBookModel: TextBookModelInterface;
   textBookView: TextBookViewInterface;
-  getTextBookList(): void;
   changeTextBookPage(page: number): void;
   changeTextBookGroup(group: number): void;
   getWordData(id: string, onDictPage: boolean): void;
   getUserDictWords(): void;
   deleteDifficultWord(wordID: string, onDictPage: boolean): void;
+  deleteLearnedWord(wordID: string, onDictPage: boolean): void;
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
@@ -68,6 +72,7 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
   addBackToTextBookListenerBtn(): void;
   addDictBtnListener(): void;
   makeStarBtnActive(): void;
+  checkLearnedBtnActive(): void;
 }
 
 export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsType> {

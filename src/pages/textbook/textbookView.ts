@@ -100,6 +100,7 @@ export class TextBookView
     const wordBtn = createElement('div', ['words-btns__btn', `group-${group}`]) as HTMLDivElement;
     wordBtn.id = id;
     wordBtn.addEventListener('click', () => {
+      if (LocalStorage.currUserSettings.currWord === id) return;
       this.emit('wordBtnClicked', id, this.userTextBookView.onDictPage);
       this.textBookViewUtils.checkActiveWordsBtns(id);
     });

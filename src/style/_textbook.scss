@@ -196,6 +196,10 @@
   &:hover {
     fill: $bin-svg-active;
   }
+
+  &--active {
+    fill: $bin-svg-active;
+  }
 }
 
 .word-description {
