@@ -36,6 +36,10 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
     this.createContinueBtn();
     this.createSkipBtn();
     this.enableWordSounding();
+    const gameWindow = getElement('fixed-window');
+    if (gameWindow.classList.contains('hidden')) {
+      gameWindow.classList.remove('hidden');
+    }
   };
 
   updateWordBtnsWrapper = (): Element => {
@@ -410,17 +414,37 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
     if (gameWrapper.classList.contains('hidden')) {
       gameWrapper.classList.remove('hidden');
     }
-    (gameWrapper as HTMLDivElement).style.height = '50vh';
-    const resultWrapper = getElement('result-section');
+    const wordsWrapper = getElement('result-section');
+    (wordsWrapper as HTMLDivElement).style.height = '50vh';
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
+    this.showOperationPanel();
   };
+
+  closeGameResults = (): void => {
+    console.log("booo")
+    const gameWrapper = getElement('fixed-result-window');
+    const operationPanel = getElement('result-section__operation-panel');  
+    if (!gameWrapper.classList.contains('hidden')) {
+      gameWrapper.classList.add('hidden');
+    }
+    if (!operationPanel.classList.contains('hidden')) {
+      operationPanel.classList.add('hidden');
+    }
+    const wordsWrapper = getElement('result-section');
+    (wordsWrapper as HTMLDivElement).style.height = '0';
+  }
+
+
 
   updateUnlearnedResultWordsWrapper = (): Element => {
     const wordsWrapper = getElement('result-section__unlearned-words');
     wordsWrapper.innerHTML = '';
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    wordsWrapperHeader.textContent = `Ошибок ${AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length}`;
+    const headerSpan = createElement('span', ['result-section__span', 'result-section__span_errors']);
+    headerSpan.textContent = `${AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length}`;
+    wordsWrapperHeader.textContent= 'Ошибок ';
+    wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (
       let i = 0;
@@ -448,7 +472,10 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
     const wordsWrapper = getElement('result-section__learned-words');
     wordsWrapper.innerHTML = '';
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    wordsWrapperHeader.textContent = `Знаю ${AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length}`;
+    const headerSpan = createElement('span', ['result-section__span', 'result-section__span_correct']);
+    headerSpan.textContent = `${AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length}`;
+    wordsWrapperHeader.textContent= 'Знаю ';
+    wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (
       let i = 0;
@@ -496,4 +523,32 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType>
     wordWrapper.append(wordText);
     return wordWrapper;
   };
+
+  showOperationPanel = (): void => {
+    const operationPanel = getElement('result-section__operation-panel');
+    const closeBtn = this.createResultsCloseBtn();
+    const continueBtn = this.createResultsContinueBtn();
+    operationPanel.append(closeBtn, continueBtn);
+  }
+
+  createResultsCloseBtn = (): HTMLElement => {
+    const closeBtnWrapper = createElement('div', 'result-section__close-btn-wrapper');
+    const closeBtn = createElement('button', ['game-start-btn', 'result-section__close-btn']);
+    closeBtn.textContent = 'Завершить игру';
+    closeBtn.addEventListener("click", () => window.location.reload());
+    closeBtnWrapper.append(closeBtn);
+    return closeBtnWrapper;
+  }
+
+  createResultsContinueBtn = (): HTMLElement => {
+    const continueBtnWrapper = createElement('div', 'result-section__continue-btn-wrapper');
+    const continueBtn = createElement('button', ['game-start-btn','result-section__continue-btn']);
+    continueBtn.textContent = 'Продолжить игру';
+    continueBtn.addEventListener("click", () => {
+      this.closeGameResults();
+      this.drawAudioChallengeGame()
+    });
+    continueBtnWrapper.append(continueBtn);
+    return continueBtnWrapper;
+  }
 }

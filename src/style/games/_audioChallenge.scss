@@ -94,7 +94,7 @@
 .game-section__selected-word {
   text-align: center;
   line-height: 2.5rem;
-  margin-left: 1%;
+  margin-left: 2%;
   font-size: 2rem;
   &:hover {
     transition: all 0.3s linear;
@@ -123,9 +123,6 @@
 
 .game-section__next-btn-wrapper,
 .game-section__skip-btn-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 10%;
   &.hidden {
     display: none;
   }
@@ -186,6 +183,7 @@
 .game-section__answer-word-wrapper {
   margin-left: 1%;
   display: flex;
+  padding: 1%;
 }
 
 .game-section__wrong-sign-wrapper,
@@ -237,10 +235,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 0;
-}
-
-.result-section__unlearned-words {
+  background-color: var(--light);
+  border-radius: 10px;
 }
 
 .result-section__word-wrapper {
@@ -266,12 +262,17 @@
 }
 
 .result-section {
-  margin: 3%;
+  width: 30vw;
+  height: 0;
+}
+
+.result-section__words {
+  margin: 3% 3% 0;
   background-color: var(--white);
   color: var(--dark-bg-color);
-  width: 40vw;
   overflow-y: scroll;
   border-radius: 10px;
+  height: 90%;
 }
 
 .result-section__speaker-img {
@@ -281,11 +282,11 @@
 }
 
 .result-section__learned-words {
-  padding: 1% 10%;
+  padding: 1% 5%;
 }
 
 .result-section__unlearned-words {
-  padding: 1% 10%;
+  padding: 1% 5%;
 }
 
 ::-webkit-scrollbar {
@@ -304,4 +305,39 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--maintheme);
+}
+
+.result-section__operation-panel {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: var(--light);
+  border-radius: 10px;
+  &.hidden {
+    display: none;
+  }
+}
+
+.result-section__span {
+  padding: 1.5% 3%;
+  border-radius: 50%;
+}
+
+.result-section__span_correct {
+  background-color: var(--light-green);
+}
+
+.result-section__span_errors {
+  background-color: var(--light-red);
+}
+
+@media screen and (max-width: 1400px) {
+  .result-section {
+    width: 70vw;
+  }
+  .game-section__answer-word-wrapper {
+    width: 100%;
+    justify-content: center;
+  }
 }
