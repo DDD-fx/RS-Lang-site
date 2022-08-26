@@ -65,7 +65,6 @@ const routes: Routes[] = [
   {
     path: '/login',
     action: () => {
-    //  const login = new Login();
       login.view.renderLoginForm();
     },
   },
@@ -81,7 +80,6 @@ const routes: Routes[] = [
   {
     path: '/auth',
     action: () => {
-     // const login = new Login();
       login.view.renderRegForm();
     },
   },

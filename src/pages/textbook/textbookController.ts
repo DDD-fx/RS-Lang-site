@@ -13,7 +13,6 @@ export class TextBookController implements TextBookControllerInterface {
   textBookView;
 
   constructor() {
-    
     this.textBookModel = new TextBookModel();
     this.textBookView = new TextBookView(this.textBookModel);
     this.textBookView
@@ -33,12 +32,12 @@ export class TextBookController implements TextBookControllerInterface {
       );
   }
 
-  init = async() => {
+  init = async () => {
     await this.textBookModel.getTextBookList();
-    if (this.textBookView.userTextBookView.onDictPage) this.textBookView.userTextBookView.drawDict();
-        else this.textBookView.drawTextBook();
-  }
-
+    if (this.textBookView.userTextBookView.onDictPage)
+      this.textBookView.userTextBookView.drawDict();
+    else this.textBookView.drawTextBook();
+  };
 
   changeTextBookPage = (page: number): void => {
     LocalStorage.currUserSettings.currPage = page;
