@@ -8,6 +8,7 @@ import {
 import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate } from '../../components/textbook';
+import { LocalStorage } from '../../utils/storage';
 
 export class UserTextBookView
   extends TypedEmitter<TextBookEventsType>
@@ -31,13 +32,18 @@ export class UserTextBookView
     this.textBookView.textBookViewUtils.addReadMeListeners();
     this.addBackToTextBookListenerBtn();
 
-    this.appendUserWordsBtns();
-
-    this.drawUserTextBookView();
-    this.textBookView.textBookViewUtils.disableDictBtn();
-    this.textBookView.textBookViewUtils.checkActiveWordsBtns('');
-
-    this.makeStarBtnActive();
+    if (this.textBookModel.difficultWords.length > 0) {
+      this.appendUserWordsBtns();
+      this.drawUserTextBookView();
+      this.textBookView.textBookViewUtils.disableDictBtn();
+      this.textBookView.textBookViewUtils.checkActiveWordsBtns(
+        (LocalStorage.currUserSettings.currWord = ''),
+      );
+      this.makeStarBtnActive();
+    } else {
+      const wordsTitle = getElement('words-title');
+      wordsTitle.innerHTML += ' вы не добавляли сложные слова';
+    }
   };
 
   drawUserTextBookView = (): void => {
@@ -49,11 +55,10 @@ export class UserTextBookView
 
   appendUserWordsBtns = (): void => {
     const wordsDiv = getElement('js-user-words');
-    console.log('appendUserWordsBtns', this.textBookModel.difficultWords);
     this.textBookModel.difficultWords.forEach((wordData) => {
       wordsDiv.append(
         this.textBookView.createWordsBtns({
-          id: wordData._id,
+          id: wordData.id,
           word: wordData.word,
           wordTranslate: wordData.wordTranslate,
           group: wordData.group,
@@ -109,8 +114,8 @@ export class UserTextBookView
     const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;
     dictBtn.disabled = false;
     dictBtn.addEventListener('click', () => {
-      this.emit.call(this.textBookView, 'dictBtnClicked');
       this.onDictPage = true;
+      this.emit.call(this.textBookView, 'dictBtnClicked');
     });
   };
 
