@@ -34,7 +34,8 @@ export class TextBookView
     this.textBookModel
       .on('getTextBookList', () => this.drawTextBook())
       .on('getWordData', (word) => this.createWordCard(word))
-      .on('getUserDict', () => this.userTextBookView.drawDict());
+      .on('getUserDict', () => this.userTextBookView.drawDict())
+      .on('removeDifficultWordElem', (wordID) => this.userTextBookView.removeDictElem(wordID));
   }
 
   drawTextBook = (): void => {
@@ -45,14 +46,13 @@ export class TextBookView
     this.textBookViewUtils.checkGamesBtnsColor();
 
     this.appendWordsBtns();
-
-    this.textBookViewUtils.checkActiveWordsBtns((LocalStorage.currUserSettings.currWord = ''));
+    this.textBookViewUtils.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
 
     this.createPagination();
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
 
     // USER VIEW
-    if (LocalStorage.currUserSettings.userId) this.userTextBookView.drawUserTextBookView();
+    if (LocalStorage.currUserSettings.userId) this.userTextBookView.drawUserTextBookElems();
   };
 
   createDifficultyBtns = (): void => {
@@ -82,7 +82,9 @@ export class TextBookView
 
   appendWordsBtns = (): void => {
     const wordsDiv = getElement('js-words-btns');
-    this.textBookModel.wordsChunk.forEach((wordData) => {
+    const collection = this.textBookViewUtils.getCurrCollection();
+
+    collection.forEach((wordData) => {
       wordsDiv.append(
         this.createWordsBtns({
           id: wordData.id,
@@ -98,7 +100,8 @@ export class TextBookView
     const wordBtn = createElement('div', ['words-btns__btn', `group-${group}`]) as HTMLDivElement;
     wordBtn.id = id;
     wordBtn.addEventListener('click', () => {
-      this.emit('wordBtnClicked', id);
+      if (LocalStorage.currUserSettings.currWord === id) return;
+      this.emit('wordBtnClicked', id, this.userTextBookView.onDictPage);
       this.textBookViewUtils.checkActiveWordsBtns(id);
     });
 

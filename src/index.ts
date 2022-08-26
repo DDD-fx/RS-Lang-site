@@ -49,7 +49,8 @@ void (async function textbook() {
     {
       path: '/textbook',
       action: () => {
-        textBookView.drawTextBook();
+        if (textBookView.userTextBookView.onDictPage) textBookView.userTextBookView.drawDict();
+        else textBookView.drawTextBook();
       },
     },
     {
