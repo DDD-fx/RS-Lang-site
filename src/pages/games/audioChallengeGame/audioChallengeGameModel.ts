@@ -7,8 +7,7 @@ import { TypedEmitter } from 'tiny-typed-emitter';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
 
-export class AudioChallengeModel extends TypedEmitter
-  implements AudioChallengeModelInterface {
+export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
 
   constructor(textBookPage: number) {
@@ -29,8 +28,7 @@ export class AudioChallengeModel extends TypedEmitter
   };
 
   turnGamePage = (): void => {
-    AUDIOCHALLENGE_GAME_SETTINGS.wordCount +=
-      AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
+    AUDIOCHALLENGE_GAME_SETTINGS.wordCount += AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
     this.emit('drawGameBtns');
   };
 

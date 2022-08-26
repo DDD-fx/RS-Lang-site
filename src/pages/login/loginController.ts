@@ -4,7 +4,7 @@ import { createUser, loginUser, getExpirationDate } from '../../model/api/usersA
 import { UserSuccessLoginType, CreateUserResponseType } from '../../types/userTypes';
 import { LocalStorage } from '../../utils/storage';
 import { UserSettingsType } from '../../types/types';
-import history from '../../index';
+import history from '../../history';
 import Nav from '../../components/nav';
 import { getElement } from '../../utils/tools';
 
@@ -29,8 +29,8 @@ class Login {
       if (response[0] === 200) {
         showModal('Успешная авторизация!');
         this.setUserSettings(userData.email, response[1]);
-        window.location.replace('/')
-      //  history.push('/');
+        window.location.replace('/');
+        //  history.push('/');
         new Nav(getElement('header') as HTMLElement).render();
       } else showModal('Неверный логин или пароль!');
     }
@@ -51,7 +51,7 @@ class Login {
       const response = (await createUser(userData)) as [number, CreateUserResponseType];
       if (response[0] === 200) {
         showModal('Успешная регистрация!');
-       // window.location.replace('/login')
+        // window.location.replace('/login')
         history.push('/login');
       } else showModal(response[1].error.errors[0].message);
     }
@@ -59,22 +59,16 @@ class Login {
 
   setUserSettings = (email: string, responseData: UserSuccessLoginType): void => {
     const { token, refreshToken, userId, name } = responseData;
-    const expireOn = getExpirationDate(token) - 300000 as number;
-    const loginUserSettings: UserSettingsType = {
-      userEmail: email,
-      userName: name,
-      avatarURL: '',
-      token: token,
-      refreshToken: refreshToken,
-      expireOn: expireOn,
-      currPage: LocalStorage.currUserSettings.currPage,
-      currGroup: LocalStorage.currUserSettings.currGroup,
-      currWord: LocalStorage.currUserSettings.currWord,
-      userId: userId,
-    };
+    const expireOn = (getExpirationDate(token) - 300000) as number;
+    LocalStorage.currUserSettings.userId = userId;
+    LocalStorage.currUserSettings.userEmail = email;
+    LocalStorage.currUserSettings.userName = name;
+    LocalStorage.currUserSettings.token = token;
+    LocalStorage.currUserSettings.refreshToken = refreshToken;
+    LocalStorage.currUserSettings.expireOn = expireOn;
+
     LocalStorage.isAuth = true;
-    LocalStorage.currUserSettings = loginUserSettings;
-    LocalStorage.setLSData(LocalStorage.currUserID, loginUserSettings);
+    LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
   };
 }
 

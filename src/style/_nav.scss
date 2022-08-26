@@ -1,0 +1,62 @@
+@import 'mixins';
+
+/* hamburger */
+
+.hamburger {
+  display: none;
+  z-index: 1;
+  //padding-right: 4px;
+  margin: 0 43px 0 auto;
+  transition: 0.3s;
+  @include sm {
+    margin: 0 43px 0 0;
+  }
+}
+
+.hamburger .line {
+  width: 30px;
+  height: 2px;
+  background-color: var(--maintheme);
+  display: block;
+  margin: 8px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger:hover {
+  cursor: pointer;
+}
+
+#hamburger-1.is-active {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/* hamburger END */
+
+@include md {
+  .hamburger {
+    display: block;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 320px;
+    height: 100vh;
+    background-color: var(--color-dark-3xl);
+    z-index: 1;
+    padding-right: 0px;
+    transition: 0.5s;
+    @include xs {
+      width: 100%;
+    }
+  }
+  .nav.is-active {
+    right: 0;
+  }
+}

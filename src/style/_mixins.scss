@@ -29,3 +29,37 @@
     box-shadow: none;
   }
 }
+
+$screen-xs-max: 320px;
+$screen-sm-max: 550px;
+$screen-md-max: 768px;
+$screen-mid-max: 950px;
+$screen-lg-max: 1300px;
+
+@mixin xs {
+  @media screen and (max-width: #{$screen-xs-max}) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media screen and (max-width: #{$screen-sm-max}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media screen and (max-width: #{$screen-md-max}) {
+    @content;
+  }
+}
+@mixin mid {
+  @media screen and (max-width: #{$screen-mid-max}) {
+    @content;
+  }
+}
+@mixin lg {
+  @media screen and (max-width: #{$screen-lg-max}) {
+    @content;
+  }
+}

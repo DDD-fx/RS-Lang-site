@@ -44,13 +44,14 @@ export class LocalStorage {
     ) {
       // LocalStorage.createLocalKey(DEFAULT_USER_NAME); //эта строчка лишняя
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
-    } else LocalStorage.isAuth = true;
+    }
+    if (LocalStorage.currUserSettings.token !== '') LocalStorage.isAuth = true;
   };
 
   static saveToken = (token: string, refreshToken: string): void => {
     LocalStorage.currUserSettings.token = token;
     LocalStorage.currUserSettings.refreshToken = refreshToken;
-    LocalStorage.currUserSettings.expireOn = getExpirationDate(token) - 300000
+    LocalStorage.currUserSettings.expireOn = getExpirationDate(token) - 300000;
     LocalStorage.setLSData(DEFAULT_USER_NAME, LocalStorage.currUserSettings);
   };
 

@@ -4,6 +4,8 @@ import {
   TextBookModelInterface,
   TextBookViewInterface,
 } from '../../types/textbookTypes';
+import { TextBookModel } from './textbookModel';
+import { TextBookView } from './textbookView';
 import { LocalStorage } from '../../utils/storage';
 
 export class TextBookController implements TextBookControllerInterface {
@@ -11,9 +13,9 @@ export class TextBookController implements TextBookControllerInterface {
 
   textBookView;
 
-  constructor(textBookModel: TextBookModelInterface, textBookView: TextBookViewInterface) {
-    this.textBookModel = textBookModel;
-    this.textBookView = textBookView;
+  constructor() {
+    this.textBookModel = new TextBookModel() as TextBookModelInterface;
+    this.textBookView = new TextBookView(this.textBookModel) as TextBookViewInterface;
     this.textBookView
       .on('pageBtnClicked', (page) => this.changeTextBookPage(page))
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
@@ -22,9 +24,9 @@ export class TextBookController implements TextBookControllerInterface {
       .on('addDifficultWordBtnClicked', (wordID) => this.addDifficultWord(wordID))
       .on('deleteUserWordBtnClicked', (wordID) => this.deleteUserWord(wordID));
   }
-
-  getTextBookList = (): void => {
-    void this.textBookModel.getTextBookList();
+  init = async () => {
+    await this.textBookModel.getTextBookList();
+    this.textBookView.drawTextBook();
   };
 
   changeTextBookPage = (page: number): void => {

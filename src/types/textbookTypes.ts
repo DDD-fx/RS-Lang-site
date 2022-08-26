@@ -32,7 +32,6 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
 export interface TextBookControllerInterface {
   textBookModel: TextBookModelInterface;
   textBookView: TextBookViewInterface;
-  getTextBookList(): void;
   changeTextBookPage(page: number): void;
   changeTextBookGroup(group: number): void;
   getWordData(id: string): void;

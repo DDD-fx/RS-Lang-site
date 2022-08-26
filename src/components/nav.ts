@@ -1,6 +1,6 @@
 import { createElement } from '../utils/tools';
 import { LocalStorage } from '../utils/storage';
-import history from '../index';
+import history from '../history';
 
 const logIn = `<a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>`;
 const logOut = `<a href="/logout"><button class="btn btn-logout " data-btn="login"> Выйти </button></a>`;
@@ -25,6 +25,12 @@ const navInner = (isAuthorized: boolean) => `
 ${isAuthorized ? logOut : logIn}
 </ul>
 </nav>
+<!--<div class="shadow"></div>-->
+<div class="hamburger" id="hamburger-1">
+<span class="line"></span> 
+<span class="line"></span> 
+<span class="line"></span>
+</div>
 `;
 
 class Nav {

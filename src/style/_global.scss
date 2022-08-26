@@ -1,3 +1,4 @@
+@import 'mixins';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@100;300;400&display=swap');
 
@@ -115,16 +116,6 @@ p {
   margin: 0 auto;
 }
 
-/* 1st var
-.header__wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 20px;
-  font-size: 1rem;
-}
-*/
-
 .header__wrapper {
   display: flex;
   justify-content: space-between;
@@ -137,6 +128,7 @@ p {
   backdrop-filter: blur(30px);
   border-radius: 8px;
   margin: 40px auto 20px auto;
+  overflow: hidden;
 }
 
 .nav__list {
@@ -173,7 +165,6 @@ p {
   border-radius: 4px;
   border: none;
   background: rgba(255, 255, 255, 0.2);
-  //border: 2px solid rgba(255, 255, 255, 0.25);
   color: #fff;
   font-size: 1rem;
   outline: none;
@@ -184,9 +175,6 @@ p {
   padding: 6px 15px;
   -webkit-tap-highlight-color: transparent;
   position: relative;
-  //text-transform: uppercase;
-  // box-shadow: 0px 4px 20px rgb(61 61 61 / 20%);
-  //backdrop-filter: blur(50px);
   font-weight: 300;
   letter-spacing: 0.05rem;
 }
@@ -210,7 +198,6 @@ a.btn.btn.inactive:hover {
 
 .nav__list .btn.btn-login {
   background: rgba(255, 255, 255, 0.2);
-  //border: 2px solid rgba(255, 255, 255, 0.25);
 }
 
 .nav__list .btn.btn-logout {
@@ -311,13 +298,13 @@ li {
   transition: 0.3s;
 }
 
-@media (max-width: 950px) {
+@include mid {
   .nav__list {
     gap: 3px;
   }
 }
 
-@media (max-width: 768px) {
+@include md {
   html {
     font-size: 14px;
   }
@@ -331,7 +318,7 @@ li {
     flex-wrap: wrap;
   }
 
-  >div,
+  > div,
   a,
   p {
     line-height: 1.5rem;

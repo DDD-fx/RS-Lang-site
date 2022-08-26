@@ -31,6 +31,13 @@ const renderMainTemplate = () => `
     <img src="./assets/whale.svg" alt="">
   </div>
   </div>
+  <div class="main__container advantages-screen">
+  <h2 class="article__title">Наши преимущества </h2>
+  </div>
+  <div class="main__container about-us-screen">
+  <h2 class="article__title">О нас </h2>
+  </div>
+  </div>
 `;
 
 const footerInner = `<div class="wrapper footer__wrapper">
