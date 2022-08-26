@@ -57,26 +57,18 @@ export class TextBookViewUtils
       [...activeWordBtns].forEach((btn) => btn.classList.remove('words-btns__btn--active'));
     }
 
+    let collection = this.textBookModel.wordsChunk;
+    if (this.textBookView.userTextBookView.onDictPage) {
+      collection = this.textBookModel.difficultWords;
+    }
     const wordBtns = document.getElementsByClassName('words-btns__btn');
     if (wordID) {
-      const activeWordIdx = this.textBookModel.wordsChunk
-        .map((word) => word.id)
-        .indexOf(`${wordID}`);
-      if (activeWordIdx === -1) {
-        wordBtns[0].classList.add('words-btns__btn--active');
-        this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
-      } else {
-        wordBtns[activeWordIdx].classList.add('words-btns__btn--active');
-        this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
-      }
+      const activeWordIdx = collection.map((word) => word.id).indexOf(`${wordID}`);
+      wordBtns[activeWordIdx].classList.add('words-btns__btn--active');
+      this.textBookView.createWordCard(collection[activeWordIdx]);
     } else {
-      const firstWordBtn = getElement('words-btns__btn');
-      firstWordBtn.classList.add('words-btns__btn--active');
-      if (this.textBookView.userTextBookView.onDictPage) {
-        this.textBookView.createWordCard(this.textBookModel.difficultWords[0]);
-      } else {
-        this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
-      }
+      wordBtns[0].classList.add('words-btns__btn--active');
+      this.textBookView.createWordCard(collection[0]);
     }
   };
 

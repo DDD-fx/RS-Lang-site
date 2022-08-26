@@ -16,7 +16,7 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
 
   aggregatedWords: AggregatedWordType[];
 
-  difficultWords: AggregatedWordType[];
+  difficultWords: WordsChunkType[];
 
   constructor() {
     super();
@@ -32,19 +32,17 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
 
     if (LocalStorage.currUserSettings.userId) await this.getDifficultWordsForCurrGroup();
     this.emit('getTextBookList');
-    console.log('diffic', this.difficultWords);
   };
 
-  getWordData = (word: WordsChunkType): void => {
-    this.emit('getWordData', word);
+  getWordData = (id: string): void => {
+    const selectedWord = this.wordsChunk.filter((el) => el.id === id)[0];
+    this.emit('getWordData', selectedWord);
   };
 
-  getUserDictWords = async (): Promise<void> => {
+  getUserDictWords = async (onDictPage = false): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?filter={"userWord.difficulty":"${WordStatusEnum.difficult}"}`;
     await this.getDifficultWords(query);
-    console.log('DICT diffic', this.difficultWords);
-    // setTimeout(() => this.emit('getUserDict'), 1000);
-    this.emit('getUserDict');
+    if (onDictPage) this.emit('getUserDict');
   };
 
   getDifficultWordsForCurrGroup = async (): Promise<void> => {
@@ -77,7 +75,21 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
         headers: this.API_USER_REQ_HEADER,
       });
       const content = (await rawResponse.json()) as AggregatedWordsRespType[];
-      this.difficultWords = content[0].paginatedResults.slice();
+      const difficultWords = content[0].paginatedResults.slice();
+      this.mapDifficultWordsID(difficultWords);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  deleteUserWord = async (wordID: string, onDictPage: boolean): Promise<void> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
+    try {
+      await fetch(baseURL + query, {
+        method: 'DELETE',
+        headers: this.API_USER_REQ_HEADER,
+      });
+      await this.getUserDictWords(onDictPage);
     } catch (e) {
       console.error(e);
     }
@@ -96,23 +108,13 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     }
   };
 
-  deleteUserWord = async (wordID: string): Promise<void> => {
-    const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
-    try {
-      const rawResponse = await fetch(baseURL + query, {
-        method: 'DELETE',
-        headers: this.API_USER_REQ_HEADER,
-      });
-      console.log(rawResponse);
-      console.log('word deleted');
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   API_USER_REQ_HEADER = {
     Authorization: `Bearer ${LocalStorage.currUserSettings.token}`,
     Accept: 'application/json',
     'Content-Type': 'application/json',
+  };
+
+  mapDifficultWordsID = (difficultWords: AggregatedWordType[]): void => {
+    this.difficultWords = difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
 }
