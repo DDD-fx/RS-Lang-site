@@ -50,7 +50,7 @@ export class LocalStorage {
   static saveToken = (token: string, refreshToken: string): void => {
     LocalStorage.currUserSettings.token = token;
     LocalStorage.currUserSettings.refreshToken = refreshToken;
-    LocalStorage.currUserSettings.expireOn = getExpirationDate(token) - 300000
+    LocalStorage.currUserSettings.expireOn = getExpirationDate(token) - 300000;
     LocalStorage.setLSData(DEFAULT_USER_NAME, LocalStorage.currUserSettings);
   };
 

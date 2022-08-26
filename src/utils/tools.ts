@@ -22,7 +22,10 @@ const showModal = (message: string) => {
   modal.innerHTML = message;
   modal.style.opacity = '1';
   modal.style.display = 'block';
-  setTimeout(() => {modal.style.opacity = '0'; modal.style.display = 'none';}, 3000);
+  setTimeout(() => {
+    modal.style.opacity = '0';
+    modal.style.display = 'none';
+  }, 3000);
 };
 
 export { createElement, getElement, getElementQuery, showModal };
