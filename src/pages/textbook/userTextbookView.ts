@@ -4,6 +4,7 @@ import {
   TextBookModelInterface,
   TextBookViewInterface,
   UserTextBookViewInterface,
+  WordStatusEnum,
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, STAR_SVG } from '../../utils/constants';
@@ -33,8 +34,8 @@ export class UserTextBookView
     this.addBackToTextBookListenerBtn();
 
     if (this.textBookModel.difficultWords.length > 0) {
-      this.appendUserWordsBtns();
-      this.drawUserTextBookView();
+      this.textBookView.appendWordsBtns();
+      this.drawUserTextBookElems();
       this.textBookView.textBookViewUtils.disableDictBtn();
       this.textBookView.textBookViewUtils.checkActiveWordsBtns(
         (LocalStorage.currUserSettings.currWord = ''),
@@ -46,25 +47,12 @@ export class UserTextBookView
     }
   };
 
-  drawUserTextBookView = (): void => {
+  drawUserTextBookElems = (): void => {
     this.createStarBtn();
     this.createBinBtn();
     this.addDictBtnListener();
     this.checkStarBtnActive();
-  };
-
-  appendUserWordsBtns = (): void => {
-    const wordsDiv = getElement('js-user-words');
-    this.textBookModel.difficultWords.forEach((wordData) => {
-      wordsDiv.append(
-        this.textBookView.createWordsBtns({
-          id: wordData.id,
-          word: wordData.word,
-          wordTranslate: wordData.wordTranslate,
-          group: wordData.group,
-        }),
-      );
-    });
+    if (!this.onDictPage) this.checkLearnedBtnActive();
   };
 
   createStarBtn = (): void => {
@@ -81,12 +69,21 @@ export class UserTextBookView
         const star = starDiv.firstElementChild as SVGElement;
         const wordID = (<HTMLDivElement>star.closest('.words-btns__btn')).id;
         if (wordID && !star.classList.contains('star-svg--active')) {
-          this.emit.call(this.textBookView, 'addDifficultWordBtnClicked', wordID);
+          this.emit.call(
+            this.textBookView,
+            'addDifficultWordBtnClicked',
+            wordID,
+            WordStatusEnum.difficult,
+          );
           star.classList.add('star-svg--active');
         } else {
-          this.emit.call(this.textBookView, 'deleteUserWordBtnClicked', wordID);
+          this.emit.call(
+            this.textBookView,
+            'deleteDifficultWordBtnClicked',
+            wordID,
+            this.onDictPage,
+          );
           star.classList.remove('star-svg--active');
-          if (this.onDictPage) this.emit.call(this.textBookView, 'dictBtnClicked', wordID);
         }
       });
       btn.append(wordBtnStar);
@@ -98,16 +95,33 @@ export class UserTextBookView
     [...wordBtn].forEach((btn) => {
       const wordBtnBin = createElement('div', 'word-btn__bin');
       wordBtnBin.innerHTML = BIN_SVG;
+
+      wordBtnBin.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const binDiv = e.currentTarget as HTMLDivElement;
+        const bin = binDiv.firstElementChild as SVGElement;
+        const wordID = (<HTMLDivElement>bin.closest('.words-btns__btn')).id;
+        if (wordID && !bin.classList.contains('bin-svg--active')) {
+          this.emit.call(
+            this.textBookView,
+            'addLearnedWordBtnClicked',
+            wordID,
+            WordStatusEnum.learned,
+          );
+          bin.classList.add('bin-svg--active');
+        } else {
+          this.emit.call(this.textBookView, 'deleteLearnedWordBtnClicked', wordID, this.onDictPage);
+          bin.classList.remove('bin-svg--active');
+        }
+      });
+
       btn.append(wordBtnBin);
     });
   };
 
-  addBackToTextBookListenerBtn = (): void => {
-    const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
-    backToWordsBtn.addEventListener('click', () => {
-      this.onDictPage = false;
-      this.textBookView.drawTextBook();
-    });
+  removeDictElem = (wordID: string): void => {
+    const elemToRemove = document.getElementById(wordID) as HTMLDivElement;
+    elemToRemove.remove();
   };
 
   addDictBtnListener = (): void => {
@@ -119,13 +133,22 @@ export class UserTextBookView
     });
   };
 
+  addBackToTextBookListenerBtn = (): void => {
+    const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
+    backToWordsBtn.addEventListener('click', () => {
+      this.onDictPage = false;
+      LocalStorage.currUserSettings.currWord = '';
+      this.textBookView.drawTextBook();
+    });
+  };
+
   makeStarBtnActive = (): void => {
     const star = document.getElementsByClassName('star-svg') as HTMLCollectionOf<SVGElement>;
     [...star].forEach((el) => el.classList.add('star-svg--active'));
   };
 
   checkStarBtnActive = (): void => {
-    if (this.textBookModel.difficultWords.length > 0) {
+    if (this.textBookModel.difficultWords.length > 0 && !this.onDictPage) {
       this.textBookModel.wordsChunk.forEach((word) => {
         const difficultWordsString = JSON.stringify(this.textBookModel.difficultWords);
         if (difficultWordsString.includes(word.id)) {
@@ -133,6 +156,20 @@ export class UserTextBookView
           const starDiv = wordBtn.childNodes[2] as HTMLDivElement;
           const star = starDiv.firstElementChild as SVGElement;
           star.classList.add('star-svg--active');
+        }
+      });
+    }
+  };
+
+  checkLearnedBtnActive = (): void => {
+    if (this.textBookModel.learnedWords.length > 0) {
+      this.textBookModel.wordsChunk.forEach((word) => {
+        const learnedWordsString = JSON.stringify(this.textBookModel.learnedWords);
+        if (learnedWordsString.includes(word.id)) {
+          const wordBtn = document.getElementById(word.id) as HTMLDivElement;
+          const binDiv = wordBtn.childNodes[3] as HTMLDivElement;
+          const bin = binDiv.firstElementChild as SVGElement;
+          bin.classList.add('bin-svg--active');
         }
       });
     }

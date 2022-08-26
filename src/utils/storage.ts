@@ -37,12 +37,11 @@ export class LocalStorage {
     LocalStorage.currUserID = userID;
     LocalStorage.currUserSettings = userSettings;
 
-    // если дефолтный юзер уже создан и что-то тыкал в учебнике
+    // если дефолтный юзер уже создан и что-то тыкал в учебнике, то это не запустится
     if (
       userID === DEFAULT_USER_NAME &&
       JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)
     ) {
-      // LocalStorage.createLocalKey(DEFAULT_USER_NAME); //эта строчка лишняя
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
     } else LocalStorage.isAuth = true;
   };
@@ -50,7 +49,7 @@ export class LocalStorage {
   static saveToken = (token: string, refreshToken: string): void => {
     LocalStorage.currUserSettings.token = token;
     LocalStorage.currUserSettings.refreshToken = refreshToken;
-    LocalStorage.currUserSettings.expireOn = getExpirationDate(token) - 300000
+    LocalStorage.currUserSettings.expireOn = getExpirationDate(token) - 300000;
     LocalStorage.setLSData(DEFAULT_USER_NAME, LocalStorage.currUserSettings);
   };
 

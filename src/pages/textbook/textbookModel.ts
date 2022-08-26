@@ -1,5 +1,5 @@
 import {
-  AddDifficultWordReqType,
+  AddUserWordReqType,
   AddUserWordRespType,
   AggregatedWordsRespType,
   AggregatedWordType,
@@ -18,11 +18,14 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
 
   difficultWords: WordsChunkType[];
 
+  learnedWords: WordsChunkType[];
+
   constructor() {
     super();
     this.wordsChunk = [];
     this.aggregatedWords = [];
     this.difficultWords = [];
+    this.learnedWords = [];
   }
 
   getTextBookList = async (): Promise<void> => {
@@ -30,66 +33,95 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     const data = await fetch(baseURL + query).catch();
     this.wordsChunk = (await data.json()) as WordsChunkType[];
 
-    if (LocalStorage.currUserSettings.userId) await this.getDifficultWordsForCurrGroup();
+    if (LocalStorage.currUserSettings.userId) {
+      await this.getUserWordsForCurrGroup(WordStatusEnum.difficult);
+      await this.getUserWordsForCurrGroup(WordStatusEnum.learned);
+    }
     this.emit('getTextBookList');
   };
 
-  getWordData = (id: string): void => {
-    const selectedWord = this.wordsChunk.filter((el) => el.id === id)[0];
+  getWordData = (id: string, onDictPage: boolean): void => {
+    const selectedWord = onDictPage
+      ? this.difficultWords.filter((el) => el.id === id)[0]
+      : this.wordsChunk.filter((el) => el.id === id)[0];
     this.emit('getWordData', selectedWord);
   };
 
-  getUserDictWords = async (onDictPage = false): Promise<void> => {
-    const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?filter={"userWord.difficulty":"${WordStatusEnum.difficult}"}`;
-    await this.getDifficultWords(query);
-    if (onDictPage) this.emit('getUserDict');
+  getUserWordsForCurrGroup = async (wordStatus: WordStatusEnum): Promise<void> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?group=${LocalStorage.currUserSettings.currGroup}&filter={"userWord.difficulty":"${wordStatus}"}`;
+    await this.getUserWords(query, wordStatus);
   };
 
-  getDifficultWordsForCurrGroup = async (): Promise<void> => {
-    const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?group=${LocalStorage.currUserSettings.currGroup}&filter={"userWord.difficulty":"${WordStatusEnum.difficult}"}`;
-    await this.getDifficultWords(query);
+  getUserDictWords = async (): Promise<void> => {
+    await this.updateUserWords(WordStatusEnum.difficult);
+    this.emit('getUserDict');
   };
 
-  addDifficultWord = async (
-    addDifficultWordReq: AddDifficultWordReqType,
-    wordID: string,
-  ): Promise<void> => {
-    const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
-    try {
-      const rawResponse = await fetch(baseURL + query, {
-        method: 'POST',
-        headers: this.API_USER_REQ_HEADER,
-        body: JSON.stringify(addDifficultWordReq),
-      });
-      const content = (await rawResponse.json()) as AddUserWordRespType;
-      console.log(content); /////////////////////////
-    } catch (e) {
-      console.error(e);
-    }
+  updateUserWords = async (wordStatus: WordStatusEnum): Promise<void> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?filter={"userWord.difficulty":"${wordStatus}"}`;
+    await this.getUserWords(query, wordStatus);
   };
 
-  getDifficultWords = async (query: string): Promise<void> => {
+  getUserWords = async (query: string, wordStatus: WordStatusEnum): Promise<void> => {
     try {
       const rawResponse = await fetch(baseURL + query, {
         method: 'GET',
         headers: this.API_USER_REQ_HEADER,
       });
       const content = (await rawResponse.json()) as AggregatedWordsRespType[];
-      const difficultWords = content[0].paginatedResults.slice();
-      this.mapDifficultWordsID(difficultWords);
+      const userWords = content[0].paginatedResults.slice();
+
+      console.log('Model getUserWords', userWords);
+
+      if (wordStatus === WordStatusEnum.difficult)
+        this.difficultWords = this.mapUserWordsID(userWords);
+      if (wordStatus === WordStatusEnum.learned) this.learnedWords = this.mapUserWordsID(userWords);
     } catch (e) {
       console.error(e);
     }
   };
 
-  deleteUserWord = async (wordID: string, onDictPage: boolean): Promise<void> => {
+  addUserWord = async (addUserWordReq: AddUserWordReqType, wordID: string): Promise<void> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
+    try {
+      const rawResponse = await fetch(baseURL + query, {
+        method: 'POST',
+        headers: this.API_USER_REQ_HEADER,
+        body: JSON.stringify(addUserWordReq),
+      });
+      const content = (await rawResponse.json()) as AddUserWordRespType;
+      console.log('Model addUserWord', content); /////////////////////////
+      if (addUserWordReq.difficulty === WordStatusEnum.learned) {
+        await this.updateUserWords(WordStatusEnum.learned);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  deleteDifficultWord = async (wordID: string, onDictPage: boolean): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
     try {
       await fetch(baseURL + query, {
         method: 'DELETE',
         headers: this.API_USER_REQ_HEADER,
       });
-      await this.getUserDictWords(onDictPage);
+      if (onDictPage) this.emit('removeDifficultWordElem', wordID);
+      await this.updateUserWords(WordStatusEnum.difficult);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  deleteLearnedWord = async (wordID: string, onDictPage: boolean): Promise<void> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
+    try {
+      await fetch(baseURL + query, {
+        method: 'DELETE',
+        headers: this.API_USER_REQ_HEADER,
+      });
+      // if (onDictPage) this.emit('removeDifficultWordElem', wordID);
+      await this.updateUserWords(WordStatusEnum.learned);
     } catch (e) {
       console.error(e);
     }
@@ -114,7 +146,7 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     'Content-Type': 'application/json',
   };
 
-  mapDifficultWordsID = (difficultWords: AggregatedWordType[]): void => {
-    this.difficultWords = difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
+  mapUserWordsID = (difficultWords: AggregatedWordType[]): WordsChunkType[] => {
+    return difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
 }
