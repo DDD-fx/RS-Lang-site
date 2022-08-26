@@ -27,13 +27,13 @@ class Model {
   };
 }
 
-export const authFetch = async (url: string, options: ResponseOptionType): Promise<Response> => {
+const authFetch = async (url: string, options: ResponseOptionType): Promise<Response> => {
   if (await checkToken())
     options.headers.Authorization = `Bearer ${LocalStorage.currUserSettings.token}`; // добавляем токен в headers запроса
   return fetch(url, options); // возвращаем изначальную функцию, но уже с валидным токеном в headers
 };
 
-export default Model;
+export { Model, authFetch };
 
 // test expired refreshtoken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMDNlYzQ4ZTZkZGQ4MDAxNmU1NmZkZCIsInRva2VuSWQiOiJkZGZmMGNiMy1iZThhLTRkMTYtYmU4ZS03ZWM0MzMyMjRmODEiLCJpYXQiOjE2NjEzNzMwNDcsImV4cCI6MTY2MTM4OTI0N30._UViJPL0Dx_NmfbLb5Mgc7KcY5U5e6zn-aG5w38vppY
 

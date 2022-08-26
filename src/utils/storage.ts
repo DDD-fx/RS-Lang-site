@@ -43,7 +43,8 @@ export class LocalStorage {
       JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)
     ) {
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
-    } else LocalStorage.isAuth = true;
+    }
+    if (LocalStorage.currUserSettings.token !== '') LocalStorage.isAuth = true;
   };
 
   static saveToken = (token: string, refreshToken: string): void => {

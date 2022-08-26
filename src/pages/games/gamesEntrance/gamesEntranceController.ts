@@ -7,18 +7,17 @@ import { AUDIOCHALLENGE_GAME_SETTINGS } from '../../../utils/constants';
 import { AudioChallengeController } from '../audioChallengeGame/audioChallengeGameController';
 import { AudioChallengeModel } from '../audioChallengeGame/audioChallengeGameModel';
 import { AudioChallengeView } from '../audioChallengeGame/audioChallengeGameView';
+import { GamesEntranceView } from './gamesEntranceView';
+import { GamesEntranceModel } from './gamesEntranceModel';
 
 export default class GamesEntranceController implements GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
 
   gamesEntranceModel: GamesEntranceModelInterface;
 
-  constructor(
-    gamesEntranceView: GamesEntranceViewInterface,
-    gamesEntranceModel: GamesEntranceModelInterface,
-  ) {
-    this.gamesEntranceView = gamesEntranceView;
-    this.gamesEntranceModel = gamesEntranceModel;
+  constructor() {
+    this.gamesEntranceModel = new GamesEntranceModel();
+    this.gamesEntranceView = new GamesEntranceView(this.gamesEntranceModel);
     this.gamesEntranceView
       .on('sprintGameStarted', () => this.startSprintGame())
       .on('audioChallengeGameStarted', () => this.startAudioChallengeGame())
