@@ -46,7 +46,7 @@ export class TextBookView
 
     this.appendWordsBtns();
 
-    this.textBookViewUtils.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
+    this.textBookViewUtils.checkActiveWordsBtns((LocalStorage.currUserSettings.currWord = ''));
 
     this.createPagination();
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
@@ -99,7 +99,7 @@ export class TextBookView
     wordBtn.id = id;
     wordBtn.addEventListener('click', () => {
       this.emit('wordBtnClicked', id);
-      if (!this.userTextBookView.onDictPage) this.textBookViewUtils.checkActiveWordsBtns(id);
+      this.textBookViewUtils.checkActiveWordsBtns(id);
     });
 
     const wordTitle = createElement('h3', 'word-btn-title') as HTMLHeadingElement;

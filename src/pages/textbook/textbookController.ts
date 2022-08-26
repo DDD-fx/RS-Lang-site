@@ -47,12 +47,11 @@ export class TextBookController implements TextBookControllerInterface {
     LocalStorage.currUserSettings.currWord = id;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
 
-    const selectedWord = this.textBookModel.wordsChunk.filter((el) => el.id === id)[0];
-    this.textBookModel.getWordData(selectedWord);
+    this.textBookModel.getWordData(id);
   };
 
   getUserDictWords = (): void => {
-    void this.textBookModel.getUserDictWords();
+    void this.textBookModel.getUserDictWords(this.textBookView.userTextBookView.onDictPage);
   };
 
   addDifficultWord = (wordID: string): void => {
@@ -64,6 +63,7 @@ export class TextBookController implements TextBookControllerInterface {
   };
 
   deleteUserWord = (wordID: string): void => {
-    void this.textBookModel.deleteUserWord(wordID);
+    const onDictPage = this.textBookView.userTextBookView.onDictPage;
+    void this.textBookModel.deleteUserWord(wordID, onDictPage);
   };
 }

@@ -17,16 +17,16 @@ export type TextBookEventsType = {
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   wordsChunk: WordsChunkType[];
   aggregatedWords: AggregatedWordType[];
-  difficultWords: AggregatedWordType[];
+  difficultWords: WordsChunkType[];
   getTextBookList(): Promise<void>;
-  getWordData(word: WordsChunkType): void;
-  getUserDictWords(): void;
+  getWordData(id: string): void;
+  getUserDictWords(onDictPage: boolean): void;
   addDifficultWord(addDifficultWordReq: AddDifficultWordReqType, wordID: string): Promise<void>;
   getDifficultWordsForCurrGroup(): Promise<void>;
   getDifficultWords(query: string): Promise<void>;
   getDifficultWords(query: string): Promise<void>;
   getAggregatedWords(query: string): Promise<AggregatedWordType[] | void>;
-  deleteUserWord(wordID: string): Promise<void>;
+  deleteUserWord(wordID: string, onDictPage: boolean): Promise<void>;
 }
 
 export interface TextBookControllerInterface {
