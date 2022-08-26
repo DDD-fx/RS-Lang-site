@@ -10,6 +10,12 @@ const renderAudioChallengeGameTemplate = () => `
           <div class="game-section__next-btn-wrapper hidden"></div>
         </section>
       </div>
+      <div class="fixed-result-window hidden">
+        <section class="result-section">
+          <div class="result-section__learned-words"></div>
+          <div class="result-section__unlearned-words"></div>
+        </section>
+      </div> 
     </div>
 `;
 
