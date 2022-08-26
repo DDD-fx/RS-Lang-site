@@ -4,6 +4,7 @@ import {
   TextBookModelInterface,
   TextBookViewInterface,
   TextBookViewUtilsInterface,
+  WordsChunkType,
 } from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 import { getElement } from '../../utils/tools';
@@ -51,16 +52,19 @@ export class TextBookViewUtils
     [...gameBtns].forEach((btn) => btn.classList.add(currGroup));
   };
 
-  checkActiveWordsBtns = (wordID: string): void => {
+  getCurrCollection = (): WordsChunkType[] => {
+    return this.textBookView.userTextBookView.onDictPage
+      ? this.textBookModel.difficultWords
+      : this.textBookModel.wordsChunk;
+  };
+
+  checkActiveWordsBtns = (wordID = ''): void => {
     const activeWordBtns = document.getElementsByClassName('words-btns__btn--active');
     if (activeWordBtns.length > 0) {
       [...activeWordBtns].forEach((btn) => btn.classList.remove('words-btns__btn--active'));
     }
 
-    let collection = this.textBookModel.wordsChunk;
-    if (this.textBookView.userTextBookView.onDictPage) {
-      collection = this.textBookModel.difficultWords;
-    }
+    const collection = this.getCurrCollection();
     const wordBtns = document.getElementsByClassName('words-btns__btn');
     if (wordID) {
       const activeWordIdx = collection.map((word) => word.id).indexOf(`${wordID}`);
@@ -71,17 +75,6 @@ export class TextBookViewUtils
       this.textBookView.createWordCard(collection[0]);
     }
   };
-
-  // checkActiveWordCard = (): void => {
-  //   const activeWordIdx = this.textBookModel.wordsChunk
-  //     .map((word) => word.id)
-  //     .indexOf(`${LocalStorage.currUserSettings.currWord}`);
-  //   if (activeWordIdx === -1) {
-  //     this.textBookView.createWordCard(this.textBookModel.wordsChunk[0]);
-  //   } else {
-  //     this.textBookView.createWordCard(this.textBookModel.wordsChunk[activeWordIdx]);
-  //   }
-  // };
 
   checkActiveDifficultyBtn = (activeGroupNum: number): void => {
     const activeDifficultyBtns = document.getElementsByClassName(

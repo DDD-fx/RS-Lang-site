@@ -4,6 +4,7 @@ import {
   TextBookModelInterface,
   TextBookViewInterface,
   UserTextBookViewInterface,
+  WordStatusEnum,
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, STAR_SVG } from '../../utils/constants';
@@ -33,8 +34,8 @@ export class UserTextBookView
     this.addBackToTextBookListenerBtn();
 
     if (this.textBookModel.difficultWords.length > 0) {
-      this.appendUserWordsBtns();
-      this.drawUserTextBookView();
+      this.textBookView.appendWordsBtns();
+      this.drawUserTextBookElems();
       this.textBookView.textBookViewUtils.disableDictBtn();
       this.textBookView.textBookViewUtils.checkActiveWordsBtns(
         (LocalStorage.currUserSettings.currWord = ''),
@@ -46,25 +47,11 @@ export class UserTextBookView
     }
   };
 
-  drawUserTextBookView = (): void => {
+  drawUserTextBookElems = (): void => {
     this.createStarBtn();
     this.createBinBtn();
     this.addDictBtnListener();
     this.checkStarBtnActive();
-  };
-
-  appendUserWordsBtns = (): void => {
-    const wordsDiv = getElement('js-user-words');
-    this.textBookModel.difficultWords.forEach((wordData) => {
-      wordsDiv.append(
-        this.textBookView.createWordsBtns({
-          id: wordData.id,
-          word: wordData.word,
-          wordTranslate: wordData.wordTranslate,
-          group: wordData.group,
-        }),
-      );
-    });
   };
 
   createStarBtn = (): void => {
@@ -81,12 +68,21 @@ export class UserTextBookView
         const star = starDiv.firstElementChild as SVGElement;
         const wordID = (<HTMLDivElement>star.closest('.words-btns__btn')).id;
         if (wordID && !star.classList.contains('star-svg--active')) {
-          this.emit.call(this.textBookView, 'addDifficultWordBtnClicked', wordID);
+          this.emit.call(
+            this.textBookView,
+            'addDifficultWordBtnClicked',
+            wordID,
+            WordStatusEnum.difficult,
+          );
           star.classList.add('star-svg--active');
         } else {
-          this.emit.call(this.textBookView, 'deleteUserWordBtnClicked', wordID);
+          this.emit.call(
+            this.textBookView,
+            'deleteDifficultWordBtnClicked',
+            wordID,
+            this.onDictPage,
+          );
           star.classList.remove('star-svg--active');
-          if (this.onDictPage) this.emit.call(this.textBookView, 'dictBtnClicked', wordID);
         }
       });
       btn.append(wordBtnStar);
@@ -102,10 +98,16 @@ export class UserTextBookView
     });
   };
 
+  removeDictElem = (wordID: string): void => {
+    const elemToRemove = document.getElementById(wordID) as HTMLDivElement;
+    elemToRemove.remove();
+  };
+
   addBackToTextBookListenerBtn = (): void => {
     const backToWordsBtn = getElement('textbook-title-btn') as HTMLButtonElement;
     backToWordsBtn.addEventListener('click', () => {
       this.onDictPage = false;
+      LocalStorage.currUserSettings.currWord = '';
       this.textBookView.drawTextBook();
     });
   };
