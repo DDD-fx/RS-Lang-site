@@ -1,10 +1,10 @@
 import {
   AddUserWordReqType,
   TextBookControllerInterface,
-  TextBookModelInterface,
-  TextBookViewInterface,
   WordStatusEnum,
 } from '../../types/textbookTypes';
+import { TextBookModel } from './textbookModel';
+import { TextBookView } from './textbookView';
 import { LocalStorage } from '../../utils/storage';
 
 export class TextBookController implements TextBookControllerInterface {
@@ -12,9 +12,10 @@ export class TextBookController implements TextBookControllerInterface {
 
   textBookView;
 
-  constructor(textBookModel: TextBookModelInterface, textBookView: TextBookViewInterface) {
-    this.textBookModel = textBookModel;
-    this.textBookView = textBookView;
+  constructor() {
+    
+    this.textBookModel = new TextBookModel();
+    this.textBookView = new TextBookView(this.textBookModel);
     this.textBookView
       .on('pageBtnClicked', (page) => this.changeTextBookPage(page))
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
@@ -31,6 +32,13 @@ export class TextBookController implements TextBookControllerInterface {
         this.deleteLearnedWord(wordID, onDictPage),
       );
   }
+
+  init = async() => {
+    await this.textBookModel.getTextBookList();
+    if (this.textBookView.userTextBookView.onDictPage) this.textBookView.userTextBookView.drawDict();
+        else this.textBookView.drawTextBook();
+  }
+
 
   changeTextBookPage = (page: number): void => {
     LocalStorage.currUserSettings.currPage = page;
