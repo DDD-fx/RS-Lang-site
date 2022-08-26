@@ -1,6 +1,6 @@
-import { createElement } from '../utils/tools';
+import { createElement, getElement } from '../utils/tools';
 import { LocalStorage } from '../utils/storage';
-import history from '../history';
+import history from '../utils/history';
 
 const logIn = `<a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>`;
 const logOut = `<a href="/logout"><button class="btn btn-logout " data-btn="login"> Выйти </button></a>`;
@@ -54,6 +54,12 @@ class Nav {
   bind = () => {
     this.nav.addEventListener('click', (event) => {
       event.preventDefault();
+
+      if (
+        (<HTMLElement>event.target).classList[0] === 'hamburger' ||
+        (<HTMLElement>event.target).classList[0] === 'line'
+      )
+        this.openNav(event.target as HTMLElement);
       const anchor = (<HTMLElement>event.target).closest('a') as HTMLAnchorElement;
       if (anchor) {
         const url = anchor.pathname;
@@ -61,6 +67,23 @@ class Nav {
       }
     });
   };
+
+  openNav = (target: HTMLElement) => {
+    target.classList.toggle('is-active');
+    getElement('nav').classList.toggle('is-active');
+  };
+  /*
+ closeNav = (event) => {
+     const target = event.target;
+    const its_menu = target == siteNav;
+    const its_btnMenu = target == burgerButton || burgerButton.contains(target);
+    const menu_is_active = nav.classList.contains("is-active");
+   
+  if (menu_is_active && !its_btnMenu && !its_menu){ //Close menu onclick all elem except nav_list
+    burgerButton.classList.remove("is-active");
+    nav.classList.remove("is-active");
+   }
+  }*/
 }
 
 export default Nav;

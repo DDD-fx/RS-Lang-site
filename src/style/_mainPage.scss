@@ -100,6 +100,12 @@ main {
   display: none;
 }
 
+@include md {
+  .main__wrapper {
+    z-index: -1;
+  }
+}
+
 @include lg {
   .main__container .img-x20 img {
     max-width: 20rem;

@@ -28,23 +28,4 @@ const showModal = (message: string) => {
   }, 3000);
 };
 
-/*
-const openNav = () => {
-  burgerButton.classList.toggle("is-active");
-  nav.classList.toggle("is-active");
-}
-
-const closeNav = (event) => {
-   const target = event.target;
-  const its_menu = target == siteNav;
-  const its_btnMenu = target == burgerButton || burgerButton.contains(target);
-  const menu_is_active = nav.classList.contains("is-active");
- 
-if (menu_is_active && !its_btnMenu && !its_menu){ //Close menu onclick all elem except nav_list
-  burgerButton.classList.remove("is-active");
-  nav.classList.remove("is-active");
- }
-}
-*/
-
 export { createElement, getElement, getElementQuery, showModal };

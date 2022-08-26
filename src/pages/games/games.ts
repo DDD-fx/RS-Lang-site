@@ -1,6 +1,6 @@
 import { getElement } from '../../utils/tools';
 import { Games } from '../../components/games/games';
-import history from '../../history';
+import history from '../../utils/history';
 
 export class GamesSection {
   render = () => {

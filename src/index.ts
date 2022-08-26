@@ -8,7 +8,7 @@ import { GamesSection } from './pages/games/games';
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
 import { LocalStorage } from './utils/storage';
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
-import history from './history';
+import history from './utils/history';
 import Nav from './components/nav';
 import Login from './pages/login/loginController';
 
@@ -17,7 +17,11 @@ app.init();
 
 const login = new Login();
 
+const textbook = new TextBookController();
+
 const gamesEntrance = new GamesEntranceController();
+
+const gamesSection = new GamesSection();
 
 const main = getElement('main__wrapper');
 
@@ -31,13 +35,12 @@ const routes: Routes[] = [
   {
     path: '/textbook',
     action: async () => {
-      (() => new TextBookController().init())();
+      await textbook.init();
     },
   },
   {
     path: '/games',
     action: () => {
-      const gamesSection = new GamesSection();
       gamesSection.render();
       gamesSection.mount();
     },

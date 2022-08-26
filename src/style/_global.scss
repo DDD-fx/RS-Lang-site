@@ -128,12 +128,6 @@ p {
   backdrop-filter: blur(30px);
   border-radius: 8px;
   margin: 40px auto 20px auto;
-  overflow: hidden;
-}
-
-.nav__list {
-  display: flex;
-  gap: 20px;
 }
 
 .accent {
@@ -196,14 +190,6 @@ a.btn.btn.inactive:hover {
   background: rgb(157 117 194 / 50%);
 }
 
-.nav__list .btn.btn-login {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.nav__list .btn.btn-logout {
-  background: rgba(0, 0, 0, 0.2);
-}
-
 .btn:hover {
   opacity: 0.9;
 }
@@ -225,11 +211,6 @@ a.btn.btn.inactive:hover {
 .btn.inactive:active,
 .btn.inactive:hover {
   opacity: 1;
-}
-
-.nav__list .btn {
-  background: transparent;
-  border-color: transparent;
 }
 
 input {
@@ -298,12 +279,6 @@ li {
   transition: 0.3s;
 }
 
-@include mid {
-  .nav__list {
-    gap: 3px;
-  }
-}
-
 @include md {
   html {
     font-size: 14px;
@@ -312,10 +287,6 @@ li {
   .footer__wrapper {
     flex-wrap: wrap;
     grid-gap: 20px;
-  }
-
-  .nav__list {
-    flex-wrap: wrap;
   }
 
   > div,
