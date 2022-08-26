@@ -59,7 +59,7 @@ class Nav {
         (<HTMLElement>event.target).classList[0] === 'hamburger' ||
         (<HTMLElement>event.target).classList[0] === 'line'
       )
-        this.openNav(event.target as HTMLElement);
+        this.openNav();
       const anchor = (<HTMLElement>event.target).closest('a') as HTMLAnchorElement;
       if (anchor) {
         const url = anchor.pathname;
@@ -68,8 +68,8 @@ class Nav {
     });
   };
 
-  openNav = (target: HTMLElement) => {
-    target.classList.toggle('is-active');
+  openNav = () => {
+    getElement('hamburger').classList.toggle('is-active');
     getElement('nav').classList.toggle('is-active');
   };
   /*
