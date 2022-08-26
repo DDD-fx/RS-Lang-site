@@ -1,8 +1,9 @@
 import {
-  AddDifficultWordReqType,
+  AddUserWordReqType,
   TextBookControllerInterface,
   TextBookModelInterface,
   TextBookViewInterface,
+  WordStatusEnum,
 } from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 
@@ -17,10 +18,14 @@ export class TextBookController implements TextBookControllerInterface {
     this.textBookView
       .on('pageBtnClicked', (page) => this.changeTextBookPage(page))
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
-      .on('wordBtnClicked', (id) => this.getWordData(id))
+      .on('wordBtnClicked', (id, onDictPage) => this.getWordData(id, onDictPage))
       .on('dictBtnClicked', () => this.getUserDictWords())
-      .on('addDifficultWordBtnClicked', (wordID) => this.addDifficultWord(wordID))
-      .on('deleteUserWordBtnClicked', (wordID) => this.deleteUserWord(wordID));
+      .on('addDifficultWordBtnClicked', (wordID, difficulty) =>
+        this.addUserWord(wordID, difficulty),
+      )
+      .on('deleteDifficultWordBtnClicked', (wordID, onDictPage) =>
+        this.deleteDifficultWord(wordID, onDictPage),
+      );
   }
 
   getTextBookList = (): void => {
@@ -36,34 +41,33 @@ export class TextBookController implements TextBookControllerInterface {
 
   changeTextBookGroup = (group: number) => {
     LocalStorage.currUserSettings.currPage = 0;
+    LocalStorage.currUserSettings.currWord = '';
     LocalStorage.currUserSettings.currGroup = group;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
 
     void this.textBookModel.getTextBookList();
-    LocalStorage.currUserSettings.currWord = this.textBookModel.wordsChunk[0].id;
+    // LocalStorage.currUserSettings.currWord = this.textBookModel.wordsChunk[0].id;
   };
 
-  getWordData = (id: string): void => {
+  getWordData = (id: string, onDictPage: boolean): void => {
     LocalStorage.currUserSettings.currWord = id;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
-
-    this.textBookModel.getWordData(id);
+    this.textBookModel.getWordData(id, onDictPage);
   };
 
   getUserDictWords = (): void => {
-    void this.textBookModel.getUserDictWords(this.textBookView.userTextBookView.onDictPage);
+    void this.textBookModel.getUserDictWords();
   };
 
-  addDifficultWord = (wordID: string): void => {
-    const addDifficultWordReq: AddDifficultWordReqType = {
-      difficulty: '1',
+  addUserWord = (wordID: string, difficulty: WordStatusEnum): void => {
+    const addUserWordReq: AddUserWordReqType = {
+      difficulty: difficulty,
       optional: { test: 'test' },
     };
-    void this.textBookModel.addDifficultWord(addDifficultWordReq, wordID);
+    void this.textBookModel.addUserWord(addUserWordReq, wordID);
   };
 
-  deleteUserWord = (wordID: string): void => {
-    const onDictPage = this.textBookView.userTextBookView.onDictPage;
-    void this.textBookModel.deleteUserWord(wordID, onDictPage);
+  deleteDifficultWord = (wordID: string, onDictPage: boolean): void => {
+    void this.textBookModel.deleteDifficultWord(wordID, onDictPage);
   };
 }
