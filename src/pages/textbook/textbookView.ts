@@ -44,7 +44,7 @@ export class TextBookView
   drawTextBook = (): void => {
     this.textBookViewUtils.createTextBookMain(renderTextbookTemplate());
     this.textBookViewUtils.addReadMeListeners();
-    this.createDifficultyBtns();
+    this.createWordsGroupBtns();
     this.textBookViewUtils.checkActiveDifficultyBtn(LocalStorage.currUserSettings.currGroup);
     this.textBookViewUtils.checkGamesBtnsColor();
 
@@ -58,7 +58,7 @@ export class TextBookView
     if (LocalStorage.currUserSettings.userId) this.userTextBookView.drawUserTextBookElems();
   };
 
-  createDifficultyBtns = (): void => {
+  createWordsGroupBtns = (): void => {
     const levelsDiv = getElement('textbook-difficulty-group');
     const levels = [
       'Beginner/Elementary',
