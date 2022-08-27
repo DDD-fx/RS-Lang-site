@@ -102,4 +102,16 @@ export class TextBookViewUtils
     const dictBtn = getElement('js-textbook-dictionary') as HTMLButtonElement;
     dictBtn.disabled = true;
   };
+
+  getStarBtn = (wordID: string): SVGElement => {
+    const wordBtn = document.getElementById(wordID) as HTMLDivElement;
+    const starDiv = wordBtn.childNodes[2] as HTMLDivElement;
+    return starDiv.firstElementChild as SVGElement;
+  };
+
+  getBinBtn = (wordID: string): SVGElement => {
+    const wordBtn = document.getElementById(wordID) as HTMLDivElement;
+    const binDiv = wordBtn.childNodes[3] as HTMLDivElement;
+    return binDiv.firstElementChild as SVGElement;
+  };
 }
