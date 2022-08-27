@@ -10,11 +10,14 @@ import {
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
 import { renderTextbookTemplate } from '../../components/textbook';
-import { baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
+import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
 import { UserTextBookView } from './userTextbookView';
 import { TextBookViewUtils } from './textBookViewUtils';
+import { AudioChallengeModel } from '../games/audioChallengeGame/audioChallengeGameModel';
+import { AudioChallengeView } from '../games/audioChallengeGame/audioChallengeGameView';
+import { AudioChallengeController } from '../games/audioChallengeGame/audioChallengeGameController';
 
 export class TextBookView
   extends TypedEmitter<TextBookEventsType>
@@ -50,6 +53,8 @@ export class TextBookView
 
     this.createPagination();
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
+
+    this.handleBtnAudioChallengeGame();
 
     // USER VIEW
     if (LocalStorage.currUserSettings.userId) this.userTextBookView.drawUserTextBookElems();
@@ -184,4 +189,22 @@ export class TextBookView
       prevPage.append(pageBtn);
     }
   };
+
+  handleBtnAudioChallengeGame = (): void => {
+    const audioChallengeGameBtn = getElement('textbook-games-btn-challenge');
+    audioChallengeGameBtn.addEventListener('click', () => this.startAudioChallengeGame())  
+  };
+
+  startAudioChallengeGame = async () => {
+    console.log('audioChallengeGameBtn');
+    AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook =  true;
+    const audioChallengeModel = new AudioChallengeModel(LocalStorage.currUserSettings.currPage);
+    const audioChallengeView = new AudioChallengeView(audioChallengeModel);
+    const audioChallengeController = new AudioChallengeController(
+      audioChallengeModel,
+      audioChallengeView,
+    );
+    await audioChallengeController.getWordsList(LocalStorage.currUserSettings.currPage, LocalStorage.currUserSettings.currGroup);
+    audioChallengeView.drawAudioChallengeGame();
+  }
 }

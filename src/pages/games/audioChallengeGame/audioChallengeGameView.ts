@@ -456,7 +456,15 @@ export class AudioChallengeView
     const operationPanel = getElement('result-section__operation-panel');
     const closeBtn = this.createResultsCloseBtn();
     const continueBtn = this.createResultsContinueBtn();
-    operationPanel.append(closeBtn, continueBtn);
+    const existedCloseBtn = getElement('result-section__close-btn-wrapper');
+    const existedContinueBtn = getElement('result-section__continue-btn');
+    if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
+      if (!existedCloseBtn) operationPanel.append(closeBtn);
+      if (!existedContinueBtn) operationPanel.append(continueBtn);
+    } else if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === true) {
+      if (!existedCloseBtn) operationPanel.append(closeBtn);
+      console.log("boo")
+    }
   };
 
   createResultsCloseBtn = (): HTMLElement => {

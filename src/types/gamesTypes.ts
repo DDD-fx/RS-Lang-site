@@ -47,7 +47,7 @@ export interface GamesEntranceControllerInterface {
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
   audioChallengeModel: AudioChallengeModelInterface;
-  getWordsList(query: string[]): void;
+  getWordsList(page: number, level: number): void;
   turnGamePage(): void;
   changeSettingsPage(): void;
 }
@@ -97,4 +97,5 @@ export type AudioChallengeGameType = {
   soundingWordId: string;
   learnedWords: string[];
   unlearnedWords: string[];
+  startFromTextbook: boolean;
 };

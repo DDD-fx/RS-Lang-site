@@ -22,13 +22,31 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       .on('wordsAreOver', () => this.changeSettingsPage());
   }
 
-  getWordsList = async (): Promise<void> => {
+  getWordsList = async (page: number, level: number): Promise<void> => {
     let queryArray = [];
-    for (let i = 0; i < 4; i++) {
-      const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${
-        AUDIOCHALLENGE_GAME_SETTINGS.textbookPage + i
-      }`;
-      queryArray.push(query);
+    if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
+      for (let i = 0; i < 4; i++) {
+        const query = `words?group=${level}&page=${
+          page + i
+        }`;
+        queryArray.push(query);
+      }
+    } else if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === true) {
+      if (page >= 4) {
+        for (let i = page; i > page - 4; i--) {
+          const query = `words?group=${level}&page=${
+            page + i
+          }`;
+          queryArray.push(query);
+        }
+      } else {
+        for (let i = page; i >= 0; i--) {
+          const query = `words?group=${level}&page=${
+            page + i
+          }`;
+          queryArray.push(query);
+        }
+      }
     }
     await this.audioChallengeModel.getWordsList(queryArray);
   };
@@ -38,7 +56,9 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
   };
 
   changeSettingsPage = (): void => {
-    this.audioChallengeModel.changeSettingsPage();
-    this.getWordsList();
+    if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
+      this.audioChallengeModel.changeSettingsPage();
+      this.getWordsList(AUDIOCHALLENGE_GAME_SETTINGS.textbookPage, AUDIOCHALLENGE_GAME_SETTINGS.level);
+    }
   };
 }
