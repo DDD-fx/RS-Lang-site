@@ -15,12 +15,12 @@ class LoginView {
   }
 
   renderLoginForm = (): void => {
-   // const modal = createElement('div', 'modal');
+    // const modal = createElement('div', 'modal');
     const mainWrapper = getElement('main__wrapper');
     const loginForm = new LoginForm(this.handleLogin);
     mainWrapper.innerHTML = '';
     mainWrapper.append(loginForm.render());
-   // getElement('main').append(modal);
+    // getElement('main').append(modal);
   };
 
   renderRegForm = (): void => {

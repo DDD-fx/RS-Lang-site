@@ -173,11 +173,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(
-    var(--light-bg-color),
-    var(--dark-bg-color),
-    var(--bg-color)
-  );
+  background: linear-gradient(var(--light-bg-color), var(--dark-bg-color), var(--bg-color));
 }
 
 .game-section__answer-word-wrapper {

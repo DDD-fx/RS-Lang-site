@@ -1,3 +1,4 @@
+@import 'mixins';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@100;300;400&display=swap');
 
@@ -54,6 +55,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -117,16 +119,6 @@ p {
   margin: 0 auto;
 }
 
-/* 1st var
-.header__wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 20px;
-  font-size: 1rem;
-}
-*/
-
 .header__wrapper {
   display: flex;
   justify-content: space-between;
@@ -139,11 +131,6 @@ p {
   backdrop-filter: blur(30px);
   border-radius: 8px;
   margin: 40px auto 20px auto;
-}
-
-.nav__list {
-  display: flex;
-  gap: 20px;
 }
 
 .accent {
@@ -175,7 +162,6 @@ p {
   border-radius: 4px;
   border: none;
   background: rgba(255, 255, 255, 0.2);
-  //border: 2px solid rgba(255, 255, 255, 0.25);
   color: #fff;
   font-size: 1rem;
   outline: none;
@@ -186,9 +172,6 @@ p {
   padding: 6px 15px;
   -webkit-tap-highlight-color: transparent;
   position: relative;
-  //text-transform: uppercase;
-  // box-shadow: 0px 4px 20px rgb(61 61 61 / 20%);
-  //backdrop-filter: blur(50px);
   font-weight: 300;
   letter-spacing: 0.05rem;
 }
@@ -208,15 +191,6 @@ a.btn.btn.inactive:hover {
 .btn-big {
   max-width: 150px;
   background: rgb(157 117 194 / 50%);
-}
-
-.nav__list .btn.btn-login {
-  background: rgba(255, 255, 255, 0.2);
-  //border: 2px solid rgba(255, 255, 255, 0.25);
-}
-
-.nav__list .btn.btn-logout {
-  background: rgba(0, 0, 0, 0.2);
 }
 
 .btn:hover {
@@ -240,11 +214,6 @@ a.btn.btn.inactive:hover {
 .btn.inactive:active,
 .btn.inactive:hover {
   opacity: 1;
-}
-
-.nav__list .btn {
-  background: transparent;
-  border-color: transparent;
 }
 
 input {
@@ -313,13 +282,7 @@ li {
   transition: 0.3s;
 }
 
-@media (max-width: 950px) {
-  .nav__list {
-    gap: 3px;
-  }
-}
-
-@media (max-width: 768px) {
+@include md {
   html {
     font-size: 14px;
   }
@@ -332,7 +295,6 @@ li {
   .nav__list {
     flex-wrap: wrap;
   }
-
   > div,
   a,
   p {

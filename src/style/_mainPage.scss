@@ -1,3 +1,5 @@
+@import 'mixins';
+
 main {
   display: flex;
 }
@@ -43,34 +45,47 @@ main {
   margin-top: 1rem;
 }
 
+.main__wrapper-container {
+  max-height: 63vh;
+  /* overflow: hidden; */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 .main__container {
   display: flex;
   align-items: center;
+  /* transform: translateY(-100vh); */
+  transition: 1s;
+  position: relative;
+  min-height: 50vh;
+  //margin-bottom: 10rem;
 
   & .whale {
     position: absolute;
-    right: 5rem;
-    bottom: 3rem;
+    right: 3rem;
+    bottom: -7rem;
     z-index: -1;
   }
 
   & .bubbles-top {
     position: absolute;
-    left: 13%;
-    top: 2rem;
+    left: 11%;
+    top: 0rem;
   }
 
   & .bubbles {
     position: absolute;
-    right: 4rem;
-    top: 14rem;
+    right: 2rem;
+    top: 12rem;
     z-index: -1;
   }
 
   & .skat {
     position: absolute;
-    left: 20%;
-    top: -6rem;
+    left: 18%;
+    top: -8rem;
     z-index: -1;
   }
 
@@ -80,7 +95,18 @@ main {
   }
 }
 
-@media (max-width: 1300px) {
+.advantages-screen,
+.about-us-screen {
+  display: none;
+}
+
+@include md {
+  .main__wrapper {
+    z-index: -1;
+  }
+}
+
+@include lg {
   .main__container .img-x20 img {
     max-width: 20rem;
   }
