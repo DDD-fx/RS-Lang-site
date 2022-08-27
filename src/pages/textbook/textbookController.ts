@@ -20,29 +20,29 @@ export class TextBookController implements TextBookControllerInterface {
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
       .on('wordBtnClicked', (id, onDictPage) => this.getWordData(id, onDictPage))
       .on('dictBtnClicked', () => this.getUserDictWords())
-      .on('addDifficultWordBtnClicked', (wordID, difficulty) =>
-        this.addUserWord(wordID, difficulty),
+      .on('addDifficultWordBtnClicked', (wordID, wordStatus) =>
+        this.addUserWord(wordID, wordStatus),
       )
-      .on('deleteDifficultWordBtnClicked', (wordID, onDictPage) =>
-        this.deleteDifficultWord(wordID, onDictPage),
+      .on('deleteDifficultWordBtnClicked', (wordID, onDictPage, wordStatus) =>
+        this.deleteUserWord(wordID, onDictPage, wordStatus),
       )
-      .on('addLearnedWordBtnClicked', (wordID, difficulty) => this.addUserWord(wordID, difficulty))
-      .on('deleteLearnedWordBtnClicked', (wordID, onDictPage) =>
-        this.deleteLearnedWord(wordID, onDictPage),
+      .on('addLearnedWordBtnClicked', (wordID, wordStatus) => this.addUserWord(wordID, wordStatus))
+      .on('deleteLearnedWordBtnClicked', (wordID, onDictPage, wordStatus) =>
+        this.deleteUserWord(wordID, onDictPage, wordStatus),
       );
   }
 
-  init = async () => {
-    await this.textBookModel.getTextBookList();
-    if (this.textBookView.userTextBookView.onDictPage)
+  init = async (): Promise<void> => {
+    if (this.textBookView.userTextBookView.onDictPage) {
       this.textBookView.userTextBookView.drawDict();
-    else this.textBookView.drawTextBook();
+    } else {
+      await this.textBookModel.getTextBookList();
+    }
   };
 
   changeTextBookPage = (page: number): void => {
     LocalStorage.currUserSettings.currPage = page;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
-
     void this.textBookModel.getTextBookList();
   };
 
@@ -64,19 +64,34 @@ export class TextBookController implements TextBookControllerInterface {
     void this.textBookModel.getUserDictWords();
   };
 
-  addUserWord = (wordID: string, difficulty: WordStatusEnum): void => {
+  addUserWord = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
+    await this.checkCollection(wordID, wordStatus);
+
     const addUserWordReq: AddUserWordReqType = {
-      difficulty: difficulty,
+      difficulty: wordStatus,
       optional: { test: 'test' },
     };
-    void this.textBookModel.addUserWord(addUserWordReq, wordID);
+    void (await this.textBookModel.addUserWord(addUserWordReq, wordID));
   };
 
-  deleteDifficultWord = (wordID: string, onDictPage: boolean): void => {
-    void this.textBookModel.deleteDifficultWord(wordID, onDictPage);
+  deleteUserWord = (wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): void => {
+    void this.textBookModel.deleteUserWord(wordID, onDictPage, wordStatus);
   };
 
-  deleteLearnedWord = (wordID: string, onDictPage: boolean): void => {
-    void this.textBookModel.deleteLearnedWord(wordID, onDictPage);
+  checkCollection = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
+    if (wordStatus === WordStatusEnum.difficult) {
+      const learnedWordsString = JSON.stringify(this.textBookModel.learnedWords);
+      if (learnedWordsString.includes(wordID)) {
+        await this.textBookModel.deleteUserWord(wordID, false, WordStatusEnum.learned);
+        this.textBookView.userTextBookView.checkBinBtnActive();
+      }
+    } else {
+      const difficultWordsString = JSON.stringify(this.textBookModel.difficultWords);
+      if (difficultWordsString.includes(wordID)) {
+        const onDictPage = this.textBookView.userTextBookView.onDictPage;
+        await this.textBookModel.deleteUserWord(wordID, onDictPage, WordStatusEnum.difficult);
+        this.textBookView.userTextBookView.checkStarBtnActive();
+      }
+    }
   };
 }
