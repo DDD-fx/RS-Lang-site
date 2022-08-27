@@ -23,7 +23,6 @@
 .hamburger {
   display: none;
   z-index: 1;
-  //padding-right: 4px;
   margin: 0 3rem 0 auto;
   transition: 0.3s;
 
@@ -97,7 +96,7 @@
   }
 
   .nav.is-active {
-     top: 53px;
-     transform: scaleY(1);
+    top: 53px;
+    transform: scaleY(1);
   }
 }

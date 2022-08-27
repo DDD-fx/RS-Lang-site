@@ -72,18 +72,19 @@ class Nav {
     getElement('hamburger').classList.toggle('is-active');
     getElement('nav').classList.toggle('is-active');
   };
-  /*
- closeNav = (event) => {
-     const target = event.target;
-    const its_menu = target == siteNav;
-    const its_btnMenu = target == burgerButton || burgerButton.contains(target);
-    const menu_is_active = nav.classList.contains("is-active");
-   
-  if (menu_is_active && !its_btnMenu && !its_menu){ //Close menu onclick all elem except nav_list
-    burgerButton.classList.remove("is-active");
-    nav.classList.remove("is-active");
-   }
-  }*/
+
+  closeNav = (event: Event) => {
+    const burgerButton = getElement('hamburger');
+    const nav = getElement('nav');
+    const target = event.target as HTMLElement;
+    const its_menu = target.classList.contains('nav__list');
+    const its_btnMenu = target === burgerButton || burgerButton.contains(target);
+    const menu_is_active = nav.classList.contains('is-active');
+    if (menu_is_active && !its_btnMenu && !its_menu) {
+      burgerButton.classList.remove('is-active');
+      nav.classList.remove('is-active');
+    }
+  };
 }
 
 export default Nav;

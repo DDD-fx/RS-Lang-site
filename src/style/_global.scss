@@ -285,6 +285,10 @@ li {
     font-size: 14px;
   }
 
+  .header {
+    z-index: 1;
+  }
+
   .footer__wrapper {
     flex-wrap: wrap;
     grid-gap: 20px;
