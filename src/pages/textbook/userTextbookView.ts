@@ -52,7 +52,7 @@ export class UserTextBookView
     this.createBinBtn();
     this.addDictBtnListener();
     this.checkStarBtnActive();
-    if (!this.onDictPage) this.checkLearnedBtnActive();
+    if (!this.onDictPage) this.checkBinBtnActive();
   };
 
   createStarBtn = (): void => {
@@ -82,6 +82,7 @@ export class UserTextBookView
             'deleteDifficultWordBtnClicked',
             wordID,
             this.onDictPage,
+            WordStatusEnum.difficult,
           );
           star.classList.remove('star-svg--active');
         }
@@ -110,7 +111,13 @@ export class UserTextBookView
           );
           bin.classList.add('bin-svg--active');
         } else {
-          this.emit.call(this.textBookView, 'deleteLearnedWordBtnClicked', wordID, this.onDictPage);
+          this.emit.call(
+            this.textBookView,
+            'deleteLearnedWordBtnClicked',
+            wordID,
+            this.onDictPage,
+            WordStatusEnum.learned,
+          );
           bin.classList.remove('bin-svg--active');
         }
       });
@@ -151,27 +158,33 @@ export class UserTextBookView
     if (this.textBookModel.difficultWords.length > 0 && !this.onDictPage) {
       this.textBookModel.wordsChunk.forEach((word) => {
         const difficultWordsString = JSON.stringify(this.textBookModel.difficultWords);
+        const star = this.textBookView.textBookViewUtils.getStarBtn(word.id);
         if (difficultWordsString.includes(word.id)) {
-          const wordBtn = document.getElementById(word.id) as HTMLDivElement;
-          const starDiv = wordBtn.childNodes[2] as HTMLDivElement;
-          const star = starDiv.firstElementChild as SVGElement;
           star.classList.add('star-svg--active');
+        } else {
+          star.classList.remove('star-svg--active');
         }
       });
+    } else if (this.textBookModel.difficultWords.length === 0 && !this.onDictPage) {
+      const stars = document.getElementsByClassName('star-svg') as HTMLCollectionOf<SVGElement>;
+      [...stars].forEach((star) => star.classList.remove('star-svg--active'));
     }
   };
 
-  checkLearnedBtnActive = (): void => {
+  checkBinBtnActive = (): void => {
     if (this.textBookModel.learnedWords.length > 0) {
       this.textBookModel.wordsChunk.forEach((word) => {
         const learnedWordsString = JSON.stringify(this.textBookModel.learnedWords);
+        const bin = this.textBookView.textBookViewUtils.getBinBtn(word.id);
         if (learnedWordsString.includes(word.id)) {
-          const wordBtn = document.getElementById(word.id) as HTMLDivElement;
-          const binDiv = wordBtn.childNodes[3] as HTMLDivElement;
-          const bin = binDiv.firstElementChild as SVGElement;
           bin.classList.add('bin-svg--active');
+        } else {
+          bin.classList.remove('bin-svg--active');
         }
       });
+    } else {
+      const bins = document.getElementsByClassName('bin-svg') as HTMLCollectionOf<SVGElement>;
+      [...bins].forEach((bin) => bin.classList.remove('bin-svg--active'));
     }
   };
 }

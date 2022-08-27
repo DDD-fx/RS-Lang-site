@@ -99,29 +99,22 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     }
   };
 
-  deleteDifficultWord = async (wordID: string, onDictPage: boolean): Promise<void> => {
+  deleteUserWord = async (
+    wordID: string,
+    onDictPage: boolean,
+    wordStatus: WordStatusEnum,
+  ): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
     try {
       await fetch(baseURL + query, {
         method: 'DELETE',
         headers: this.API_USER_REQ_HEADER,
       });
-      if (onDictPage) this.emit('removeDifficultWordElem', wordID);
-      await this.updateUserWords(WordStatusEnum.difficult);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  deleteLearnedWord = async (wordID: string, onDictPage: boolean): Promise<void> => {
-    const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
-    try {
-      await fetch(baseURL + query, {
-        method: 'DELETE',
-        headers: this.API_USER_REQ_HEADER,
-      });
-      // if (onDictPage) this.emit('removeDifficultWordElem', wordID);
-      await this.updateUserWords(WordStatusEnum.learned);
+      if (wordStatus === WordStatusEnum.difficult) {
+        if (onDictPage) this.emit('removeDifficultWordElem', wordID);
+        await this.updateUserWords(WordStatusEnum.difficult);
+      }
+      if (wordStatus === WordStatusEnum.learned) await this.updateUserWords(WordStatusEnum.learned);
     } catch (e) {
       console.error(e);
     }
