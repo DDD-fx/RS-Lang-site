@@ -288,21 +288,21 @@ export class AudioChallengeView
     const correctAnswer = getElement(`game-section__correct-sign-wrapper-${answer}`);
 
     if (word === answer) {
-      if (correctAnswerSignWrapper.classList.contains('hidden')) {
+      if (correctAnswerSignWrapper && correctAnswerSignWrapper.classList.contains('hidden')) {
         correctAnswerSignWrapper.classList.remove('hidden');
       }
     } else {
-      if (wrongAnswerSignWrapper.classList.contains('hidden')) {
+      if (wrongAnswerSignWrapper && wrongAnswerSignWrapper.classList.contains('hidden')) {
         wrongAnswerSignWrapper.classList.remove('hidden');
       }
-      if (!defaultSignWrapper.classList.contains('hidden')) {
+      if (defaultSignWrapper && !defaultSignWrapper.classList.contains('hidden')) {
         defaultSignWrapper.classList.add('hidden');
       }
     }
-    if (correctAnswer.classList.contains('hidden')) {
+    if (correctAnswer && correctAnswer.classList.contains('hidden')) {
       correctAnswer.classList.remove('hidden');
     }
-    if (!defaultAnswerSignWrapper.classList.contains('hidden')) {
+    if (defaultAnswerSignWrapper && !defaultAnswerSignWrapper.classList.contains('hidden')) {
       defaultAnswerSignWrapper.classList.add('hidden');
     }
   };
@@ -485,6 +485,8 @@ export class AudioChallengeView
     ]);
     continueBtn.textContent = 'Продолжить игру';
     continueBtn.addEventListener('click', () => {
+      AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length = 0;
+      AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length = 0;
       this.closeGameResults();
       this.drawAudioChallengeGame();
     });
@@ -498,6 +500,8 @@ export class AudioChallengeView
 
   checkPressedBtn = (e: KeyboardEvent): void => {
     const pressedKey = e.code;
+    const gameWindow = getElement('fixed-window');
+    if (gameWindow && !gameWindow.classList.contains('hidden')) {
     switch (pressedKey) {
       case 'Digit1':
       case 'Digit2':
@@ -513,6 +517,7 @@ export class AudioChallengeView
         this.handlePressedEnter(pressedKey);
         break;
     }
+  }
   };
 
   handlePressedNumber = (pressedKey: string): void => {
@@ -523,7 +528,7 @@ export class AudioChallengeView
       (el) => el.wordTranslate === translatedWord
     );
     const englishWord = word?.word;
-    if (englishWord) {
+    if (englishWord && (wordsBtns[index] as HTMLButtonElement).disabled !== true) {
       this.showRightAnswer();
       this.hideSkipBtn();
       this.showSign(englishWord);
