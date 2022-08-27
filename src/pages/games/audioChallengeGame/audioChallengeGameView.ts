@@ -33,6 +33,10 @@ export class AudioChallengeView
     this.createContinueBtn();
     this.createSkipBtn();
     this.enableWordSounding();
+    const gameWindow = getElement('fixed-window');
+    if (gameWindow.classList.contains('hidden')) {
+      gameWindow.classList.remove('hidden');
+    }
   };
 
   updateWordBtnsWrapper = (): Element => {
@@ -54,7 +58,6 @@ export class AudioChallengeView
           }),
         );
       } else {
-        console.log(`${i}Game over`);
         this.stopTheGame();
         this.showGameResults();
         this.emit('wordsAreOver');
@@ -220,7 +223,9 @@ export class AudioChallengeView
       this.showSign(answer);
       this.makeWordsTransparent(answer);
       this.wordsBtnsDisable();
-      AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
+      if (!AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)) {
+        AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
+      }
     });
     skipBtnWrapper.append(skipBtn);
   };
@@ -332,9 +337,13 @@ export class AudioChallengeView
   checkRightAnswer = (word: string): void => {
     const answer = this.getRightAnswer();
     if (word === answer) {
-      AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(word);
+      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(word) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(word)) {
+        AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(word);
+      }
     } else {
-      AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(word);
+      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(word) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(word)) {
+        AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(word);
+      }
     }
   };
 
@@ -350,17 +359,37 @@ export class AudioChallengeView
     if (gameWrapper.classList.contains('hidden')) {
       gameWrapper.classList.remove('hidden');
     }
-    (gameWrapper as HTMLDivElement).style.height = '50vh';
-    const resultWrapper = getElement('result-section');
+    const wordsWrapper = getElement('result-section');
+    (wordsWrapper as HTMLDivElement).style.height = '50vh';
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
+    this.showOperationPanel();
+  };
+
+  closeGameResults = (): void => {
+    const gameWrapper = getElement('fixed-result-window');
+    const operationPanel = getElement('result-section__operation-panel');
+    if (!gameWrapper.classList.contains('hidden')) {
+      gameWrapper.classList.add('hidden');
+    }
+    if (!operationPanel.classList.contains('hidden')) {
+      operationPanel.classList.add('hidden');
+    }
+    const wordsWrapper = getElement('result-section');
+    (wordsWrapper as HTMLDivElement).style.height = '0';
   };
 
   updateUnlearnedResultWordsWrapper = (): Element => {
     const wordsWrapper = getElement('result-section__unlearned-words');
     wordsWrapper.innerHTML = '';
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    wordsWrapperHeader.textContent = `Ошибок ${AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length}`;
+    const headerSpan = createElement('span', [
+      'result-section__span',
+      'result-section__span_errors',
+    ]);
+    headerSpan.textContent = `${AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length}`;
+    wordsWrapperHeader.textContent = 'Ошибок ';
+    wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length; i += 1) {
       const word = this.audioChallengeModel.wordsChunk.find(
@@ -373,8 +402,6 @@ export class AudioChallengeView
             word: word.word,
           }),
         );
-      } else {
-        console.log(`no words`);
       }
     }
     return wordsWrapper;
@@ -384,7 +411,13 @@ export class AudioChallengeView
     const wordsWrapper = getElement('result-section__learned-words');
     wordsWrapper.innerHTML = '';
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    wordsWrapperHeader.textContent = `Знаю ${AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length}`;
+    const headerSpan = createElement('span', [
+      'result-section__span',
+      'result-section__span_correct',
+    ]);
+    headerSpan.textContent = `${AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length}`;
+    wordsWrapperHeader.textContent = 'Знаю ';
+    wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length; i += 1) {
       const word = this.audioChallengeModel.wordsChunk.find(
@@ -397,9 +430,7 @@ export class AudioChallengeView
             word: word.word,
           }),
         );
-      } else {
-        console.log(`no words`);
-      }
+      } 
     }
     return wordsWrapper;
   };
@@ -419,5 +450,119 @@ export class AudioChallengeView
     }
     wordWrapper.append(wordText);
     return wordWrapper;
+  };
+
+  showOperationPanel = (): void => {
+    const operationPanel = getElement('result-section__operation-panel');
+    const closeBtn = this.createResultsCloseBtn();
+    const continueBtn = this.createResultsContinueBtn();
+    operationPanel.append(closeBtn, continueBtn);
+  };
+
+  createResultsCloseBtn = (): HTMLElement => {
+    const closeBtnWrapper = createElement(
+      'div',
+      'result-section__close-btn-wrapper'
+    );
+    const closeBtn = createElement('button', [
+      'game-start-btn',
+      'result-section__close-btn',
+    ]);
+    closeBtn.textContent = 'Завершить игру';
+    closeBtn.addEventListener('click', () => window.location.reload());
+    closeBtnWrapper.append(closeBtn);
+    return closeBtnWrapper;
+  };
+
+  createResultsContinueBtn = (): HTMLElement => {
+    const continueBtnWrapper = createElement(
+      'div',
+      'result-section__continue-btn-wrapper'
+    );
+    const continueBtn = createElement('button', [
+      'game-start-btn',
+      'result-section__continue-btn',
+    ]);
+    continueBtn.textContent = 'Продолжить игру';
+    continueBtn.addEventListener('click', () => {
+      this.closeGameResults();
+      this.drawAudioChallengeGame();
+    });
+    continueBtnWrapper.append(continueBtn);
+    return continueBtnWrapper;
+  };
+
+  keyPressMethod = (() => {
+    document.addEventListener('keydown', (e) => this.checkPressedBtn(e));
+  })();
+
+  checkPressedBtn = (e: KeyboardEvent): void => {
+    const pressedKey = e.code;
+    switch (pressedKey) {
+      case 'Digit1':
+      case 'Digit2':
+      case 'Digit3':
+      case 'Digit4':
+      case 'Digit5':
+        this.handlePressedNumber(pressedKey);
+        break;
+      case 'Space':
+        this.handlePressedSpace(pressedKey);
+        break;
+      case 'Enter':
+        this.handlePressedEnter(pressedKey);
+        break;
+    }
+  };
+
+  handlePressedNumber = (pressedKey: string): void => {
+    const wordsBtns = document.getElementsByClassName('game-section__word');
+    const index = +pressedKey.slice(5) - 1;
+    const translatedWord = wordsBtns[index].textContent;
+    const word = this.audioChallengeModel.wordsChunk.find(
+      (el) => el.wordTranslate === translatedWord
+    );
+    const englishWord = word?.word;
+    if (englishWord) {
+      this.showRightAnswer();
+      this.hideSkipBtn();
+      this.showSign(englishWord);
+      this.makeWordsTransparent(englishWord);
+      this.crossWrongWord(englishWord);
+      this.wordsBtnsDisable();
+      this.checkRightAnswer(englishWord);
+    }
+  };
+
+  handlePressedSpace = (pressedKey: string): void => {
+    const answer = this.getRightAnswer();
+    const word = this.audioChallengeModel.wordsChunk.find(
+      (el) => el.word === answer
+    );
+    if (word) (async () => {
+            const audio = new Audio(baseURL + word.audio);
+            await audio.play();
+          })().catch();
+  };
+
+  handlePressedEnter = (pressedKey: string): void => {
+    const skipBtn = getElement('game-section__skip-btn-wrapper');
+    const continueBtn = getElement('game-section__next-btn-wrapper');
+    if (skipBtn.classList.contains('hidden') && !continueBtn.classList.contains('hidden')) {
+      this.emit('nextBtnClicked');
+      this.hideRightAnswer();
+      this.showSkipBtn();
+      this.enableWordSounding();
+    } else if (!skipBtn.classList.contains('hidden') && continueBtn.classList.contains('hidden')) {
+      const answer = this.getRightAnswer();
+      this.showRightAnswer();
+      this.hideSkipBtn();
+      this.showSign(answer);
+      this.makeWordsTransparent(answer);
+      this.wordsBtnsDisable();
+      if (!AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)) {
+        AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
+      }
+    }
   };
 }
