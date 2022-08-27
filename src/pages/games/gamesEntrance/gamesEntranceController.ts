@@ -26,13 +26,13 @@ export default class GamesEntranceController implements GamesEntranceControllerI
 
   startAudioChallengeGame = async () => {
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = false;
-    const audioChallengeModel = new AudioChallengeModel(AUDIOCHALLENGE_GAME_SETTINGS.textbookPage);
+    const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
     const audioChallengeController = new AudioChallengeController(
       audioChallengeModel,
       audioChallengeView,
     );
-    await audioChallengeController.getWordsList(AUDIOCHALLENGE_GAME_SETTINGS.textbookPage, AUDIOCHALLENGE_GAME_SETTINGS.level);
+    await audioChallengeController.getWordsList();
     audioChallengeView.drawAudioChallengeGame();
   };
 

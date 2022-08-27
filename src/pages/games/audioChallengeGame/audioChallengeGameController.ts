@@ -3,7 +3,7 @@ import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
 } from '../../../types/gamesTypes';
-import { AUDIOCHALLENGE_GAME_SETTINGS } from '../../../utils/constants';
+import { AUDIOCHALLENGE_GAME_SETTINGS, MAX_TEXTBOOK_PAGES } from '../../../utils/constants';
 
 export class AudioChallengeController implements AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
@@ -19,36 +19,21 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     this.audioChallengeView = AudioChallengeView;
     this.audioChallengeView
       .on('nextBtnClicked', () => this.turnGamePage())
-      .on('wordsAreOver', () => this.changeSettingsPage());
+      .on('wordsAreOver', () => this.changeSettingsPage())
+      .on('wordOfShakedArrCountAdded', () => this.changeWord())
+      .on('pressedContinueGameBtn', () => this.getWordsList())
+      
   }
 
-  getWordsList = async (page: number, level: number): Promise<void> => {
-    let queryArray = [];
-    if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
-      for (let i = 0; i < 4; i++) {
-        const query = `words?group=${level}&page=${
-          page + i
-        }`;
-        queryArray.push(query);
-      }
-    } else if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === true) {
-      if (page >= 4) {
-        for (let i = page; i > page - 4; i--) {
-          const query = `words?group=${level}&page=${
-            page + i
-          }`;
-          queryArray.push(query);
-        }
-      } else {
-        for (let i = page; i >= 0; i--) {
-          const query = `words?group=${level}&page=${
-            page + i
-          }`;
-          queryArray.push(query);
-        }
-      }
-    }
-    await this.audioChallengeModel.getWordsList(queryArray);
+  getWordsList = async (): Promise<void> => {
+    const page = this.getRandomPage();
+    const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${page}`
+    await this.audioChallengeModel.getWordsList(query);
+  };
+
+  getRandomPage = (): number => {
+    let rand = Math.random() * (MAX_TEXTBOOK_PAGES + 1);
+    return Math.floor(rand);
   };
 
   turnGamePage = (): void => {
@@ -58,7 +43,11 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
   changeSettingsPage = (): void => {
     if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
       this.audioChallengeModel.changeSettingsPage();
-      this.getWordsList(AUDIOCHALLENGE_GAME_SETTINGS.textbookPage, AUDIOCHALLENGE_GAME_SETTINGS.level);
+      this.getWordsList();
     }
+  };
+
+  changeWord = (): void => {
+      this.audioChallengeModel.changeWord();
   };
 }
