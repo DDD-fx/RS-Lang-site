@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .register {
   display: flex;
   align-items: center;
@@ -26,6 +28,7 @@ label {
   font-size: 1rem;
   font-weight: 500;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .input {
@@ -88,4 +91,23 @@ label {
   align-self: center;
   font-size: 2rem;
   font-weight: 500;
+}
+
+
+@include sm {
+
+
+  .register {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .register__form {
+    order: 0;
+  }
+
+  .register__images {
+    order: 1;
+  }
+
 }

@@ -13,7 +13,7 @@ const registerInner = `
 <form class="form register__form" id="registerForm" name="registerForm" action="/apply/" method="POST">
 <h2 class="register__title">Создать аккаунт</h2>
   <label>
- <span class="input-title">Ваше имя</span>
+ <span class="input-title">Имя</span>
     <input class="input" type="text" name="username" id="username" placeholder="Илон Маск" autocomplete="username" autofocus>
   </label>
   <label>
