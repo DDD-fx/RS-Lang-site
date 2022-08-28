@@ -10,11 +10,14 @@ import {
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
 import { renderTextbookTemplate } from '../../components/textbook';
-import { baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
+import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
 import { UserTextBookView } from './userTextbookView';
 import { TextBookViewUtils } from './textBookViewUtils';
+import { AudioChallengeModel } from '../games/audioChallengeGame/audioChallengeGameModel';
+import { AudioChallengeView } from '../games/audioChallengeGame/audioChallengeGameView';
+import { AudioChallengeController } from '../games/audioChallengeGame/audioChallengeGameController';
 
 export class TextBookView
   extends TypedEmitter<TextBookEventsType>

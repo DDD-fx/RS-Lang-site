@@ -2,6 +2,7 @@ import {
   AUDIOCHALLENGE_GAME_SETTINGS,
   baseURL,
   MAX_TEXTBOOK_PAGES,
+  WORDS_PER_TEXTBOOK_PAGE,
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { WordsChunkType } from '../../../types/textbookTypes';
@@ -9,23 +10,33 @@ import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
+  shakedWordChunk: WordsChunkType[];
 
-  constructor(textBookPage: number) {
+  constructor() {
     super();
     this.wordsChunk = [];
+    this.shakedWordChunk = [];
   }
 
-  getWordsList = async (queries: string[]): Promise<void> => {
-    let data: Response[] = [];
-    queries.forEach(async (query) => data.push(await fetch(baseURL + query)));
+  getWordsList = async (query: string): Promise<void> => {
+    const data = await fetch(baseURL + query);
+    this.wordsChunk = await data.json();
+    this.shakedWordChunk = this.shakeWordsArr();
+  }
 
-    for (let i = 0; i < queries.length; i += 1) {
-      const data = await fetch(baseURL + queries[i]);
-      this.wordsChunk.push(await data.json());
-      AUDIOCHALLENGE_GAME_SETTINGS.textbookPage += 1;
+  getWordsListFromTextbook = (array: WordsChunkType[]): void=> {
+    this.wordsChunk = array;
+    this.shakedWordChunk = this.shakeWordsArr();
+  }
+
+  shakeWordsArr = (): WordsChunkType[] => {
+    const wordsArr = JSON.parse(JSON.stringify(this.wordsChunk));
+    for (let i = this.wordsChunk.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [wordsArr[i], wordsArr[j]] = [wordsArr[j], wordsArr[i]];
     }
-    this.wordsChunk = this.wordsChunk.flat();
-  };
+    return wordsArr;
+  }
 
   turnGamePage = (): void => {
     AUDIOCHALLENGE_GAME_SETTINGS.wordCount += AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
@@ -42,5 +53,11 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
     this.wordsChunk = [];
     this.emit('turnTheTextBookPage');
+  };
+
+  changeWord = (): void => {
+    if (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount < WORDS_PER_TEXTBOOK_PAGE + 1) {
+      AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount += 1;
+    }
   };
 }

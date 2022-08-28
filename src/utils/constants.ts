@@ -31,6 +31,9 @@ export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   soundingWordId: '',
   learnedWords: [],
   unlearnedWords: [],
+  startFromTextbook: false,
+  wordOfShakedArrCount: 0,
+  shakedWordsArray: [],
 };
 
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>
