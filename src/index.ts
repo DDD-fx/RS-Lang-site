@@ -52,6 +52,15 @@ const routes: Routes[] = [
       main.append(gamesEntrance.gamesEntranceView.buildAudioChallengeHTML());
     },
   },
+
+  {
+    path: '/audiochallenge-pages',
+    action: () => {
+      const collection = textbook.getAudioChallengeCollection();
+      gamesEntrance.startAudioChallengeFromTextBook(collection);
+    },
+  },
+
   {
     path: '/sprint',
     action: () => {

@@ -9,6 +9,7 @@ export class GamesSection {
     mainWrapper.innerHTML = '';
     mainWrapper.append(gamesWrapper);
   };
+
   mount = () => {
     const main = getElement('main__wrapper');
     const challengeBtn = document.getElementsByClassName('games-link__audiochallenge')[0];
@@ -19,7 +20,7 @@ export class GamesSection {
     });
     sprintBtn.addEventListener('click', () => {
       main.innerHTML = '';
-      history.push('/audiochallenge');
+      history.push('/sprint');
     });
   };
 }

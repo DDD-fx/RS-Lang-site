@@ -20,6 +20,7 @@ export type TextBookEventsType = {
     onDictPage: boolean,
     wordStatus: WordStatusEnum.learned,
   ) => void;
+  audioChallengeBtnClicked: () => void;
 
   getTextBookList: () => void;
   getWordData: (word: WordsChunkType) => void;
@@ -54,6 +55,7 @@ export interface TextBookControllerInterface {
   addUserWord(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
   deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): void;
   checkCollection(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
+  getAudioChallengeCollection(): WordsChunkType[];
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
@@ -157,3 +159,9 @@ export enum WordStatusEnum {
   learned = '0',
   difficult = '1',
 }
+
+export type UserStatisticsType = {
+  id: string;
+  sprintCorrectAnswers: number;
+  audioChallengeCorrectAnswers: number;
+};

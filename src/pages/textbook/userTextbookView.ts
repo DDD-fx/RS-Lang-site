@@ -10,6 +10,7 @@ import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, MAX_TEXTBOOK_PAGES, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate } from '../../components/textbook';
 import { LocalStorage } from '../../utils/storage';
+import history from '../../utils/history';
 
 export class UserTextBookView
   extends TypedEmitter<TextBookEventsType>
@@ -53,6 +54,7 @@ export class UserTextBookView
     this.addDictBtnListener();
     this.checkStarBtnActive();
     if (!this.onDictPage) this.checkBinBtnActive();
+    this.addGameBtnsListeners();
   };
 
   createStarBtn = (): void => {
@@ -198,5 +200,13 @@ export class UserTextBookView
   markPageLearned = (pageNum: number): void => {
     const page = getElement(`page-${pageNum}`);
     page.classList.add('learned-page');
+  };
+
+  addGameBtnsListeners = (): void => {
+    const audioChallengeBtn = getElement('textbook-games-btn-challenge') as HTMLButtonElement;
+    audioChallengeBtn.addEventListener('click', () => {
+      history.push('/audiochallenge-pages');
+      this.emit.call(this.textBookView, 'audioChallengeBtnClicked');
+    });
   };
 }
