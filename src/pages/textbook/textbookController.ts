@@ -1,6 +1,7 @@
 import {
   AddUserWordReqType,
   TextBookControllerInterface,
+  WordsChunkType,
   WordStatusEnum,
 } from '../../types/textbookTypes';
 import { TextBookModel } from './textbookModel';
@@ -29,7 +30,8 @@ export class TextBookController implements TextBookControllerInterface {
       .on('addLearnedWordBtnClicked', (wordID, wordStatus) => this.addUserWord(wordID, wordStatus))
       .on('deleteLearnedWordBtnClicked', (wordID, onDictPage, wordStatus) =>
         this.deleteUserWord(wordID, onDictPage, wordStatus),
-      );
+      )
+      .on('audioChallengeBtnClicked', () => this.getAudioChallengeCollection());
   }
 
   init = async (): Promise<void> => {
@@ -42,11 +44,12 @@ export class TextBookController implements TextBookControllerInterface {
 
   changeTextBookPage = (page: number): void => {
     LocalStorage.currUserSettings.currPage = page;
+    LocalStorage.currUserSettings.currWord = '';
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
     void this.textBookModel.getTextBookList();
   };
 
-  changeTextBookGroup = (group: number) => {
+  changeTextBookGroup = (group: number): void => {
     LocalStorage.currUserSettings.currPage = 0;
     LocalStorage.currUserSettings.currWord = '';
     LocalStorage.currUserSettings.currGroup = group;
@@ -66,7 +69,6 @@ export class TextBookController implements TextBookControllerInterface {
 
   addUserWord = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
     await this.checkCollection(wordID, wordStatus);
-
     const addUserWordReq: AddUserWordReqType = {
       difficulty: wordStatus,
       optional: { test: 'test' },
@@ -93,5 +95,12 @@ export class TextBookController implements TextBookControllerInterface {
         this.textBookView.userTextBookView.checkStarBtnActive();
       }
     }
+  };
+
+  getAudioChallengeCollection = (): WordsChunkType[] => {
+    const learnedSet = new Set(this.textBookModel.learnedWords.map(({ id }) => id));
+    const collection = this.textBookModel.wordsChunk.filter((word) => !learnedSet.has(word.id));
+    console.log(collection);
+    return collection;
   };
 }

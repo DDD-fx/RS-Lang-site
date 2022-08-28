@@ -20,6 +20,7 @@ export type TextBookEventsType = {
     onDictPage: boolean,
     wordStatus: WordStatusEnum.learned,
   ) => void;
+  audioChallengeBtnClicked: () => void;
 
   getTextBookList: () => void;
   getWordData: (word: WordsChunkType) => void;
@@ -30,7 +31,6 @@ export type TextBookEventsType = {
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   wordsChunk: WordsChunkType[];
-  aggregatedWords: AggregatedWordType[];
   difficultWords: WordsChunkType[];
   learnedWords: WordsChunkType[];
   getTextBookList(): Promise<void>;
@@ -41,7 +41,6 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
   getUserWords(query: string, wordStatus: WordStatusEnum): Promise<void>;
   addUserWord(addUserWordReq: AddUserWordReqType, wordID: string): Promise<void>;
   deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): Promise<void>;
-  getAggregatedWords(query: string): Promise<AggregatedWordType[] | void>;
   mapUserWordsID(difficultWords: AggregatedWordType[]): WordsChunkType[];
 }
 
@@ -56,6 +55,7 @@ export interface TextBookControllerInterface {
   addUserWord(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
   deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): void;
   checkCollection(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
+  getAudioChallengeCollection(): WordsChunkType[];
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
@@ -86,6 +86,8 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
   makeStarBtnActive(): void;
   checkStarBtnActive(): void;
   checkBinBtnActive(): void;
+  markPagesLearned(): void;
+  markPageLearned(i: number): void;
 }
 
 export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsType> {
@@ -157,3 +159,9 @@ export enum WordStatusEnum {
   learned = '0',
   difficult = '1',
 }
+
+export type UserStatisticsType = {
+  id: string;
+  sprintCorrectAnswers: number;
+  audioChallengeCorrectAnswers: number;
+};

@@ -11,7 +11,7 @@ type HistoryLocation = {
   state: null | unknown;
 };
 
-export { Routes, HistoryLocation, ResponseOptionType };
+export { Routes, HistoryLocation, RequestOptionType };
 
 export type LocalStorageType = {
   // это зачем ?
@@ -31,14 +31,14 @@ export type UserSettingsType = {
   userId: string;
 };
 
-type ResponseOptionType = {
+type RequestOptionType = {
   method: string;
-  withCredentials: boolean;
-  headers: ResponseOptionHeadersType;
+  withCredentials?: boolean;
+  headers: RequestOptionHeadersType;
   body?: string;
 };
 
-type ResponseOptionHeadersType = {
+type RequestOptionHeadersType = {
   Authorization: string;
   Accept?: string;
   'Content-Type'?: string;
