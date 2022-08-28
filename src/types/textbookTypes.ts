@@ -68,7 +68,6 @@ export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> 
   createWordsBtns({ id, word, wordTranslate, group }: WordsBtnsType): HTMLDivElement;
   createWordCard(word: WordsChunkType | AggregatedWordType): void;
   createAudioBtn(audio: string): HTMLButtonElement;
-  createTitleAudioBlock(title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement;
   createPagination(): void;
 }
 
@@ -88,6 +87,7 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
   checkBinBtnActive(): void;
   markPagesLearned(): void;
   markPageLearned(i: number): void;
+  disableGameBtns(): void;
 }
 
 export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsType> {
@@ -103,6 +103,7 @@ export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsT
   disableDictBtn(): void;
   getStarBtn(wordID: string): SVGElement;
   getBinBtn(wordID: string): SVGElement;
+  addGameBtnsListeners(): void;
 }
 
 export type WordsChunkType = {

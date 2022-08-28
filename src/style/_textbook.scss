@@ -109,6 +109,13 @@
   @include textbook-btns-effects;
   @include textbook-btns-common;
 
+  &[disabled] {
+    background-color: $btn-disabled;
+    &:hover {
+      @include disabled-btn;
+    }
+  }
+
   @media (max-width: 750px) {
     font-size: 0.9em;
   }
@@ -211,18 +218,24 @@
   min-height: 700px;
   flex: 1 1 40%;
   align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__word-image {
+    width: 100%;
+    border-radius: 20px;
+  }
+
+  &__text-container {
+    //margin-top: auto;
+  }
 
   @media (max-width: 994px) {
     flex: 1 1 60%;
     position: sticky;
     top: 20px;
   }
-}
-
-.word-image {
-  width: 100%;
-  border-radius: 20px;
-  margin-bottom: 20px;
 }
 
 .title-audio-block {

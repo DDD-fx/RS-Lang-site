@@ -8,6 +8,7 @@ import {
 } from '../../types/textbookTypes';
 import { LocalStorage } from '../../utils/storage';
 import { getElement } from '../../utils/tools';
+import history from '../../utils/history';
 
 export class TextBookViewUtils
   extends TypedEmitter<TextBookEventsType>
@@ -113,5 +114,13 @@ export class TextBookViewUtils
     const wordBtn = document.getElementById(wordID) as HTMLDivElement;
     const binDiv = wordBtn.childNodes[3] as HTMLDivElement;
     return binDiv.firstElementChild as SVGElement;
+  };
+
+  addGameBtnsListeners = (): void => {
+    const audioChallengeBtn = getElement('textbook-games-btn-challenge') as HTMLButtonElement;
+    audioChallengeBtn.addEventListener('click', () => {
+      history.push('/audiochallenge-pages');
+      this.emit.call(this.textBookView, 'audioChallengeBtnClicked');
+    });
   };
 }
