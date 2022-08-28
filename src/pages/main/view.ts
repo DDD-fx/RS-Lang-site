@@ -27,7 +27,6 @@ class View {
   render = (): void => {
     const modal = createElement('div', 'modal');
     this.nav.render();
-
     this.main.append(this.mainWrapper, modal);
     this.footer.insertAdjacentHTML('afterbegin', footerInner);
     document.body.append(this.header, this.main, this.footer);
@@ -38,29 +37,25 @@ class View {
     this.mainWrapper.innerHTML = '';
     this.mainWrapper.insertAdjacentHTML('afterbegin', renderMainTemplate());
   };
-  renderAdvTemplate = (): void => {
-    (<HTMLElement>getElement('main__wrapper')).style.opacity = '0';
+
+  renderCustomTemplate = (template: () => string): void => {
+    this.mainWrapper.style.opacity = '0';
     setTimeout(() => {
       this.mainWrapper.innerHTML = '';
-      this.mainWrapper.insertAdjacentHTML('afterbegin', renderAdvTemplate());
-      (<HTMLElement>getElement('main__wrapper')).style.opacity = '1';
-    }, 250);
-  };
-  renderTeamTemplate = (): void => {
-    (<HTMLElement>getElement('main__wrapper')).style.transform = 'scale3d(0.1, 0.1, 0.1)';
-    setTimeout(() => {
-      this.mainWrapper.innerHTML = '';
-      this.mainWrapper.insertAdjacentHTML('afterbegin', renderTeamTemplate());
-      (<HTMLElement>getElement('main__wrapper')).style.transform = 'scale3d(1, 1, 1)';
+      this.mainWrapper.insertAdjacentHTML('afterbegin', template());
+      this.mainWrapper.style.opacity = '1';
     }, 250);
   };
 
   bind = () => {
     getElement('main__wrapper').addEventListener('click', (event) => {
       if ((<HTMLElement>event.target).classList.contains('btn-article')) history.push('/textbook');
-      if ((<HTMLElement>event.target).classList.contains('main')) this.renderMainTemplate();
-      if ((<HTMLElement>event.target).classList.contains('advantages')) this.renderAdvTemplate();
-      if ((<HTMLElement>event.target).classList.contains('team')) this.renderTeamTemplate();
+      if ((<HTMLElement>event.target).classList.contains('main'))
+        this.renderCustomTemplate(renderMainTemplate);
+      if ((<HTMLElement>event.target).classList.contains('advantages'))
+        this.renderCustomTemplate(renderAdvTemplate);
+      if ((<HTMLElement>event.target).classList.contains('team'))
+        this.renderCustomTemplate(renderTeamTemplate);
     });
 
     document.addEventListener('click', this.nav.closeNav); //set the event

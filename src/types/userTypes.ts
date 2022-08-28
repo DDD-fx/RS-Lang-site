@@ -29,6 +29,17 @@ type CreateUserErrorsType = {
   message: string;
 };
 
+type StatAnswerType = {
+  id: string;
+  learnedWords: number;
+  optional: {};
+};
+
+type PutStatBodyType = {
+  learnedWords: number;
+  optional: {};
+};
+
 type DecodedTokenType = {
   id: string;
   iat: string;
@@ -42,4 +53,6 @@ export {
   CreateUserResponseType,
   CreateUserErrorsType,
   DecodedTokenType,
+  StatAnswerType,
+  PutStatBodyType
 };

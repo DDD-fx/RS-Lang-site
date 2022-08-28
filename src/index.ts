@@ -6,6 +6,7 @@ import { Routes } from './types/types';
 import { TextBookController } from './pages/textbook/textbookController';
 import { GamesSection } from './pages/games/games';
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
+import Statistics from './pages/stat';
 import { LocalStorage } from './utils/storage';
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
 import history from './utils/history';
@@ -22,6 +23,8 @@ const textbook = new TextBookController();
 const gamesEntrance = new GamesEntranceController();
 
 const gamesSection = new GamesSection();
+
+const stat = new Statistics()
 
 const main = getElement('main__wrapper');
 
@@ -62,7 +65,7 @@ const routes: Routes[] = [
   {
     path: '/stat',
     action: () => {
-      main.innerHTML = '<h1>Page Statistics</h1>';
+      stat.init();
     },
   },
   {
