@@ -16,11 +16,10 @@ const renderAdvTemplate = () => `
                                 <p class="advantages-text">База из более 3500 слов. Шесть уровней сложности. Удобная навигация. Запоминание прогресса.</p>
                             </div>
                             <div class="advantages__item">
-                            <img src="assets/textbook-img.jpg" alt="textbook-img">
-                                <h4 class="advantages-title">Обучающие игры</h4>
-                                <p class="advantages-text">Улучшай свои знания в увлекательных играх. 
-                                Игра "Аудиовызов" - поможет лучше воспринимать английский язык на слух. 
+                                <h4 class="advantages-title second">Обучающие игры</h4>
+                                <p class="advantages-text second">Игра "Аудиовызов" - поможет лучше воспринимать английский язык на слух. 
                                 Игра "Спринт" - развивает реакцию и интуитивное понимание языка.</p>
+                                <img class="second" src="assets/games-img.jpg" alt="textbook-img">
                             </div>
                             <div class="advantages__item">
                             <img src="assets/textbook-img.jpg" alt="textbook-img">
