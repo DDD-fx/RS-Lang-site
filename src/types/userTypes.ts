@@ -54,5 +54,5 @@ export {
   CreateUserErrorsType,
   DecodedTokenType,
   StatAnswerType,
-  PutStatBodyType
+  PutStatBodyType,
 };

@@ -93,10 +93,7 @@ label {
   font-weight: 500;
 }
 
-
 @include sm {
-
-
   .register {
     flex-wrap: wrap;
     gap: 1rem;
@@ -109,5 +106,4 @@ label {
   .register__images {
     order: 1;
   }
-
 }

@@ -75,14 +75,16 @@ class Nav {
 
   closeNav = (event: Event) => {
     const burgerButton = getElement('hamburger');
-    const nav = getElement('nav');
-    const target = event.target as HTMLElement;
-    const its_menu = target.classList.contains('nav__list');
-    const its_btnMenu = target === burgerButton || burgerButton.contains(target);
-    const menu_is_active = nav.classList.contains('is-active');
-    if (menu_is_active && !its_btnMenu && !its_menu) {
-      burgerButton.classList.remove('is-active');
-      nav.classList.remove('is-active');
+    if (burgerButton) {
+      const nav = getElement('nav');
+      const target = event.target as HTMLElement;
+      const its_menu = target.classList.contains('nav__list');
+      const its_btnMenu = target === burgerButton || burgerButton.contains(target);
+      const menu_is_active = nav.classList.contains('is-active');
+      if (menu_is_active && !its_btnMenu && !its_menu) {
+        burgerButton.classList.remove('is-active');
+        nav.classList.remove('is-active');
+      }
     }
   };
 }
