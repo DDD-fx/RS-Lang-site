@@ -159,9 +159,9 @@ export enum WordStatusEnum {
   learned = '0',
   difficult = '1',
 }
-
-export type UserStatisticsType = {
-  id: string;
-  sprintCorrectAnswers: number;
-  audioChallengeCorrectAnswers: number;
-};
+//
+// export type UserStatisticsType = {
+//   id: string;
+//   sprintCorrectAnswers: number;
+//   audioChallengeCorrectAnswers: number;
+// };

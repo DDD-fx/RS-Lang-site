@@ -53,8 +53,10 @@ export class UserTextBookView
     this.createBinBtn();
     this.addDictBtnListener();
     this.checkStarBtnActive();
-    if (!this.onDictPage) this.checkBinBtnActive();
-    this.addGameBtnsListeners();
+    if (!this.onDictPage) {
+      this.checkBinBtnActive();
+      this.addGameBtnsListeners();
+    }
   };
 
   createStarBtn = (): void => {
