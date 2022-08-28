@@ -3,7 +3,7 @@ import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
 } from '../../../types/gamesTypes';
-import { AUDIOCHALLENGE_GAME_SETTINGS } from '../../../utils/constants';
+import { AUDIOCHALLENGE_GAME_SETTINGS, MAX_TEXTBOOK_PAGES } from '../../../utils/constants';
 
 export class AudioChallengeController implements AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
@@ -19,18 +19,21 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     this.audioChallengeView = AudioChallengeView;
     this.audioChallengeView
       .on('nextBtnClicked', () => this.turnGamePage())
-      .on('wordsAreOver', () => this.changeSettingsPage());
+      .on('wordsAreOver', () => this.changeSettingsPage())
+      .on('wordOfShakedArrCountAdded', () => this.changeWord())
+      .on('pressedContinueGameBtn', () => this.getWordsList())
+      
   }
 
   getWordsList = async (): Promise<void> => {
-    let queryArray = [];
-    for (let i = 0; i < 4; i++) {
-      const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${
-        AUDIOCHALLENGE_GAME_SETTINGS.textbookPage + i
-      }`;
-      queryArray.push(query);
-    }
-    await this.audioChallengeModel.getWordsList(queryArray);
+    const page = this.getRandomPage();
+    const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${page}`
+    await this.audioChallengeModel.getWordsList(query);
+  };
+
+  getRandomPage = (): number => {
+    let rand = Math.random() * (MAX_TEXTBOOK_PAGES + 1);
+    return Math.floor(rand);
   };
 
   turnGamePage = (): void => {
@@ -38,7 +41,13 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
   };
 
   changeSettingsPage = (): void => {
-    this.audioChallengeModel.changeSettingsPage();
-    this.getWordsList();
+    if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
+      this.audioChallengeModel.changeSettingsPage();
+      this.getWordsList();
+    }
+  };
+
+  changeWord = (): void => {
+      this.audioChallengeModel.changeWord();
   };
 }
