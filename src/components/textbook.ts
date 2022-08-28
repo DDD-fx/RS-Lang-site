@@ -25,11 +25,33 @@ export const renderTextbookTemplate = (): string => `
 <h2 class='words-title'>Слова для изучения:</h2>
 
 <div class='textbook-words js-textbook-words'>  <!--20 слов-->
-    <section class='words-btns js-words-btns'></section>
-    <article class='word-description js-word-description'></article>
+  <section class='words-btns js-words-btns'></section>
+  <article class='word-description js-word-description'>
+       
+  </article>
 </div>
 <div class='pagination js-pagination'></div>    <!--30 страниц-->
 `;
+
+export const renderWordDescription = (): string => `
+    <img class='word-description__word-image' src='' alt='word image'>
+    <div class='word-description__text-container'>
+      <div class='title-audio-block'>
+        <h3 class='word-description__word-title'></h3>
+      </div>
+      <p class='word-description__word-translate'></p>
+      <p class='word-description__word-transcript'></p>
+      <div class='title-audio-block'>
+        <h4 class='word-description__word-meaning-title'>Значение</h4>
+      </div>
+      <p class='word-description__text-meaning'></p>
+      <p class='word-description__text-meaning-translate'></p>
+      <div class='title-audio-block'>
+        <h4 class='word-description__word-example-title'>Пример</h4>
+      </div>
+      <p class='word-description__text-example'></p>
+      <p class='word-description__text-example-translate'></p>
+    </div> `;
 
 export const renderDictTemplate = (): string => `
   <div class='textbook-title-wrapper'>

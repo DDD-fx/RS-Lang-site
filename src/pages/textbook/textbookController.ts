@@ -98,6 +98,9 @@ export class TextBookController implements TextBookControllerInterface {
   };
 
   getAudioChallengeCollection = (): WordsChunkType[] => {
+    if (!LocalStorage.currUserID) {
+      return this.textBookModel.wordsChunk;
+    }
     const learnedSet = new Set(this.textBookModel.learnedWords.map(({ id }) => id));
     const collection = this.textBookModel.wordsChunk.filter((word) => !learnedSet.has(word.id));
     console.log(collection);
