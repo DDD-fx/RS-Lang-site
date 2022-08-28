@@ -7,9 +7,10 @@ import {
   WordStatusEnum,
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
-import { BIN_SVG, STAR_SVG } from '../../utils/constants';
+import { BIN_SVG, MAX_TEXTBOOK_PAGES, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate } from '../../components/textbook';
 import { LocalStorage } from '../../utils/storage';
+import history from '../../utils/history';
 
 export class UserTextBookView
   extends TypedEmitter<TextBookEventsType>
@@ -52,7 +53,10 @@ export class UserTextBookView
     this.createBinBtn();
     this.addDictBtnListener();
     this.checkStarBtnActive();
-    if (!this.onDictPage) this.checkBinBtnActive();
+    if (!this.onDictPage) {
+      this.checkBinBtnActive();
+      this.addGameBtnsListeners();
+    }
   };
 
   createStarBtn = (): void => {
@@ -186,5 +190,25 @@ export class UserTextBookView
       const bins = document.getElementsByClassName('bin-svg') as HTMLCollectionOf<SVGElement>;
       [...bins].forEach((bin) => bin.classList.remove('bin-svg--active'));
     }
+  };
+
+  markPagesLearned = (): void => {
+    for (let i = 0; i < MAX_TEXTBOOK_PAGES; i++) {
+      const learnedWords = this.textBookModel.learnedWords.filter((word) => word.page === i);
+      if (learnedWords.length === 20) this.markPageLearned(i);
+    }
+  };
+
+  markPageLearned = (pageNum: number): void => {
+    const page = getElement(`page-${pageNum}`);
+    page.classList.add('learned-page');
+  };
+
+  addGameBtnsListeners = (): void => {
+    const audioChallengeBtn = getElement('textbook-games-btn-challenge') as HTMLButtonElement;
+    audioChallengeBtn.addEventListener('click', () => {
+      history.push('/audiochallenge-pages');
+      this.emit.call(this.textBookView, 'audioChallengeBtnClicked');
+    });
   };
 }

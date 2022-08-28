@@ -9,6 +9,7 @@ import { AudioChallengeModel } from '../audioChallengeGame/audioChallengeGameMod
 import { AudioChallengeView } from '../audioChallengeGame/audioChallengeGameView';
 import { GamesEntranceView } from './gamesEntranceView';
 import { GamesEntranceModel } from './gamesEntranceModel';
+import { WordsChunkType } from '../../../types/textbookTypes';
 
 export default class GamesEntranceController implements GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
@@ -33,6 +34,17 @@ export default class GamesEntranceController implements GamesEntranceControllerI
       audioChallengeView,
     );
     await audioChallengeController.getWordsList();
+    audioChallengeView.drawAudioChallengeGame();
+  };
+
+  startAudioChallengeFromTextBook = (wordsCollection: WordsChunkType[]): void => {
+    const audioChallengeModel = new AudioChallengeModel();
+    const audioChallengeView = new AudioChallengeView(audioChallengeModel);
+    const audioChallengeController = new AudioChallengeController(
+      audioChallengeModel,
+      audioChallengeView,
+    );
+    audioChallengeModel.getWordsListFromTextbook(wordsCollection);
     audioChallengeView.drawAudioChallengeGame();
   };
 

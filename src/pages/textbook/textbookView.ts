@@ -55,7 +55,10 @@ export class TextBookView
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
 
     // USER VIEW
-    if (LocalStorage.currUserSettings.userId) this.userTextBookView.drawUserTextBookElems();
+    if (LocalStorage.currUserSettings.userId) {
+      this.userTextBookView.drawUserTextBookElems();
+      this.userTextBookView.markPagesLearned();
+    }
   };
 
   createWordsGroupBtns = (): void => {
@@ -179,7 +182,7 @@ export class TextBookView
 
   createPagination = (): void => {
     for (let i = 1; i <= MAX_TEXTBOOK_PAGES; i++) {
-      const pageBtn = createElement('button', ['pagination__page-btn', 'js-pagination__page-btn']);
+      const pageBtn = createElement('button', ['pagination__page-btn', `page-${i - 1}`]);
       pageBtn.textContent = `${i}`;
       pageBtn.addEventListener('click', () => this.emit('pageBtnClicked', i - 1));
 

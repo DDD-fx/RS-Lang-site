@@ -72,18 +72,23 @@
 .group-0 {
   background-color: $bg-color-group-0;
 }
+
 .group-1 {
   background-color: $bg-color-group-1;
 }
+
 .group-2 {
   background-color: $bg-color-group-2;
 }
+
 .group-3 {
   background-color: $bg-color-group-3;
 }
+
 .group-4 {
   background-color: $bg-color-group-4;
 }
+
 .group-5 {
   background-color: $bg-color-group-5;
 }
@@ -254,6 +259,28 @@
     &--active {
       box-shadow: none;
     }
+  }
+}
+
+.learned-page {
+  position: relative;
+
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: 5px;
+    width: 30px;
+    height: 2px;
+    background: $learned-page-cross;
+  }
+
+  &:before {
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    transform: rotate(-45deg);
   }
 }
 
