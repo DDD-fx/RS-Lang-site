@@ -111,11 +111,11 @@ export class GamesEntranceView
     const description = `
     <p>Тренировка 'Аудиовызов' улучшает восприятие речи на слух.</p>
       <ul>Чтобы играть с помощью клавиатуры, используй клавиши:
-        <li>1, 2, 3, 4, 5 - чтобы выбрать ответ,</li>
-        <li>Space - для воспроизведения звука,</li>
-        <li>Enter - для получения подсказки или перехода к следующему вопросу.</li>
+        <li><strong>1, 2, 3, 4, 5</strong> - чтобы выбрать ответ,</li>
+        <li><strong>Space</strong> - для воспроизведения звука,</li>
+        <li><strong>Enter</strong> - для получения подсказки или перехода к следующему вопросу.</li>
       </ul>
-      <p class='bold'>Выберите уровень сложности:
+      <p class='bold'>Выберите уровень сложности:</p>
     `;
     descriptionDiv.innerHTML = description;
     return descriptionDiv;

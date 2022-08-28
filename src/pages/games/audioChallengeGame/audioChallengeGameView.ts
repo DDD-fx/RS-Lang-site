@@ -41,33 +41,53 @@ export class AudioChallengeView
 
   updateWordBtnsWrapper = (): Element => {
     const wordsWrapper = getElement('game-section__words-wrapper');
-    const randomWord = this.selectRandomSoundingWord();
     wordsWrapper.innerHTML = '';
+    const currentGamePageArray = this.shakeWordsForCurrentGamePage();
     for (
-      let i = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
-      i < AUDIOCHALLENGE_GAME_SETTINGS.wordCount + AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
-      i += 1
-    ) {
-      if (this.audioChallengeModel.wordsChunk[i]) {
-        wordsWrapper.append(
-          this.createWordsBtns({
-            wordTranslate: this.audioChallengeModel.wordsChunk[i].wordTranslate,
-            id: this.audioChallengeModel.wordsChunk[i].id,
-            group: this.audioChallengeModel.wordsChunk[i].group,
-            word: this.audioChallengeModel.wordsChunk[i].word,
-          }),
-        );
-      } else {
-        this.stopTheGame();
-        this.showGameResults();
-        this.emit('wordsAreOver');
+        let i = 0;
+        i < currentGamePageArray.length;
+        i += 1
+      ) {
+        if (currentGamePageArray[i]) {
+          wordsWrapper.append(
+            this.createWordsBtns({
+              wordTranslate: currentGamePageArray[i].wordTranslate,
+              id: currentGamePageArray[i].id,
+              group: currentGamePageArray[i].group,
+              word:currentGamePageArray[i].word,
+            }),
+          );
+        } else {
+          this.stopTheGame();
+          this.showGameResults();
+          // this.emit('wordsAreOver');
+        }
       }
+
+    if (this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]) {
+      const soundingWord = this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount].word;
+      this.createAnswerWrapper(soundingWord);
+      this.createSpeakerWrapper(soundingWord);
+      this.emit('wordOfShakedArrCountAdded');
     }
-    const soundingWord = this.audioChallengeModel.wordsChunk[randomWord]?.word;
-    this.createAnswerWrapper(soundingWord);
-    this.createSpeakerWrapper(soundingWord);
     return wordsWrapper;
   };
+
+  shakeWordsForCurrentGamePage = (): WordsChunkType[] => {
+    const wordsArr = [];
+    wordsArr.push(this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]);
+    while (wordsArr.length < AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage) {
+      const word = this.audioChallengeModel.shakedWordChunk[Math.floor(Math.random() * this.audioChallengeModel.shakedWordChunk.length)];
+      if (!wordsArr.includes(word)) {
+        wordsArr.push(word);
+      }
+    }
+    for (let i = wordsArr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [wordsArr[i], wordsArr[j]] = [wordsArr[j], wordsArr[i]];
+    }
+    return wordsArr;
+  }
 
   selectRandomSoundingWord = (): number => {
     const min = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
@@ -288,21 +308,21 @@ export class AudioChallengeView
     const correctAnswer = getElement(`game-section__correct-sign-wrapper-${answer}`);
 
     if (word === answer) {
-      if (correctAnswerSignWrapper.classList.contains('hidden')) {
+      if (correctAnswerSignWrapper && correctAnswerSignWrapper.classList.contains('hidden')) {
         correctAnswerSignWrapper.classList.remove('hidden');
       }
     } else {
-      if (wrongAnswerSignWrapper.classList.contains('hidden')) {
+      if (wrongAnswerSignWrapper && wrongAnswerSignWrapper.classList.contains('hidden')) {
         wrongAnswerSignWrapper.classList.remove('hidden');
       }
-      if (!defaultSignWrapper.classList.contains('hidden')) {
+      if (defaultSignWrapper && !defaultSignWrapper.classList.contains('hidden')) {
         defaultSignWrapper.classList.add('hidden');
       }
     }
-    if (correctAnswer.classList.contains('hidden')) {
+    if (correctAnswer && correctAnswer.classList.contains('hidden')) {
       correctAnswer.classList.remove('hidden');
     }
-    if (!defaultAnswerSignWrapper.classList.contains('hidden')) {
+    if (defaultAnswerSignWrapper && !defaultAnswerSignWrapper.classList.contains('hidden')) {
       defaultAnswerSignWrapper.classList.add('hidden');
     }
   };
@@ -336,13 +356,14 @@ export class AudioChallengeView
 
   checkRightAnswer = (word: string): void => {
     const answer = this.getRightAnswer();
+    console.log(`this is ${answer}`)
     if (word === answer) {
-      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(word) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(word)) {
-        AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(word);
+      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)) {
+        AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(answer);
       }
     } else {
-      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(word) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(word)) {
-        AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(word);
+      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)) {
+        AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
       }
     }
   };
@@ -455,8 +476,9 @@ export class AudioChallengeView
   showOperationPanel = (): void => {
     const operationPanel = getElement('result-section__operation-panel');
     const closeBtn = this.createResultsCloseBtn();
-    const continueBtn = this.createResultsContinueBtn();
-    operationPanel.append(closeBtn, continueBtn);
+    const existedCloseBtn = getElement('result-section__close-btn-wrapper');
+    const existedContinueBtn = getElement('result-section__continue-btn');
+    if (!existedCloseBtn) operationPanel.append(closeBtn);
   };
 
   createResultsCloseBtn = (): HTMLElement => {
@@ -474,30 +496,14 @@ export class AudioChallengeView
     return closeBtnWrapper;
   };
 
-  createResultsContinueBtn = (): HTMLElement => {
-    const continueBtnWrapper = createElement(
-      'div',
-      'result-section__continue-btn-wrapper'
-    );
-    const continueBtn = createElement('button', [
-      'game-start-btn',
-      'result-section__continue-btn',
-    ]);
-    continueBtn.textContent = 'Продолжить игру';
-    continueBtn.addEventListener('click', () => {
-      this.closeGameResults();
-      this.drawAudioChallengeGame();
-    });
-    continueBtnWrapper.append(continueBtn);
-    return continueBtnWrapper;
-  };
-
   keyPressMethod = (() => {
     document.addEventListener('keydown', (e) => this.checkPressedBtn(e));
   })();
 
   checkPressedBtn = (e: KeyboardEvent): void => {
     const pressedKey = e.code;
+    const gameWindow = getElement('fixed-window');
+    if (gameWindow && !gameWindow.classList.contains('hidden')) {
     switch (pressedKey) {
       case 'Digit1':
       case 'Digit2':
@@ -513,6 +519,7 @@ export class AudioChallengeView
         this.handlePressedEnter(pressedKey);
         break;
     }
+  }
   };
 
   handlePressedNumber = (pressedKey: string): void => {
@@ -523,7 +530,7 @@ export class AudioChallengeView
       (el) => el.wordTranslate === translatedWord
     );
     const englishWord = word?.word;
-    if (englishWord) {
+    if (englishWord && (wordsBtns[index] as HTMLButtonElement).disabled !== true) {
       this.showRightAnswer();
       this.hideSkipBtn();
       this.showSign(englishWord);
