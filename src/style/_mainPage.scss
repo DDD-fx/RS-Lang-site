@@ -235,7 +235,6 @@ main {
 
     line-height: 3.3rem;
   }
-
 }
 
 @include mid {
@@ -295,8 +294,6 @@ main {
 }
 
 @include sm {
-
-
   .advantages__content {
     grid-template-columns: 1fr;
   }
@@ -363,7 +360,6 @@ main {
 }
 
 @media screen and (max-width: 450px) {
-
   .main__article {
     max-width: 100%;
   }
@@ -373,4 +369,5 @@ main {
   }
 }
 
-@include sm {}
+@include sm {
+}

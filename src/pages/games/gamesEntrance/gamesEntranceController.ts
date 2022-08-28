@@ -38,6 +38,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
   };
 
   startAudioChallengeFromTextBook = (wordsCollection: WordsChunkType[]): void => {
+    AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
     const audioChallengeController = new AudioChallengeController(
