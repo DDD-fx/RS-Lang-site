@@ -7,7 +7,7 @@ import {
   WordStatusEnum,
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
-import { BIN_SVG, STAR_SVG } from '../../utils/constants';
+import { BIN_SVG, MAX_TEXTBOOK_PAGES, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate } from '../../components/textbook';
 import { LocalStorage } from '../../utils/storage';
 
@@ -185,6 +185,13 @@ export class UserTextBookView
     } else {
       const bins = document.getElementsByClassName('bin-svg') as HTMLCollectionOf<SVGElement>;
       [...bins].forEach((bin) => bin.classList.remove('bin-svg--active'));
+    }
+  };
+
+  markPagesLearned = (): void => {
+    for (let i = 0; i < MAX_TEXTBOOK_PAGES; i++) {
+      const learnedWords = this.textBookModel.learnedWords.filter((word) => word.page === i);
+      if (learnedWords.length === 20) this.markPageLearned(i);
     }
   };
 

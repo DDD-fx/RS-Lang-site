@@ -6,7 +6,6 @@ import {
 import { TextBookModel } from './textbookModel';
 import { TextBookView } from './textbookView';
 import { LocalStorage } from '../../utils/storage';
-import { MAX_TEXTBOOK_PAGES } from '../../utils/constants';
 
 export class TextBookController implements TextBookControllerInterface {
   textBookModel;
@@ -38,25 +37,22 @@ export class TextBookController implements TextBookControllerInterface {
       this.textBookView.userTextBookView.drawDict();
     } else {
       await this.textBookModel.getTextBookList();
-      this.markPagesLearned();
     }
   };
 
-  changeTextBookPage = async (page: number): Promise<void> => {
+  changeTextBookPage = (page: number): void => {
     LocalStorage.currUserSettings.currPage = page;
     LocalStorage.currUserSettings.currWord = '';
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
-    await this.textBookModel.getTextBookList();
-    this.markPagesLearned();
+    void this.textBookModel.getTextBookList();
   };
 
-  changeTextBookGroup = async (group: number): Promise<void> => {
+  changeTextBookGroup = (group: number): void => {
     LocalStorage.currUserSettings.currPage = 0;
     LocalStorage.currUserSettings.currWord = '';
     LocalStorage.currUserSettings.currGroup = group;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
-    await this.textBookModel.getTextBookList();
-    this.markPagesLearned();
+    void this.textBookModel.getTextBookList();
   };
 
   getWordData = (id: string, onDictPage: boolean): void => {
@@ -96,13 +92,6 @@ export class TextBookController implements TextBookControllerInterface {
         await this.textBookModel.deleteUserWord(wordID, onDictPage, WordStatusEnum.difficult);
         this.textBookView.userTextBookView.checkStarBtnActive();
       }
-    }
-  };
-
-  markPagesLearned = (): void => {
-    for (let i = 0; i < MAX_TEXTBOOK_PAGES; i++) {
-      const learnedWords = this.textBookModel.learnedWords.filter((word) => word.page === i);
-      if (learnedWords.length === 20) this.textBookView.userTextBookView.markPageLearned(i);
     }
   };
 }

@@ -52,7 +52,10 @@ export class TextBookView
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
 
     // USER VIEW
-    if (LocalStorage.currUserSettings.userId) this.userTextBookView.drawUserTextBookElems();
+    if (LocalStorage.currUserSettings.userId) {
+      this.userTextBookView.drawUserTextBookElems();
+      this.userTextBookView.markPagesLearned();
+    }
   };
 
   createWordsGroupBtns = (): void => {
