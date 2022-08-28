@@ -1,6 +1,9 @@
-import { footerInner, renderMainTemplate } from '../../components/layout/template';
+import { footerInner, renderMainTemplate } from '../../components/layout/mainTemplate';
+import renderAdvTemplate from '../../components/layout/advTemplate';
+import renderTeamTemplate from '../../components/layout/teamTemplate';
 import Nav from '../../components/nav';
-import { createElement } from '../../utils/tools';
+import { createElement, getElement } from '../../utils/tools';
+import history from '../../utils/history';
 
 class View {
   header: HTMLElement;
@@ -11,25 +14,56 @@ class View {
 
   footer: HTMLElement;
 
+  nav;
+
   constructor() {
     this.header = createElement('header', 'header');
     this.main = createElement('main', 'main');
     this.mainWrapper = createElement('div', ['wrapper', 'main__wrapper']);
     this.footer = createElement('footer');
+    this.nav = new Nav(this.header);
   }
 
   render = (): void => {
     const modal = createElement('div', 'modal');
-    new Nav(this.header).render();
+    this.nav.render();
+
     this.main.append(this.mainWrapper, modal);
     this.footer.insertAdjacentHTML('afterbegin', footerInner);
     document.body.append(this.header, this.main, this.footer);
+    this.bind();
   };
 
-  renderMain = (): void => {
-    const mainTemplate = renderMainTemplate();
+  renderMainTemplate = (): void => {
     this.mainWrapper.innerHTML = '';
-    this.mainWrapper.insertAdjacentHTML('afterbegin', mainTemplate);
+    this.mainWrapper.insertAdjacentHTML('afterbegin', renderMainTemplate());
+  };
+  renderAdvTemplate = (): void => {
+    (<HTMLElement>getElement('main__wrapper')).style.opacity = '0';
+    setTimeout(() => {
+      this.mainWrapper.innerHTML = '';
+      this.mainWrapper.insertAdjacentHTML('afterbegin', renderAdvTemplate());
+      (<HTMLElement>getElement('main__wrapper')).style.opacity = '1';
+    }, 250);
+  };
+  renderTeamTemplate = (): void => {
+    (<HTMLElement>getElement('main__wrapper')).style.transform = 'scale3d(0.1, 0.1, 0.1)';
+    setTimeout(() => {
+      this.mainWrapper.innerHTML = '';
+      this.mainWrapper.insertAdjacentHTML('afterbegin', renderTeamTemplate());
+      (<HTMLElement>getElement('main__wrapper')).style.transform = 'scale3d(1, 1, 1)';
+    }, 250);
+  };
+
+  bind = () => {
+    getElement('main__wrapper').addEventListener('click', (event) => {
+      if ((<HTMLElement>event.target).classList.contains('btn-article')) history.push('/textbook');
+      if ((<HTMLElement>event.target).classList.contains('main')) this.renderMainTemplate();
+      if ((<HTMLElement>event.target).classList.contains('advantages')) this.renderAdvTemplate();
+      if ((<HTMLElement>event.target).classList.contains('team')) this.renderTeamTemplate();
+    });
+
+    document.addEventListener('click', this.nav.closeNav); //set the event
   };
 }
 

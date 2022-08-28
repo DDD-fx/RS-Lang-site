@@ -3,7 +3,6 @@ import { showModal } from '../../utils/tools';
 import { createUser, loginUser, getExpirationDate } from '../../model/api/usersApi';
 import { UserSuccessLoginType, CreateUserResponseType } from '../../types/userTypes';
 import { LocalStorage } from '../../utils/storage';
-import { UserSettingsType } from '../../types/types';
 import history from '../../utils/history';
 import Nav from '../../components/nav';
 import { getElement } from '../../utils/tools';

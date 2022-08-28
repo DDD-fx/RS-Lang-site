@@ -29,7 +29,7 @@ const routes: Routes[] = [
   {
     path: '',
     action: () => {
-      app.view.renderMain();
+      app.view.renderMainTemplate();
     },
   },
   {
