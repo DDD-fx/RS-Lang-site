@@ -30,7 +30,6 @@ export type TextBookEventsType = {
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   wordsChunk: WordsChunkType[];
-  aggregatedWords: AggregatedWordType[];
   difficultWords: WordsChunkType[];
   learnedWords: WordsChunkType[];
   getTextBookList(): Promise<void>;
@@ -41,7 +40,6 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
   getUserWords(query: string, wordStatus: WordStatusEnum): Promise<void>;
   addUserWord(addUserWordReq: AddUserWordReqType, wordID: string): Promise<void>;
   deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): Promise<void>;
-  getAggregatedWords(query: string): Promise<AggregatedWordType[] | void>;
   mapUserWordsID(difficultWords: AggregatedWordType[]): WordsChunkType[];
 }
 
@@ -49,13 +47,14 @@ export interface TextBookControllerInterface {
   textBookModel: TextBookModelInterface;
   textBookView: TextBookViewInterface;
   init(): Promise<void>;
-  changeTextBookPage(page: number): void;
-  changeTextBookGroup(group: number): void;
+  changeTextBookPage(page: number): Promise<void>;
+  changeTextBookGroup(group: number): Promise<void>;
   getWordData(id: string, onDictPage: boolean): void;
   getUserDictWords(): void;
   addUserWord(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
   deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): void;
   checkCollection(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
+  markPagesLearned(): void;
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
@@ -86,6 +85,7 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
   makeStarBtnActive(): void;
   checkStarBtnActive(): void;
   checkBinBtnActive(): void;
+  markPageLearned(i: number): void;
 }
 
 export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsType> {

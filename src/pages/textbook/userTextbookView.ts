@@ -187,4 +187,9 @@ export class UserTextBookView
       [...bins].forEach((bin) => bin.classList.remove('bin-svg--active'));
     }
   };
+
+  markPageLearned = (pageNum: number): void => {
+    const page = getElement(`page-${pageNum}`);
+    page.classList.add('learned-page');
+  };
 }
