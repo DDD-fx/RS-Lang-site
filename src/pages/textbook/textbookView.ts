@@ -9,15 +9,12 @@ import {
   WordsChunkType,
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
-import { renderTextbookTemplate } from '../../components/textbook';
-import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
+import { renderTextbookTemplate, renderWordDescription } from '../../components/textbook';
+import { baseURL, MAX_TEXTBOOK_PAGES } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
 import { UserTextBookView } from './userTextbookView';
 import { TextBookViewUtils } from './textBookViewUtils';
-import { AudioChallengeModel } from '../games/audioChallengeGame/audioChallengeGameModel';
-import { AudioChallengeView } from '../games/audioChallengeGame/audioChallengeGameView';
-import { AudioChallengeController } from '../games/audioChallengeGame/audioChallengeGameController';
 
 export class TextBookView
   extends TypedEmitter<TextBookEventsType>
@@ -46,7 +43,9 @@ export class TextBookView
     this.textBookViewUtils.addReadMeListeners();
     this.createWordsGroupBtns();
     this.textBookViewUtils.checkActiveDifficultyBtn(LocalStorage.currUserSettings.currGroup);
+
     this.textBookViewUtils.checkGamesBtnsColor();
+    this.textBookViewUtils.addGameBtnsListeners();
 
     this.appendWordsBtns();
     this.textBookViewUtils.checkActiveWordsBtns(LocalStorage.currUserSettings.currWord);
@@ -58,6 +57,7 @@ export class TextBookView
     if (LocalStorage.currUserSettings.userId) {
       this.userTextBookView.drawUserTextBookElems();
       this.userTextBookView.markPagesLearned();
+      this.userTextBookView.disableGameBtns();
     }
   };
 
@@ -119,48 +119,39 @@ export class TextBookView
     return wordBtn;
   };
 
-  // eslint-disable-next-line max-lines-per-function
   createWordCard = (word: WordsChunkType | AggregatedWordType): void => {
     const wordCard = getElement('js-word-description');
-    wordCard.innerHTML = '';
-    const wordImg = createElement('img', 'word-image') as HTMLImageElement;
+    wordCard.innerHTML = renderWordDescription();
+
+    const wordImg = getElement('word-description__word-image') as HTMLImageElement;
     wordImg.src = baseURL + word.image;
-    wordImg.alt = 'word image';
 
-    const wordTitle = createElement('h3') as HTMLHeadingElement;
+    const wordTitle = getElement('word-description__word-title') as HTMLHeadingElement;
     wordTitle.textContent = word.word;
+    wordTitle.after(this.createAudioBtn(word.audio));
 
-    const wordTranslate = createElement('p') as HTMLParagraphElement;
+    const wordTranslate = getElement('word-description__word-translate') as HTMLParagraphElement;
     wordTranslate.textContent = word.wordTranslate;
-    const transcription = createElement('p') as HTMLParagraphElement;
+    const transcription = getElement('word-description__word-transcript') as HTMLParagraphElement;
     transcription.innerHTML = `<b>${word.transcription}</b>`;
 
-    const meaningTitle = createElement('h4') as HTMLHeadingElement;
-    meaningTitle.textContent = 'Значение';
-    const textMeaning = createElement('p') as HTMLParagraphElement;
+    const meaningTitle = getElement('word-description__word-meaning-title') as HTMLHeadingElement;
+    meaningTitle.after(this.createAudioBtn(word.audioMeaning));
+    const textMeaning = getElement('word-description__text-meaning') as HTMLParagraphElement;
     textMeaning.innerHTML = word.textMeaning;
-    const textMeaningTranslate = createElement('p') as HTMLParagraphElement;
+    const textMeaningTranslate = getElement(
+      'word-description__text-meaning-translate',
+    ) as HTMLParagraphElement;
     textMeaningTranslate.innerHTML = word.textMeaningTranslate;
 
-    const exampleTitle = createElement('h4') as HTMLHeadingElement;
-    exampleTitle.textContent = 'Пример';
-    const textExample = createElement('p') as HTMLParagraphElement;
+    const exampleTitle = getElement('word-description__word-example-title') as HTMLHeadingElement;
+    exampleTitle.after(this.createAudioBtn(word.audioExample));
+    const textExample = getElement('word-description__text-example') as HTMLParagraphElement;
     textExample.innerHTML = word.textExample;
-    const textExampleTranslate = createElement('p') as HTMLParagraphElement;
+    const textExampleTranslate = getElement(
+      'word-description__text-example-translate',
+    ) as HTMLParagraphElement;
     textExampleTranslate.innerHTML = word.textExampleTranslate;
-
-    wordCard.append(
-      wordImg,
-      this.createTitleAudioBlock(wordTitle, this.createAudioBtn(word.audio)),
-      wordTranslate,
-      transcription,
-      this.createTitleAudioBlock(meaningTitle, this.createAudioBtn(word.audioMeaning)),
-      textMeaning,
-      textMeaningTranslate,
-      this.createTitleAudioBlock(exampleTitle, this.createAudioBtn(word.audioExample)),
-      textExample,
-      textExampleTranslate,
-    );
   };
 
   createAudioBtn = (audio: string): HTMLButtonElement => {
@@ -172,12 +163,6 @@ export class TextBookView
       })().catch((err) => console.error(err));
     });
     return audioBtn;
-  };
-
-  createTitleAudioBlock = (title: HTMLHeadingElement, audio: HTMLButtonElement): HTMLDivElement => {
-    const block = createElement('div', 'title-audio-block') as HTMLDivElement;
-    block.append(title, audio);
-    return block;
   };
 
   createPagination = (): void => {

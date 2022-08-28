@@ -10,7 +10,6 @@ import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, MAX_TEXTBOOK_PAGES, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate } from '../../components/textbook';
 import { LocalStorage } from '../../utils/storage';
-import history from '../../utils/history';
 
 export class UserTextBookView
   extends TypedEmitter<TextBookEventsType>
@@ -53,10 +52,7 @@ export class UserTextBookView
     this.createBinBtn();
     this.addDictBtnListener();
     this.checkStarBtnActive();
-    if (!this.onDictPage) {
-      this.checkBinBtnActive();
-      this.addGameBtnsListeners();
-    }
+    if (!this.onDictPage) this.checkBinBtnActive();
   };
 
   createStarBtn = (): void => {
@@ -204,11 +200,15 @@ export class UserTextBookView
     page.classList.add('learned-page');
   };
 
-  addGameBtnsListeners = (): void => {
-    const audioChallengeBtn = getElement('textbook-games-btn-challenge') as HTMLButtonElement;
-    audioChallengeBtn.addEventListener('click', () => {
-      history.push('/audiochallenge-pages');
-      this.emit.call(this.textBookView, 'audioChallengeBtnClicked');
-    });
+  disableGameBtns = (): void => {
+    const pageBtn = getElement(
+      `page-${LocalStorage.currUserSettings.currPage}`,
+    ) as HTMLButtonElement;
+    if (pageBtn.classList.contains('learned-page')) {
+      const gameBtns = document.getElementsByClassName(
+        'textbook-games-btn',
+      ) as HTMLCollectionOf<HTMLButtonElement>;
+      [...gameBtns].forEach((btn) => (btn.disabled = true));
+    }
   };
 }
