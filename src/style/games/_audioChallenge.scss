@@ -1,15 +1,35 @@
 .game-operations-group {
   margin: 3% 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.game-operations-group__close-btn {
+.game-operations-group__close-btn,
+.game-operations-group__btn-wrapper {
   width: 40px;
   height: 40px;
-  margin: 2% 5% 2% auto;
+  margin: 2%;
+  cursor: pointer;
   &:hover {
     transition: all 0.3s linear;
     opacity: 70%;
   }
+  &.hidden {
+    display: none;
+  }
+}
+
+.game-operations-group__close-btn,
+.game-operations-group__green-sound,
+.game-operations-group__red-sound  {
+  width: 40px;
+  height: 40px;
+}
+
+.game-operations-group__sound-btns-wrapper {
+  display: flex;
+  margin: 2%;
 }
 
 .game-section {
@@ -326,6 +346,32 @@
 
 .result-section__span_errors {
   background-color: var(--light-red);
+}
+
+.game-progress {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 30px;
+  background: var(--white);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.game-progress__fill {
+  width: 0%;
+  height: 100%;
+  background: var(--light-green);
+  transition: all 0.3s ease-out;
+}
+
+.game-progress__text {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  font-weight: 700;
+  color: var(--green);
 }
 
 @media screen and (max-width: 1400px) {
