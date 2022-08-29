@@ -56,7 +56,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   changeWord = (): void => {
-    if (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount < WORDS_PER_TEXTBOOK_PAGE + 1) {
+    if (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount < WORDS_PER_TEXTBOOK_PAGE){
       AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount += 1;
     }
   };

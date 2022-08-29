@@ -104,4 +104,5 @@ export type AudioChallengeGameType = {
   startFromTextbook: boolean;
   wordOfShakedArrCount: number;
   shakedWordsArray: WordsChunkType[];
+  stopSounding: boolean;
 };

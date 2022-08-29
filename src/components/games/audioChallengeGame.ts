@@ -1,6 +1,10 @@
 const renderAudioChallengeGameTemplate = () => `
 <div class="fixed-window-wrapper">
       <div class="fixed-window">
+        <div class='game-progress'>
+          <div class='game-progress__fill'></div>
+          <span class='game-progress__text'>0%</span>
+        </div>
         <div class="game-operations-group"></div>
         <section class="game-section">
           <div class="game-section__speaker-wrapper"></div>
