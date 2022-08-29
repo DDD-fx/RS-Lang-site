@@ -45,7 +45,6 @@ const renderTeamTemplate = () => `
   <img src="./assets/bubbles.svg" alt="">
 </div>
 <div class="whale img-x20">
-
     <img src="./assets/whale.svg" alt="">
   </div>
 `;

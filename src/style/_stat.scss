@@ -1,0 +1,98 @@
+@import 'mixins';
+
+.statistic__article {
+  /* max-width: 55rem; */
+  padding: 2rem 1rem 2rem 1rem;
+  margin: auto 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__container.statistics {
+  min-height: 70vh;
+}
+
+.main__container.statistics .skat {
+  right: -4%;
+  left: auto;
+  top: -2rem;
+}
+
+.main__container.statistics .whale {
+  position: absolute;
+  right: -4rem;
+  bottom: -3rem;
+  z-index: -1;
+}
+
+.main__container.statistics .img-x20 img {
+  max-width: 23rem;
+  width: 100%;
+}
+
+.statistic__title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-self: center;
+  padding-bottom: 1.5rem;
+}
+
+.statistic__today {
+  padding-bottom: 2.5rem;
+}
+
+.statistics .article__title {
+  padding: 0;
+  padding-right: 1rem;
+}
+
+.statistic__sub-title {
+  font-size: 2rem;
+  line-height: 2.3rem;
+}
+
+.statistic__words {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+  gap: 1.5rem;
+}
+
+.stat-words-data span {
+  font-size: 2rem;
+}
+
+.statistic__games {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat-game-card {
+  border-radius: 20px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
+  padding: 1rem;
+  backdrop-filter: blur(22px);
+  background: rgb(255 255 255 / 10%);
+}
+.stat-game-card__name {
+  align-self: center;
+  margin-left: 0;
+  font-size: 1.25rem;
+}
+.stat-words-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-game-card__data {
+  display: flex;
+  flex-direction: column;
+}

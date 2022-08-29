@@ -1,5 +1,8 @@
 //import View from './view';
 import { getStat } from '../model/api/statApi';
+import renderstatTemplate from '../components/layout/statTemplate';
+import { createElement, getElement } from '../utils/tools';
+import history from '../utils/history';
 
 class Statistics {
   view;
@@ -16,10 +19,6 @@ class Statistics {
     this.view.render();
   };
 }
-
-import renderstatTemplate from '../components/layout/statTemplate';
-import { createElement, getElement } from '../utils/tools';
-import history from '../utils/history';
 
 class StatisticsView {
   render = (): void => {

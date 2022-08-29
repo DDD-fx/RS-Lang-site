@@ -29,15 +29,25 @@ type CreateUserErrorsType = {
   message: string;
 };
 
+type StatOptionalType = {
+  [key: string]: StatOptionalDayType;
+};
+
+type StatOptionalDayType = {
+  wordsPerDay: number;
+  learnedWordsPerDay: number;
+  longestSeries: number;
+};
+
 type StatAnswerType = {
   id: string;
   learnedWords: number;
-  optional: {};
+  optional: StatOptionalType;
 };
 
 type PutStatBodyType = {
   learnedWords: number;
-  optional: {};
+  optional: StatOptionalType;
 };
 
 type DecodedTokenType = {

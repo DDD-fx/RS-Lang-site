@@ -24,7 +24,7 @@ const gamesEntrance = new GamesEntranceController();
 
 const gamesSection = new GamesSection();
 
-const stat = new Statistics()
+const stat = new Statistics();
 
 const main = getElement('main__wrapper');
 
@@ -37,8 +37,8 @@ const routes: Routes[] = [
   },
   {
     path: '/textbook',
-    action: async () => {
-      await textbook.init();
+    action: () => {
+      textbook.init().catch((err) => console.error(err));
     },
   },
   {

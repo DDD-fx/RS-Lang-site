@@ -256,6 +256,7 @@ main {
 
   .advantages .main__article,
   .main__article {
+    width: 100%;
     padding: 5rem 3rem 3rem 4rem;
   }
 
@@ -288,8 +289,9 @@ main {
     line-height: 3rem;
   }
 
-  .main__container .whale {
-    right: 0rem;
+  .main__container.advantages .whale {
+    right: -2rem;
+    bottom: -4rem;
   }
 }
 
@@ -357,6 +359,18 @@ main {
     font-size: 1.7rem;
     line-height: 2.5rem;
   }
+
+  .btn.btn-bottom-nav img {
+    max-width: 25px;
+  }
+
+  .bottom-nav__back img {
+    max-width: 25px;
+  }
+
+  .bottom-nav__back {
+    margin-right: 11%;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -367,7 +381,18 @@ main {
   .article__bottom-nav {
     width: 100%;
   }
+
+  .main__wrapper {
+    padding: 8% 3%;
+  }
 }
 
-@include sm {
+@include xs {
+  .btn.btn-bottom-nav {
+    font-size: 1rem;
+  }
+
+  .wrapper {
+    width: 94%;
+  }
 }
