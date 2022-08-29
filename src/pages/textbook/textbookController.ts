@@ -1,5 +1,5 @@
 import {
-  AddUserWordReqType,
+  AddUserWordBodyType,
   TextBookControllerInterface,
   WordsChunkType,
   WordStatusEnum,
@@ -19,7 +19,7 @@ export class TextBookController implements TextBookControllerInterface {
     this.textBookView
       .on('pageBtnClicked', (page) => this.changeTextBookPage(page))
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
-      .on('wordBtnClicked', (id, onDictPage) => this.getWordData(id, onDictPage))
+      .on('wordBtnClicked', (id, onDictPage) => this.getWordCardData(id, onDictPage))
       .on('dictBtnClicked', () => this.getUserDictWords())
       .on('addDifficultWordBtnClicked', (wordID, wordStatus) =>
         this.addUserWord(wordID, wordStatus),
@@ -57,10 +57,10 @@ export class TextBookController implements TextBookControllerInterface {
     void this.textBookModel.getTextBookList();
   };
 
-  getWordData = (id: string, onDictPage: boolean): void => {
+  getWordCardData = (id: string, onDictPage: boolean): void => {
     LocalStorage.currUserSettings.currWord = id;
     LocalStorage.setLSData(LocalStorage.currUserID, LocalStorage.currUserSettings);
-    this.textBookModel.getWordData(id, onDictPage);
+    this.textBookModel.getWordCardData(id, onDictPage);
   };
 
   getUserDictWords = (): void => {
@@ -69,7 +69,7 @@ export class TextBookController implements TextBookControllerInterface {
 
   addUserWord = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
     await this.checkCollection(wordID, wordStatus);
-    const addUserWordReq: AddUserWordReqType = {
+    const addUserWordReq: AddUserWordBodyType = {
       difficulty: wordStatus,
       optional: { test: 'test' },
     };
@@ -103,7 +103,7 @@ export class TextBookController implements TextBookControllerInterface {
     }
     const learnedSet = new Set(this.textBookModel.learnedWords.map(({ id }) => id));
     const collection = this.textBookModel.wordsChunk.filter((word) => !learnedSet.has(word.id));
-    console.log(collection);
+    console.log('getAudioChallengeCollection', collection);
     return collection;
   };
 }

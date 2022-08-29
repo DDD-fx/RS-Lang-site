@@ -23,10 +23,11 @@ export type TextBookEventsType = {
   audioChallengeBtnClicked: () => void;
 
   getTextBookList: () => void;
-  getWordData: (word: WordsChunkType) => void;
+  getWordCardData: (word: WordsChunkType) => void;
   getUserDict: () => void;
   addDifficultWord: () => void;
   removeDifficultWordElem: (wordID: string) => void;
+  updateMarkedPages: () => void;
 };
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
@@ -34,14 +35,13 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
   difficultWords: WordsChunkType[];
   learnedWords: WordsChunkType[];
   getTextBookList(): Promise<void>;
-  getWordData(id: string, onDictPage: boolean): void;
+  getWordCardData(id: string, onDictPage: boolean): void;
   getUserWordsForCurrGroup(query: string, wordStatus: WordStatusEnum): Promise<void>;
   getUserDictWords(): Promise<void>;
-  updateUserWords(wordStatus: WordStatusEnum): Promise<void>;
   getUserWords(query: string, wordStatus: WordStatusEnum): Promise<void>;
-  addUserWord(addUserWordReq: AddUserWordReqType, wordID: string): Promise<void>;
+  addUserWord(addUserWordReq: AddUserWordBodyType, wordID: string): Promise<void>;
   deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): Promise<void>;
-  mapUserWordsID(difficultWords: AggregatedWordType[]): WordsChunkType[];
+  mapUserWordsID(difficultWords: RawAggregatedWordType[]): WordsChunkType[];
 }
 
 export interface TextBookControllerInterface {
@@ -50,7 +50,7 @@ export interface TextBookControllerInterface {
   init(): Promise<void>;
   changeTextBookPage(page: number): void;
   changeTextBookGroup(group: number): void;
-  getWordData(id: string, onDictPage: boolean): void;
+  getWordCardData(id: string, onDictPage: boolean): void;
   getUserDictWords(): void;
   addUserWord(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
   deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): void;
@@ -86,7 +86,8 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
   checkStarBtnActive(): void;
   checkBinBtnActive(): void;
   markPagesLearned(): void;
-  markPageLearned(i: number): void;
+  markPageLearned(i: number, toBeMarked: boolean): void;
+  updateMarkedPages(): void;
   disableGameBtns(): void;
 }
 
@@ -125,11 +126,6 @@ export type WordsChunkType = {
 
 export type WordsBtnsType = Pick<WordsChunkType, 'id' | 'word' | 'wordTranslate' | 'group'>;
 
-export type AddUserWordReqType = {
-  difficulty: WordStatusEnum;
-  optional: { test: 'test' };
-};
-
 export type AddUserWordRespType = {
   difficulty: string;
   optional: string;
@@ -138,7 +134,7 @@ export type AddUserWordRespType = {
 };
 
 export type AggregatedWordsRespType = {
-  paginatedResults: AggregatedWordType[];
+  paginatedResults: RawAggregatedWordType[];
   totalCount: [
     {
       count: number;
@@ -146,23 +142,22 @@ export type AggregatedWordsRespType = {
   ];
 };
 
-export type AggregatedWordType = Omit<WordsChunkType, 'id'> & {
+export type RawAggregatedWordType = Omit<WordsChunkType, 'id'> & {
   _id: string;
-  userWord: UserWordType;
+  userWord: AddUserWordBodyType;
 };
 
-export type UserWordType = {
+export type AggregatedWordType = WordsChunkType & {
+  userWord: AddUserWordBodyType;
+};
+
+export type AddUserWordBodyType = {
   difficulty: WordStatusEnum;
-  optional: Record<string, never>;
+  optional: { test: 'test' };
 };
 
 export enum WordStatusEnum {
   learned = '0',
   difficult = '1',
+  new = '2',
 }
-//
-// export type UserStatisticsType = {
-//   id: string;
-//   sprintCorrectAnswers: number;
-//   audioChallengeCorrectAnswers: number;
-// };

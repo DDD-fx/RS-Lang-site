@@ -168,10 +168,18 @@
 
 .word-btn-title {
   padding-bottom: 10px;
+
+  @media (max-width: 550px) {
+   font-size: 14px;
+  }
 }
 
 .word-btn-translate {
   font-weight: bolder;
+
+  @media (max-width: 550px) {
+    font-size: 14px;
+  }
 }
 
 .word-btn__star {
@@ -225,10 +233,13 @@
   &__word-image {
     width: 100%;
     border-radius: 20px;
-  }
+    height: 20vw;
+    max-height: 308px;
 
-  &__text-container {
-    //margin-top: auto;
+    @media (max-width: 994px) {
+      height: 30vw;
+      max-height: 300px;
+    }
   }
 
   @media (max-width: 994px) {
@@ -306,12 +317,31 @@
   bottom: 0;
   z-index: 999;
   background-color: rgba(82, 82, 82, 0.95);
-  display: flex;
-  justify-content: center;
+  padding: 10px;
 }
 
-.instructions {
+.instructions-title {
   margin-top: 100px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.instructions-star,
+.instructions-bin {
+  width: 6vw;
+  max-width: 80px;
+  flex: 0 0 auto;
+}
+
+.instructions-svg-block {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.instructions-goodluck {
+  margin-top: 30px;
+  text-align: center;
 }
 
 .close-readme-btn {

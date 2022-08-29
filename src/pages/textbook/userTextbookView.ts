@@ -121,7 +121,6 @@ export class UserTextBookView
           bin.classList.remove('bin-svg--active');
         }
       });
-
       btn.append(wordBtnBin);
     });
   };
@@ -191,13 +190,23 @@ export class UserTextBookView
   markPagesLearned = (): void => {
     for (let i = 0; i < MAX_TEXTBOOK_PAGES; i++) {
       const learnedWords = this.textBookModel.learnedWords.filter((word) => word.page === i);
-      if (learnedWords.length === 20) this.markPageLearned(i);
+      if (learnedWords.length === 20) this.markPageLearned(i, true);
     }
   };
 
-  markPageLearned = (pageNum: number): void => {
+  markPageLearned = (pageNum: number, toBeMarked: boolean): void => {
     const page = getElement(`page-${pageNum}`);
-    page.classList.add('learned-page');
+    if (toBeMarked) page.classList.add('learned-page');
+    else page.classList.remove('learned-page');
+  };
+
+  updateMarkedPages = (): void => {
+    const currPage = LocalStorage.currUserSettings.currPage;
+    const currPagelearnedWords = this.textBookModel.learnedWords.filter(
+      (word) => word.page === currPage,
+    );
+    if (currPagelearnedWords.length === 20) this.markPageLearned(currPage, true);
+    else this.markPageLearned(currPage, false);
   };
 
   disableGameBtns = (): void => {
