@@ -10,6 +10,7 @@ import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
+
   shakedWordChunk: WordsChunkType[];
 
   constructor() {
@@ -22,21 +23,21 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     const data = await fetch(baseURL + query);
     this.wordsChunk = await data.json();
     this.shakedWordChunk = this.shakeWordsArr();
-  }
+  };
 
-  getWordsListFromTextbook = (array: WordsChunkType[]): void=> {
+  getWordsListFromTextbook = (array: WordsChunkType[]): void => {
     this.wordsChunk = array;
     this.shakedWordChunk = this.shakeWordsArr();
-  }
+  };
 
   shakeWordsArr = (): WordsChunkType[] => {
     const wordsArr = JSON.parse(JSON.stringify(this.wordsChunk));
     for (let i = this.wordsChunk.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(Math.random() * (i + 1));
       [wordsArr[i], wordsArr[j]] = [wordsArr[j], wordsArr[i]];
     }
     return wordsArr;
-  }
+  };
 
   turnGamePage = (): void => {
     AUDIOCHALLENGE_GAME_SETTINGS.wordCount += AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
@@ -56,7 +57,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   changeWord = (): void => {
-    if (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount < WORDS_PER_TEXTBOOK_PAGE){
+    if (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount < WORDS_PER_TEXTBOOK_PAGE) {
       AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount += 1;
     }
   };

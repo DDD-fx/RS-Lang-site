@@ -8,7 +8,11 @@ import {
   ResultBtnType,
   WordBtnType,
 } from '../../../types/gamesTypes';
-import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL, WORDS_PER_TEXTBOOK_PAGE } from '../../../utils/constants';
+import {
+  AUDIOCHALLENGE_GAME_SETTINGS,
+  baseURL,
+  WORDS_PER_TEXTBOOK_PAGE,
+} from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
 
@@ -45,29 +49,29 @@ export class AudioChallengeView
     const wordsWrapper = getElement('game-section__words-wrapper');
     wordsWrapper.innerHTML = '';
     const currentGamePageArray = this.shakeWordsForCurrentGamePage();
-    for (
-        let i = 0;
-        i < currentGamePageArray.length;
-        i += 1
-      ) {
-        if (currentGamePageArray[i]) {
-          wordsWrapper.append(
-            this.createWordsBtns({
-              wordTranslate: currentGamePageArray[i].wordTranslate,
-              id: currentGamePageArray[i].id,
-              group: currentGamePageArray[i].group,
-              word:currentGamePageArray[i].word,
-            }),
-          );
-        } else {
-          this.stopTheGame();
-          this.showGameResults();
-          // this.emit('wordsAreOver');
-        }
+    for (let i = 0; i < currentGamePageArray.length; i += 1) {
+      if (currentGamePageArray[i]) {
+        wordsWrapper.append(
+          this.createWordsBtns({
+            wordTranslate: currentGamePageArray[i].wordTranslate,
+            id: currentGamePageArray[i].id,
+            group: currentGamePageArray[i].group,
+            word: currentGamePageArray[i].word,
+          }),
+        );
+      } else {
+        this.stopTheGame();
+        this.showGameResults();
+        // this.emit('wordsAreOver');
       }
+    }
 
-    if (this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]) {
-      const soundingWord = this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount].word;
+    if (
+      this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]
+    ) {
+      const soundingWord =
+        this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]
+          .word;
       this.createAnswerWrapper(soundingWord);
       this.createSpeakerWrapper(soundingWord);
       this.emit('wordOfShakedArrCountAdded');
@@ -77,19 +81,24 @@ export class AudioChallengeView
 
   shakeWordsForCurrentGamePage = (): WordsChunkType[] => {
     const wordsArr = [];
-    wordsArr.push(this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]);
+    wordsArr.push(
+      this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount],
+    );
     while (wordsArr.length < AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage) {
-      const word = this.audioChallengeModel.shakedWordChunk[Math.floor(Math.random() * this.audioChallengeModel.shakedWordChunk.length)];
+      const word =
+        this.audioChallengeModel.shakedWordChunk[
+          Math.floor(Math.random() * this.audioChallengeModel.shakedWordChunk.length)
+        ];
       if (!wordsArr.includes(word)) {
         wordsArr.push(word);
       }
     }
     for (let i = wordsArr.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(Math.random() * (i + 1));
       [wordsArr[i], wordsArr[j]] = [wordsArr[j], wordsArr[i]];
     }
     return wordsArr;
-  }
+  };
 
   selectRandomSoundingWord = (): number => {
     const min = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
@@ -121,45 +130,61 @@ export class AudioChallengeView
     const greenSoundBtn = this.createSoundBtn();
     const redSoundBtn = this.createStopSoundBtn();
     soundBtn.append(greenSoundBtn, redSoundBtn);
-    soundBtn.addEventListener("click", (e) => {
+    soundBtn.addEventListener('click', (e) => {
       if (!greenSoundBtn.classList.contains('hidden') && redSoundBtn.classList.contains('hidden')) {
         greenSoundBtn.classList.add('hidden');
         redSoundBtn.classList.remove('hidden');
-      } else if (greenSoundBtn.classList.contains('hidden') && !redSoundBtn.classList.contains('hidden')) {
+      } else if (
+        greenSoundBtn.classList.contains('hidden') &&
+        !redSoundBtn.classList.contains('hidden')
+      ) {
         greenSoundBtn.classList.remove('hidden');
-        redSoundBtn.classList.add('hidden')
+        redSoundBtn.classList.add('hidden');
       }
-    })
+    });
     gameOperationsGroup.append(soundBtn);
   };
 
-  createSoundBtn = (): HTMLElement  => {
-    const soundBtn = createElement('div', ['game-operations-group__btn-wrapper', 'game-operations-group__btn-wrapper_green']);
-    const greenSoundBtn = createElement('img', 'game-operations-group__green-sound') as HTMLImageElement;
+  createSoundBtn = (): HTMLElement => {
+    const soundBtn = createElement('div', [
+      'game-operations-group__btn-wrapper',
+      'game-operations-group__btn-wrapper_green',
+    ]);
+    const greenSoundBtn = createElement(
+      'img',
+      'game-operations-group__green-sound',
+    ) as HTMLImageElement;
     greenSoundBtn.src = './assets/games/sound.svg';
-    soundBtn.append(greenSoundBtn)
+    soundBtn.append(greenSoundBtn);
     return soundBtn;
   };
 
-  createStopSoundBtn = (): HTMLElement  => {
-    const soundBtn = createElement('div', ['game-operations-group__btn-wrapper', 'game-operations-group__btn-wrapper_red', 'hidden']);
-    const redSoundBtn = createElement('img', 'game-operations-group__red-sound') as HTMLImageElement;
+  createStopSoundBtn = (): HTMLElement => {
+    const soundBtn = createElement('div', [
+      'game-operations-group__btn-wrapper',
+      'game-operations-group__btn-wrapper_red',
+      'hidden',
+    ]);
+    const redSoundBtn = createElement(
+      'img',
+      'game-operations-group__red-sound',
+    ) as HTMLImageElement;
     redSoundBtn.src = './assets/games/no-sound.svg';
     soundBtn.append(redSoundBtn);
     return soundBtn;
   };
 
-  turnOnCorrectAnswerSound = (): void =>{
-    var audio = new Audio();
-    audio.src = './assets/games-sounds/correct-answer.mp3'; 
+  turnOnCorrectAnswerSound = (): void => {
+    const audio = new Audio();
+    audio.src = './assets/games-sounds/correct-answer.mp3';
     audio.autoplay = true;
-  }
+  };
 
-  turnOnWrongAnswerSound = (): void =>{
-    var audio = new Audio();
-    audio.src = './assets/games-sounds/wrong-answer.mp3'; 
+  turnOnWrongAnswerSound = (): void => {
+    const audio = new Audio();
+    audio.src = './assets/games-sounds/wrong-answer.mp3';
     audio.autoplay = true;
-  }
+  };
 
   createSpeakerWrapper = (soundingWord: string): void => {
     const speakerWrapper = getElement('game-section__speaker-wrapper');
@@ -188,7 +213,7 @@ export class AudioChallengeView
     const answer = this.getRightAnswer();
     const word = this.audioChallengeModel.wordsChunk.find((el) => el.word === answer);
     if (word) {
-      const audio = new Audio(baseURL + word!.audio);
+      const audio = new Audio(baseURL + word.audio);
       await audio.play().catch();
     }
   };
@@ -303,7 +328,10 @@ export class AudioChallengeView
       this.makeWordsTransparent(answer);
       this.wordsBtnsDisable();
       this.countBarProgress();
-      if (!AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)) {
+      if (
+        !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) &&
+        !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)
+      ) {
         AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
       }
     });
@@ -418,14 +446,20 @@ export class AudioChallengeView
     const answer = this.getRightAnswer();
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (word === answer) {
-      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)) {
+      if (
+        !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
+        !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
+      ) {
         AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.push(answer);
       }
       if (!greenBtn.classList.contains('hidden')) {
         this.turnOnCorrectAnswerSound();
       }
     } else {
-      if (!AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)) {
+      if (
+        !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
+        !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
+      ) {
         AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
       }
       if (!greenBtn.classList.contains('hidden')) {
@@ -517,7 +551,7 @@ export class AudioChallengeView
             word: word.word,
           }),
         );
-      } 
+      }
     }
     return wordsWrapper;
   };
@@ -527,7 +561,7 @@ export class AudioChallengeView
     const wordText = createElement('span', [
       'result-section__word',
       `result-section__word-${word}`,
-    ]) as HTMLElement;
+    ]);
     wordText.textContent = `${word} - ${wordTranslate}`;
     const soundingWord = this.audioChallengeModel.wordsChunk.find((el) => el.word === word);
     if (soundingWord) {
@@ -548,16 +582,10 @@ export class AudioChallengeView
   };
 
   createResultsCloseBtn = (): HTMLElement => {
-    const closeBtnWrapper = createElement(
-      'div',
-      'result-section__close-btn-wrapper'
-    );
-    const closeBtn = createElement('button', [
-      'game-start-btn',
-      'result-section__close-btn',
-    ]);
+    const closeBtnWrapper = createElement('div', 'result-section__close-btn-wrapper');
+    const closeBtn = createElement('button', ['game-start-btn', 'result-section__close-btn']);
     closeBtn.textContent = 'Завершить игру';
-    closeBtn.addEventListener('click',  () => {
+    closeBtn.addEventListener('click', () => {
       if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
         window.location.reload();
       } else {
@@ -577,27 +605,27 @@ export class AudioChallengeView
     const pressedKey = e.code;
     const gameWindow = getElement('fixed-window');
     if (gameWindow && !gameWindow.classList.contains('hidden')) {
-    switch (pressedKey) {
-      case 'Digit1':
-      case 'Digit2':
-      case 'Digit3':
-      case 'Digit4':
-      case 'Digit5':
-      case 'Numpad1':
-      case 'Numpad2':
-      case 'Numpad3':
-      case 'Numpad4':
-      case 'Numpad5':
-        this.handlePressedNumber(pressedKey);
-        break;
-      case 'Space':
-        this.handlePressedSpace(pressedKey);
-        break;
-      case 'Enter':
-        this.handlePressedEnter(pressedKey);
-        break;
+      switch (pressedKey) {
+        case 'Digit1':
+        case 'Digit2':
+        case 'Digit3':
+        case 'Digit4':
+        case 'Digit5':
+        case 'Numpad1':
+        case 'Numpad2':
+        case 'Numpad3':
+        case 'Numpad4':
+        case 'Numpad5':
+          this.handlePressedNumber(pressedKey);
+          break;
+        case 'Space':
+          this.handlePressedSpace(pressedKey);
+          break;
+        case 'Enter':
+          this.handlePressedEnter(pressedKey);
+          break;
+      }
     }
-  }
   };
 
   handlePressedNumber = (pressedKey: string): void => {
@@ -605,7 +633,7 @@ export class AudioChallengeView
     const index = +pressedKey.slice(-1) - 1;
     const translatedWord = wordsBtns[index].textContent;
     const word = this.audioChallengeModel.wordsChunk.find(
-      (el) => el.wordTranslate === translatedWord
+      (el) => el.wordTranslate === translatedWord,
     );
     const englishWord = word?.word;
     if (englishWord && (wordsBtns[index] as HTMLButtonElement).disabled !== true) {
@@ -622,13 +650,12 @@ export class AudioChallengeView
 
   handlePressedSpace = (pressedKey: string): void => {
     const answer = this.getRightAnswer();
-    const word = this.audioChallengeModel.wordsChunk.find(
-      (el) => el.word === answer
-    );
-    if (word) (async () => {
-            const audio = new Audio(baseURL + word.audio);
-            await audio.play();
-          })().catch();
+    const word = this.audioChallengeModel.wordsChunk.find((el) => el.word === answer);
+    if (word)
+      (async () => {
+        const audio = new Audio(baseURL + word.audio);
+        await audio.play();
+      })().catch();
   };
 
   handlePressedEnter = (pressedKey: string): void => {
@@ -651,7 +678,10 @@ export class AudioChallengeView
       this.makeWordsTransparent(answer);
       this.wordsBtnsDisable();
       this.countBarProgress();
-      if (!AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) && !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)) {
+      if (
+        !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) &&
+        !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)
+      ) {
         AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.push(answer);
       }
       if (!greenBtn.classList.contains('hidden')) {
@@ -661,14 +691,17 @@ export class AudioChallengeView
   };
 
   countBarProgress = (): void => {
-    const filledValue = Math.round(AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount * 100 / this.audioChallengeModel.shakedWordChunk.length);
+    const filledValue = Math.round(
+      (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount * 100) /
+        this.audioChallengeModel.shakedWordChunk.length,
+    );
     this.updateProgressBar(filledValue);
-  }
+  };
 
   updateProgressBar = (value: number): void => {
     const progressBarFill = getElement('game-progress__fill') as HTMLElement;
     const progressBarText = getElement('game-progress__text') as HTMLElement;
     progressBarFill.style.width = `${value}%`;
     progressBarText.textContent = `${value}%`;
-  }
+  };
 }

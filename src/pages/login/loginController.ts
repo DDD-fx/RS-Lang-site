@@ -58,7 +58,7 @@ class Login {
 
   setUserSettings = (email: string, responseData: UserSuccessLoginType): void => {
     const { token, refreshToken, userId, name } = responseData;
-    const expireOn = (getExpirationDate(token) - 300000) as number;
+    const expireOn = getExpirationDate(token) - 300000;
     LocalStorage.currUserSettings.userId = userId;
     LocalStorage.currUserSettings.userEmail = email;
     LocalStorage.currUserSettings.userName = name;

@@ -17,7 +17,7 @@ const getElementQuery = (selector: string): Element => {
   return document.querySelector(selector) as Element;
 };
 
-const showModal = (message: string) => {
+const showModal = (message: string): void => {
   const modal = getElement('modal') as HTMLElement;
   modal.innerHTML = message;
   modal.style.opacity = '1';
@@ -28,4 +28,27 @@ const showModal = (message: string) => {
   }, 3000);
 };
 
-export { createElement, getElement, getElementQuery, showModal };
+const getShortDate = (): string => {
+  return new Date().toISOString().slice(0, 10);
+  //2022-08-29
+};
+
+const getKeyFromDate = (): number => {
+  return new Date(getShortDate()).getTime();
+  //1661731200000
+};
+
+const getDateFromKey = (): string => {
+  return new Date(1661731200000).toLocaleDateString();
+  //29.08.2022
+};
+
+export {
+  createElement,
+  getElement,
+  getElementQuery,
+  showModal,
+  getKeyFromDate,
+  getShortDate,
+  getDateFromKey,
+};
