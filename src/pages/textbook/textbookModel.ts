@@ -1,7 +1,7 @@
 import {
-  AddUserWordReqType,
+  AddUserWordBodyType,
   AggregatedWordsRespType,
-  AggregatedWordType,
+  RawAggregatedWordType,
   TextBookModelInterface,
   WordsChunkType,
   WordStatusEnum,
@@ -10,6 +10,7 @@ import { baseURL } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
 import { authFetch } from '../../model/model';
+import { getElement } from '../../utils/tools';
 
 export class TextBookModel extends TypedEmitter implements TextBookModelInterface {
   wordsChunk: WordsChunkType[];
@@ -39,11 +40,11 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     this.emit('getTextBookList');
   };
 
-  getWordData = (id: string, onDictPage: boolean): void => {
+  getWordCardData = (id: string, onDictPage: boolean): void => {
     const selectedWord = onDictPage
       ? this.difficultWords.filter((el) => el.id === id)[0]
       : this.wordsChunk.filter((el) => el.id === id)[0];
-    this.emit('getWordData', selectedWord);
+    this.emit('getWordCardData', selectedWord);
   };
 
   getUserWordsForCurrGroup = async (wordStatus: WordStatusEnum): Promise<void> => {
@@ -71,13 +72,16 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
       const userWords = content[0].paginatedResults.slice();
       if (wordStatus === WordStatusEnum.difficult)
         this.difficultWords = this.mapUserWordsID(userWords);
-      if (wordStatus === WordStatusEnum.learned) this.learnedWords = this.mapUserWordsID(userWords);
+      if (wordStatus === WordStatusEnum.learned) {
+        this.learnedWords = this.mapUserWordsID(userWords);
+        if (getElement('pagination ')) this.emit('updateMarkedPages');
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
-  addUserWord = async (addUserWordReq: AddUserWordReqType, wordID: string): Promise<void> => {
+  addUserWord = async (addUserWordReq: AddUserWordBodyType, wordID: string): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
     try {
       await authFetch(baseURL + query, {
@@ -120,7 +124,7 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     'Content-Type': 'application/json',
   };
 
-  mapUserWordsID = (difficultWords: AggregatedWordType[]): WordsChunkType[] => {
+  mapUserWordsID = (difficultWords: RawAggregatedWordType[]): WordsChunkType[] => {
     return difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
 }

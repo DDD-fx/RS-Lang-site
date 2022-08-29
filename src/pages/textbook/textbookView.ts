@@ -33,9 +33,10 @@ export class TextBookView
     this.textBookViewUtils = new TextBookViewUtils(textBookModel, this);
     this.textBookModel
       .on('getTextBookList', () => this.drawTextBook())
-      .on('getWordData', (word) => this.createWordCard(word))
+      .on('getWordCardData', (word) => this.createWordCard(word))
       .on('getUserDict', () => this.userTextBookView.drawDict())
-      .on('removeDifficultWordElem', (wordID) => this.userTextBookView.removeDictElem(wordID));
+      .on('removeDifficultWordElem', (wordID) => this.userTextBookView.removeDictElem(wordID))
+      .on('updateMarkedPages', () => this.userTextBookView.updateMarkedPages());
   }
 
   drawTextBook = (): void => {

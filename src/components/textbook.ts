@@ -37,6 +37,7 @@ export const renderTextbookTemplate = (): string => `
       Если отметить сложное слово, как изученное, оно автоматически удалится из раздела "Сложные слова".
     </span>
   </p>
+  <h2 class='instructions-goodluck'>Удачи в обучении!</h2>
 </div>
 <p class='textbook-subtitle'>Уровни сложности:</p>
 <div class='textbook-difficulty-group js-textbook-difficulty-group'></div>

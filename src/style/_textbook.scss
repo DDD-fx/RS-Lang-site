@@ -339,6 +339,11 @@
   gap: 20px;
 }
 
+.instructions-goodluck {
+  margin-top: 30px;
+  text-align: center;
+}
+
 .close-readme-btn {
   @include textbook-btns-effects;
   @include textbook-btns-common;
