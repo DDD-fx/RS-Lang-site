@@ -10,6 +10,7 @@ import {
 } from '../../../types/gamesTypes';
 import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
+import history from '../../../utils/history';
 
 export class AudioChallengeView
   extends TypedEmitter<GamesEventsType>
@@ -102,7 +103,14 @@ export class AudioChallengeView
     const cross = createElement('img', 'game-operations-group__cross-img') as HTMLImageElement;
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
-    closeBtn.addEventListener('click', () => window.location.reload());
+    closeBtn.addEventListener('click', () => {
+      if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
+        window.location.reload();
+      } else {
+        history.push('/textbook');
+        window.location.reload();
+      }
+    });
     gameOperationsGroup.append(closeBtn);
   };
 
@@ -491,7 +499,14 @@ export class AudioChallengeView
       'result-section__close-btn',
     ]);
     closeBtn.textContent = 'Завершить игру';
-    closeBtn.addEventListener('click', () => window.location.reload());
+    closeBtn.addEventListener('click',  () => {
+      if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
+        window.location.reload();
+      } else {
+        history.push('/textbook');
+        window.location.reload();
+      }
+    });
     closeBtnWrapper.append(closeBtn);
     return closeBtnWrapper;
   };
@@ -510,6 +525,11 @@ export class AudioChallengeView
       case 'Digit3':
       case 'Digit4':
       case 'Digit5':
+      case 'Numpad1':
+      case 'Numpad2':
+      case 'Numpad3':
+      case 'Numpad4':
+      case 'Numpad5':
         this.handlePressedNumber(pressedKey);
         break;
       case 'Space':
@@ -524,7 +544,7 @@ export class AudioChallengeView
 
   handlePressedNumber = (pressedKey: string): void => {
     const wordsBtns = document.getElementsByClassName('game-section__word');
-    const index = +pressedKey.slice(5) - 1;
+    const index = +pressedKey.slice(-1) - 1;
     const translatedWord = wordsBtns[index].textContent;
     const word = this.audioChallengeModel.wordsChunk.find(
       (el) => el.wordTranslate === translatedWord

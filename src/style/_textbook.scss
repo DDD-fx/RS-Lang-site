@@ -289,8 +289,9 @@
 .learned-page {
   position: relative;
 
-  &:before, &:after {
-    content: "";
+  &:before,
+  &:after {
+    content: '';
     position: absolute;
     top: 13px;
     left: 5px;
