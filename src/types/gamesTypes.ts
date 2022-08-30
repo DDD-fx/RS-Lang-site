@@ -38,7 +38,8 @@ export type GamesEventsType = {
   wordsAreOver: () => void;
   wordOfShakedArrCountAdded: () => void;
   pressedContinueGameBtn: () => void;
-  // turnThePage: () => void;
+  rightAnswerClicked: (word: string) => void;
+  wrongAnswerClicked: (word: string) => void;
 };
 
 export interface GamesEntranceControllerInterface {
@@ -51,7 +52,6 @@ export interface AudioChallengeControllerInterface {
   audioChallengeModel: AudioChallengeModelInterface;
   getWordsList(): void;
   turnGamePage(): void;
-  changeSettingsPage(): void;
 }
 
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
@@ -59,9 +59,8 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   shakedWordChunk: WordsChunkType[];
   getWordsList(query: string): void;
   turnGamePage(): void;
-  changeSettingsPage(): void;
   changeWord(): void;
-  // getNewPage(): void;
+  getWordData(word: string): void;
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
@@ -71,7 +70,6 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   createWordsBtns({ id, wordTranslate, group }: WordBtnType): HTMLElement;
   createAnswerWrapper(word: string): void;
   updateWordBtnsWrapper(): Element;
-  selectRandomSoundingWord(): number;
   createSpeakerWrapper(word: string): void;
   enableWordSounding(): Promise<void>;
   createAnswerWrapper(word: string): void;
@@ -104,5 +102,4 @@ export type AudioChallengeGameType = {
   startFromTextbook: boolean;
   wordOfShakedArrCount: number;
   shakedWordsArray: WordsChunkType[];
-  stopSounding: boolean;
 };

@@ -11,7 +11,6 @@ import {
 import {
   AUDIOCHALLENGE_GAME_SETTINGS,
   baseURL,
-  WORDS_PER_TEXTBOOK_PAGE,
 } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
@@ -62,7 +61,6 @@ export class AudioChallengeView
       } else {
         this.stopTheGame();
         this.showGameResults();
-        // this.emit('wordsAreOver');
       }
     }
 
@@ -98,13 +96,6 @@ export class AudioChallengeView
       [wordsArr[i], wordsArr[j]] = [wordsArr[j], wordsArr[i]];
     }
     return wordsArr;
-  };
-
-  selectRandomSoundingWord = (): number => {
-    const min = AUDIOCHALLENGE_GAME_SETTINGS.wordCount;
-    const max = AUDIOCHALLENGE_GAME_SETTINGS.wordCount + AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
-    const randomIndex = Math.floor(Math.random() * (max - min)) + min;
-    return randomIndex;
   };
 
   createCloseBtn = (): void => {
@@ -446,6 +437,7 @@ export class AudioChallengeView
     const answer = this.getRightAnswer();
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (word === answer) {
+      this.emit('rightAnswerClicked', word);
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
@@ -456,6 +448,7 @@ export class AudioChallengeView
         this.turnOnCorrectAnswerSound();
       }
     } else {
+      this.emit('wrongAnswerClicked', word);
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
