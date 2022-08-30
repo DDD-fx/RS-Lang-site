@@ -9,6 +9,7 @@ import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
 import { LocalStorage } from '../../../utils/storage';
 import { authFetch } from '../../../model/model';
 
+
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
 
