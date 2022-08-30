@@ -2,14 +2,17 @@ import {
   GamesEntranceControllerInterface,
   GamesEntranceModelInterface,
   GamesEntranceViewInterface,
-} from '../../../types/gamesTypes';
-import { AUDIOCHALLENGE_GAME_SETTINGS } from '../../../utils/constants';
+} from '../../../types/games/commonGamesTypes';
+import { AUDIOCHALLENGE_GAME_SETTINGS, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 import { AudioChallengeController } from '../audioChallengeGame/audioChallengeGameController';
 import { AudioChallengeModel } from '../audioChallengeGame/audioChallengeGameModel';
 import { AudioChallengeView } from '../audioChallengeGame/audioChallengeGameView';
 import { GamesEntranceView } from './gamesEntranceView';
 import { GamesEntranceModel } from './gamesEntranceModel';
 import { WordsChunkType } from '../../../types/textbookTypes';
+import { SprintModel } from '../sprintGame/sprintGameModel';
+import { SprintView } from '../sprintGame/sprintGameView';
+import { SprintController } from '../sprintGame/sprintGameController';
 
 export default class GamesEntranceController implements GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
@@ -49,8 +52,16 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     audioChallengeView.drawAudioChallengeGame();
   };
 
-  startSprintGame = () => {
-    this.gamesEntranceModel.startSprintGame();
+  startSprintGame = async () => {
+    SPRINT_GAME_SETTINGS.startFromTextbook = false;
+    const sprintModel = new SprintModel();
+    const sprintView = new SprintView(sprintModel);
+    const sprintController = new SprintController(
+      sprintModel,
+      sprintView,
+    );
+    await sprintController.getWordsList();
+    sprintView.drawSprintGame();
   };
 
   addGameLevel = (level: number) => {

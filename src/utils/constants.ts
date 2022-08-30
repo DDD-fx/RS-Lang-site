@@ -1,4 +1,5 @@
-import { AudioChallengeGameType } from '../types/gamesTypes';
+import { AudioChallengeGameType } from '../types/games/audioChallengeTypes';
+import { SprintGameType } from '../types/games/sprintTypes';
 import { UserSettingsType } from '../types/types';
 
 export const baseURL = 'https://react-rslang-be-13.herokuapp.com/';
@@ -34,8 +35,14 @@ export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   startFromTextbook: false,
   wordOfShakedArrCount: 0,
   shakedWordsArray: [],
-  stopSounding: false,
 };
+
+export const SPRINT_GAME_SETTINGS: SprintGameType = {
+  level: 0,
+  startFromTextbook: false,
+};
+
+SPRINT_GAME_SETTINGS;
 
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>
 <svg class="star-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">

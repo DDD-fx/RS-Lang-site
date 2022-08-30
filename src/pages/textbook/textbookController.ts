@@ -24,12 +24,12 @@ export class TextBookController implements TextBookControllerInterface {
       .on('addDifficultWordBtnClicked', (wordID, wordStatus) =>
         this.addUserWord(wordID, wordStatus),
       )
-      .on('deleteDifficultWordBtnClicked', (wordID, onDictPage, wordStatus) =>
-        this.deleteUserWord(wordID, onDictPage, wordStatus),
+      .on('deleteDifficultWordBtnClicked', (wordID, wordStatus) =>
+        this.makeWordNew(wordID, wordStatus),
       )
       .on('addLearnedWordBtnClicked', (wordID, wordStatus) => this.addUserWord(wordID, wordStatus))
-      .on('deleteLearnedWordBtnClicked', (wordID, onDictPage, wordStatus) =>
-        this.deleteUserWord(wordID, onDictPage, wordStatus),
+      .on('deleteLearnedWordBtnClicked', (wordID, wordStatus) =>
+        this.makeWordNew(wordID, wordStatus),
       )
       .on('audioChallengeBtnClicked', () => this.getAudioChallengeCollection());
   }
@@ -68,33 +68,48 @@ export class TextBookController implements TextBookControllerInterface {
   };
 
   addUserWord = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
-    await this.checkCollection(wordID, wordStatus);
-    const addUserWordReq: AddUserWordBodyType = {
-      difficulty: wordStatus,
-      optional: { test: 'test' },
-    };
-    void (await this.textBookModel.addUserWord(addUserWordReq, wordID));
-  };
+    const onDictPage = this.textBookView.userTextBookView.onDictPage;
 
-  deleteUserWord = (wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): void => {
-    void this.textBookModel.deleteUserWord(wordID, onDictPage, wordStatus);
-  };
-
-  checkCollection = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
-    if (wordStatus === WordStatusEnum.difficult) {
-      const learnedWordsString = JSON.stringify(this.textBookModel.learnedWords);
-      if (learnedWordsString.includes(wordID)) {
-        await this.textBookModel.deleteUserWord(wordID, false, WordStatusEnum.learned);
-        this.textBookView.userTextBookView.checkBinBtnActive();
-      }
-    } else {
-      const difficultWordsString = JSON.stringify(this.textBookModel.difficultWords);
-      if (difficultWordsString.includes(wordID)) {
-        const onDictPage = this.textBookView.userTextBookView.onDictPage;
-        await this.textBookModel.deleteUserWord(wordID, onDictPage, WordStatusEnum.difficult);
-        this.textBookView.userTextBookView.checkStarBtnActive();
-      }
+    if (this.isWordDifficult(wordID)) {
+      await this.textBookModel.updateUserWord(wordID, onDictPage, wordStatus, false, false);
+      this.textBookView.userTextBookView.checkStarBtnActive();
+    } else if (this.isWordLearned(wordID)) {
+      await this.textBookModel.updateUserWord(wordID, onDictPage, wordStatus, false, false);
+      this.textBookView.userTextBookView.checkBinBtnActive();
+    } else if (!this.isWordNew(wordID)) {
+      const addUserWordReqBody: AddUserWordBodyType = {
+        difficulty: wordStatus,
+        optional: {
+          correctAnswersChallenge: '0',
+          incorrectAnswersChallenge: '0',
+          correctAnswersSprint: '0',
+          incorrectAnswersSprint: '0',
+        },
+      };
+      await this.textBookModel.addUserWord(addUserWordReqBody, wordID);
+    } else if (this.isWordNew(wordID)) {
+      await this.textBookModel.updateUserWord(wordID, onDictPage, wordStatus, true, false);
     }
+  };
+
+  makeWordNew = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
+    const onDictPage = this.textBookView.userTextBookView.onDictPage;
+    await this.textBookModel.updateUserWord(wordID, onDictPage, wordStatus, false, true);
+  };
+
+  isWordNew = (wordID: string): boolean => {
+    const newWordsString = JSON.stringify(this.textBookModel.newWords);
+    return newWordsString.includes(wordID);
+  };
+
+  isWordDifficult = (wordID: string): boolean => {
+    const difficultWordsString = JSON.stringify(this.textBookModel.difficultWords);
+    return difficultWordsString.includes(wordID);
+  };
+
+  isWordLearned = (wordID: string): boolean => {
+    const learnedWordsString = JSON.stringify(this.textBookModel.learnedWords);
+    return learnedWordsString.includes(wordID);
   };
 
   getAudioChallengeCollection = (): WordsChunkType[] => {

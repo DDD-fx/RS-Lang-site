@@ -9,17 +9,9 @@ export type TextBookEventsType = {
     wordID: string,
     wordStatus: WordStatusEnum.difficult,
   ) => Promise<void>;
-  deleteDifficultWordBtnClicked: (
-    wordID: string,
-    onDictPage: boolean,
-    wordStatus: WordStatusEnum.difficult,
-  ) => void;
+  deleteDifficultWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.difficult) => void;
   addLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => Promise<void>;
-  deleteLearnedWordBtnClicked: (
-    wordID: string,
-    onDictPage: boolean,
-    wordStatus: WordStatusEnum.learned,
-  ) => void;
+  deleteLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => void;
   audioChallengeBtnClicked: () => void;
 
   getTextBookList: () => void;
@@ -34,13 +26,30 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
   wordsChunk: WordsChunkType[];
   difficultWords: WordsChunkType[];
   learnedWords: WordsChunkType[];
+  newWords: WordsChunkType[];
   getTextBookList(): Promise<void>;
   getWordCardData(id: string, onDictPage: boolean): void;
-  getUserWordsForCurrGroup(query: string, wordStatus: WordStatusEnum): Promise<void>;
+  getAggregatedWordsForCurrGroup(query: string, wordStatus: WordStatusEnum): Promise<void>;
   getUserDictWords(): Promise<void>;
-  getUserWords(query: string, wordStatus: WordStatusEnum): Promise<void>;
-  addUserWord(addUserWordReq: AddUserWordBodyType, wordID: string): Promise<void>;
-  deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): Promise<void>;
+  updateUserWordsCollection(wordStatus: WordStatusEnum): Promise<void>;
+  getAggregatedWords(query: string, wordStatus: WordStatusEnum): Promise<void>;
+  addUserWord(addUserWordReqBody: AddUserWordBodyType, wordID: string): Promise<void>;
+  updateUserWord(
+    wordID: string,
+    onDictPage: boolean,
+    wordStatus: WordStatusEnum,
+    isWordNew: boolean,
+    makeNew: boolean,
+  ): Promise<void>;
+  getAggregatedUserWordOptions(
+    wordID: string,
+    wordStatus: WordStatusEnum,
+    isWordNew: boolean,
+  ): AddUserWordBodyType | undefined;
+  getAggregatedUserWordOptionsForNew(
+    wordID: string,
+    wordStatus: WordStatusEnum,
+  ): AddUserWordBodyType | undefined;
   mapUserWordsID(difficultWords: RawAggregatedWordType[]): WordsChunkType[];
 }
 
@@ -53,8 +62,10 @@ export interface TextBookControllerInterface {
   getWordCardData(id: string, onDictPage: boolean): void;
   getUserDictWords(): void;
   addUserWord(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
-  deleteUserWord(wordID: string, onDictPage: boolean, wordStatus: WordStatusEnum): void;
-  checkCollection(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
+  makeWordNew(wordID: string, wordStatus: WordStatusEnum): Promise<void>;
+  isWordNew(wordID: string): boolean;
+  isWordDifficult(wordID: string): boolean;
+  isWordLearned(wordID: string): boolean;
   getAudioChallengeCollection(): WordsChunkType[];
 }
 
@@ -153,7 +164,14 @@ export type AggregatedWordType = WordsChunkType & {
 
 export type AddUserWordBodyType = {
   difficulty: WordStatusEnum;
-  optional: { test: 'test' };
+  optional: UserWordOptionalType;
+};
+
+export type UserWordOptionalType = {
+  correctAnswersChallenge: string;
+  incorrectAnswersChallenge: string;
+  correctAnswersSprint: string;
+  incorrectAnswersSprint: string;
 };
 
 export enum WordStatusEnum {
