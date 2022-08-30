@@ -2,7 +2,7 @@ import {
   AudioChallengeControllerInterface,
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
-} from '../../../types/gamesTypes';
+} from '../../../types/games/audioChallengeTypes';
 import { AUDIOCHALLENGE_GAME_SETTINGS, MAX_TEXTBOOK_PAGES } from '../../../utils/constants';
 
 export class AudioChallengeController implements AudioChallengeControllerInterface {

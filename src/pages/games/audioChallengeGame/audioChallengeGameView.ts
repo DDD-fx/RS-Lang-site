@@ -4,10 +4,7 @@ import renderAudioChallengeGameTemplate from '../../../components/games/audioCha
 import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
-  GamesEventsType,
-  ResultBtnType,
-  WordBtnType,
-} from '../../../types/gamesTypes';
+} from '../../../types/games/audioChallengeTypes';
 import {
   AUDIOCHALLENGE_GAME_SETTINGS,
   baseURL,
@@ -15,6 +12,7 @@ import {
 } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
+import { GamesEventsType, ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
 
 export class AudioChallengeView
   extends TypedEmitter<GamesEventsType>
@@ -62,7 +60,6 @@ export class AudioChallengeView
       } else {
         this.stopTheGame();
         this.showGameResults();
-        // this.emit('wordsAreOver');
       }
     }
 

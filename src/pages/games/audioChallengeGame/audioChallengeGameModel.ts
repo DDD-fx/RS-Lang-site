@@ -6,7 +6,7 @@ import {
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { WordsChunkType } from '../../../types/textbookTypes';
-import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
+import { AudioChallengeModelInterface } from '../../../types/games/audioChallengeTypes';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
