@@ -1,5 +1,15 @@
 import { LocalStorage } from '../../utils/storage';
 
+const newWordsChart = `
+<div>
+  <canvas class="newWordsChart" height='350px' width='450px'></canvas>
+</div>
+`;
+const learnedWordChart = `
+<div>
+  <canvas class="learnedWordsChart" height='350px' width='450px'></canvas>
+</div>
+`;
 const renderstatTemplate = () => {
   const { userName } = LocalStorage.currUserSettings;
   return `
@@ -20,7 +30,7 @@ const renderstatTemplate = () => {
         <h3 class="stat-words-data"> <span><b> 89% </b></span> правильных ответов</h3>
       </div>
       <div class="statistic__games">
-      <div class="stat-game-card">
+      <div class="stat-game-card audiochallenge">
         <h4 class="stat-game-card__name">Аудиовызов</h4>
         <div class="stat-game-card__data">
           <p class="stat-game-card__learned-words">Новых слов: <span class="stat-game-card__accent ">73</span></p>
@@ -30,7 +40,7 @@ const renderstatTemplate = () => {
               class="stat-game-card__accent">8</span></p>
         </div>
       </div>
-      <div class="stat-game-card">
+      <div class="stat-game-card sprint">
         <h4 class="stat-game-card__name">Спринт</h4>
         <div class="stat-game-card__data">
           <p class="stat-game-card__learned-words">Новых слов: <span class="stat-game-card__accent ">73</span></p>
@@ -42,15 +52,15 @@ const renderstatTemplate = () => {
         </div>
       </div>
     </div>
+    <div class="statistic__title"><span class="statistic__sub-title accent"> за всё время</span></div> 
     <div class="statistic__all-time">
-      <div class="statistic__title"><span class="statistic__sub-title accent"> за всё время</span></div> 
       <div class="all-time__card all-time-words">
         <h4 class="all-time__card__name">Количество новых слов</h4>
-        <div class="all-time__card__chart"> </div>
+        <div class="all-time__card__chart">${newWordsChart}</div>
       </div>
       <div class="all-time__card all-time-dynamics">
         <h4 class="all-time__card__name"> Общая динамика</h4>
-        <div class="all-time__card__chart"> </div>
+        <div class="all-time__card__chart">${learnedWordChart}</div>
       </div>
     </div>
     <div class="bubbles img-x5">

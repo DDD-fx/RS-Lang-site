@@ -33,10 +33,15 @@ type StatOptionalType = {
   [key: string]: StatOptionalDayType;
 };
 
-type StatOptionalDayType = {
+type StatOptionalGameType = {
   wordsPerDay: number;
   learnedWordsPerDay: number;
   longestSeries: number;
+};
+
+type StatOptionalDayType = {
+  audiochallenge: StatOptionalGameType;
+  sprint: StatOptionalGameType;
 };
 
 type StatAnswerType = {

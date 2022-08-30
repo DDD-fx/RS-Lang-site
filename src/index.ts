@@ -6,7 +6,7 @@ import { Routes } from './types/types';
 import { TextBookController } from './pages/textbook/textbookController';
 import { GamesSection } from './pages/games/games';
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
-import Statistics from './pages/stat';
+import Statistics from './pages/stat/stat';
 import { LocalStorage } from './utils/storage';
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
 import history from './utils/history';
