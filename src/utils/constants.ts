@@ -34,7 +34,6 @@ export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   startFromTextbook: false,
   wordOfShakedArrCount: 0,
   shakedWordsArray: [],
-  stopSounding: false,
 };
 
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>
