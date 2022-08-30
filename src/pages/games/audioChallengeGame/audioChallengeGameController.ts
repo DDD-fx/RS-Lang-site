@@ -19,9 +19,9 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     this.audioChallengeView = AudioChallengeView;
     this.audioChallengeView
       .on('nextBtnClicked', () => this.turnGamePage())
-      .on('wordsAreOver', () => this.changeSettingsPage())
       .on('wordOfShakedArrCountAdded', () => this.changeWord())
-      .on('pressedContinueGameBtn', () => this.getWordsList());
+      .on('pressedContinueGameBtn', () => this.getWordsList())
+      .on('rightAnswerClicked', (word) => this.getWordData(word))
   }
 
   getWordsList = async (): Promise<void> => {
@@ -39,14 +39,11 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     this.audioChallengeModel.turnGamePage();
   };
 
-  changeSettingsPage = (): void => {
-    if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
-      this.audioChallengeModel.changeSettingsPage();
-      this.getWordsList();
-    }
-  };
-
   changeWord = (): void => {
     this.audioChallengeModel.changeWord();
+  };
+
+  getWordData = (word: string): void => {
+    this.audioChallengeModel.getWordData(word);
   };
 }

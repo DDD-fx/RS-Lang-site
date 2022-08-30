@@ -37,6 +37,8 @@ export type GamesEventsType = {
   wordsAreOver: () => void;
   wordOfShakedArrCountAdded: () => void;
   pressedContinueGameBtn: () => void;
+  wrongAnswerClicked: (word: string) => void;
+  rightAnswerClicked: (word: string) => void;
 };
 
 export interface GamesEntranceControllerInterface {
