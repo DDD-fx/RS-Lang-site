@@ -36,7 +36,8 @@ export class TextBookView
       .on('getWordCardData', (word) => this.createWordCard(word))
       .on('getUserDict', () => this.userTextBookView.drawDict())
       .on('removeDifficultWordElem', (wordID) => this.userTextBookView.removeDictElem(wordID))
-      .on('updateMarkedPages', () => this.userTextBookView.updateMarkedPages());
+      .on('updateMarkedPages', () => this.userTextBookView.updateMarkedPages())
+      .on('updateMarkedPages', () => this.userTextBookView.disableGameBtns());
   }
 
   drawTextBook = (): void => {

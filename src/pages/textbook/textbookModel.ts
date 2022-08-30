@@ -1,6 +1,7 @@
 import {
   AddUserWordBodyType,
   AggregatedWordsRespType,
+  AggregatedWordType,
   RawAggregatedWordType,
   TextBookModelInterface,
   WordsChunkType,
@@ -15,15 +16,18 @@ import { getElement } from '../../utils/tools';
 export class TextBookModel extends TypedEmitter implements TextBookModelInterface {
   wordsChunk: WordsChunkType[];
 
-  difficultWords: WordsChunkType[];
+  difficultWords: AggregatedWordType[];
 
-  learnedWords: WordsChunkType[];
+  learnedWords: AggregatedWordType[];
+
+  newWords: AggregatedWordType[];
 
   constructor() {
     super();
     this.wordsChunk = [];
     this.difficultWords = [];
     this.learnedWords = [];
+    this.newWords = [];
   }
 
   getTextBookList = async (): Promise<void> => {
@@ -32,10 +36,12 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     this.wordsChunk = (await data.json()) as WordsChunkType[];
 
     if (LocalStorage.currUserSettings.userId) {
-      await this.getUserWordsForCurrGroup(WordStatusEnum.difficult);
+      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.difficult);
       console.log('dif', this.difficultWords);
-      await this.getUserWordsForCurrGroup(WordStatusEnum.learned);
+      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.learned);
       console.log('learned', this.learnedWords);
+      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.new);
+      console.log('new', this.newWords);
     }
     this.emit('getTextBookList');
   };
@@ -47,22 +53,22 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     this.emit('getWordCardData', selectedWord);
   };
 
-  getUserWordsForCurrGroup = async (wordStatus: WordStatusEnum): Promise<void> => {
+  getAggregatedWordsForCurrGroup = async (wordStatus: WordStatusEnum): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?group=${LocalStorage.currUserSettings.currGroup}&wordsPerPage=600&filter={"userWord.difficulty":"${wordStatus}"}`;
-    await this.getUserWords(query, wordStatus);
+    await this.getAggregatedWords(query, wordStatus);
   };
 
   getUserDictWords = async (): Promise<void> => {
-    await this.updateUserWords(WordStatusEnum.difficult);
+    await this.updateUserWordsCollection(WordStatusEnum.difficult);
     this.emit('getUserDict');
   };
 
-  updateUserWords = async (wordStatus: WordStatusEnum): Promise<void> => {
+  updateUserWordsCollection = async (wordStatus: WordStatusEnum): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?wordsPerPage=600&filter={"userWord.difficulty":"${wordStatus}"}`;
-    await this.getUserWords(query, wordStatus);
+    await this.getAggregatedWords(query, wordStatus);
   };
 
-  getUserWords = async (query: string, wordStatus: WordStatusEnum): Promise<void> => {
+  getAggregatedWords = async (query: string, wordStatus: WordStatusEnum): Promise<void> => {
     try {
       const rawResponse = await authFetch(baseURL + query, {
         method: 'GET',
@@ -76,45 +82,105 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
         this.learnedWords = this.mapUserWordsID(userWords);
         if (getElement('pagination ')) this.emit('updateMarkedPages');
       }
+      if (wordStatus === WordStatusEnum.new) this.newWords = this.mapUserWordsID(userWords);
     } catch (e) {
       console.error(e);
     }
   };
 
-  addUserWord = async (addUserWordReq: AddUserWordBodyType, wordID: string): Promise<void> => {
+  addUserWord = async (addUserWordReqBody: AddUserWordBodyType, wordID: string): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
     try {
       await authFetch(baseURL + query, {
         method: 'POST',
         headers: this.API_USER_REQ_HEADER,
-        body: JSON.stringify(addUserWordReq),
+        body: JSON.stringify(addUserWordReqBody),
       });
-      if (addUserWordReq.difficulty === WordStatusEnum.learned) {
-        await this.updateUserWords(WordStatusEnum.learned);
+      if (addUserWordReqBody.difficulty === WordStatusEnum.learned) {
+        await this.updateUserWordsCollection(WordStatusEnum.learned);
+      }
+      if (addUserWordReqBody.difficulty === WordStatusEnum.difficult) {
+        await this.updateUserWordsCollection(WordStatusEnum.difficult);
       }
     } catch (e) {
       console.error(e);
     }
   };
 
-  deleteUserWord = async (
+  updateUserWord = async (
     wordID: string,
     onDictPage: boolean,
     wordStatus: WordStatusEnum,
+    isWordNew: boolean,
+    makeNew: boolean,
   ): Promise<void> => {
+    const updateUserWordReqBody = makeNew
+      ? this.getAggregatedUserWordOptionsForNew(wordID, wordStatus)
+      : this.getAggregatedUserWordOptions(wordID, wordStatus, isWordNew);
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${wordID}`;
     try {
       await authFetch(baseURL + query, {
-        method: 'DELETE',
+        method: 'PUT',
         headers: this.API_USER_REQ_HEADER,
+        body: JSON.stringify(updateUserWordReqBody),
       });
-      if (wordStatus === WordStatusEnum.difficult) {
-        if (onDictPage) this.emit('removeDifficultWordElem', wordID);
-        await this.updateUserWords(WordStatusEnum.difficult);
-      }
-      if (wordStatus === WordStatusEnum.learned) await this.updateUserWords(WordStatusEnum.learned);
+      if (onDictPage) this.emit('removeDifficultWordElem', wordID);
+      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.new);
+      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.learned);
+      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.difficult);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  getAggregatedUserWordOptions = (
+    wordID: string,
+    wordStatus: WordStatusEnum,
+    isWordNew: boolean,
+  ): AddUserWordBodyType | undefined => {
+    if (isWordNew) {
+      const updatedWord = this.newWords.find((word) => word.id === wordID) as AggregatedWordType;
+      const currWordOptions = updatedWord.userWord;
+      currWordOptions.difficulty = wordStatus;
+      return currWordOptions;
+    }
+    if (wordStatus === WordStatusEnum.difficult && !isWordNew) {
+      const updatedWord = this.learnedWords.find(
+        (word) => word.id === wordID,
+      ) as AggregatedWordType;
+      const currWordOptions = updatedWord.userWord;
+      currWordOptions.difficulty = wordStatus;
+      return currWordOptions;
+    }
+    if (wordStatus === WordStatusEnum.learned && !isWordNew) {
+      const updatedWord = this.difficultWords.find(
+        (word) => word.id === wordID,
+      ) as AggregatedWordType;
+      const currWordOptions = updatedWord.userWord;
+      currWordOptions.difficulty = wordStatus;
+      return currWordOptions;
+    }
+  };
+
+  getAggregatedUserWordOptionsForNew = (
+    wordID: string,
+    wordStatus: WordStatusEnum,
+  ): AddUserWordBodyType | undefined => {
+    if (wordStatus === WordStatusEnum.difficult) {
+      const updatedWord = this.difficultWords.find(
+        (word) => word.id === wordID,
+      ) as AggregatedWordType;
+      const currWordOptions = updatedWord.userWord;
+      currWordOptions.difficulty = WordStatusEnum.new;
+      return currWordOptions;
+    }
+    if (wordStatus === WordStatusEnum.learned) {
+      const updatedWord = this.learnedWords.find(
+        (word) => word.id === wordID,
+      ) as AggregatedWordType;
+      const currWordOptions = updatedWord.userWord;
+      currWordOptions.difficulty = WordStatusEnum.new;
+      return currWordOptions;
     }
   };
 
@@ -124,7 +190,7 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     'Content-Type': 'application/json',
   };
 
-  mapUserWordsID = (difficultWords: RawAggregatedWordType[]): WordsChunkType[] => {
+  mapUserWordsID = (difficultWords: RawAggregatedWordType[]): AggregatedWordType[] => {
     return difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
 }
