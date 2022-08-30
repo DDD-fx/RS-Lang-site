@@ -79,7 +79,12 @@ export class TextBookController implements TextBookControllerInterface {
     } else if (!this.isWordNew(wordID)) {
       const addUserWordReqBody: AddUserWordBodyType = {
         difficulty: wordStatus,
-        optional: { test: 'test1111' },
+        optional: {
+          correctAnswersChallenge: '0',
+          incorrectAnswersChallenge: '0',
+          correctAnswersSprint: '0',
+          incorrectAnswersSprint: '0',
+        },
       };
       await this.textBookModel.addUserWord(addUserWordReqBody, wordID);
     } else if (this.isWordNew(wordID)) {

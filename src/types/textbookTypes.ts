@@ -164,7 +164,14 @@ export type AggregatedWordType = WordsChunkType & {
 
 export type AddUserWordBodyType = {
   difficulty: WordStatusEnum;
-  optional: { test: string };
+  optional: UserWordOptionalType;
+};
+
+export type UserWordOptionalType = {
+  correctAnswersChallenge: string;
+  incorrectAnswersChallenge: string;
+  correctAnswersSprint: string;
+  incorrectAnswersSprint: string;
 };
 
 export enum WordStatusEnum {
