@@ -1,11 +1,10 @@
 //import View from './view';
 import { getStat } from '../../model/api/statApi';
 import renderstatTemplate from '../../components/layout/statTemplate';
-import getChartConfig from './chartConfigs';
+import { getChartConfig, newWordsData, learnedWordsData } from './chartConfigs';
 import { getElement } from '../../utils/tools';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
-
 
 class Statistics {
   view;
@@ -20,9 +19,13 @@ class Statistics {
   init = (): void => {
     // this.model.mount().catch((err) => console.error(err));
     this.view.render();
-    const myChart = new Chart(
-      (<HTMLCanvasElement>getElement('newWordChart')),
-      getChartConfig()
+    const newWordChart = new Chart(
+      <HTMLCanvasElement>getElement('newWordsChart'),
+      getChartConfig(newWordsData),
+    );
+    const learnedWordChart = new Chart(
+      <HTMLCanvasElement>getElement('learnedWordsChart'),
+      getChartConfig(learnedWordsData),
     );
   };
 }

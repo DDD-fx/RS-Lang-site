@@ -2,14 +2,14 @@ import { LocalStorage } from '../../utils/storage';
 
 const newWordsChart = `
 <div>
-  <canvas class="newWordChart" height='350px' width='500px'></canvas>
+  <canvas class="newWordsChart" height='350px' width='450px'></canvas>
 </div>
-`
+`;
 const learnedWordChart = `
 <div>
-  <canvas class="learnedWordsChart"></canvas>
+  <canvas class="learnedWordsChart" height='350px' width='450px'></canvas>
 </div>
-`
+`;
 const renderstatTemplate = () => {
   const { userName } = LocalStorage.currUserSettings;
   return `
@@ -52,8 +52,8 @@ const renderstatTemplate = () => {
         </div>
       </div>
     </div>
+    <div class="statistic__title"><span class="statistic__sub-title accent"> за всё время</span></div> 
     <div class="statistic__all-time">
-      <div class="statistic__title"><span class="statistic__sub-title accent"> за всё время</span></div> 
       <div class="all-time__card all-time-words">
         <h4 class="all-time__card__name">Количество новых слов</h4>
         <div class="all-time__card__chart">${newWordsChart}</div>
@@ -73,7 +73,5 @@ const renderstatTemplate = () => {
 </div>
 `;
 };
-
-
 
 export default renderstatTemplate;
