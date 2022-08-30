@@ -58,7 +58,7 @@
 .statistic__words {
   display: flex;
   justify-content: center;
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
   gap: 1.5rem;
 }
 
@@ -80,7 +80,26 @@
   padding: 1rem;
   backdrop-filter: blur(22px);
   background: rgb(255 255 255 / 10%);
+  filter: opacity(0.9);
+  color: black;
 }
+.stat-game-card.audiochallenge {
+  background: rgb(255 255 255 / 100%) url(assets/games/headphones.svg) no-repeat center;
+  background-size: 40%;
+  background-position: right -10px top -30px;
+}
+
+.stat-game-card.sprint {
+  background: rgb(255 255 255 / 100%) url(assets/games/fish.svg) no-repeat center;
+    background-size: 60%;
+    background-position: right -20px top -20px;
+  }
+
+  .stat-game-card__accent {
+    //color: #5afff9;
+    //color: var(--maintheme);
+    font-weight: 500;
+  }
 .stat-game-card__name {
   align-self: center;
   margin-left: 0;
@@ -95,4 +114,43 @@
 .stat-game-card__data {
   display: flex;
   flex-direction: column;
+}
+
+
+@include sm {
+  .statistic__article {
+    padding: 7rem 1rem 2rem 1rem;
+  }
+  .statistic__games {
+    flex-wrap: wrap;
+   // padding: 0 1rem;
+  }
+.stat-words-data {
+  font-size: 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+.statistic__sub-title {
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+}
+
+.stat-game-card__data {
+  font-size: 1rem;
+}
+
+.main__container.statistics .img-x20 img {
+  filter: opacity(0.5);
+}
+
+.main__container.statistics .whale {
+  right: 0rem;
+}
+
+.main__container .bubbles {
+  bottom: 11rem;
+  right: 0rem;
+}
+
 }
