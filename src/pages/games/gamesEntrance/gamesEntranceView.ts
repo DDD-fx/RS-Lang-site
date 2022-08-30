@@ -3,7 +3,7 @@ import {
   GamesEntranceEventType,
   GamesEntranceModelInterface,
   GamesEntranceViewInterface,
-} from '../../../types/gamesTypes';
+} from '../../../types/games/commonGamesTypes';
 import { createElement } from '../../../utils/tools';
 
 export class GamesEntranceView
@@ -47,7 +47,7 @@ export class GamesEntranceView
 
   createSelect = () => {
     const selectElem = createElement('select', 'select-input');
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < 6; i += 1) {
       const option = createElement('option', `game-option-${i + 1}`);
       option.textContent = (i + 1).toString() + ' уровень';
       option.addEventListener('select', () => this.emit('gameOptionClicked', i));

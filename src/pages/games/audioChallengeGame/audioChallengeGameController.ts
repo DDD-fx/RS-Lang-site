@@ -2,7 +2,7 @@ import {
   AudioChallengeControllerInterface,
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
-} from '../../../types/gamesTypes';
+} from '../../../types/games/audioChallengeTypes';
 import { AUDIOCHALLENGE_GAME_SETTINGS, MAX_TEXTBOOK_PAGES } from '../../../utils/constants';
 
 export class AudioChallengeController implements AudioChallengeControllerInterface {
@@ -19,19 +19,19 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     this.audioChallengeView = AudioChallengeView;
     this.audioChallengeView
       .on('nextBtnClicked', () => this.turnGamePage())
-      .on('wordsAreOver', () => this.changeSettingsPage())
       .on('wordOfShakedArrCountAdded', () => this.changeWord())
       .on('pressedContinueGameBtn', () => this.getWordsList())
+      .on('rightAnswerClicked', (word) => this.getWordData(word))
   }
 
   getWordsList = async (): Promise<void> => {
     const page = this.getRandomPage();
-    const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${page}`
+    const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${page}`;
     await this.audioChallengeModel.getWordsList(query);
   };
 
   getRandomPage = (): number => {
-    let rand = Math.random() * (MAX_TEXTBOOK_PAGES + 1);
+    const rand = Math.random() * (MAX_TEXTBOOK_PAGES + 1);
     return Math.floor(rand);
   };
 
@@ -39,14 +39,11 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     this.audioChallengeModel.turnGamePage();
   };
 
-  changeSettingsPage = (): void => {
-    if (AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook === false) {
-      this.audioChallengeModel.changeSettingsPage();
-      this.getWordsList();
-    }
+  changeWord = (): void => {
+    this.audioChallengeModel.changeWord();
   };
 
-  changeWord = (): void => {
-      this.audioChallengeModel.changeWord();
+  getWordData = (word: string): void => {
+    this.audioChallengeModel.getWordData(word);
   };
 }

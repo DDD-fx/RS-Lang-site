@@ -78,10 +78,10 @@ class Nav {
     if (burgerButton) {
       const nav = getElement('nav');
       const target = event.target as HTMLElement;
-      const its_menu = target.classList.contains('nav__list');
-      const its_btnMenu = target === burgerButton || burgerButton.contains(target);
-      const menu_is_active = nav.classList.contains('is-active');
-      if (menu_is_active && !its_btnMenu && !its_menu) {
+      const itsMenu = target.classList.contains('nav__list');
+      const itsBtnMenu = target === burgerButton || burgerButton.contains(target);
+      const menuIsActive = nav.classList.contains('is-active');
+      if (menuIsActive && !itsBtnMenu && !itsMenu) {
         burgerButton.classList.remove('is-active');
         nav.classList.remove('is-active');
       }
