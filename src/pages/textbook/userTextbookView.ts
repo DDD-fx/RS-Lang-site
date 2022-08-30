@@ -81,7 +81,6 @@ export class UserTextBookView
             this.textBookView,
             'deleteDifficultWordBtnClicked',
             wordID,
-            this.onDictPage,
             WordStatusEnum.difficult,
           );
           star.classList.remove('star-svg--active');
@@ -115,7 +114,6 @@ export class UserTextBookView
             this.textBookView,
             'deleteLearnedWordBtnClicked',
             wordID,
-            this.onDictPage,
             WordStatusEnum.learned,
           );
           bin.classList.remove('bin-svg--active');
@@ -213,11 +211,13 @@ export class UserTextBookView
     const pageBtn = getElement(
       `page-${LocalStorage.currUserSettings.currPage}`,
     ) as HTMLButtonElement;
+    const gameBtns = document.getElementsByClassName(
+      'textbook-games-btn',
+    ) as HTMLCollectionOf<HTMLButtonElement>;
     if (pageBtn.classList.contains('learned-page')) {
-      const gameBtns = document.getElementsByClassName(
-        'textbook-games-btn',
-      ) as HTMLCollectionOf<HTMLButtonElement>;
       [...gameBtns].forEach((btn) => (btn.disabled = true));
+    } else {
+      [...gameBtns].forEach((btn) => (btn.disabled = false));
     }
   };
 }

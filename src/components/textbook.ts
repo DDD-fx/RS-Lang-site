@@ -86,9 +86,8 @@ export const renderDictTemplate = (): string => `
   </div>
   
   <h2 class='words-title'>Сложные слова:</h2>
-  <div class='textbook-words js-textbook-words'>  <!--20 слов-->
+  <div class='textbook-words js-textbook-words'>
     <section class='words-btns js-words-btns user-words js-user-words'></section>
     <article class='word-description js-word-description'></article>
   </div>
-  <div class='pagination js-pagination'></div>    <!--30 страниц-->
 `;
