@@ -195,8 +195,14 @@ export class UserTextBookView
 
   markPageLearned = (pageNum: number, toBeMarked: boolean): void => {
     const page = getElement(`page-${pageNum}`);
-    if (toBeMarked) page.classList.add('learned-page');
-    else page.classList.remove('learned-page');
+    const wordsDiv = getElement('textbook-words');
+    if (toBeMarked) {
+      page.classList.add('learned-page');
+      wordsDiv.classList.add('textbook-words--learned');
+    } else {
+      page.classList.remove('learned-page');
+      wordsDiv.classList.remove('textbook-words--learned');
+    }
   };
 
   updateMarkedPages = (): void => {

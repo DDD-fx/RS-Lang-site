@@ -125,6 +125,10 @@
   display: flex;
   gap: 30px;
 
+  &--learned {
+    opacity: 0.5;
+  }
+
   @media (max-width: 550px) {
     gap: 15px;
     font-size: 0.9em;
