@@ -12,6 +12,7 @@ import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
 import history from './utils/history';
 import Nav from './components/nav';
 import Login from './pages/login/loginController';
+import { GameEnum } from './types/textbookTypes';
 
 const app = new App();
 app.init();
@@ -60,8 +61,8 @@ const routes: Routes[] = [
     path: '/audiochallenge-pages',
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     action: async () => {
-      const collection = await textbook.getAudioChallengeCollection();
-      console.log('getGamesCollection', collection);
+      const collection = await textbook.getGamesWordCollection(GameEnum.audioChallenge);
+      console.log('audiochallenge', collection);
       gamesEntrance.startAudioChallengeFromTextBook(collection);
     },
   },
@@ -73,6 +74,16 @@ const routes: Routes[] = [
       main.append(gamesEntrance.gamesEntranceView.buildSprintHTML());
     },
   },
+  {
+    path: '/sprint-pages',
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    action: async () => {
+      const collection = await textbook.getGamesWordCollection(GameEnum.sprint);
+      console.log('sprint', collection);
+      gamesEntrance.startSprintGameFromTextBook(collection);
+    },
+  },
+
   {
     path: '/stat',
     action: () => {

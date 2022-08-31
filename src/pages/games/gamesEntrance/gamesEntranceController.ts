@@ -9,7 +9,7 @@ import { AudioChallengeModel } from '../audioChallengeGame/audioChallengeGameMod
 import { AudioChallengeView } from '../audioChallengeGame/audioChallengeGameView';
 import { GamesEntranceView } from './gamesEntranceView';
 import { GamesEntranceModel } from './gamesEntranceModel';
-import { WordsChunkType } from '../../../types/textbookTypes';
+import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
 import { SprintModel } from '../sprintGame/sprintGameModel';
 import { SprintView } from '../sprintGame/sprintGameView';
 import { SprintController } from '../sprintGame/sprintGameController';
@@ -40,7 +40,9 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     audioChallengeView.drawAudioChallengeGame();
   };
 
-  startAudioChallengeFromTextBook = (wordsCollection: WordsChunkType[]): void => {
+  startAudioChallengeFromTextBook = (
+    wordsCollection: WordsChunkType[] | AggregatedWordType[],
+  ): void => {
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
@@ -56,12 +58,23 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     SPRINT_GAME_SETTINGS.startFromTextbook = false;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
-    const sprintController = new SprintController(
-      sprintModel,
-      sprintView,
-    );
+    const sprintController = new SprintController(sprintModel, sprintView);
     await sprintController.getWordsList();
     sprintView.drawSprintGame();
+  };
+
+  startSprintGameFromTextBook = (
+    wordsCollection: WordsChunkType[] | AggregatedWordType[],
+  ): void => {
+    AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
+    // const sprintModel = new SprintModel();
+    // const sprintView = new SprintView(sprintModel);
+    // const sprintController = new SprintController(
+    //   sprintModel,
+    //   sprintView,
+    // );
+    // sprintModel.getWordsListFromTextbook(wordsCollection);
+    // sprintView.drawAudioChallengeGame();
   };
 
   addGameLevel = (level: number) => {
