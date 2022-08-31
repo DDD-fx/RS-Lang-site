@@ -42,8 +42,6 @@ export const SPRINT_GAME_SETTINGS: SprintGameType = {
   startFromTextbook: false,
 };
 
-SPRINT_GAME_SETTINGS;
-
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>
 <svg class="star-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
 <path d="M54,5 86,105 1,43H107L22,105"/>

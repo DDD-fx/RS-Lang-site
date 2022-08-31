@@ -72,6 +72,7 @@ export const renderWordDescription = (): string => `
       </div>
       <p class='word-description__text-example'></p>
       <p class='word-description__text-example-translate'></p>
+  
     </div> `;
 
 export const renderDictTemplate = (): string => `
@@ -90,4 +91,18 @@ export const renderDictTemplate = (): string => `
     <section class='words-btns js-words-btns user-words js-user-words'></section>
     <article class='word-description js-word-description'></article>
   </div>
+`;
+
+export const renderWordDescriptionGamesBlock = (): string => `
+<h4 class='word-description__stats-title'>Слово было угадано в играх:</h4>
+<div class='word-description__stats-block'>
+  <div class='word-description__game-stats-block'>
+    <p>Аудиовызов:</p>
+    <p class='word-description__challenge-stats'></p>
+  </div>
+  <div class='word-description__game-stats-block'>
+    <p>Спринт:</p>
+    <p class='word-description__sprint-stats'></p>
+  </div>
+</div>
 `;
