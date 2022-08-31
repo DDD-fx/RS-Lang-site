@@ -9,7 +9,6 @@ import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
 import { LocalStorage } from '../../../utils/storage';
 import { authFetch } from '../../../model/model';
 
-
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
 
@@ -66,7 +65,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
           Authorization: `Bearer ${LocalStorage.currUserSettings.token}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
-        }
+        },
       });
       const content = (await rawResponse.json()) as AggregatedWordsRespType[];
       console.log(content);

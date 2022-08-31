@@ -29,7 +29,8 @@ const showModal = (message: string): void => {
 };
 
 const getShortDate = (): string => {
-  return new Date().toISOString().slice(0, 10);
+  return new Date().toLocaleDateString().replace(/\./g, '-');
+  // return new Date().toISOString().slice(0, 10);
   //2022-08-29
 };
 
