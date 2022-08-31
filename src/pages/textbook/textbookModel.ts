@@ -36,11 +36,9 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     this.wordsChunk = (await data.json()) as WordsChunkType[];
 
     if (LocalStorage.currUserSettings.userId) {
-      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.difficult);
+      await this.updateAllCollections();
       console.log('dif', this.difficultWords);
-      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.learned);
       console.log('learned', this.learnedWords);
-      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.new);
       console.log('new', this.newWords);
     }
     this.emit('getTextBookList');
@@ -125,9 +123,7 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
         body: JSON.stringify(updateUserWordReqBody),
       });
       if (onDictPage) this.emit('removeDifficultWordElem', wordID);
-      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.new);
-      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.learned);
-      await this.getAggregatedWordsForCurrGroup(WordStatusEnum.difficult);
+      await this.updateAllCollections();
     } catch (e) {
       console.error(e);
     }
@@ -192,5 +188,25 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
 
   mapUserWordsID = (difficultWords: RawAggregatedWordType[]): AggregatedWordType[] => {
     return difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
+  };
+
+  updateAllCollections = async (): Promise<void> => {
+    await this.getAggregatedWordsForCurrGroup(WordStatusEnum.new);
+    await this.getAggregatedWordsForCurrGroup(WordStatusEnum.learned);
+    await this.getAggregatedWordsForCurrGroup(WordStatusEnum.difficult);
+  };
+
+  getWordsForGames = async (): Promise<RawAggregatedWordType[] | undefined> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?group=${LocalStorage.currUserSettings.currGroup}&wordsPerPage=600&filter={"$or":[{"userWord.difficulty":"${WordStatusEnum.difficult}"},{"userWord.difficulty":"${WordStatusEnum.new}"},{"userWord":null}]}`;
+    try {
+      const rawResponse = await authFetch(baseURL + query, {
+        method: 'GET',
+        headers: this.API_USER_REQ_HEADER,
+      });
+      const content = (await rawResponse.json()) as AggregatedWordsRespType[];
+      return content[0].paginatedResults.slice();
+    } catch (e) {
+      console.error(e);
+    }
   };
 }

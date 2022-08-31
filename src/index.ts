@@ -58,9 +58,11 @@ const routes: Routes[] = [
 
   {
     path: '/audiochallenge-pages',
-    action: () => {
-      const collection = textbook.getAudioChallengeCollection();
-      gamesEntrance.startAudioChallengeFromTextBook(collection);
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    action: async () => {
+      const collection = await textbook.getAudioChallengeCollection();
+      console.log('getGamesCollection', collection);
+      // gamesEntrance.startAudioChallengeFromTextBook(collection);
     },
   },
 

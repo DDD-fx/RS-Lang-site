@@ -37,7 +37,7 @@ export class TextBookView
       .on('getUserDict', () => this.userTextBookView.drawDict())
       .on('removeDifficultWordElem', (wordID) => this.userTextBookView.removeDictElem(wordID))
       .on('updateMarkedPages', () => this.userTextBookView.updateMarkedPages())
-      .on('updateMarkedPages', () => this.userTextBookView.disableGameBtns());
+      .on('updateMarkedPages', () => this.userTextBookView.checkGameBtnsActive());
   }
 
   drawTextBook = (): void => {
@@ -46,7 +46,6 @@ export class TextBookView
     this.createWordsGroupBtns();
     this.textBookViewUtils.checkActiveDifficultyBtn(LocalStorage.currUserSettings.currGroup);
 
-    this.textBookViewUtils.checkGamesBtnsColor();
     this.textBookViewUtils.addGameBtnsListeners();
 
     this.appendWordsBtns();
@@ -55,11 +54,11 @@ export class TextBookView
     this.createPagination();
     this.textBookViewUtils.checkActivePage(LocalStorage.currUserSettings.currPage);
 
-    // USER VIEW
     if (LocalStorage.currUserSettings.userId) {
+      this.textBookViewUtils.checkGamesBtnsColor();
       this.userTextBookView.drawUserTextBookElems();
       this.userTextBookView.markPagesLearned();
-      this.userTextBookView.disableGameBtns();
+      this.userTextBookView.checkGameBtnsActive();
     }
   };
 
@@ -154,6 +153,12 @@ export class TextBookView
       'word-description__text-example-translate',
     ) as HTMLParagraphElement;
     textExampleTranslate.innerHTML = word.textExampleTranslate;
+
+    if (LocalStorage.currUserSettings.userId) {
+      this.userTextBookView.addWordDescriptionGamesBlock();
+      this.userTextBookView.addDataWordDescriptionGamesBlock();
+      this.textBookViewUtils.checkWordDescriptionGamesBlockColor();
+    }
   };
 
   createAudioBtn = (audio: string): HTMLButtonElement => {

@@ -24,9 +24,9 @@ export type TextBookEventsType = {
 
 export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType> {
   wordsChunk: WordsChunkType[];
-  difficultWords: WordsChunkType[];
-  learnedWords: WordsChunkType[];
-  newWords: WordsChunkType[];
+  difficultWords: AggregatedWordType[];
+  learnedWords: AggregatedWordType[];
+  newWords: AggregatedWordType[];
   getTextBookList(): Promise<void>;
   getWordCardData(id: string, onDictPage: boolean): void;
   getAggregatedWordsForCurrGroup(query: string, wordStatus: WordStatusEnum): Promise<void>;
@@ -50,7 +50,9 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
     wordID: string,
     wordStatus: WordStatusEnum,
   ): AddUserWordBodyType | undefined;
-  mapUserWordsID(difficultWords: RawAggregatedWordType[]): WordsChunkType[];
+  mapUserWordsID(difficultWords: RawAggregatedWordType[]): AggregatedWordType[];
+  updateAllCollections(): Promise<void>;
+  getWordsForGames(): Promise<RawAggregatedWordType[] | undefined>;
 }
 
 export interface TextBookControllerInterface {
@@ -66,7 +68,7 @@ export interface TextBookControllerInterface {
   isWordNew(wordID: string): boolean;
   isWordDifficult(wordID: string): boolean;
   isWordLearned(wordID: string): boolean;
-  getAudioChallengeCollection(): WordsChunkType[];
+  getAudioChallengeCollection(): Promise<WordsChunkType[] | AggregatedWordType[]>;
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
@@ -99,7 +101,9 @@ export interface UserTextBookViewInterface extends TypedEmitter<TextBookEventsTy
   markPagesLearned(): void;
   markPageLearned(i: number, toBeMarked: boolean): void;
   updateMarkedPages(): void;
-  disableGameBtns(): void;
+  checkGameBtnsActive(): void;
+  addWordDescriptionGamesBlock(): void;
+  addDataWordDescriptionGamesBlock(): void;
 }
 
 export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsType> {
@@ -108,7 +112,7 @@ export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsT
   createTextBookMain(template: string): void;
   addReadMeListeners(): void;
   checkGamesBtnsColor(): void;
-  getCurrCollection(): WordsChunkType[];
+  getCurrCollection(): WordsChunkType[] | AggregatedWordType[];
   checkActiveWordsBtns(wordID: string): void;
   checkActiveDifficultyBtn(activeGroupNum: number): void;
   checkActivePage(currPage: number): void;
@@ -116,6 +120,7 @@ export interface TextBookViewUtilsInterface extends TypedEmitter<TextBookEventsT
   getStarBtn(wordID: string): SVGElement;
   getBinBtn(wordID: string): SVGElement;
   addGameBtnsListeners(): void;
+  checkWordDescriptionGamesBlockColor(): void;
 }
 
 export type WordsChunkType = {

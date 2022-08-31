@@ -1,5 +1,6 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import {
+  AggregatedWordType,
   TextBookEventsType,
   TextBookModelInterface,
   TextBookViewInterface,
@@ -8,7 +9,7 @@ import {
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, MAX_TEXTBOOK_PAGES, STAR_SVG } from '../../utils/constants';
-import { renderDictTemplate } from '../../components/textbook';
+import { renderDictTemplate, renderWordDescriptionGamesBlock } from '../../components/textbook';
 import { LocalStorage } from '../../utils/storage';
 
 export class UserTextBookView
@@ -207,7 +208,7 @@ export class UserTextBookView
     else this.markPageLearned(currPage, false);
   };
 
-  disableGameBtns = (): void => {
+  checkGameBtnsActive = (): void => {
     const pageBtn = getElement(
       `page-${LocalStorage.currUserSettings.currPage}`,
     ) as HTMLButtonElement;
@@ -218,6 +219,38 @@ export class UserTextBookView
       [...gameBtns].forEach((btn) => (btn.disabled = true));
     } else {
       [...gameBtns].forEach((btn) => (btn.disabled = false));
+    }
+  };
+
+  addWordDescriptionGamesBlock = (): void => {
+    const lastElem = getElement(' word-description__text-example-translate');
+    lastElem.insertAdjacentHTML('afterend', renderWordDescriptionGamesBlock());
+  };
+
+  addDataWordDescriptionGamesBlock = (): void => {
+    const challengeStats = getElement('word-description__challenge-stats') as HTMLDivElement;
+    const sprintStats = getElement('word-description__sprint-stats') as HTMLDivElement;
+    const currWordElem = getElement('words-btns__btn--active') as HTMLDivElement;
+    const allUserWords: AggregatedWordType[] = [
+      ...this.textBookModel.difficultWords,
+      ...this.textBookModel.learnedWords,
+      ...this.textBookModel.newWords,
+    ];
+    const currWord = allUserWords.find((word) => word.id === currWordElem.id);
+    if (currWord) {
+      const totalAnswersChallenge =
+        +currWord.userWord.optional.correctAnswersChallenge +
+        +currWord.userWord.optional.incorrectAnswersChallenge;
+      const totalAnswersSprint =
+        +currWord.userWord.optional.correctAnswersSprint +
+        +currWord.userWord.optional.incorrectAnswersSprint;
+      challengeStats.textContent = `${+currWord.userWord.optional
+        .correctAnswersChallenge} из ${totalAnswersChallenge}`;
+      sprintStats.textContent = `${+currWord.userWord.optional
+        .correctAnswersSprint} из ${totalAnswersSprint}`;
+    } else {
+      challengeStats.textContent = '0 из 0';
+      sprintStats.textContent = '0 из 0';
     }
   };
 }

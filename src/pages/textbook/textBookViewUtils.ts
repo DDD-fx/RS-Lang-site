@@ -1,5 +1,6 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import {
+  AggregatedWordType,
   TextBookEventsType,
   TextBookModelInterface,
   TextBookViewInterface,
@@ -54,7 +55,15 @@ export class TextBookViewUtils
     [...gameBtns].forEach((btn) => btn.classList.add(currGroup));
   };
 
-  getCurrCollection = (): WordsChunkType[] => {
+  checkWordDescriptionGamesBlockColor = (): void => {
+    const currGroup = `group-${LocalStorage.currUserSettings.currGroup}`;
+    const wordDescriptionGamesBlock = document.getElementsByClassName(
+      'word-description__game-stats-block',
+    ) as HTMLCollectionOf<HTMLDivElement>;
+    [...wordDescriptionGamesBlock].forEach((btn) => btn.classList.add(currGroup));
+  };
+
+  getCurrCollection = (): WordsChunkType[] | AggregatedWordType[] => {
     return this.textBookView.userTextBookView.onDictPage
       ? this.textBookModel.difficultWords
       : this.textBookModel.wordsChunk;
