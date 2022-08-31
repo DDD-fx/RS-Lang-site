@@ -130,7 +130,10 @@ export class TextBookViewUtils
     const audioChallengeBtn = getElement('textbook-games-btn-challenge') as HTMLButtonElement;
     audioChallengeBtn.addEventListener('click', () => {
       history.push('/audiochallenge-pages');
-      this.emit.call(this.textBookView, 'audioChallengeBtnClicked');
+    });
+    const sprintBtn = getElement('textbook-games-btn-sprint') as HTMLButtonElement;
+    sprintBtn.addEventListener('click', () => {
+      history.push('/sprint-pages');
     });
   };
 }

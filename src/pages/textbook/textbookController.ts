@@ -1,6 +1,7 @@
 import {
   AddUserWordBodyType,
   AggregatedWordType,
+  GameEnum,
   TextBookControllerInterface,
   WordsChunkType,
   WordStatusEnum,
@@ -32,8 +33,7 @@ export class TextBookController implements TextBookControllerInterface {
       .on('addLearnedWordBtnClicked', (wordID, wordStatus) => this.addUserWord(wordID, wordStatus))
       .on('deleteLearnedWordBtnClicked', (wordID, wordStatus) =>
         this.makeWordNew(wordID, wordStatus),
-      )
-      .on('audioChallengeBtnClicked', () => this.getAudioChallengeCollection());
+      );
   }
 
   init = async (): Promise<void> => {
@@ -114,21 +114,23 @@ export class TextBookController implements TextBookControllerInterface {
     return learnedWordsString.includes(wordID);
   };
 
-  getAudioChallengeCollection = async (): Promise<WordsChunkType[] | AggregatedWordType[]> => {
+  getGamesWordCollection = async (
+    game: GameEnum,
+  ): Promise<WordsChunkType[] | AggregatedWordType[]> => {
     if (!LocalStorage.currUserID) {
       return this.textBookModel.wordsChunk;
     }
     const rawCollection = await this.textBookModel.getWordsForGames();
     if (rawCollection) {
       const rawCollectionForCurrPage = rawCollection.filter(
-        (el) => el.page <= LocalStorage.currUserSettings.currPage,
+        (wordData) => wordData.page <= LocalStorage.currUserSettings.currPage,
       );
       if (LocalStorage.currUserSettings.currPage === 0)
         return this.textBookModel.mapUserWordsID(rawCollectionForCurrPage);
 
-      if (rawCollectionForCurrPage.length > 20) {
+      if (rawCollectionForCurrPage.length > 20 && game === GameEnum.audioChallenge) {
         return this.textBookModel.mapUserWordsID(
-          rawCollectionForCurrPage.slice(-WORDS_PER_TEXTBOOK_PAGE, rawCollectionForCurrPage.length),
+          rawCollectionForCurrPage.slice(-WORDS_PER_TEXTBOOK_PAGE),
         );
       } else return this.textBookModel.mapUserWordsID(rawCollectionForCurrPage);
     } else {

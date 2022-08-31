@@ -12,7 +12,7 @@ export type TextBookEventsType = {
   deleteDifficultWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.difficult) => void;
   addLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => Promise<void>;
   deleteLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => void;
-  audioChallengeBtnClicked: () => void;
+  // audioChallengeBtnClicked: () => void;
 
   getTextBookList: () => void;
   getWordCardData: (word: WordsChunkType) => void;
@@ -68,7 +68,7 @@ export interface TextBookControllerInterface {
   isWordNew(wordID: string): boolean;
   isWordDifficult(wordID: string): boolean;
   isWordLearned(wordID: string): boolean;
-  getAudioChallengeCollection(): Promise<WordsChunkType[] | AggregatedWordType[]>;
+  getGamesWordCollection(game: GameEnum): Promise<WordsChunkType[] | AggregatedWordType[]>;
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
@@ -183,4 +183,9 @@ export enum WordStatusEnum {
   learned = '0',
   difficult = '1',
   new = '2',
+}
+
+export enum GameEnum {
+  audioChallenge,
+  sprint,
 }
