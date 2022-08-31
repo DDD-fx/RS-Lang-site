@@ -62,7 +62,7 @@ const routes: Routes[] = [
     action: async () => {
       const collection = await textbook.getAudioChallengeCollection();
       console.log('getGamesCollection', collection);
-      // gamesEntrance.startAudioChallengeFromTextBook(collection);
+      gamesEntrance.startAudioChallengeFromTextBook(collection);
     },
   },
 
