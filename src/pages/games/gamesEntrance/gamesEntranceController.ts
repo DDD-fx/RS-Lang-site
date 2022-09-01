@@ -60,7 +60,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     const sprintView = new SprintView(sprintModel);
     const sprintController = new SprintController(sprintModel, sprintView);
     await sprintController.getWordsList();
-    sprintView.drawSprintGame();
+    sprintView.buildBeReadyHTML();
   };
 
   startSprintGameFromTextBook = (
