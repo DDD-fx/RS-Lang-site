@@ -1,6 +1,7 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { GamesEventsType, WordBtnType } from './commonGamesTypes';
+import { WordBtnType } from './commonGamesTypes';
 import { WordsChunkType } from '../textbookTypes';
+import { GamesEventsType } from '../gamesTypes';
 
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
@@ -27,7 +28,6 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   updateWordBtnsWrapper(): Element;
   createSpeakerWrapper(word: string): void;
   enableWordSounding(): Promise<void>;
-  createAnswerWrapper(word: string): void;
   createAnswerSigns(word: string): Element;
   createContinueBtn(): void;
   createSkipBtn(): void;

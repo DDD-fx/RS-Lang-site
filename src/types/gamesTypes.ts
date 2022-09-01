@@ -21,23 +21,23 @@ export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceE
 }
 
 export type GamesEntranceEventType = {
-  audioChallengeGameStarted(): void;
-  sprintGameStarted(): void;
-  drawChallenge(): void;
+  audioChallengeGameStarted: () => Promise<void>;
+  sprintGameStarted: () => void;
+  drawChallenge: () => void;
   gameOptionClicked: (level: number) => void;
 };
 
 export type GamesEventsType = {
-  sprintGameStarted: () => void;
-  audioChallengeGameStarted: () => void;
-  gameOptionClicked: (i: number) => void;
+  // sprintGameStarted: () => void;
+  // audioChallengeGameStarted: () => void;
+  // gameOptionClicked: (i: number) => void;
   getWordList: () => void;
   wordBtnClicked: (id: string) => void;
   nextBtnClicked: () => void;
   drawGameBtns: () => void;
   wordsAreOver: () => void;
   wordOfShakedArrCountAdded: () => void;
-  pressedContinueGameBtn: () => void;
+  pressedContinueGameBtn: () => Promise<void>;
   rightAnswerClicked: (word: string) => void;
   wrongAnswerClicked: (word: string) => void;
 };
@@ -72,7 +72,6 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   updateWordBtnsWrapper(): Element;
   createSpeakerWrapper(word: string): void;
   enableWordSounding(): Promise<void>;
-  createAnswerWrapper(word: string): void;
   createAnswerSigns(word: string): Element;
   createContinueBtn(): void;
   createSkipBtn(): void;

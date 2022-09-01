@@ -5,12 +5,12 @@ import {
   TextBookModelInterface,
   TextBookViewInterface,
   UserTextBookViewInterface,
-  WordStatusEnum,
 } from '../../types/textbookTypes';
 import { createElement, getElement } from '../../utils/tools';
 import { BIN_SVG, MAX_TEXTBOOK_PAGES, STAR_SVG } from '../../utils/constants';
 import { renderDictTemplate, renderWordDescriptionGamesBlock } from '../../components/textbook';
 import { LocalStorage } from '../../utils/storage';
+import { WordStatusEnum } from '../../types/enums';
 
 export class UserTextBookView
   extends TypedEmitter<TextBookEventsType>

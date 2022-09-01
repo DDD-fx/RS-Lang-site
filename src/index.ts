@@ -12,7 +12,7 @@ import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
 import history from './utils/history';
 import Nav from './components/nav';
 import Login from './pages/login/loginController';
-import { GameEnum } from './types/textbookTypes';
+import { GameEnum } from './types/enums';
 
 const app = new App();
 app.init();

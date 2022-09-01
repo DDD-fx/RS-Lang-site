@@ -1,15 +1,14 @@
 import {
   AddUserWordBodyType,
   AggregatedWordType,
-  GameEnum,
   TextBookControllerInterface,
   WordsChunkType,
-  WordStatusEnum,
 } from '../../types/textbookTypes';
 import { TextBookModel } from './textbookModel';
 import { TextBookView } from './textbookView';
 import { LocalStorage } from '../../utils/storage';
 import { WORDS_PER_TEXTBOOK_PAGE } from '../../utils/constants';
+import { GameEnum, WordStatusEnum } from '../../types/enums';
 
 export class TextBookController implements TextBookControllerInterface {
   textBookModel;

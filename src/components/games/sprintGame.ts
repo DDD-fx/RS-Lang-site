@@ -1,12 +1,15 @@
-const renderSprintGameTemplate = () => `
+const renderSprintGameTemplate = (): string => `
 <div class="fixed-sprint-wrapper">
       <div class="fixed-window">
         <div class="game-operations-group"></div>
         <div class="game-points-wrapper"><span class="game-points">0</span></div>
         <div class="game-timer-wrapper"><span class="game-timer">60</span></div>
-        <section class="spint-game-wrapper">
-        <div class="game-text-btns-group"></div>
-        <div class="game-arrow-btns-group"></div>
+        <section class="sprint-game-wrapper">
+        <div class="sprint-question"></div>
+        <div class="sprint-answer">
+          <button class='sprint-answer__incorrect'>Неверно</button>
+          <button class='sprint-answer__correct'>Верно</button>
+        </div>
         </section>
       </div>
       <div class="fixed-result-window hidden">
@@ -21,7 +24,7 @@ const renderSprintGameTemplate = () => `
     </div>
 `;
 
-export const renderSprintGameBeReadyTemplate = () => `
+export const renderSprintGameBeReadyTemplate = (): string => `
 <div class="fixed-sprint-wrapper">
   <div class="fixed-be-ready-window">
     <div class="game-operations-group"></div>

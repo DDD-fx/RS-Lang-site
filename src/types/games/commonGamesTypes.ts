@@ -1,5 +1,6 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { WordsChunkType } from '../textbookTypes';
+import { GamesEntranceEventType } from '../gamesTypes';
 
 export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEventType> {
   gamesEntranceModel: GamesEntranceModelInterface;
@@ -19,27 +20,27 @@ export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceE
   addGameLevel(level: number): void;
 }
 
-export type GamesEntranceEventType = {
-  audioChallengeGameStarted(): void;
-  sprintGameStarted(): void;
-  drawChallenge(): void;
-  gameOptionClicked: (level: number) => void;
-};
+// export type GamesEntranceEventType = {
+//   audioChallengeGameStarted(): void;
+//   sprintGameStarted(): void;
+//   drawChallenge(): void;
+//   gameOptionClicked: (level: number) => void;
+// };
 
-export type GamesEventsType = {
-  sprintGameStarted: () => void;
-  audioChallengeGameStarted: () => void;
-  gameOptionClicked: (i: number) => void;
-  getWordList: () => void;
-  wordBtnClicked: (id: string) => void;
-  nextBtnClicked: () => void;
-  drawGameBtns: () => void;
-  wordsAreOver: () => void;
-  wordOfShakedArrCountAdded: () => void;
-  pressedContinueGameBtn: () => void;
-  wrongAnswerClicked: (word: string) => void;
-  rightAnswerClicked: (word: string) => void;
-};
+// export type GamesEventsType = {
+//   sprintGameStarted: () => void;
+//   audioChallengeGameStarted: () => void;
+//   gameOptionClicked: (i: number) => void;
+//   getWordList: () => void;
+//   wordBtnClicked: (id: string) => void;
+//   nextBtnClicked: () => void;
+//   drawGameBtns: () => void;
+//   wordsAreOver: () => void;
+//   wordOfShakedArrCountAdded: () => void;
+//   pressedContinueGameBtn: () => void;
+//   wrongAnswerClicked: (word: string) => void;
+//   rightAnswerClicked: (word: string) => void;
+// };
 
 export interface GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;

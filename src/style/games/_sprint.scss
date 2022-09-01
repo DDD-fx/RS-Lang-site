@@ -1,3 +1,6 @@
+@import '../mixins';
+@import '../variables';
+
 .fixed-sprint-wrapper {
   position: fixed;
   top: 0;
@@ -8,9 +11,9 @@
   background-size: cover;
 }
 
-.spint-game-wrapper {
+.sprint-game-wrapper {
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
+  box-shadow: 0 4px 20px rgb(0 0 0 / 25%);
   -webkit-backdrop-filter: blur(25px);
   backdrop-filter: blur(25px);
   border-radius: 8px;
@@ -29,7 +32,6 @@
 .be-ready {
   position: absolute;
   width: 200px;
-  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -49,7 +51,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 15px 40px 5px var(--light-shadow);
+  box-shadow: 0 15px 40px 5px var(--light-shadow);
 }
 
 .be-ready__num {
@@ -65,4 +67,123 @@
 
 .game-operations-group__cross-img_dark {
   filter: invert(34%) sepia(63%) saturate(472%) hue-rotate(139deg) brightness(95%) contrast(96%);
+}
+
+.base-timer {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+
+  &__svg {
+    transform: scaleX(-1);
+  }
+
+  &__circle {
+    fill: none;
+    stroke: none;
+  }
+
+  &__path-elapsed {
+    stroke-width: 7px;
+    stroke: grey;
+  }
+
+  &__path-remaining {
+    stroke-width: 7px;
+    stroke-linecap: round;
+    transform: rotate(90deg);
+    transform-origin: center;
+    transition: 1s linear all;
+    fill-rule: nonzero;
+    stroke: currentColor;
+  }
+
+  &__path-remaining.green {
+    color: rgb(65, 184, 131);
+  }
+
+  &__path-remaining.orange {
+    color: orange;
+  }
+
+  &__path-remaining.red {
+    color: red;
+  }
+
+  &__label {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: var(--body-color);
+  }
+}
+.sprint-question {
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.sprint-english-word{
+  font-size: 50px;
+  color: var(--body-color);
+  font-weight: 500;
+}
+
+.sprint-word-translate {
+  font-size: 50px;
+  color: var(--grey);
+}
+
+.sprint-answer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.sprint-answer__correct,
+.sprint-answer__incorrect {
+  position: relative;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  width: 150px;
+  font-size: 25px;
+
+  &:hover {
+    box-shadow: $active-shadow;
+  }
+
+  &::after {
+    position: absolute;
+    font-size: 50px;
+    top: 50px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+
+.sprint-answer__correct {
+  background-color: $sprint-correct;
+
+  &::after {
+    content: "→";
+  }
+}
+
+.sprint-answer__incorrect {
+  background-color: $sprint-incorrect;
+
+  &::after {
+    content: "←";
+  }
 }
