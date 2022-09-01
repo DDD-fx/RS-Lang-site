@@ -99,7 +99,7 @@ export class AudioChallengeView
   createCloseBtn = (): void => {
     const gameOperationsGroup = getElement('game-operations-group');
     const closeBtn = createElement('div', 'game-operations-group__close-btn');
-    const cross = createElement('img', 'game-operations-group__cross-img') as HTMLImageElement;
+    const cross = createElement('img', ['game-operations-group__cross-img', 'game-operations-group__cross-img_light']) as HTMLImageElement;
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
     closeBtn.addEventListener('click', () => {
