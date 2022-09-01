@@ -1,18 +1,12 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import renderSprintGameTemplate, {
-  renderSprintGameBeReadyTemplate,
-} from '../../../components/games/sprintGame';
+
+import renderSprintGameTemplate, { renderSprintGameBeReadyTemplate } from '../../../components/games/sprintGame';
 import { GamesEventsType } from '../../../types/games/commonGamesTypes';
-import {
-  SprintModelInterface,
-  SprintViewInterface,
-} from '../../../types/games/sprintTypes';
+import { SprintModelInterface, SprintViewInterface } from '../../../types/games/sprintTypes';
 import { createElement, getElement } from '../../../utils/tools';
 import history from '../../../utils/history';
 import { SPRINT_GAME_SETTINGS } from '../../../utils/constants';
-
-export class SprintView extends TypedEmitter<GamesEventsType>
-  implements SprintViewInterface {
+export class SprintView extends TypedEmitter<GamesEventsType> implements SprintViewInterface {
   sprintModel: SprintModelInterface;
 
   constructor(sprintModel: SprintModelInterface) {

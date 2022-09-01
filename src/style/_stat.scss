@@ -105,6 +105,7 @@
   margin-left: 0;
   font-size: 1.25rem;
 }
+
 .stat-words-data {
   display: flex;
   flex-direction: column;
@@ -115,11 +116,20 @@
   display: flex;
   flex-direction: column;
 }
+
 .statistic__all-time {
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.all-time__card__name {
+  text-align: center;
+}
+
+.all-time__card__chart {
+  padding-top: 1rem;
 }
 
 @include sm {

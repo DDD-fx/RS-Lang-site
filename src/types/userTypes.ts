@@ -29,14 +29,14 @@ type CreateUserErrorsType = {
   message: string;
 };
 
-type StatOptionalType = {
-  [key: string]: StatOptionalDayType;
+type StatAnswerType = {
+  id: string;
+  learnedWords: number;
+  optional: StatOptionalType;
 };
 
-type StatOptionalGameType = {
-  wordsPerDay: number;
-  learnedWordsPerDay: number;
-  longestSeries: number;
+type StatOptionalType = {
+  [key: string]: StatOptionalDayType;
 };
 
 type StatOptionalDayType = {
@@ -44,16 +44,29 @@ type StatOptionalDayType = {
   sprint: StatOptionalGameType;
 };
 
-type StatAnswerType = {
-  id: string;
-  learnedWords: number;
-  optional: StatOptionalType;
+type StatOptionalGameType = {
+  wordsPerDay: number;
+  learnedWordsPerDay: number;
+  longestSeries: number;
+  correctAnswers: number;
+  incorrectAnswers: number;
+};
+type StatStateType = {
+  dayData: StatOptionalDayType;
+  allDaysData: StatAllDaysType;
+};
+type StatAllDaysType = {
+  labels: string[];
+  learnedWords: number[];
+  newWords: number[];
 };
 
-type PutStatBodyType = {
-  learnedWords: number;
-  optional: StatOptionalType;
-};
+type PutStatBodyType =
+  | {
+      learnedWords: number;
+      optional: StatOptionalType;
+    }
+  | {};
 
 type DecodedTokenType = {
   id: string;
@@ -69,5 +82,8 @@ export {
   CreateUserErrorsType,
   DecodedTokenType,
   StatAnswerType,
+  StatOptionalDayType,
+  StatAllDaysType,
+  StatStateType,
   PutStatBodyType,
 };

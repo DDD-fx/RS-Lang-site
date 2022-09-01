@@ -5,10 +5,7 @@ import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
 } from '../../../types/games/audioChallengeTypes';
-import {
-  AUDIOCHALLENGE_GAME_SETTINGS,
-  baseURL,
-} from '../../../utils/constants';
+import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
 import { GamesEventsType, ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
