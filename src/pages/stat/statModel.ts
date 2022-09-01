@@ -1,8 +1,8 @@
 import { LocalStorage } from '../../utils/storage';
 import { STAT_ANONIM_DEFAULTS } from '../../utils/constants';
 import { getShortDate } from '../../utils/tools';
-import { dataTest } from './testStatData';
-import { getStat, putStat } from '../../model/api/statApi';
+//import { dataTest } from './testStatData';
+import { getStat } from '../../model/api/statApi';
 //import { RequestOptionType } from '../../types/types';
 import { StatAnswerType, StatStateType } from '../../types/userTypes';
 
@@ -12,16 +12,14 @@ class StatModel {
   constructor() {
     this.state = STAT_ANONIM_DEFAULTS;
   }
+
   mount = async (): Promise<void> => {
     if (LocalStorage.isAuth) {
-      /*  await this.getStatData();
-      const { userId, token } = LocalStorage.currUserSettings;
-      const putData = await putStat(userId, token, dataTest)
-     const statData = (await getStat(userId, token)) as StatAnswerType;
-      console.log(putData);
-      console.log(statData);*/
+      await this.getStatData();
+      // const { userId, token } = LocalStorage.currUserSettings;
+      // const putData = await putStat(userId, token, dataTest)
+      // console.log(putData);
     }
-    console.log(getShortDate());
   };
 
   getStatData = async (): Promise<void> => {
@@ -29,29 +27,29 @@ class StatModel {
     const statData = (await getStat(userId, token)) as StatAnswerType;
     const statOptData = statData.optional;
     const todayKey = getShortDate();
-
+    console.log(todayKey);
     const statDataKeys = Object.keys(statOptData);
-
-    this.state.dayData = statOptData[todayKey];
-    let allDaysNewWords = [];
-    let allDaysLearnedWords = [];
+    if (todayKey in statOptData) this.state.dayData = statOptData[todayKey];
+    const allDaysNewWords = [];
+    const allDaysLearnedWords = [];
     let allDaysLearnedWordsTemp = 0;
-    for (let key in statOptData) {
-      allDaysNewWords.push(
-        statOptData[key]['audiochallenge']['wordsPerDay'] +
-          statOptData[key]['sprint']['wordsPerDay'],
-      );
-      allDaysLearnedWordsTemp +=
-        statOptData[key]['audiochallenge']['learnedWordsPerDay'] +
-        statOptData[key]['sprint']['learnedWordsPerDay'];
-      allDaysLearnedWords.push(allDaysLearnedWordsTemp);
-    }
+    if (statDataKeys.length !== 0) {
+      for (const key in statOptData) {
+        allDaysNewWords.push(
+          statOptData[key].audiochallenge.newWordsPerDay + statOptData[key].sprint.newWordsPerDay,
+        );
+        allDaysLearnedWordsTemp +=
+          statOptData[key].audiochallenge.learnedWordsPerDay +
+          statOptData[key].sprint.learnedWordsPerDay;
+        allDaysLearnedWords.push(allDaysLearnedWordsTemp);
+      }
 
-    this.state.allDaysData = {
-      labels: statDataKeys,
-      learnedWords: allDaysLearnedWords,
-      newWords: allDaysNewWords,
-    };
+      this.state.allDaysData = {
+        labels: statDataKeys,
+        learnedWords: allDaysLearnedWords,
+        newWords: allDaysNewWords,
+      };
+    }
   };
 }
 

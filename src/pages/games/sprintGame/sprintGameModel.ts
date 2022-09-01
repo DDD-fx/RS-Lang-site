@@ -5,6 +5,7 @@ import { baseURL } from '../../../utils/constants';
 
 export class SprintModel extends TypedEmitter implements SprintModelInterface {
   wordsChunk: WordsChunkType[];
+
   shakedWordChunk: WordsChunkType[];
 
   constructor() {

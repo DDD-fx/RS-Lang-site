@@ -11,7 +11,7 @@ export const baseURL = 'https://react-rslang-be-13.herokuapp.com/';
 export const MAX_TEXTBOOK_PAGES = 30;
 export const DEFAULT_USER_SETTINGS: UserSettingsType = {
   userEmail: '',
-  userName: 'Test user name',
+  userName: 'User name',
   avatarURL: '',
   token: '',
   refreshToken: '',
@@ -57,14 +57,14 @@ export const BIN_SVG = `<?xml version='1.0' encoding='iso-8859-1'?>
 export const STAT_ANONIM_DEFAULTS: StatStateType = {
   dayData: {
     audiochallenge: {
-      wordsPerDay: 0,
+      newWordsPerDay: 0,
       learnedWordsPerDay: 0,
       longestSeries: 0,
       correctAnswers: 0,
       incorrectAnswers: 0,
     },
     sprint: {
-      wordsPerDay: 0,
+      newWordsPerDay: 0,
       learnedWordsPerDay: 0,
       longestSeries: 0,
       correctAnswers: 0,

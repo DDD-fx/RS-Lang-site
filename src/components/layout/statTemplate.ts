@@ -3,32 +3,37 @@ import { StatOptionalDayType } from '../../types/userTypes';
 
 const newWordsChart = `
 <div>
-  <canvas class="newWordsChart" height='350px' width='450px'></canvas>
+  <canvas class="newWordsChart" ></canvas>
 </div>
 `;
 const learnedWordChart = `
 <div>
-  <canvas class="learnedWordsChart" height='350px' width='450px'></canvas>
+  <canvas class="learnedWordsChart" ></canvas>
 </div>
 `;
 const renderstatTemplate = (dayData: StatOptionalDayType) => {
   const { userName } = LocalStorage.currUserSettings;
   const { audiochallenge, sprint } = dayData;
   const dayLearnedWords = audiochallenge.learnedWordsPerDay + sprint.learnedWordsPerDay;
-  const dayNewWords = audiochallenge.wordsPerDay + sprint.wordsPerDay;
+  const dayNewWords = audiochallenge.newWordsPerDay + sprint.newWordsPerDay;
   const dayCorrectRate =
-    ((audiochallenge.correctAnswers + sprint.correctAnswers) /
-      (audiochallenge.correctAnswers +
-        sprint.correctAnswers +
-        audiochallenge.incorrectAnswers +
-        sprint.incorrectAnswers)) *
-      100 || 0;
+    Math.round(
+      ((audiochallenge.correctAnswers + sprint.correctAnswers) /
+        (audiochallenge.correctAnswers +
+          sprint.correctAnswers +
+          audiochallenge.incorrectAnswers +
+          sprint.incorrectAnswers)) *
+        100,
+    ) || 0;
   const challengeCorrectRate =
-    (audiochallenge.correctAnswers /
-      (audiochallenge.correctAnswers + audiochallenge.incorrectAnswers)) *
-      100 || 0;
+    Math.round(
+      (audiochallenge.correctAnswers /
+        (audiochallenge.correctAnswers + audiochallenge.incorrectAnswers)) *
+        100,
+    ) || 0;
   const sprintCorrectRate =
-    (sprint.correctAnswers / (sprint.correctAnswers + sprint.incorrectAnswers)) * 100 || 0;
+    Math.round((sprint.correctAnswers / (sprint.correctAnswers + sprint.incorrectAnswers)) * 100) ||
+    0;
 
   return `
   <div class="main__container statistics">
@@ -51,7 +56,7 @@ const renderstatTemplate = (dayData: StatOptionalDayType) => {
       <div class="stat-game-card audiochallenge">
         <h4 class="stat-game-card__name">Аудиовызов</h4>
         <div class="stat-game-card__data">
-          <p class="stat-game-card__learned-words">Новых слов: <span class="stat-game-card__accent ">${audiochallenge.wordsPerDay}</span></p>
+          <p class="stat-game-card__learned-words">Новых слов: <span class="stat-game-card__accent ">${audiochallenge.newWordsPerDay}</span></p>
           <p class="stat-game-card__right-answers">Процент правильных ответов:<span class="stat-game-card__accent "> ${challengeCorrectRate}
               %</span></p>
           <p class="stat-game-card__responses-series">Cамая длинная серия правильных ответов: <span
@@ -61,7 +66,7 @@ const renderstatTemplate = (dayData: StatOptionalDayType) => {
       <div class="stat-game-card sprint">
         <h4 class="stat-game-card__name">Спринт</h4>
         <div class="stat-game-card__data">
-          <p class="stat-game-card__learned-words">Новых слов: <span class="stat-game-card__accent ">${sprint.wordsPerDay}</span></p>
+          <p class="stat-game-card__learned-words">Новых слов: <span class="stat-game-card__accent ">${sprint.newWordsPerDay}</span></p>
           <p class="stat-game-card__right-answers">Процент правильных ответов:<span class="stat-game-card__accent"> ${sprintCorrectRate}
               %</span></p>
           <p class="stat-game-card__responses-series">Cамая длинная серия правильных ответов: <span

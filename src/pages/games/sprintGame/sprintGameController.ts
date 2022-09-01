@@ -7,6 +7,7 @@ import { MAX_TEXTBOOK_PAGES, SPRINT_GAME_SETTINGS } from '../../../utils/constan
 
 export class SprintController implements SprintControllerInterface {
   sprintView: SprintViewInterface;
+
   sprintModel: SprintModelInterface;
 
   constructor(SprintModel: SprintModelInterface, SprintView: SprintViewInterface) {
