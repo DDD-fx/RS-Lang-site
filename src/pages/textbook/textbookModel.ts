@@ -5,13 +5,13 @@ import {
   RawAggregatedWordType,
   TextBookModelInterface,
   WordsChunkType,
-  WordStatusEnum,
 } from '../../types/textbookTypes';
 import { baseURL } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
 import { authFetch } from '../../model/model';
 import { getElement } from '../../utils/tools';
+import { WordStatusEnum } from '../../types/enums';
 
 export class TextBookModel extends TypedEmitter implements TextBookModelInterface {
   wordsChunk: WordsChunkType[];

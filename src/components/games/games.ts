@@ -4,7 +4,7 @@ const history = createBrowserHistory();
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 const gamesTemplateInner = `
-<h2 class="games-title">Игры</h1>
+<h2 class="games-title">Игры</h2>
 <div class="img-x5 position-left">
   <img src="./assets/bubbles.svg" alt="bubbles"/>
 </div>

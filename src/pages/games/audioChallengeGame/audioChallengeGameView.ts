@@ -8,7 +8,8 @@ import {
 import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
-import { GamesEventsType, ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
+import { ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
+import { GamesEventsType } from '../../../types/gamesTypes';
 
 export class AudioChallengeView
   extends TypedEmitter<GamesEventsType>
@@ -96,7 +97,10 @@ export class AudioChallengeView
   createCloseBtn = (): void => {
     const gameOperationsGroup = getElement('game-operations-group');
     const closeBtn = createElement('div', 'game-operations-group__close-btn');
-    const cross = createElement('img', ['game-operations-group__cross-img', 'game-operations-group__cross-img_light']) as HTMLImageElement;
+    const cross = createElement('img', [
+      'game-operations-group__cross-img',
+      'game-operations-group__cross-img_light',
+    ]) as HTMLImageElement;
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
     closeBtn.addEventListener('click', () => {

@@ -1,4 +1,5 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
+import { GameEnum, WordStatusEnum } from './enums';
 
 export type TextBookEventsType = {
   pageBtnClicked: (page: number) => void;
@@ -12,7 +13,6 @@ export type TextBookEventsType = {
   deleteDifficultWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.difficult) => void;
   addLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => Promise<void>;
   deleteLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => void;
-  // audioChallengeBtnClicked: () => void;
 
   getTextBookList: () => void;
   getWordCardData: (word: WordsChunkType) => void;
@@ -178,14 +178,3 @@ export type UserWordOptionalType = {
   correctAnswersSprint: string;
   incorrectAnswersSprint: string;
 };
-
-export enum WordStatusEnum {
-  learned = '0',
-  difficult = '1',
-  new = '2',
-}
-
-export enum GameEnum {
-  audioChallenge,
-  sprint,
-}
