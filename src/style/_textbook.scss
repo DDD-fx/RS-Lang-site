@@ -363,10 +363,11 @@
   z-index: 999;
   background-color: rgba(82, 82, 82, 0.95);
   padding: 10px;
+  overflow: auto;
 }
 
 .instructions-title {
-  margin-top: 100px;
+  margin-top: 80px;
   margin-bottom: 30px;
   text-align: center;
 }
@@ -382,6 +383,10 @@
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.other-instructions {
+  padding-left: 30px;
 }
 
 .instructions-goodluck {
