@@ -1,6 +1,6 @@
-import { TypedEmitter } from "tiny-typed-emitter";
-import { GamesEventsType, WordBtnType } from "./commonGamesTypes";
-import { WordsChunkType } from "../textbookTypes";
+import { TypedEmitter } from 'tiny-typed-emitter';
+import { GamesEventsType, WordBtnType } from './commonGamesTypes';
+import { WordsChunkType } from '../textbookTypes';
 
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;

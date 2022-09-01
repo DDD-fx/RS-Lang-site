@@ -1,14 +1,15 @@
-import { SprintControllerInterface, SprintModelInterface, SprintViewInterface } from "../../../types/games/sprintTypes";
-import { MAX_TEXTBOOK_PAGES, SPRINT_GAME_SETTINGS } from "../../../utils/constants";
+import {
+  SprintControllerInterface,
+  SprintModelInterface,
+  SprintViewInterface,
+} from '../../../types/games/sprintTypes';
+import { MAX_TEXTBOOK_PAGES, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 
 export class SprintController implements SprintControllerInterface {
   sprintView: SprintViewInterface;
   sprintModel: SprintModelInterface;
 
-  constructor(
-    SprintModel: SprintModelInterface,
-    SprintView: SprintViewInterface,
-  ) {
+  constructor(SprintModel: SprintModelInterface, SprintView: SprintViewInterface) {
     this.sprintModel = SprintModel;
     this.sprintView = SprintView;
   }
@@ -23,5 +24,4 @@ export class SprintController implements SprintControllerInterface {
     const rand = Math.random() * (MAX_TEXTBOOK_PAGES + 1);
     return Math.floor(rand);
   };
-
 }

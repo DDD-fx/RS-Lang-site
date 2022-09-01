@@ -1,7 +1,7 @@
-import { TypedEmitter } from "tiny-typed-emitter";
-import { SprintModelInterface } from "../../../types/games/sprintTypes";
-import { WordsChunkType } from "../../../types/textbookTypes";
-import { baseURL } from "../../../utils/constants";
+import { TypedEmitter } from 'tiny-typed-emitter';
+import { SprintModelInterface } from '../../../types/games/sprintTypes';
+import { WordsChunkType } from '../../../types/textbookTypes';
+import { baseURL } from '../../../utils/constants';
 
 export class SprintModel extends TypedEmitter implements SprintModelInterface {
   wordsChunk: WordsChunkType[];
