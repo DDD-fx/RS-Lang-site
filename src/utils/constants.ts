@@ -37,6 +37,8 @@ export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   startFromTextbook: false,
   wordOfShakedArrCount: 0,
   shakedWordsArray: [],
+  sequenceOfCorrectAnswers: 0,
+  tempSequenceOfCorrectAnswers: 0,
 };
 
 export const SPRINT_GAME_SETTINGS: SprintGameType = {
