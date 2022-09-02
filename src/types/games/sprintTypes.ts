@@ -1,9 +1,11 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { WordsChunkType } from '../textbookTypes';
+import { AggregatedWordType, WordsChunkType } from '../textbookTypes';
+import { ApiMethodsEnum } from '../enums';
 
 export type SprintEventsType = {
-  sprintCorrectBtnClicked: () => void;
-  sprintIncorrectBtnClicked: () => void;
+  sprintCorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
+  sprintIncorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
+  drawNextSprintQuestion: () => void;
 };
 
 export interface SprintControllerInterface {
@@ -11,23 +13,36 @@ export interface SprintControllerInterface {
   sprintModel: SprintModelInterface;
   getWordsList(): void;
   getRandomPage(): void;
+  checkSprintCorrectAnswer(gameCurrWord: WordsChunkType | AggregatedWordType): void;
+  checkSprintIncorrectAnswer(gameCurrWord: WordsChunkType | AggregatedWordType): void;
 }
 
 export interface SprintModelInterface extends TypedEmitter<SprintEventsType> {
-  wordsChunk: WordsChunkType[];
-  shakedWordChunk: WordsChunkType[];
-  getWordsList(query: string): void;
+  allPageChunk: WordsChunkType[];
+  wordsChunk: WordsChunkType[] | AggregatedWordType[];
+  shakedWordChunk: WordsChunkType[] | AggregatedWordType[];
+  getWordsList(query: string): Promise<void>;
+  getPageChunk(): Promise<void>;
   shakeWordsArr(words: WordsChunkType[]): void;
+  updateWordOnSprintAnswer(currWord: AggregatedWordType, method: ApiMethodsEnum): Promise<void>;
 }
 
 export interface SprintViewInterface extends TypedEmitter<SprintEventsType> {
   sprintModel: SprintModelInterface;
+  sprintViewUtils: SprintViewUtilsInterface;
+  gameCurrWord: WordsChunkType | AggregatedWordType;
+  isAnswerCorrect: boolean;
+  isSprintRunning: boolean;
+  currIndex: number;
   drawSprintGame(): void;
   createSprintQuestion(currIndex: number): void;
   addSprintAnswerListeners(): void;
+  showResults(): void;
 }
 
 export interface SprintViewUtilsInterface {
+  sprintModel: SprintModelInterface;
+  sprintView: SprintViewInterface;
   buildBeReadyHTML(): void;
   createCloseBtn(): void;
   createSoundsBtns(): void;

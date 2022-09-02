@@ -82,7 +82,11 @@ function startTimer() {
   timerInterval = window.setInterval(() => {
     timePassed = timePassed += 1;
     timeLeft = TIME_LIMIT - timePassed;
-    document.getElementById('base-timer-label')!.innerHTML = formatTime(timeLeft);
+
+    const timerLabel = document.getElementById('base-timer-label');
+    if (timerLabel) timerLabel.innerHTML = formatTime(timeLeft);
+    else window.clearInterval(timerInterval);
+
     setCircleDasharray();
     setRemainingPathColor(timeLeft);
 

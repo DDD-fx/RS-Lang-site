@@ -17,6 +17,8 @@ import { GameEnum } from './types/enums';
 const app = new App();
 app.init();
 
+const title = '| rs lang';
+
 const login = new Login();
 
 const textbook = new TextBookController();
@@ -34,12 +36,14 @@ const routes: Routes[] = [
     path: '',
     action: () => {
       app.view.renderMainTemplate();
+      document.title = `Главная ${title}`;
     },
   },
   {
     path: '/textbook',
     action: () => {
       textbook.init().catch((err) => console.error(err));
+      document.title = `Учебник ${title}`;
     },
   },
   {
@@ -47,6 +51,7 @@ const routes: Routes[] = [
     action: () => {
       gamesSection.render();
       gamesSection.mount();
+      document.title = `Миниигры ${title}`;
     },
   },
   {
@@ -54,6 +59,7 @@ const routes: Routes[] = [
     action: () => {
       main.innerHTML = '';
       main.append(gamesEntrance.gamesEntranceView.buildAudioChallengeHTML());
+      document.title = `Игра Аудиовызов ${title}`;
     },
   },
 
@@ -64,6 +70,7 @@ const routes: Routes[] = [
       const collection = await textbook.getGamesWordCollection(GameEnum.audioChallenge);
       console.log('audiochallenge', collection);
       gamesEntrance.startAudioChallengeFromTextBook(collection);
+      document.title = `Игра Аудиовызов ${title}`;
     },
   },
 
@@ -72,6 +79,7 @@ const routes: Routes[] = [
     action: () => {
       main.innerHTML = '';
       main.append(gamesEntrance.gamesEntranceView.buildSprintHTML());
+      document.title = `Игра Спринт ${title}`;
     },
   },
   {
@@ -81,19 +89,22 @@ const routes: Routes[] = [
       const collection = await textbook.getGamesWordCollection(GameEnum.sprint);
       console.log('sprint', collection);
       gamesEntrance.startSprintGameFromTextBook(collection);
+      document.title = `Игра Спринт ${title}`;
     },
   },
 
   {
     path: '/stat',
     action: () => {
-      stat.init();
+      stat.init().catch((err) => console.error(err));
+      document.title = `Статистика ${title}`;
     },
   },
   {
     path: '/login',
     action: () => {
       login.view.renderLoginForm();
+      document.title = `Авторизация ${title}`;
     },
   },
   {
@@ -103,12 +114,14 @@ const routes: Routes[] = [
       LocalStorage.isAuth = false;
       window.location.replace('/');
       new Nav(getElement('header') as HTMLElement).render();
+      document.title = `Выход ${title}`;
     },
   },
   {
     path: '/auth',
     action: () => {
       login.view.renderRegForm();
+      document.title = `Регистрация ${title}`;
     },
   },
 ];
