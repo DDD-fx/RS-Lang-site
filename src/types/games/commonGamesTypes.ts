@@ -1,6 +1,7 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { WordsChunkType } from '../textbookTypes';
 
+
 export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEventType> {
   gamesEntranceModel: GamesEntranceModelInterface;
   buildSprintHTML(): HTMLElement;

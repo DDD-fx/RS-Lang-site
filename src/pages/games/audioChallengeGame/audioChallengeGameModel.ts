@@ -4,10 +4,14 @@ import {
   WORDS_PER_TEXTBOOK_PAGE,
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { AggregatedWordsRespType, WordsChunkType } from '../../../types/textbookTypes';
-import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
+import {
+  AggregatedWordsRespType,
+  AggregatedWordType,
+  WordsChunkType,
+} from '../../../types/textbookTypes';
 import { LocalStorage } from '../../../utils/storage';
 import { authFetch } from '../../../model/model';
+import { AudioChallengeModelInterface } from '../../../types/games/audioChallengeTypes';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
@@ -26,8 +30,8 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     this.shakedWordChunk = this.shakeWordsArr();
   };
 
-  getWordsListFromTextbook = (array: WordsChunkType[]): void => {
-    this.wordsChunk = array;
+  getWordsListFromTextbook = (array: WordsChunkType[] | AggregatedWordType[]): void => {
+    this.wordsChunk = array.slice();
     this.shakedWordChunk = this.shakeWordsArr();
   };
 

@@ -274,6 +274,11 @@
     justify-content: space-evenly;
     text-align: center;
     color: black;
+
+    @media (max-width: 500px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   &__game-stats-block {

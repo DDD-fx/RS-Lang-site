@@ -8,7 +8,6 @@ export interface AudioChallengeControllerInterface {
   getWordsList(): void;
   turnGamePage(): void;
 }
-
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
   shakedWordChunk: WordsChunkType[];
@@ -21,6 +20,7 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   stopСhainOfCorrectAnswers(): void;
 }
 
+
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
   audioChallengeModel: AudioChallengeModelInterface;
   drawAudioChallengeGame(): void;
@@ -30,7 +30,6 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   updateWordBtnsWrapper(): Element;
   createSpeakerWrapper(word: string): void;
   enableWordSounding(): Promise<void>;
-  createAnswerWrapper(word: string): void;
   createAnswerSigns(word: string): Element;
   createContinueBtn(): void;
   createSkipBtn(): void;

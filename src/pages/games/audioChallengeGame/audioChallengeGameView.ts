@@ -10,6 +10,7 @@ import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
 import { GamesEventsType, ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
 
+
 export class AudioChallengeView
   extends TypedEmitter<GamesEventsType>
   implements AudioChallengeViewInterface

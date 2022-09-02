@@ -28,7 +28,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
       .on('gameOptionClicked', (i) => this.addGameLevel(i));
   }
 
-  startAudioChallengeGame = async () => {
+  startAudioChallengeGame = async (): Promise<void> => {
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = false;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
@@ -57,27 +57,24 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     audioChallengeView.drawAudioChallengeGame();
   };
 
-  startSprintGame = async () => {
+  startSprintGame = (): void => {
     SPRINT_GAME_SETTINGS.startFromTextbook = false;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
     const sprintController = new SprintController(sprintModel, sprintView);
-    await sprintController.getWordsList();
-    sprintView.buildBeReadyHTML();
+    sprintController.getWordsList();
+    sprintView.sprintViewUtils.buildBeReadyHTML();
   };
 
   startSprintGameFromTextBook = (
     wordsCollection: WordsChunkType[] | AggregatedWordType[],
   ): void => {
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
-    // const sprintModel = new SprintModel();
-    // const sprintView = new SprintView(sprintModel);
-    // const sprintController = new SprintController(
-    //   sprintModel,
-    //   sprintView,
-    // );
-    // sprintModel.getWordsListFromTextbook(wordsCollection);
-    // sprintView.drawAudioChallengeGame();
+    const sprintModel = new SprintModel();
+    const sprintView = new SprintView(sprintModel);
+    const sprintController = new SprintController(sprintModel, sprintView);
+    sprintModel.getWordsListFromTextbook(wordsCollection);
+    sprintView.drawSprintGame();
   };
 
   addGameLevel = (level: number) => {

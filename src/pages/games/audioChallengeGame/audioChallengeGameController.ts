@@ -21,8 +21,8 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       .on('nextBtnClicked', () => this.turnGamePage())
       .on('wordOfShakedArrCountAdded', () => this.changeWord())
       .on('pressedContinueGameBtn', () => this.getWordsList())
-      .on('rightAnswerClicked', (word) => this.getWordData(word))
-      .on('wrongAnswerClicked', (word) => this.resetСhainOfCorrectAnswers(word))
+      .on('rightAnswerClicked', (word: string) => this.getWordData(word))
+      .on('wrongAnswerClicked', (word: string) => this.resetСhainOfCorrectAnswers(word))
       .on('skipAnswerBtnClicked', () => this.stopСhainOfCorrectAnswers())
   }
 

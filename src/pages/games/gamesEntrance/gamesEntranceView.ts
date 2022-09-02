@@ -6,6 +6,7 @@ import {
 } from '../../../types/games/commonGamesTypes';
 import { createElement } from '../../../utils/tools';
 
+
 export class GamesEntranceView
   extends TypedEmitter<GamesEntranceEventType>
   implements GamesEntranceViewInterface
@@ -61,7 +62,7 @@ export class GamesEntranceView
   };
 
   createAudioChallengeTitle = () => {
-    const titleElem = createElement('h1', [
+    const titleElem = createElement('h2', [
       'game-entrance__title',
       'game-entrance__title_audiochallenge',
     ]);
@@ -70,7 +71,7 @@ export class GamesEntranceView
   };
 
   createSprintTitle = () => {
-    const titleElem = createElement('h1', ['game-entrance__title', 'game-entrance__title_sprint']);
+    const titleElem = createElement('h2', ['game-entrance__title', 'game-entrance__title_sprint']);
     titleElem.textContent = 'Спринт';
     return titleElem;
   };
@@ -123,7 +124,7 @@ export class GamesEntranceView
 
   createSprintImage = () => {
     const image = createElement('div', 'img-x15');
-    image.innerHTML = `<img src='./assets/games/delphins.svg' alt='delphins' />`;
+    image.innerHTML = `<img src='./assets/games/delphins.svg' alt='dolphins' />`;
     return image;
   };
 
