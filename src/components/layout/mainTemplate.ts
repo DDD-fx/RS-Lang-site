@@ -54,4 +54,17 @@ const footerInner = `<div class="wrapper footer__wrapper">
 <a href="https://rs.school/js/" class="rss" target="_blank"> Rolling Scopes School </a>
 </div>`;
 
-export { footerInner, renderMainTemplate };
+const preloader = `<div class="loader">
+<div class="loading">
+  <h2>rslang fetching</h2>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+</div>`;
+
+export { renderMainTemplate, footerInner, preloader };

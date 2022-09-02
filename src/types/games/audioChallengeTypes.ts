@@ -20,7 +20,6 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   stopСhainOfCorrectAnswers(): void;
 }
 
-
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
   audioChallengeModel: AudioChallengeModelInterface;
   drawAudioChallengeGame(): void;
