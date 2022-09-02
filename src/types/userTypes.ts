@@ -33,7 +33,7 @@ type StatAnswerType = {
   id: string;
   learnedWords: number;
   optional: StatOptionalType;
-};
+} | null;
 
 type StatOptionalType = {
   [key: string]: StatOptionalDayType;

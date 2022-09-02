@@ -124,14 +124,14 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
+  padding: 0px 1.2rem;
   font-size: 1rem;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
   -webkit-backdrop-filter: blur(30px);
   backdrop-filter: blur(30px);
   border-radius: 8px;
-  margin: 40px auto 20px auto;
+  margin: 2rem auto 1.2rem auto;
 }
 
 .accent {
@@ -210,21 +210,6 @@ a.btn.btn.inactive:hover {
   background: rgba(0, 0, 0, 0.25);
   color: #a8a8a8;
   cursor: default;
-}
-
-.btn.game-noidea {
-  font-size: 2rem;
-  vertical-align: top;
-  padding-bottom: 11px;
-  padding: 10px 30px 10px 30px;
-  max-width: fit-content;
-}
-
-.btn.game-next {
-  font-size: 3rem;
-  vertical-align: top;
-  padding-bottom: 11px;
-  padding: 0px 30px 5px 30px;
 }
 
 .btn.inactive:active,
@@ -378,6 +363,10 @@ li {
     z-index: 1;
   }
 
+  .header__wrapper {
+    margin: 1.5rem auto 1rem auto;
+  }
+
   .footer__wrapper {
     flex-wrap: wrap;
     grid-gap: 20px;
@@ -386,6 +375,7 @@ li {
   .nav__list {
     flex-wrap: wrap;
   }
+
   .loader {
     font-size: 20px;
   }

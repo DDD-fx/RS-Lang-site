@@ -312,6 +312,18 @@ main {
 }
 
 @include sm {
+  .wrapper.main__wrapper.textbook {
+    width: 100%;
+  }
+
+  .wrapper {
+    width: 94%;
+  }
+
+  .main__wrapper {
+    padding: 8% 3%;
+  }
+
   .advantages__content {
     grid-template-columns: 1fr;
   }
@@ -396,16 +408,6 @@ main {
 
   .article__bottom-nav {
     width: 100%;
-  }
-
-  .main__wrapper {
-    padding: 8% 3%;
-  }
-}
-
-@media screen and (max-width: 380px) {
-  .wrapper {
-    width: 94%;
   }
 }
 

@@ -24,31 +24,34 @@ class StatModel {
 
   getStatData = async (): Promise<void> => {
     const { userId, token } = LocalStorage.currUserSettings;
-    const statData = (await getStat(userId, token)) as StatAnswerType;
-    const statOptData = statData.optional;
-    const todayKey = getShortDate();
-    console.log(todayKey);
-    const statDataKeys = Object.keys(statOptData);
-    if (todayKey in statOptData) this.state.dayData = statOptData[todayKey];
-    const allDaysNewWords = [];
-    const allDaysLearnedWords = [];
-    let allDaysLearnedWordsTemp = 0;
-    if (statDataKeys.length !== 0) {
-      for (const key in statOptData) {
-        allDaysNewWords.push(
-          statOptData[key].audiochallenge.newWordsPerDay + statOptData[key].sprint.newWordsPerDay,
-        );
-        allDaysLearnedWordsTemp +=
-          statOptData[key].audiochallenge.learnedWordsPerDay +
-          statOptData[key].sprint.learnedWordsPerDay;
-        allDaysLearnedWords.push(allDaysLearnedWordsTemp);
-      }
+    const statData = (await getStat(userId, token)) as StatAnswerType | null;
+    console.log(statData);
+    if (statData) {
+      const statOptData = statData.optional;
+      const todayKey = getShortDate();
+      console.log(todayKey);
+      const statDataKeys = Object.keys(statOptData);
+      if (todayKey in statOptData) this.state.dayData = statOptData[todayKey];
+      const allDaysNewWords = [];
+      const allDaysLearnedWords = [];
+      let allDaysLearnedWordsTemp = 0;
+      if (statDataKeys.length !== 0) {
+        for (const key in statOptData) {
+          allDaysNewWords.push(
+            statOptData[key].audiochallenge.newWordsPerDay + statOptData[key].sprint.newWordsPerDay,
+          );
+          allDaysLearnedWordsTemp +=
+            statOptData[key].audiochallenge.learnedWordsPerDay +
+            statOptData[key].sprint.learnedWordsPerDay;
+          allDaysLearnedWords.push(allDaysLearnedWordsTemp);
+        }
 
-      this.state.allDaysData = {
-        labels: statDataKeys,
-        learnedWords: allDaysLearnedWords,
-        newWords: allDaysNewWords,
-      };
+        this.state.allDaysData = {
+          labels: statDataKeys,
+          learnedWords: allDaysLearnedWords,
+          newWords: allDaysNewWords,
+        };
+      }
     }
   };
 }
