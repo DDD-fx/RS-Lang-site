@@ -58,6 +58,7 @@ export class TextBookView
       this.textBookViewUtils.checkGamesBtnsColor();
       this.userTextBookView.drawUserTextBookElems();
       this.userTextBookView.markPagesLearned();
+      this.userTextBookView.updateMarkedPages();
       this.userTextBookView.checkGameBtnsActive();
     }
   };

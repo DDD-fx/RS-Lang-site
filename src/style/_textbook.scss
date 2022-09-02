@@ -252,11 +252,13 @@
 
   &__word-title {
     font-size: 1.5rem;
+    overflow-wrap: anywhere;
   }
 
   &__word-translate {
     font-size: 1.3rem;
     margin: 0 0 10px;
+    overflow-wrap: anywhere;
   }
 
   &__word-transcript {

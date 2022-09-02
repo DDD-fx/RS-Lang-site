@@ -49,7 +49,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     setTimeout(() => {
       this.isSprintRunning = false;
       this.showResults();
-    }, 60000);
+    }, 60000); //60000
     this.drawNextSprintQuestion();
   };
 
@@ -79,15 +79,25 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     const correctAnswerBtn = getElement('sprint-answer__correct') as HTMLButtonElement;
     correctAnswerBtn.addEventListener('click', () => {
       if (LocalStorage.currUserSettings.userId) {
-        if (this.isAnswerCorrect) this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-        else this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+        if (this.isAnswerCorrect) {
+          this.flashBG(true);
+          this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+        } else {
+          this.flashBG(false);
+          this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+        }
       } else this.drawNextSprintQuestion();
     });
     const inCorrectAnswerBtn = getElement('sprint-answer__incorrect') as HTMLButtonElement;
     inCorrectAnswerBtn.addEventListener('click', () => {
       if (LocalStorage.currUserSettings.userId) {
-        if (this.isAnswerCorrect) this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-        else this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+        if (this.isAnswerCorrect) {
+          this.flashBG(false);
+          this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+        } else {
+          this.flashBG(true);
+          this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+        }
       } else this.drawNextSprintQuestion();
     });
   };
@@ -102,5 +112,16 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   showResults = (): void => {
     const sprintWrapper = getElement('sprint-game-wrapper') as HTMLDivElement;
     sprintWrapper.innerHTML = 'alksdjalsdjkla';
+  };
+
+  flashBG = (answer: boolean): void => {
+    const sprintWrapper = getElement('sprint-game-wrapper') as HTMLDivElement;
+    if (answer) {
+      sprintWrapper.classList.add('sprint-game-wrapper--correct');
+      setTimeout(() => sprintWrapper.classList.remove('sprint-game-wrapper--correct'), 300);
+    } else {
+      sprintWrapper.classList.add('sprint-game-wrapper--incorrect');
+      setTimeout(() => sprintWrapper.classList.remove('sprint-game-wrapper--incorrect'), 300);
+    }
   };
 }
