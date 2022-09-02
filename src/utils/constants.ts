@@ -39,6 +39,7 @@ export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   shakedWordsArray: [],
   sequenceOfCorrectAnswers: 0,
   tempSequenceOfCorrectAnswers: 0,
+  learnedPerGame: 0,
 };
 
 export const SPRINT_GAME_SETTINGS: SprintGameType = {

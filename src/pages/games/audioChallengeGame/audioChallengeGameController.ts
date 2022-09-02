@@ -23,7 +23,7 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       .on('pressedContinueGameBtn', () => this.getWordsList())
       .on('rightAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
       .on('wrongAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
-      .on('wrongAnswerClicked', (id: string, flag: boolean) => this.resetСhainOfCorrectAnswers(id))
+      .on('wrongAnswerClicked', (id: string) => this.resetСhainOfCorrectAnswers(id))
       .on('skipAnswerBtnClicked', () => this.stopСhainOfCorrectAnswers())
   }
 

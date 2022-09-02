@@ -58,4 +58,5 @@ export type AudioChallengeGameType = {
   shakedWordsArray: WordsChunkType[];
   sequenceOfCorrectAnswers: number;
   tempSequenceOfCorrectAnswers: number;
+  learnedPerGame: number,
 };

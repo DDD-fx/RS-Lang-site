@@ -65,73 +65,76 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   getWordData = async (id: string, flag: boolean) => {
     AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
-    const userId = LocalStorage.currUserSettings.userId;
-    let UserWord;
-        const DefaultUserWord = {
-          difficulty: 2,
-          optional: {
-            correctAnswersChallenge: 0,
-            incorrectAnswersChallenge: 0,
-            correctAnswersSprint: 0,
-            incorrectAnswersSprint: 0,
-          },
-        };
-    if (userId) {
-      // const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?group=${LocalStorage.currUserSettings.currGroup}&wordsPerPage=600"}`;
-      const query = `users/${userId}/aggregatedWords/${id}`;
+    const DefaultUserWord = {
+      difficulty: WordStatusEnum.new,
+      optional: {
+        correctAnswersChallenge: '0',
+        incorrectAnswersChallenge: '0',
+        correctSequenceChallenge: '0',
+        correctAnswersSprint: '0',
+        incorrectAnswersSprint: '0',
+        correctSequenceSprint: '0',
+      },
+    };
+    if (LocalStorage.currUserSettings.userId) {
+      const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords/${id}`;
       const word = await this.getUserWords(query);
+      console.log(word)
+      
       if (word) {
         if (word.userWord) {
-          UserWord = word.userWord;
+          if(!word.userWord.optional.hasOwnProperty('correctSequenceChallenge')) {
+            word.userWord.optional.correctSequenceChallenge = '0'
+          }
+          if(!word.userWord.optional.hasOwnProperty('correctSequenceSprint')) {
+            word.userWord.optional.correctSequenceSprint = '0'
+          }
         } else {
-          UserWord = DefaultUserWord;
+          word.userWord = JSON.parse(JSON.stringify(DefaultUserWord));
+          this.updateWord(word, id, "POST");
         }
-
         if (flag === true) {
-          UserWord.optional.correctAnswersChallenge = (
-            +UserWord.optional.correctAnswersChallenge + 1
-          ).toString();
-          // UserWord.optional.correctSequenceChallenge = (+UserWord.optional.correctSequenceChallenge + 1).toString();
+          word.userWord.optional.correctAnswersChallenge = `${+word.userWord.optional.correctAnswersChallenge + 1}`;
+          word.userWord.optional.correctSequenceChallenge = `${+word.userWord.optional.correctSequenceChallenge + 1}`;
         } else if (flag === false) {
-          UserWord.optional.incorrectAnswersChallenge = (
-            +UserWord.optional.incorrectAnswersChallenge + 1
-          ).toString();
-          // UserWord.optional.correctSequenceChallenge = 0;
+          word.userWord.optional.incorrectAnswersChallenge = `${+word.userWord.optional.incorrectAnswersChallenge + 1}`;
+          word.userWord.optional.correctSequenceChallenge = '0';
         }
-
-        if (UserWord.difficulty === '0' && flag === false) {
-          UserWord.difficulty = WordStatusEnum.new;
-        } else if (UserWord.difficulty === '1' && flag === true) {
-          if (UserWord.optional.correctAnswersChallenge === '5') {
-            UserWord.difficulty = WordStatusEnum.learned;
+        if (word.userWord.difficulty === WordStatusEnum.learned && flag === false) {
+          word.userWord.difficulty = WordStatusEnum.new;
+        } else if (word.userWord.difficulty === WordStatusEnum.difficult && flag === true) {
+          if (word.userWord.optional.correctAnswersChallenge === '5') {
+            word.userWord.difficulty = WordStatusEnum.learned;
+            AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
           }
-        } else if (UserWord.difficulty === '2' && flag === true) {
-          if (UserWord.optional.correctAnswersChallenge === '3') {
-            UserWord.difficulty = WordStatusEnum.learned;
+        } else if (word.userWord.difficulty === WordStatusEnum.new && flag === true) {
+          if (word.userWord.optional.correctAnswersChallenge === '3') {
+            word.userWord.difficulty = WordStatusEnum.learned;
+            AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
           }
         }
-        this.updateWord(userId, id, UserWord as AddUserWordBodyType);
+        this.updateWord(word, id, "PUT");
       }
     }
   };
 
-  updateWord = async (userId: string, id: string, UserWord: AddUserWordBodyType) => {
-    const query = `/users/${userId}/words/${id}`;
+  updateWord = async (word: AggregatedWordType, id: string, method: string): Promise<void> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/words/${id}`;
+    console.log(word)
+    console.log(AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame)
     try {
-      const rawResponse = await authFetch(
+      await authFetch(
         baseURL + query,
         {
-          method: 'PUT',
-          body: JSON.stringify(UserWord),
+          method: `${method}`,
           headers: {
             Authorization: `Bearer ${LocalStorage.currUserSettings.token}`,
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify(word.userWord),
         }
       );
-      const content = (await rawResponse.json()) as AggregatedWordType[];
-      console.log(content[0]);
     } catch (e) {
       console.error(e);
     }
