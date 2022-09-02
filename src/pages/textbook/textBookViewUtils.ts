@@ -29,7 +29,6 @@ export class TextBookViewUtils
     const mainWrapper = getElement('main__wrapper');
     mainWrapper.innerHTML = '';
     mainWrapper.insertAdjacentHTML('afterbegin', template);
-    mainWrapper.classList.add('textbook-wrapper');
   };
 
   addReadMeListeners = (): void => {

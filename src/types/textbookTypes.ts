@@ -175,6 +175,8 @@ export type AddUserWordBodyType = {
 export type UserWordOptionalType = {
   correctAnswersChallenge: string;
   incorrectAnswersChallenge: string;
+  correctSequenceChallenge: string;
   correctAnswersSprint: string;
   incorrectAnswersSprint: string;
+  correctSequenceSprint: string;
 };
