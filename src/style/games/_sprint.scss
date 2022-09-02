@@ -18,9 +18,23 @@
   backdrop-filter: blur(25px);
   border-radius: 8px;
   min-height: 70vh;
-  width: 60vw;
+  width: 70vw;
   margin: 0 auto 1.5rem;
   padding: 2rem;
+
+  &--correct {
+    background-color: $sprint-correct-flash;
+    transition: 0.3s;
+  }
+
+  &--incorrect {
+    background-color: $sprint-incorrect-flash;
+    transition: 0.3s;
+  }
+
+  @media (max-width: 700px) {
+    width: 90vw;
+  }
 }
 
 .fixed-be-ready-window {
@@ -128,64 +142,88 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
   align-items: center;
 }
 
-.sprint-english-word{
+.sprint-english-word {
   font-size: 50px;
   color: var(--body-color);
   font-weight: 500;
+
+  @media (max-width: 500px) {
+    font-size: 30px;
+  }
 }
 
 .sprint-word-translate {
   font-size: 50px;
   color: var(--grey);
+
+  @media (max-width: 500px) {
+    font-size: 25px;
+  }
+}
+
+.sprint-english-word,
+.sprint-word-translate {
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .sprint-answer {
   display: flex;
-  flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
-}
 
-.sprint-answer__correct,
-.sprint-answer__incorrect {
-  position: relative;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  width: 150px;
-  font-size: 25px;
-  transition: 0.4s;
+  @media (max-width: 500px) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 
-  &:hover {
-    box-shadow: $active-shadow;
+  &__correct {
+    background-color: $sprint-correct;
+
+    &::after {
+      content: "→";
+    }
+  }
+
+  &__incorrect {
+    background-color: $sprint-incorrect;
+
+    &::after {
+      content: "←";
+    }
+  }
+
+  &__correct,
+  &__incorrect {
+    position: relative;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    width: 150px;
+    font-size: 25px;
     transition: 0.4s;
-  }
 
-  &::after {
-    position: absolute;
-    font-size: 50px;
-    top: 50px;
-    right: 50%;
-    transform: translateX(50%);
-  }
-}
+    &:hover {
+      box-shadow: $active-shadow;
+      transition: 0.4s;
+    }
 
-.sprint-answer__correct {
-  background-color: $sprint-correct;
+    &::after {
+      position: absolute;
+      font-size: 50px;
+      top: 50px;
+      right: 50%;
+      transform: translateX(50%);
+    }
 
-  &::after {
-    content: "→";
-  }
-}
-
-.sprint-answer__incorrect {
-  background-color: $sprint-incorrect;
-
-  &::after {
-    content: "←";
+    @media (max-width: 500px) {
+      &::after {
+        content: "";
+      }
+    }
   }
 }
