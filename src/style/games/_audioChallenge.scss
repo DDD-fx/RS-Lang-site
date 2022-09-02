@@ -33,7 +33,7 @@
 }
 
 .game-section {
-  width: 90%;
+  width: 95%;
   margin: 1% auto;
 }
 
@@ -384,9 +384,8 @@
   }
 
   .game-section__answer-word-wrapper {
-    width: 100%;
     justify-content: center;
-    padding: 0%;
+    padding: 1%;
   }
 
   .game-section__speaker-img_big {
@@ -410,16 +409,18 @@
 
   .game-section__selected-word {
     margin-left: 8%;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    line-height: 1.7rem;
   }
 
   .game-section__word {
-    font-size: 1rem;
+    font-size: 1.5rem;
+    line-height: 1.7rem;
   }
 
   .game-section__skip-btn,
   .game-section__next-btn {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .game-section__skip-btn-wrapper,
@@ -430,7 +431,7 @@
   .game-operations-group__green-sound,
   .game-operations-group__red-sound,
   .game-operations-group__cross-img {
-    width: 50%;
+    width: 80%;
   }
 
   .game-operations-group {
@@ -438,7 +439,7 @@
   }
 
   .game-section__words-wrapper {
-    margin-top: 2%;
+    margin-top: 5%;
   }
 }
 
@@ -447,5 +448,9 @@
     width: 40%;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .game-section__answer-word-wrapper {
+    width: 100%;
   }
 }

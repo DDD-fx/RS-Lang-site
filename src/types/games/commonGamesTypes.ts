@@ -39,6 +39,8 @@ export type GamesEventsType = {
   pressedContinueGameBtn: () => void;
   wrongAnswerClicked: (word: string) => void;
   rightAnswerClicked: (word: string) => void;
+  theGameIsOver: () => void;
+  skipAnswerBtnClicked: () => void;
 };
 
 export interface GamesEntranceControllerInterface {

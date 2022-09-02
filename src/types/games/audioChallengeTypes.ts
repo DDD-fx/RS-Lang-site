@@ -16,6 +16,9 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   turnGamePage(): void;
   changeWord(): void;
   getWordData(word: string): void;
+  getNewWordData(query: string, diff: number): void;
+  resetСhainOfCorrectAnswers(word: string): void;
+  stopСhainOfCorrectAnswers(): void;
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
@@ -54,4 +57,6 @@ export type AudioChallengeGameType = {
   startFromTextbook: boolean;
   wordOfShakedArrCount: number;
   shakedWordsArray: WordsChunkType[];
+  sequenceOfCorrectAnswers: number;
+  tempSequenceOfCorrectAnswers: number;
 };
