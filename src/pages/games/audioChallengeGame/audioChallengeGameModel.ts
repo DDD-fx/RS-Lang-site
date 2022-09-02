@@ -9,9 +9,9 @@ import {
   AggregatedWordType,
   WordsChunkType,
 } from '../../../types/textbookTypes';
-import { AudioChallengeModelInterface } from '../../../types/gamesTypes';
 import { LocalStorage } from '../../../utils/storage';
 import { authFetch } from '../../../model/model';
+import { AudioChallengeModelInterface } from '../../../types/games/audioChallengeTypes';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
@@ -56,6 +56,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   getWordData = async (word: string) => {
+    AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
     const userId = LocalStorage.currUserSettings.userId;
     const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?group=${LocalStorage.currUserSettings.currGroup}&wordsPerPage=600"}`;
     await this.getUserWords(query);
@@ -77,4 +78,23 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       console.error(e);
     }
   };
+
+  getNewWordData = async (query: string, diff: number) => {
+    const promise = await fetch(baseURL + query);
+    const data = await promise.json();
+    for (let i = 0; i < diff; i += 1) {
+      await AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(data[Math.floor(Math.random() * (data.length - 1))])
+    }
+  }
+
+  resetСhainOfCorrectAnswers = (word: string) => {
+    this.stopСhainOfCorrectAnswers;
+  }
+  
+  stopСhainOfCorrectAnswers = () => {
+    if (AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers > AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers) {
+      AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers = AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+      AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
+    }
+  }
 }

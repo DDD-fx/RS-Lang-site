@@ -1,7 +1,6 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { WordBtnType } from './commonGamesTypes';
+import { GamesEventsType, WordBtnType } from './commonGamesTypes';
 import { WordsChunkType } from '../textbookTypes';
-import { GamesEventsType } from '../gamesTypes';
 
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
@@ -9,7 +8,6 @@ export interface AudioChallengeControllerInterface {
   getWordsList(): void;
   turnGamePage(): void;
 }
-
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
   shakedWordChunk: WordsChunkType[];
@@ -17,7 +15,11 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   turnGamePage(): void;
   changeWord(): void;
   getWordData(word: string): void;
+  getNewWordData(query: string, diff: number): void;
+  resetСhainOfCorrectAnswers(word: string): void;
+  stopСhainOfCorrectAnswers(): void;
 }
+
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
   audioChallengeModel: AudioChallengeModelInterface;
@@ -54,4 +56,6 @@ export type AudioChallengeGameType = {
   startFromTextbook: boolean;
   wordOfShakedArrCount: number;
   shakedWordsArray: WordsChunkType[];
+  sequenceOfCorrectAnswers: number;
+  tempSequenceOfCorrectAnswers: number;
 };
