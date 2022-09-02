@@ -180,12 +180,6 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     }
   };
 
-  API_USER_REQ_HEADER = {
-    Authorization: `Bearer ${LocalStorage.currUserSettings.token}`,
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  };
-
   mapUserWordsID = (difficultWords: RawAggregatedWordType[]): AggregatedWordType[] => {
     return difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
@@ -208,5 +202,11 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     } catch (e) {
       console.error(e);
     }
+  };
+
+  API_USER_REQ_HEADER = {
+    Authorization: `Bearer ${LocalStorage.currUserSettings.token}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   };
 }
