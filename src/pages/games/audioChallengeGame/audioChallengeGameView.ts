@@ -273,7 +273,7 @@ export class AudioChallengeView
       this.makeWordsTransparent(word);
       this.crossWrongWord(word);
       this.wordsBtnsDisable();
-      this.checkRightAnswer(word);
+      this.checkRightAnswer(word, id);
       this.countBarProgress();
     });
     wordBtn.textContent = wordTranslate;
@@ -358,8 +358,11 @@ export class AudioChallengeView
   };
 
   getRightAnswer = (): string => {
-    const answer = getElement('game-section__selected-word').innerHTML;
-    return answer;
+    const answerElement = getElement('game-section__selected-word');
+    if (answerElement) {
+      return answerElement.innerHTML;;
+    }
+    return '';
   };
 
   showRightAnswer = (): void => {
@@ -461,11 +464,12 @@ export class AudioChallengeView
     });
   };
 
-  checkRightAnswer = (word: string): void => {
+  checkRightAnswer = (word: string, id: string): void => {
+    let flag;
     const answer = this.getRightAnswer();
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (word === answer) {
-      this.emit('rightAnswerClicked', word);
+      this.emit('rightAnswerClicked', id, flag = true);
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
@@ -476,7 +480,7 @@ export class AudioChallengeView
         this.turnOnCorrectAnswerSound();
       }
     } else {
-      this.emit('wrongAnswerClicked', word);
+      this.emit('wrongAnswerClicked', id, flag = false);
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
@@ -658,14 +662,18 @@ export class AudioChallengeView
       (el) => el.wordTranslate === translatedWord,
     );
     const englishWord = word?.word;
-    if (englishWord && (wordsBtns[index] as HTMLButtonElement).disabled !== true) {
+    const wordId = word!.id;
+    if (
+      englishWord &&
+      (wordsBtns[index] as HTMLButtonElement).disabled !== true
+    ) {
       this.showRightAnswer();
       this.hideSkipBtn();
       this.showSign(englishWord);
       this.makeWordsTransparent(englishWord);
       this.crossWrongWord(englishWord);
       this.wordsBtnsDisable();
-      this.checkRightAnswer(englishWord);
+      this.checkRightAnswer(englishWord, wordId);
       this.countBarProgress();
     }
   };
