@@ -76,7 +76,7 @@ export class GamesEntranceView
   };
 
   createSprintStartButton = () => {
-    const startBtn = createElement('button', ['game-start-btn', 'game-start-btn_sprint']);
+    const startBtn = createElement('button', ['btn', 'game-start-btn', 'game-start-btn_sprint']);
     startBtn.textContent = 'Начать';
     startBtn.addEventListener('click', () => {
       this.emit('sprintGameStarted');
@@ -85,7 +85,11 @@ export class GamesEntranceView
   };
 
   createAudioChallengeStartButton = () => {
-    const startBtn = createElement('button', ['game-start-btn', 'game-start-btn_audio-challenge']);
+    const startBtn = createElement('button', [
+      'btn',
+      'game-start-btn',
+      'game-start-btn_audio-challenge',
+    ]);
     startBtn.textContent = 'Начать';
     startBtn.addEventListener('click', () => {
       this.emit('audioChallengeGameStarted');

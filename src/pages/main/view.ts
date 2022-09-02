@@ -48,9 +48,11 @@ class View {
     }, 250);
   };
 
-  renderPreloader = (): void => {
+  renderPreloader = (someClass?: string): void => {
     this.mainWrapper.innerHTML = '';
     this.mainWrapper.insertAdjacentHTML('afterbegin', preloader);
+    if (someClass) this.mainWrapper.classList.add(`${someClass}`);
+    else this.mainWrapper.classList.remove('textbook');
   };
 
   bind = () => {

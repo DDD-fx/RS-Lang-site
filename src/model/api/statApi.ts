@@ -14,7 +14,7 @@ const getStat = async (userId: string, token: string): Promise<StatAnswerType | 
     console.log(response.status);
     return await ((await response.json()) as Promise<StatAnswerType>);
   } catch (err) {
-    console.error(err);
+    return null;
   }
 };
 

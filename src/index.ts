@@ -43,7 +43,7 @@ const routes: Routes[] = [
   {
     path: '/textbook',
     action: () => {
-      app.view.renderPreloader();
+      app.view.renderPreloader('textbook');
       textbook.init().catch((err) => console.error(err));
       document.title = `Учебник ${title}`;
     },

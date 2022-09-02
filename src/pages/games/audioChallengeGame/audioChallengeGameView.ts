@@ -321,7 +321,7 @@ export class AudioChallengeView
 
   createContinueBtn = (): void => {
     const continueBtn = getElement('game-section__next-btn-wrapper');
-    const nextBtn = createElement('button', ['game-section__next-btn', 'game-start-btn']);
+    const nextBtn = createElement('button', ['btn', 'game-section__next-btn', 'game-start-btn']);
     nextBtn.innerText = '⟶';
     const gameWrapper = getElement('fixed-window');
     nextBtn.addEventListener('click', () => {
@@ -337,7 +337,7 @@ export class AudioChallengeView
 
   createSkipBtn = (): void => {
     const skipBtnWrapper = getElement('game-section__skip-btn-wrapper');
-    const skipBtn = createElement('button', ['game-section__skip-btn', 'game-start-btn']);
+    const skipBtn = createElement('button', ['btn', 'game-section__skip-btn', 'game-start-btn']);
     skipBtn.innerText = 'Не знаю';
     skipBtn.addEventListener('click', () => {
       const answer = this.getRightAnswer();

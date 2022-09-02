@@ -185,9 +185,23 @@
 }
 
 .game-section__next-btn-wrapper .game-start-btn {
-  font-size: 4rem;
-  align-items: baseline;
-  line-height: 40px;
+  font-size: 3rem;
+  vertical-align: top;
+  padding-bottom: 11px;
+  padding: 7px 60px 10px 60px;
+}
+
+.game-start-btn.result-section__close-btn {
+  font-size: 1.5rem;
+  vertical-align: top;
+  padding-bottom: 11px;
+  padding: 10px 20px 10px 20px;
+  max-width: inherit;
+  box-shadow: 0px 4px 20px rgb(61 61 61 / 19%);
+  margin-top: 2rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  background: rgb(134 146 166);
 }
 
 .fixed-window-wrapper {
@@ -452,5 +466,6 @@
 
   .game-section__answer-word-wrapper {
     width: 100%;
+    padding: 2.5%;
   }
 }
