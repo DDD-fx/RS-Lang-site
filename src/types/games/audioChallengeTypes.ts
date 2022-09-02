@@ -14,7 +14,7 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   getWordsList(query: string): void;
   turnGamePage(): void;
   changeWord(): void;
-  getWordData(word: string): void;
+  getWordData(word: string, flag: boolean): void;
   getNewWordData(query: string, diff: number): void;
   resetСhainOfCorrectAnswers(word: string): void;
   stopСhainOfCorrectAnswers(): void;
@@ -57,4 +57,5 @@ export type AudioChallengeGameType = {
   shakedWordsArray: WordsChunkType[];
   sequenceOfCorrectAnswers: number;
   tempSequenceOfCorrectAnswers: number;
+  learnedPerGame: number,
 };
