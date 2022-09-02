@@ -111,7 +111,7 @@ export class SprintViewUtils implements SprintViewUtilsInterface {
   };
 
   generateRandomIndex = (currIndex: number): number => {
-    const generatedIndex = Math.floor(this.sprintModel.shakedWordChunk.length * Math.random());
+    const generatedIndex = Math.floor(this.sprintModel.allPageChunk.length * Math.random());
     if (generatedIndex !== currIndex) return generatedIndex;
     else return this.generateRandomIndex(currIndex);
   };

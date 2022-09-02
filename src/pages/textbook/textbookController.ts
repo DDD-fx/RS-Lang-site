@@ -85,6 +85,8 @@ export class TextBookController implements TextBookControllerInterface {
           incorrectAnswersChallenge: '0',
           correctAnswersSprint: '0',
           incorrectAnswersSprint: '0',
+          correctSequenceChallenge: '0',
+          correctSequenceSprint: '0',
         },
       };
       await this.textBookModel.addUserWord(addUserWordReqBody, wordID);
