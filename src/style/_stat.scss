@@ -135,10 +135,21 @@ canvas.newWordsChart,
 canvas.learnedWordsChart {
   width: 450px !important;
 }
+@include md {
+  .main__container.statistics .img-x20 img {
+    max-width: 23rem;
+    width: 100%;
+    opacity: 0.5;
+  }
+  .main__container.statistics .skat {
+    right: -10%;
+    top: -3rem;
+  }
+}
 
 @include sm {
   .statistic__article {
-    padding: 7rem 1rem 2rem 1rem;
+    padding: 7rem 1rem 13rem 1rem;
   }
 
   .statistic__games {
@@ -160,17 +171,17 @@ canvas.learnedWordsChart {
     font-size: 1rem;
   }
 
-  .main__container.statistics .img-x20 img {
-    filter: opacity(0.5);
-  }
-
   .main__container.statistics .whale {
     right: 0rem;
   }
 
-  .main__container .bubbles {
+  .main__container.statistics .img-x20 img {
+    opacity: 1;
+  }
+
+  .main__container.statistics .bubbles {
     bottom: 11rem;
-    right: 0rem;
+    right: -3rem;
   }
 
   canvas.newWordsChart,

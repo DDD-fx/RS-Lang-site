@@ -44,6 +44,29 @@ const getDateFromKey = (): string => {
   //29.08.2022
 };
 
+const imgLinkArr = [
+  'assets/landing-background.jpg',
+  'assets/outlaw-avatar.jpg',
+  'assets/orla-avatar.jpg',
+  'assets/ddd-fx-avatar.jpg',
+  'assets/textbook-img.jpg',
+  'assets/games-img.jpg',
+  'assets/stat-img.jpg',
+  'assets/bubbles.svg',
+  'assets/whale.svg',
+  'assets/skat.svg',
+  'assets/github-logo.png',
+  'assets/games/headphones.svg',
+  'assets/games/fish.svg',
+];
+
+const preloadImages = () => {
+  for (let link of imgLinkArr) {
+    const img = new Image();
+    img.src = link;
+  }
+};
+
 export {
   createElement,
   getElement,
@@ -52,4 +75,5 @@ export {
   getKeyFromDate,
   getShortDate,
   getDateFromKey,
+  preloadImages,
 };

@@ -132,7 +132,7 @@
   align-items: center;
 }
 
-.sprint-english-word{
+.sprint-english-word {
   font-size: 50px;
   color: var(--body-color);
   font-weight: 500;
@@ -176,7 +176,7 @@
   background-color: $sprint-correct;
 
   &::after {
-    content: "→";
+    content: '→';
   }
 }
 
@@ -184,6 +184,6 @@
   background-color: $sprint-incorrect;
 
   &::after {
-    content: "←";
+    content: '←';
   }
 }
