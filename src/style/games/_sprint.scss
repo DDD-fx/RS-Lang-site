@@ -158,9 +158,11 @@
   border-radius: 10px;
   width: 150px;
   font-size: 25px;
+  transition: 0.4s;
 
   &:hover {
     box-shadow: $active-shadow;
+    transition: 0.4s;
   }
 
   &::after {
