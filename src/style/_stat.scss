@@ -1,7 +1,6 @@
 @import 'mixins';
 
 .statistic__article {
-  /* max-width: 55rem; */
   padding: 2rem 1rem 4rem 1rem;
   margin: auto 0;
   width: 100%;
@@ -83,6 +82,7 @@
   filter: opacity(0.9);
   color: black;
 }
+
 .stat-game-card.audiochallenge {
   background: rgb(255 255 255 / 100%) url(assets/games/headphones.svg) no-repeat center;
   background-size: 40%;
@@ -96,10 +96,9 @@
 }
 
 .stat-game-card__accent {
-  //color: #5afff9;
-  //color: var(--maintheme);
   font-weight: 500;
 }
+
 .stat-game-card__name {
   align-self: center;
   margin-left: 0;
@@ -132,14 +131,20 @@
   padding-top: 1rem;
 }
 
+canvas.newWordsChart,
+canvas.learnedWordsChart {
+  width: 450px !important;
+}
+
 @include sm {
   .statistic__article {
     padding: 7rem 1rem 2rem 1rem;
   }
+
   .statistic__games {
     flex-wrap: wrap;
-    // padding: 0 1rem;
   }
+
   .stat-words-data {
     font-size: 1rem;
     align-items: center;
@@ -166,5 +171,10 @@
   .main__container .bubbles {
     bottom: 11rem;
     right: 0rem;
+  }
+
+  canvas.newWordsChart,
+  canvas.learnedWordsChart {
+    width: 300px !important;
   }
 }

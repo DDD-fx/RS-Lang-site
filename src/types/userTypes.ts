@@ -45,7 +45,7 @@ type StatOptionalDayType = {
 };
 
 type StatOptionalGameType = {
-  wordsPerDay: number;
+  newWordsPerDay: number;
   learnedWordsPerDay: number;
   longestSeries: number;
   correctAnswers: number;
@@ -61,12 +61,10 @@ type StatAllDaysType = {
   newWords: number[];
 };
 
-type PutStatBodyType =
-  | {
-      learnedWords: number;
-      optional: StatOptionalType;
-    }
-  | {};
+type PutStatBodyType = {
+  learnedWords: number;
+  optional: StatOptionalType;
+};
 
 type DecodedTokenType = {
   id: string;
