@@ -21,8 +21,9 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       .on('nextBtnClicked', () => this.turnGamePage())
       .on('wordOfShakedArrCountAdded', () => this.changeWord())
       .on('pressedContinueGameBtn', () => this.getWordsList())
-      .on('rightAnswerClicked', (word: string) => this.getWordData(word))
-      .on('wrongAnswerClicked', (word: string) => this.resetСhainOfCorrectAnswers(word))
+      .on('rightAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
+      .on('wrongAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
+      .on('wrongAnswerClicked', (id: string, flag: boolean) => this.resetСhainOfCorrectAnswers(id))
       .on('skipAnswerBtnClicked', () => this.stopСhainOfCorrectAnswers())
   }
 
@@ -45,8 +46,8 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     this.audioChallengeModel.changeWord();
   };
 
-  getWordData = (word: string): void => {
-    this.audioChallengeModel.getWordData(word);
+  getWordData = (id: string, flag: boolean): void => {
+    this.audioChallengeModel.getWordData(id, flag);
   };
 
   getNewWordData = async (diff: number): Promise<void> => {
@@ -55,8 +56,8 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     await this.audioChallengeModel.getNewWordData(query, diff);
   };
 
-  resetСhainOfCorrectAnswers = (word: string) => {
-    this.audioChallengeModel.resetСhainOfCorrectAnswers(word);
+  resetСhainOfCorrectAnswers = (id: string) => {
+    this.audioChallengeModel.resetСhainOfCorrectAnswers(id);
   }
 
   stopСhainOfCorrectAnswers = () => {

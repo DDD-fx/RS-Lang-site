@@ -38,8 +38,8 @@ export type GamesEventsType = {
   wordsAreOver: () => void;
   wordOfShakedArrCountAdded: () => void;
   pressedContinueGameBtn: () => void;
-  wrongAnswerClicked: (word: string) => void;
-  rightAnswerClicked: (word: string) => void;
+  wrongAnswerClicked: (word: string, flag: boolean) => void;
+  rightAnswerClicked: (word: string, flag: boolean) => void;
   theGameIsOver: () => void;
   skipAnswerBtnClicked: () => void;
 };
