@@ -6,7 +6,6 @@ import {
 } from '../../../types/games/commonGamesTypes';
 import { createElement } from '../../../utils/tools';
 
-
 export class GamesEntranceView
   extends TypedEmitter<GamesEntranceEventType>
   implements GamesEntranceViewInterface

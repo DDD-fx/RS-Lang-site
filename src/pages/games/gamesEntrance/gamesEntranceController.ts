@@ -52,7 +52,9 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     );
     audioChallengeModel.getWordsListFromTextbook(wordsCollection);
     if (wordsCollection.length < AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage) {
-      await audioChallengeController.getNewWordData(AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage - wordsCollection.length)
+      await audioChallengeController.getNewWordData(
+        AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage - wordsCollection.length,
+      );
     }
     audioChallengeView.drawAudioChallengeGame();
   };

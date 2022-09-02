@@ -22,7 +22,7 @@ const renderAdvTemplate = () => `
         <img class="second" src="assets/games-img.jpg" alt="games-img">
       </div>
       <div class="advantages__item">
-        <img src="assets/stat-img.jpg" alt="/stat-img">
+        <img src="assets/stat-img.jpg" alt="stat-img">
         <h4 class="advantages-title">Статистика</h4>
         <p class="advantages-text">Мы собираем информацию о вашем прогрессе по дням и за весь период обучения!</p>
       </div>

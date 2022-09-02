@@ -56,11 +56,11 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     await this.audioChallengeModel.getNewWordData(query, diff);
   };
 
-  resetСhainOfCorrectAnswers = (id: string) => {
+  resetСhainOfCorrectAnswers = (id: string): void => {
     this.audioChallengeModel.resetСhainOfCorrectAnswers(id);
   }
 
-  stopСhainOfCorrectAnswers = () => {
+  stopСhainOfCorrectAnswers = (): void => {
     this.audioChallengeModel.stopСhainOfCorrectAnswers();
-  }
+  };
 }

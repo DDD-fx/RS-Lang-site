@@ -5,8 +5,6 @@ import {
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import {
-  AddUserWordBodyType,
-  AggregatedWordsRespType,
   AggregatedWordType,
   WordsChunkType,
 } from '../../../types/textbookTypes';
@@ -157,21 +155,21 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
   };
 
-  getNewWordData = async (query: string, diff: number) => {
+  getNewWordData = async (query: string, diff: number): Promise<void> => {
     const promise = await fetch(baseURL + query);
     const data = await promise.json();
     for (let i = 0; i < diff; i += 1) {
       await AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(
-        data[Math.floor(Math.random() * (data.length - 1))]
+        data[Math.floor(Math.random() * (data.length - 1))],
       );
     }
   };
 
-  resetСhainOfCorrectAnswers = (word: string) => {
+  resetСhainOfCorrectAnswers = (word: string): void => {
     this.stopСhainOfCorrectAnswers;
   };
 
-  stopСhainOfCorrectAnswers = () => {
+  stopСhainOfCorrectAnswers = (): void => {
     if (
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
       AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers
