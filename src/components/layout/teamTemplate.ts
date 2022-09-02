@@ -20,7 +20,7 @@ const renderTeamTemplate = () => `
                             </div>
                             <div class="advantages__item">
                             <img class="avatar" src="assets/orla-avatar.jpg" alt="orla-avatar">
-                            <h4 class="team__title"><a href="https://github.com/OutLaw0" class="github-logo"><img src="assets/github-logo.png" alt="github-logo"></a>Ольга</h4>
+                            <h4 class="team__title"><a href="https://github.com/orla90" class="github-logo"><img src="assets/github-logo.png" alt="github-logo"></a>Ольга</h4>
                             <ul class="team__list" >
                             <li class="team__list-item">Игра Аудиовызов</li>
                             <li class="team__list-item">Игра Спринт</li>
@@ -29,7 +29,7 @@ const renderTeamTemplate = () => `
                         </div>
                             <div class="advantages__item">
                             <img class="avatar outlaw" src="assets/outlaw-avatar.jpg" alt="outlaw-avatar">
-                            <h4 class="team__title"><a href="https://github.com/orla90" class="github-logo"><img src="assets/github-logo.png" alt="github-logo"></a>Валентин</h4>
+                            <h4 class="team__title"><a href="https://github.com/OutLaw0" class="github-logo"><img src="assets/github-logo.png" alt="github-logo"></a>Валентин</h4>
                             <ul class="team__list" >
                             <li class="team__list-item">Главная страница</li>
                             <li class="team__list-item">Авторизация </li>

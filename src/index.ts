@@ -35,6 +35,7 @@ const routes: Routes[] = [
   {
     path: '',
     action: () => {
+      app.view.renderPreloader();
       app.view.renderMainTemplate();
       document.title = `Главная ${title}`;
     },
@@ -42,6 +43,7 @@ const routes: Routes[] = [
   {
     path: '/textbook',
     action: () => {
+      app.view.renderPreloader();
       textbook.init().catch((err) => console.error(err));
       document.title = `Учебник ${title}`;
     },
@@ -49,6 +51,7 @@ const routes: Routes[] = [
   {
     path: '/games',
     action: () => {
+      app.view.renderPreloader();
       gamesSection.render();
       gamesSection.mount();
       document.title = `Миниигры ${title}`;
@@ -57,6 +60,7 @@ const routes: Routes[] = [
   {
     path: '/audiochallenge',
     action: () => {
+      app.view.renderPreloader();
       main.innerHTML = '';
       main.append(gamesEntrance.gamesEntranceView.buildAudioChallengeHTML());
       document.title = `Игра Аудиовызов ${title}`;
@@ -67,6 +71,7 @@ const routes: Routes[] = [
     path: '/audiochallenge-pages',
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     action: async () => {
+      app.view.renderPreloader();
       const collection = await textbook.getGamesWordCollection(GameEnum.audioChallenge);
       console.log('audiochallenge', collection);
       gamesEntrance.startAudioChallengeFromTextBook(collection);
@@ -77,6 +82,7 @@ const routes: Routes[] = [
   {
     path: '/sprint',
     action: () => {
+      app.view.renderPreloader();
       main.innerHTML = '';
       main.append(gamesEntrance.gamesEntranceView.buildSprintHTML());
       document.title = `Игра Спринт ${title}`;
@@ -86,6 +92,7 @@ const routes: Routes[] = [
     path: '/sprint-pages',
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     action: async () => {
+      app.view.renderPreloader();
       const collection = await textbook.getGamesWordCollection(GameEnum.sprint);
       console.log('sprint', collection);
       gamesEntrance.startSprintGameFromTextBook(collection);
@@ -96,6 +103,7 @@ const routes: Routes[] = [
   {
     path: '/stat',
     action: () => {
+      app.view.renderPreloader();
       stat.init().catch((err) => console.error(err));
       document.title = `Статистика ${title}`;
     },
@@ -103,6 +111,7 @@ const routes: Routes[] = [
   {
     path: '/login',
     action: () => {
+      app.view.renderPreloader();
       login.view.renderLoginForm();
       document.title = `Авторизация ${title}`;
     },

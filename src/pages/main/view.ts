@@ -1,8 +1,8 @@
-import { footerInner, renderMainTemplate } from '../../components/layout/mainTemplate';
+import { footerInner, renderMainTemplate, preloader } from '../../components/layout/mainTemplate';
 import renderAdvTemplate from '../../components/layout/advTemplate';
 import renderTeamTemplate from '../../components/layout/teamTemplate';
 import Nav from '../../components/nav';
-import { createElement, getElement } from '../../utils/tools';
+import { createElement, getElement, preloadImages } from '../../utils/tools';
 import history from '../../utils/history';
 
 class View {
@@ -17,6 +17,7 @@ class View {
   nav;
 
   constructor() {
+    preloadImages();
     this.header = createElement('header', 'header');
     this.main = createElement('main', 'main');
     this.mainWrapper = createElement('div', ['wrapper', 'main__wrapper']);
@@ -45,6 +46,11 @@ class View {
       this.mainWrapper.insertAdjacentHTML('afterbegin', template());
       this.mainWrapper.style.opacity = '1';
     }, 250);
+  };
+
+  renderPreloader = (): void => {
+    this.mainWrapper.innerHTML = '';
+    this.mainWrapper.insertAdjacentHTML('afterbegin', preloader);
   };
 
   bind = () => {

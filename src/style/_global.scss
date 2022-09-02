@@ -212,6 +212,21 @@ a.btn.btn.inactive:hover {
   cursor: default;
 }
 
+.btn.game-noidea {
+  font-size: 2rem;
+  vertical-align: top;
+  padding-bottom: 11px;
+  padding: 10px 30px 10px 30px;
+  max-width: fit-content;
+}
+
+.btn.game-next {
+  font-size: 3rem;
+  vertical-align: top;
+  padding-bottom: 11px;
+  padding: 0px 30px 5px 30px;
+}
+
 .btn.inactive:active,
 .btn.inactive:hover {
   opacity: 1;
@@ -283,6 +298,77 @@ li {
   transition: 0.3s;
 }
 
+.loader {
+  position: absolute;
+  top: 40%;
+  left: 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 27px;
+  width: 100%;
+
+  & h2 {
+    font-size: 0.8em;
+    text-align: center;
+    font-weight: 300;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  & .loading span {
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.6em;
+    height: 0.6em;
+    margin: 0.19em;
+    background: white;
+    border-radius: 0.6em;
+    animation: loading 1s infinite alternate;
+  }
+
+  & .loading span:nth-of-type(2) {
+    background: white;
+    animation-delay: 0.15s;
+  }
+
+  & .loading span:nth-of-type(3) {
+    background: white;
+    animation-delay: 0.3s;
+  }
+
+  & .loading span:nth-of-type(4) {
+    background: white;
+    animation-delay: 0.45s;
+  }
+
+  & .loading span:nth-of-type(5) {
+    background: white;
+    animation-delay: 0.6s;
+  }
+
+  & .loading span:nth-of-type(6) {
+    background: white;
+    animation-delay: 0.8s;
+  }
+
+  & .loading span:nth-of-type(7) {
+    background: white;
+    animation-delay: 1s;
+  }
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 @include md {
   html {
     font-size: 14px;
@@ -300,6 +386,10 @@ li {
   .nav__list {
     flex-wrap: wrap;
   }
+  .loader {
+    font-size: 20px;
+  }
+
   > div,
   a,
   p {

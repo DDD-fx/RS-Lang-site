@@ -83,18 +83,24 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     const promise = await fetch(baseURL + query);
     const data = await promise.json();
     for (let i = 0; i < diff; i += 1) {
-      await AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(data[Math.floor(Math.random() * (data.length - 1))])
+      await AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(
+        data[Math.floor(Math.random() * (data.length - 1))],
+      );
     }
-  }
+  };
 
   resetСhainOfCorrectAnswers = (word: string) => {
     this.stopСhainOfCorrectAnswers;
-  }
-  
+  };
+
   stopСhainOfCorrectAnswers = () => {
-    if (AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers > AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers) {
-      AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers = AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+    if (
+      AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
+      AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers
+    ) {
+      AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers =
+        AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
     }
-  }
+  };
 }
