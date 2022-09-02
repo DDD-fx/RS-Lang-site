@@ -11,7 +11,7 @@ import {
 import { LocalStorage } from '../../../utils/storage';
 import { authFetch } from '../../../model/model';
 import { AudioChallengeModelInterface } from '../../../types/games/audioChallengeTypes';
-import { WordStatusEnum } from '../../../types/enums';
+import { CorrectAnswersStatus, WordStatusEnum } from '../../../types/enums';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
@@ -77,7 +77,6 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     if (LocalStorage.currUserSettings.userId) {
       const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords/${id}`;
       const word = await this.getUserWords(query);
-      console.log(word)
       
       if (word) {
         if (word.userWord) {
@@ -101,12 +100,16 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         if (word.userWord.difficulty === WordStatusEnum.learned && flag === false) {
           word.userWord.difficulty = WordStatusEnum.new;
         } else if (word.userWord.difficulty === WordStatusEnum.difficult && flag === true) {
-          if (word.userWord.optional.correctAnswersChallenge === '5') {
+          if (+word.userWord.optional.correctAnswersChallenge %
+            CorrectAnswersStatus.learnedForDifficult ===
+            0) {
             word.userWord.difficulty = WordStatusEnum.learned;
             AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
           }
         } else if (word.userWord.difficulty === WordStatusEnum.new && flag === true) {
-          if (word.userWord.optional.correctAnswersChallenge === '3') {
+          if (+word.userWord.optional.correctAnswersChallenge %
+            CorrectAnswersStatus.learnedForNew ===
+            0) {
             word.userWord.difficulty = WordStatusEnum.learned;
             AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
           }
