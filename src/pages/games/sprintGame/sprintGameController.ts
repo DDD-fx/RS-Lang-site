@@ -84,7 +84,7 @@ export class SprintController implements SprintControllerInterface {
       SPRINT_GAME_SETTINGS.unlearnedWords.push(gameCurrWord.word);
     }
     SPRINT_GAME_SETTINGS.unlearnedWords.push(gameCurrWord.word);
-    const currWord = JSON.parse(JSON.stringify(gameCurrWord.word)) as
+    const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as
       | WordsChunkType
       | AggregatedWordType;
     if ('userWord' in currWord) {
