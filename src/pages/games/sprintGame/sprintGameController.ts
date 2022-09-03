@@ -36,6 +36,9 @@ export class SprintController implements SprintControllerInterface {
   };
 
   checkSprintCorrectAnswer = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
+    if (!SPRINT_GAME_SETTINGS.learnedWords.includes(gameCurrWord.word) && !SPRINT_GAME_SETTINGS.unlearnedWords.includes(gameCurrWord.word)) {
+      SPRINT_GAME_SETTINGS.learnedWords.push(gameCurrWord.word);
+    }
     const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as
       | WordsChunkType
       | AggregatedWordType;
@@ -77,7 +80,11 @@ export class SprintController implements SprintControllerInterface {
   };
 
   checkSprintIncorrectAnswer = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
-    const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as
+    if (!SPRINT_GAME_SETTINGS.learnedWords.includes(gameCurrWord.word) && !SPRINT_GAME_SETTINGS.unlearnedWords.includes(gameCurrWord.word)) {
+      SPRINT_GAME_SETTINGS.unlearnedWords.push(gameCurrWord.word);
+    }
+    SPRINT_GAME_SETTINGS.unlearnedWords.push(gameCurrWord.word);
+    const currWord = JSON.parse(JSON.stringify(gameCurrWord.word)) as
       | WordsChunkType
       | AggregatedWordType;
     if ('userWord' in currWord) {
