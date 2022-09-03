@@ -73,36 +73,49 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     const translateToShowIdx = Math.floor(answers.length * Math.random());
     wordTranslateElem.textContent = answers[translateToShowIdx];
 
-    if (answers[translateToShowIdx] === currWord.wordTranslate) this.isAnswerCorrect = true;
+    this.isAnswerCorrect = answers[translateToShowIdx] === currWord.wordTranslate;
 
     question.append(englishWordElem, wordTranslateElem);
   };
 
   addSprintAnswerListeners = (): void => {
     const correctAnswerBtn = getElement('sprint-answer__correct') as HTMLButtonElement;
-    correctAnswerBtn.addEventListener('click', () => {
-      if (LocalStorage.currUserSettings.userId) {
-        if (this.isAnswerCorrect) {
-          this.flashBG(true);
-          this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-        } else {
-          this.flashBG(false);
-          this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-        }
-      } else this.drawNextSprintQuestion();
+    correctAnswerBtn.addEventListener('click', () => this.addCorrectBtnEvents());
+    window.addEventListener('keyup', (e) => {
+      e.preventDefault();
+      if (e.code === 'ArrowRight') this.addCorrectBtnEvents();
     });
+
     const inCorrectAnswerBtn = getElement('sprint-answer__incorrect') as HTMLButtonElement;
-    inCorrectAnswerBtn.addEventListener('click', () => {
-      if (LocalStorage.currUserSettings.userId) {
-        if (this.isAnswerCorrect) {
-          this.flashBG(false);
-          this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-        } else {
-          this.flashBG(true);
-          this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-        }
-      } else this.drawNextSprintQuestion();
+    inCorrectAnswerBtn.addEventListener('click', () => this.addIncorrectBtnEvents());
+    window.addEventListener('keyup', (e) => {
+      e.preventDefault();
+      if (e.code === 'ArrowLeft') this.addIncorrectBtnEvents();
     });
+  };
+
+  addCorrectBtnEvents = (): void => {
+    if (LocalStorage.currUserSettings.userId) {
+      if (this.isAnswerCorrect) {
+        this.flashBG(true);
+        this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+      } else {
+        this.flashBG(false);
+        this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+      }
+    } else this.drawNextSprintQuestion();
+  };
+
+  addIncorrectBtnEvents = (): void => {
+    if (LocalStorage.currUserSettings.userId) {
+      if (this.isAnswerCorrect) {
+        this.flashBG(false);
+        this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+      } else {
+        this.flashBG(true);
+        this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+      }
+    } else this.drawNextSprintQuestion();
   };
 
   drawNextSprintQuestion = (): void => {
@@ -225,7 +238,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     const closeBtn = createElement('button', ['game-start-btn', 'result-section__close-btn']);
     closeBtn.textContent = 'Завершить игру';
     closeBtn.addEventListener('click', () => {
-      if (SPRINT_GAME_SETTINGS.startFromTextbook === false) {
+      if (!SPRINT_GAME_SETTINGS.startFromTextbook) {
         window.location.reload();
       } else {
         history.push('/textbook');

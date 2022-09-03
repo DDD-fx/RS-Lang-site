@@ -5,8 +5,8 @@ export enum WordStatusEnum {
 }
 
 export enum GameEnum {
-  audioChallenge,
-  sprint,
+  audioChallenge = 'audiochallenge',
+  sprint = 'sprint',
 }
 
 export enum CorrectAnswersStatus {

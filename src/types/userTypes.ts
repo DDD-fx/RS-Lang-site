@@ -30,7 +30,7 @@ type CreateUserErrorsType = {
 };
 
 type StatAnswerType = {
-  id: string;
+  id?: string;
   learnedWords: number;
   optional: StatOptionalType;
 } | null;

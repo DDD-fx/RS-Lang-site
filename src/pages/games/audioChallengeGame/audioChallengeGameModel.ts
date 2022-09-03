@@ -2,14 +2,16 @@ import {
   AUDIOCHALLENGE_GAME_SETTINGS,
   baseURL,
   WORDS_PER_TEXTBOOK_PAGE,
+  STAT_ANONIM_DAY_DEFAULTS,
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
-import {
-  AggregatedWordType,
-  WordsChunkType,
-} from '../../../types/textbookTypes';
+import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
+import { PutStatBodyType, StatAnswerType } from '../../../types/userTypes';
+import { GameEnum } from '../../../types/enums';
 import { LocalStorage } from '../../../utils/storage';
+import { getShortDate } from '../../../utils/tools';
 import { authFetch } from '../../../model/model';
+import { getStat, putStat } from '../../../model/api/statApi';
 import { AudioChallengeModelInterface } from '../../../types/games/audioChallengeTypes';
 import { ApiMethodsEnum, CorrectAnswersStatus, WordStatusEnum } from '../../../types/enums';
 
@@ -18,10 +20,13 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   shakedWordChunk: WordsChunkType[];
 
+  userStat: PutStatBodyType | null;
+
   constructor() {
     super();
     this.wordsChunk = [];
     this.shakedWordChunk = [];
+    this.userStat = null;
   }
 
   getWordsList = async (query: string): Promise<void> => {
@@ -30,9 +35,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     this.shakedWordChunk = this.shakeWordsArr();
   };
 
-  getWordsListFromTextbook = (
-    array: WordsChunkType[] | AggregatedWordType[]
-  ): void => {
+  getWordsListFromTextbook = (array: WordsChunkType[] | AggregatedWordType[]): void => {
     this.wordsChunk = array.slice();
     this.shakedWordChunk = this.shakeWordsArr();
   };
@@ -47,16 +50,12 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   turnGamePage = (): void => {
-    AUDIOCHALLENGE_GAME_SETTINGS.wordCount +=
-      AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
+    AUDIOCHALLENGE_GAME_SETTINGS.wordCount += AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage;
     this.emit('drawGameBtns');
   };
 
   changeWord = (): void => {
-    if (
-      AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount <
-      WORDS_PER_TEXTBOOK_PAGE
-    ) {
+    if (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount < WORDS_PER_TEXTBOOK_PAGE) {
       AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount += 1;
     }
   };
@@ -179,12 +178,61 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   checkChainOfCorrectAnswers = (flag: boolean): void => {
     if (flag === true) {
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
-      if (AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
-        AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers) {
-          AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers = AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
-        }
+      if (
+        AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
+        AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers
+      ) {
+        AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers =
+          AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+      }
     } else if (flag === false) {
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
+    }
+  };
+
+  getStatistics = async (): Promise<void> => {
+    if (LocalStorage.isAuth) {
+      const { userId, token } = LocalStorage.currUserSettings;
+      const answer = (await getStat(userId, token)) as StatAnswerType | null;
+      if (answer) {
+        delete answer.id;
+      }
+      this.userStat = answer;
+      const dateKey = getShortDate();
+      if (!this.userStat) {
+        this.userStat = {
+          learnedWords: 0,
+          optional: { [dateKey]: JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) },
+        };
+      }
+      if (!(dateKey in this.userStat.optional)) {
+        console.log('kek');
+        this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
+      }
+    }
+    console.log(this.userStat);
+  };
+
+  setStatistics = async (gameKey: GameEnum): Promise<void> => {
+    if (LocalStorage.isAuth) {
+      if (this.userStat) {
+        const dateKey = getShortDate();
+        const { userId, token } = LocalStorage.currUserSettings;
+        const oldGameStat = this.userStat.optional[dateKey][gameKey];
+        console.log(oldGameStat);
+        const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
+          AUDIOCHALLENGE_GAME_SETTINGS;
+        const gameStatObj = {
+          newWordsPerDay: learnedWords.length + unlearnedWords.length + oldGameStat.newWordsPerDay,
+          learnedWordsPerDay: learnedPerGame + oldGameStat.learnedWordsPerDay,
+          longestSeries: sequenceOfCorrectAnswers + oldGameStat.longestSeries,
+          correctAnswers: learnedWords.length + oldGameStat.correctAnswers,
+          incorrectAnswers: unlearnedWords.length + oldGameStat.incorrectAnswers,
+        };
+        this.userStat.optional[dateKey][gameKey] = gameStatObj;
+        console.log(this.userStat);
+        await putStat(userId, token, this.userStat);
+      }
     }
   };
 }

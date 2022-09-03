@@ -9,6 +9,7 @@ import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants'
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
 import { GamesEventsType, ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
+import { GameEnum } from '../../../types/enums';
 
 export class AudioChallengeView
   extends TypedEmitter<GamesEventsType>
@@ -367,7 +368,7 @@ export class AudioChallengeView
   getRightAnswer = (): string => {
     const answerElement = getElement('game-section__selected-word');
     if (answerElement) {
-      return answerElement.innerHTML;;
+      return answerElement.innerHTML;
     }
     return '';
   };
@@ -476,7 +477,7 @@ export class AudioChallengeView
     const answer = this.getRightAnswer();
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (word === answer) {
-      this.emit('rightAnswerClicked', id, flag = true);
+      this.emit('rightAnswerClicked', id, (flag = true));
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
@@ -487,7 +488,7 @@ export class AudioChallengeView
         this.turnOnCorrectAnswerSound();
       }
     } else {
-      this.emit('wrongAnswerClicked', id, flag = false);
+      this.emit('wrongAnswerClicked', id, (flag = false));
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
@@ -518,6 +519,7 @@ export class AudioChallengeView
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
     this.showOperationPanel();
+    this.audioChallengeModel.setStatistics(GameEnum.audioChallenge);
   };
 
   closeGameResults = (): void => {
@@ -670,10 +672,7 @@ export class AudioChallengeView
     );
     const englishWord = word?.word;
     const wordId = word!.id;
-    if (
-      englishWord &&
-      (wordsBtns[index] as HTMLButtonElement).disabled !== true
-    ) {
+    if (englishWord && (wordsBtns[index] as HTMLButtonElement).disabled !== true) {
       this.showRightAnswer();
       this.hideSkipBtn();
       this.showSign(englishWord);
