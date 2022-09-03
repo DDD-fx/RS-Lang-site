@@ -42,8 +42,10 @@ const getChartConfig = (data: ChartData<'line'>): ChartConfiguration<'line'> => 
           },
         },
         y: {
+          // suggestedMin: 0,
           ticks: {
             color: 'white',
+            precision: 0,
             //  borderColor: 'white'
           },
         },
