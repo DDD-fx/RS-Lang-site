@@ -54,4 +54,9 @@ export interface SprintViewUtilsInterface {
 export type SprintGameType = {
   level: number;
   startFromTextbook: boolean;
+  learnedWords: string[];
+  unlearnedWords: string[];
+  sequenceOfCorrectAnswers: number;
+  tempSequenceOfCorrectAnswers: number;
+  learnedPerGame: number,
 };

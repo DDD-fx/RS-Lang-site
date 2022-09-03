@@ -45,6 +45,11 @@ export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
 export const SPRINT_GAME_SETTINGS: SprintGameType = {
   level: 0,
   startFromTextbook: false,
+  learnedWords: [],
+  unlearnedWords: [],
+  sequenceOfCorrectAnswers: 0,
+  tempSequenceOfCorrectAnswers: 0,
+  learnedPerGame: 0,
 };
 
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>

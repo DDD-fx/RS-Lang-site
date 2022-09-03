@@ -71,7 +71,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
   startSprintGameFromTextBook = async (
     wordsCollection: WordsChunkType[] | AggregatedWordType[],
   ): Promise<void> => {
-    AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
+    SPRINT_GAME_SETTINGS.startFromTextbook = true;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
     const sprintController = new SprintController(sprintModel, sprintView);
