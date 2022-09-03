@@ -62,7 +62,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   getWordData = async (id: string, flag: boolean) => {
-    AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
+    this.checkChainOfCorrectAnswers(flag);
     const DefaultUserWord = {
       difficulty: WordStatusEnum.new,
       optional: {
@@ -168,17 +168,14 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
   };
 
-  resetСhainOfCorrectAnswers = (word: string): void => {
-    this.stopСhainOfCorrectAnswers;
-  };
-
-  stopСhainOfCorrectAnswers = (): void => {
-    if (
-      AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
-      AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers
-    ) {
-      AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers =
-        AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+  checkChainOfCorrectAnswers = (flag: boolean): void => {
+    if (flag === true) {
+      AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
+      if (AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
+        AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers) {
+          AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers = AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+        }
+    } else if (flag === false) {
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
     }
   };

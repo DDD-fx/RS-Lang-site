@@ -16,8 +16,7 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   changeWord(): void;
   getWordData(word: string, flag: boolean): void;
   getNewWordData(query: string, diff: number): void;
-  resetСhainOfCorrectAnswers(word: string): void;
-  stopСhainOfCorrectAnswers(): void;
+  checkChainOfCorrectAnswers(flag: boolean): void;
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
