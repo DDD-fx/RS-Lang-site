@@ -81,14 +81,14 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   addSprintAnswerListeners = (): void => {
     const correctAnswerBtn = getElement('sprint-answer__correct') as HTMLButtonElement;
     correctAnswerBtn.addEventListener('click', () => this.addCorrectBtnEvents());
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keyup', (e) => {
       e.preventDefault();
       if (e.code === 'ArrowRight') this.addCorrectBtnEvents();
     });
 
     const inCorrectAnswerBtn = getElement('sprint-answer__incorrect') as HTMLButtonElement;
     inCorrectAnswerBtn.addEventListener('click', () => this.addIncorrectBtnEvents());
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keyup', (e) => {
       e.preventDefault();
       if (e.code === 'ArrowLeft') this.addIncorrectBtnEvents();
     });
