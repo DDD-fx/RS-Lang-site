@@ -13,6 +13,7 @@ export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEv
   createAudioChallengeDescription(): HTMLElement;
   createSprintImage(): HTMLElement;
   createAudioChallengeImage(): HTMLElement;
+  renderPreloader(): void;
 }
 
 export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceEventType> {

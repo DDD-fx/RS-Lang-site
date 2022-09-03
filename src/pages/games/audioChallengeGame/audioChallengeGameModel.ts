@@ -177,10 +177,13 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   checkChainOfCorrectAnswers = (flag: boolean): void => {
     if (flag === true) {
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
-      if (AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
-        AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers) {
-          AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers = AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
-        }
+      if (
+        AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
+        AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers
+      ) {
+        AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers =
+          AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+      }
     } else if (flag === false) {
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
     }
@@ -189,7 +192,11 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   getStatistics = async (): Promise<void> => {
     if (LocalStorage.isAuth) {
       const { userId, token } = LocalStorage.currUserSettings;
-      this.userStat = (await getStat(userId, token)) as StatAnswerType | null;
+      const answer = (await getStat(userId, token)) as StatAnswerType | null;
+      if (answer) {
+        delete answer.id;
+      }
+      this.userStat = answer;
       const dateKey = getShortDate();
       if (!this.userStat) {
         this.userStat = {
@@ -198,6 +205,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         };
       }
       if (!(dateKey in this.userStat.optional)) {
+        console.log('kek');
         this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
       }
     }
@@ -210,6 +218,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         const dateKey = getShortDate();
         const { userId, token } = LocalStorage.currUserSettings;
         const oldGameStat = this.userStat.optional[dateKey][gameKey];
+        console.log(oldGameStat);
         const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
           AUDIOCHALLENGE_GAME_SETTINGS;
         const gameStatObj = {
@@ -220,7 +229,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
           incorrectAnswers: unlearnedWords.length + oldGameStat.incorrectAnswers,
         };
         this.userStat.optional[dateKey][gameKey] = gameStatObj;
-        console.log(this.userStat)
+        console.log(this.userStat);
         await putStat(userId, token, this.userStat);
       }
     }

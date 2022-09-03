@@ -88,5 +88,3 @@ export const STAT_ANONIM_DEFAULTS: StatStateType = {
     newWords: [0],
   },
 };
-
-

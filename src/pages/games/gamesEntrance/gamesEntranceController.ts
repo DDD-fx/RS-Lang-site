@@ -36,6 +36,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
       audioChallengeModel,
       audioChallengeView,
     );
+    this.gamesEntranceView.renderPreloader();
     await audioChallengeController.getWordsList();
     await audioChallengeModel.getStatistics();
     audioChallengeView.drawAudioChallengeGame();
@@ -44,6 +45,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
   startAudioChallengeFromTextBook = async (
     wordsCollection: WordsChunkType[] | AggregatedWordType[],
   ) => {
+    this.gamesEntranceView.renderPreloader();
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
@@ -57,6 +59,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
         AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage - wordsCollection.length,
       );
     }
+    await audioChallengeModel.getStatistics();
     audioChallengeView.drawAudioChallengeGame();
   };
 

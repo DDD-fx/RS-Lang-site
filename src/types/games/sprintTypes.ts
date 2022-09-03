@@ -58,5 +58,5 @@ export type SprintGameType = {
   unlearnedWords: string[];
   sequenceOfCorrectAnswers: number;
   tempSequenceOfCorrectAnswers: number;
-  learnedPerGame: number,
+  learnedPerGame: number;
 };
