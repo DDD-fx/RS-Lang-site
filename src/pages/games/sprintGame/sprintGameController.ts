@@ -36,6 +36,7 @@ export class SprintController implements SprintControllerInterface {
   };
 
   checkSprintCorrectAnswer = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
+    console.log(gameCurrWord)
     if (!SPRINT_GAME_SETTINGS.learnedWords.includes(gameCurrWord.word) && !SPRINT_GAME_SETTINGS.unlearnedWords.includes(gameCurrWord.word)) {
       SPRINT_GAME_SETTINGS.learnedWords.push(gameCurrWord.word);
     }

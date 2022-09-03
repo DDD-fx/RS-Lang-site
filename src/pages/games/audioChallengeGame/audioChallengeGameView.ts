@@ -339,9 +339,15 @@ export class AudioChallengeView
     const skipBtnWrapper = getElement('game-section__skip-btn-wrapper');
     const skipBtn = createElement('button', ['btn', 'game-section__skip-btn', 'game-start-btn']);
     skipBtn.innerText = 'Не знаю';
+    const answer = this.getRightAnswer();
+    const word = this.audioChallengeModel.wordsChunk.find(
+      (el) => el.word === answer
+    );
+
+    console.log((word as WordsChunkType).id)
     skipBtn.addEventListener('click', () => {
       this.emit('skipAnswerBtnClicked');
-      const answer = this.getRightAnswer();
+      this.emit('wrongAnswerClicked', (word as WordsChunkType).id, false);
       this.showRightAnswer();
       this.hideSkipBtn();
       this.showSign(answer);
@@ -512,8 +518,6 @@ export class AudioChallengeView
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
     this.showOperationPanel();
-    // console.log(AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers);
-    // console.log(AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers);
   };
 
   closeGameResults = (): void => {
@@ -695,6 +699,10 @@ export class AudioChallengeView
     const skipBtn = getElement('game-section__skip-btn-wrapper');
     const continueBtn = getElement('game-section__next-btn-wrapper');
     const gameWrapper = getElement('fixed-window');
+    const answer = this.getRightAnswer();
+    const word = this.audioChallengeModel.wordsChunk.find(
+      (el) => el.word === answer
+    );
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (skipBtn.classList.contains('hidden') && !continueBtn.classList.contains('hidden')) {
       this.emit('nextBtnClicked');
@@ -705,7 +713,7 @@ export class AudioChallengeView
       }
     } else if (!skipBtn.classList.contains('hidden') && continueBtn.classList.contains('hidden')) {
       this.emit('skipAnswerBtnClicked');
-      const answer = this.getRightAnswer();
+      this.emit('wrongAnswerClicked', (word as WordsChunkType).id, false);
       this.showRightAnswer();
       this.hideSkipBtn();
       this.showSign(answer);
