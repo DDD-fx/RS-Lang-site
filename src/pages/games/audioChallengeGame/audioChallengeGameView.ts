@@ -5,6 +5,7 @@ import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
 } from '../../../types/games/audioChallengeTypes';
+import { GameEnum } from '../../../types/enums';
 import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
@@ -511,6 +512,7 @@ export class AudioChallengeView
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
     this.showOperationPanel();
+    this.audioChallengeModel.setStatistics(GameEnum.audioChallenge);
   };
 
   closeGameResults = (): void => {

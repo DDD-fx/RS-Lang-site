@@ -1,6 +1,7 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { GamesEventsType, WordBtnType } from './commonGamesTypes';
 import { WordsChunkType } from '../textbookTypes';
+import { GameEnum } from '../enums';
 
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
@@ -18,6 +19,8 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   getNewWordData(query: string, diff: number): void;
   resetСhainOfCorrectAnswers(word: string): void;
   stopСhainOfCorrectAnswers(): void;
+  getStatistics(): Promise<void>;
+  setStatistics(gameKey: GameEnum): Promise<void>
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {

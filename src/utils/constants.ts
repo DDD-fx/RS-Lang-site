@@ -1,6 +1,6 @@
 import { AudioChallengeGameType } from '../types/games/audioChallengeTypes';
 import { SprintGameType } from '../types/games/sprintTypes';
-import { StatStateType } from '../types/userTypes';
+import { StatStateType, StatOptionalDayType } from '../types/userTypes';
 import { UserSettingsType } from '../types/types';
 import { getShortDate } from './tools';
 
@@ -63,26 +63,30 @@ export const BIN_SVG = `<?xml version="1.0" encoding="utf-8"?>
 </svg>
 `;
 
-export const STAT_ANONIM_DEFAULTS: StatStateType = {
-  dayData: {
-    audiochallenge: {
-      newWordsPerDay: 0,
-      learnedWordsPerDay: 0,
-      longestSeries: 0,
-      correctAnswers: 0,
-      incorrectAnswers: 0,
-    },
-    sprint: {
-      newWordsPerDay: 0,
-      learnedWordsPerDay: 0,
-      longestSeries: 0,
-      correctAnswers: 0,
-      incorrectAnswers: 0,
-    },
+export const STAT_ANONIM_DAY_DEFAULTS: StatOptionalDayType = {
+  audiochallenge: {
+    newWordsPerDay: 0,
+    learnedWordsPerDay: 0,
+    longestSeries: 0,
+    correctAnswers: 0,
+    incorrectAnswers: 0,
   },
+  sprint: {
+    newWordsPerDay: 0,
+    learnedWordsPerDay: 0,
+    longestSeries: 0,
+    correctAnswers: 0,
+    incorrectAnswers: 0,
+  },
+};
+
+export const STAT_ANONIM_DEFAULTS: StatStateType = {
+  dayData: STAT_ANONIM_DAY_DEFAULTS,
   allDaysData: {
     labels: [getShortDate()],
     learnedWords: [0],
     newWords: [0],
   },
 };
+
+

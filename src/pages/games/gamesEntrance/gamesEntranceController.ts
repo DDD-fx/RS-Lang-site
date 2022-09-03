@@ -37,6 +37,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
       audioChallengeView,
     );
     await audioChallengeController.getWordsList();
+    await audioChallengeModel.getStatistics();
     audioChallengeView.drawAudioChallengeGame();
   };
 
