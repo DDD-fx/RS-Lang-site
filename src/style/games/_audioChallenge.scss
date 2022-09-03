@@ -210,7 +210,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(var(--light-bg-color), var(--dark-bg-color), var(--bg-color));
+  background: url(assets/games/challenge-bg.jpeg) no-repeat;
+  background-size: cover;
 }
 
 .game-section__answer-word-wrapper {
@@ -466,6 +467,5 @@
 
   .game-section__answer-word-wrapper {
     width: 100%;
-    padding: 2.5%;
   }
 }

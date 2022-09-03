@@ -11,6 +11,9 @@ import { drawSprintTimer } from './sprintTimer';
 import { SprintViewUtils } from './sprintViewUtils';
 import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
 import { LocalStorage } from '../../../utils/storage';
+import { baseURL, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
+import { ResultBtnType } from '../../../types/games/commonGamesTypes';
+import history from '../../../utils/history';
 
 export class SprintView extends TypedEmitter<SprintEventsType> implements SprintViewInterface {
   sprintModel: SprintModelInterface;
@@ -110,8 +113,22 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   };
 
   showResults = (): void => {
-    const sprintWrapper = getElement('sprint-game-wrapper') as HTMLDivElement;
-    sprintWrapper.innerHTML = 'alksdjalsdjkla';
+    console.log(SPRINT_GAME_SETTINGS.unlearnedWords);
+    console.log(SPRINT_GAME_SETTINGS.learnedWords);
+    const body = getElement('body') as HTMLDivElement;
+    const modalWindow = createElement('div', 'fixed-sprint-window-wrapper');
+    const sprintWrapper = createElement('div', 'fixed-result-window');
+    const resultSection = createElement('section', 'result-section');
+    const resultWordsSection = createElement('div', 'result-section__words');
+    const resultLearnedWords = this.updateLearnedResultWordsWrapper();
+    (resultSection as HTMLDivElement).style.height = '50vh';
+    const resultUnlearnedWords = this.updateUnlearnedResultWordsWrapper();
+    resultWordsSection.append(resultLearnedWords, resultUnlearnedWords);
+    const operationPanel = this.createOperationPanel();
+    resultSection.append(resultWordsSection, operationPanel);
+    sprintWrapper.append(resultSection);
+    modalWindow.append(sprintWrapper);
+    body.append(modalWindow);
   };
 
   flashBG = (answer: boolean): void => {
@@ -123,5 +140,111 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       sprintWrapper.classList.add('sprint-game-wrapper--incorrect');
       setTimeout(() => sprintWrapper.classList.remove('sprint-game-wrapper--incorrect'), 300);
     }
+  };
+
+  updateUnlearnedResultWordsWrapper = (): Element => {
+    const wordsWrapper = createElement('div', 'result-section__unlearned-words');
+    const wordsWrapperHeader = createElement('h2', 'result-section__header');
+    const headerSpan = createElement('span', [
+      'result-section__span',
+      'result-section__span_errors',
+    ]);
+    headerSpan.textContent = `${SPRINT_GAME_SETTINGS.unlearnedWords.length}`;
+    wordsWrapperHeader.textContent = 'Ошибок ';
+    wordsWrapperHeader.append(headerSpan);
+    wordsWrapper.append(wordsWrapperHeader);
+    for (let i = 0; i < SPRINT_GAME_SETTINGS.unlearnedWords.length; i += 1) {
+      const word = this.sprintModel.allPageChunk.find(
+        (el) => el.word === SPRINT_GAME_SETTINGS.unlearnedWords[i],
+      );
+      if (word) {
+        wordsWrapper.append(
+          this.createResultWordsBtns({
+            wordTranslate: word.wordTranslate,
+            word: word.word,
+          }),
+        );
+      }
+    }
+    return wordsWrapper;
+  };
+
+  updateLearnedResultWordsWrapper = (): Element => {
+    const wordsWrapper = createElement('div', 'result-section__learned-words');
+    const wordsWrapperHeader = createElement('h2', 'result-section__header');
+    const headerSpan = createElement('span', [
+      'result-section__span',
+      'result-section__span_correct',
+    ]);
+    headerSpan.textContent = `${SPRINT_GAME_SETTINGS.learnedWords.length}`;
+    wordsWrapperHeader.textContent = 'Знаю ';
+    wordsWrapperHeader.append(headerSpan);
+    wordsWrapper.append(wordsWrapperHeader);
+    for (let i = 0; i < SPRINT_GAME_SETTINGS.learnedWords.length; i += 1) {
+      const word = this.sprintModel.allPageChunk.find(
+        (el) => el.word === SPRINT_GAME_SETTINGS.learnedWords[i],
+      );
+      if (word) {
+        wordsWrapper.append(
+          this.createResultWordsBtns({
+            wordTranslate: word.wordTranslate,
+            word: word.word,
+          }),
+        );
+      }
+    }
+    return wordsWrapper;
+  };
+
+  createResultWordsBtns = ({ word, wordTranslate }: ResultBtnType): HTMLElement => {
+    const wordWrapper = createElement('div', 'result-section__word-wrapper');
+    const wordText = createElement('span', [
+      'result-section__word',
+      `result-section__word-${word}`,
+    ]);
+    wordText.textContent = `${word} - ${wordTranslate}`;
+    const soundingWord = this.sprintModel.allPageChunk.find((el) => el.word === word);
+    if (soundingWord) {
+      const speaker = this.createSpeaker(soundingWord, 'result-section__speaker-img');
+      speaker.classList.add('result-section__speaker-img_small');
+      wordWrapper.append(speaker);
+    }
+    wordWrapper.append(wordText);
+    return wordWrapper;
+  };
+
+  createOperationPanel = (): HTMLElement => {
+    const operationPanel = createElement('div', 'result-section__operation-panel');
+    const closeBtn = this.createResultsCloseBtn();
+    operationPanel.append(closeBtn);
+    return operationPanel;
+  };
+
+  createResultsCloseBtn = (): HTMLElement => {
+    const closeBtnWrapper = createElement('div', 'result-section__close-btn-wrapper');
+    const closeBtn = createElement('button', ['game-start-btn', 'result-section__close-btn']);
+    closeBtn.textContent = 'Завершить игру';
+    closeBtn.addEventListener('click', () => {
+      if (SPRINT_GAME_SETTINGS.startFromTextbook === false) {
+        window.location.reload();
+      } else {
+        history.push('/textbook');
+        window.location.reload();
+      }
+    });
+    closeBtnWrapper.append(closeBtn);
+    return closeBtnWrapper;
+  };
+
+  createSpeaker = (word: WordsChunkType, className?: string): HTMLElement => {
+    const speaker = createElement('img', `${className}`) as HTMLImageElement;
+    speaker.src = './assets/games/speaker.svg';
+    speaker.addEventListener('click', () => {
+      (async () => {
+        const audio = new Audio(baseURL + word.audio);
+        await audio.play();
+      })().catch();
+    });
+    return speaker;
   };
 }
