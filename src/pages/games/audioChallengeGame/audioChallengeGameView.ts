@@ -5,7 +5,6 @@ import {
   AudioChallengeModelInterface,
   AudioChallengeViewInterface,
 } from '../../../types/games/audioChallengeTypes';
-import { GameEnum } from '../../../types/enums';
 import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
@@ -341,6 +340,7 @@ export class AudioChallengeView
     const skipBtn = createElement('button', ['btn', 'game-section__skip-btn', 'game-start-btn']);
     skipBtn.innerText = 'Не знаю';
     skipBtn.addEventListener('click', () => {
+      this.emit('skipAnswerBtnClicked');
       const answer = this.getRightAnswer();
       this.showRightAnswer();
       this.hideSkipBtn();
@@ -512,7 +512,8 @@ export class AudioChallengeView
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
     this.showOperationPanel();
-    this.audioChallengeModel.setStatistics(GameEnum.audioChallenge);
+    // console.log(AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers);
+    // console.log(AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers);
   };
 
   closeGameResults = (): void => {

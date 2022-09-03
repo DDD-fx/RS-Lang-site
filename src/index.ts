@@ -95,7 +95,7 @@ const routes: Routes[] = [
       app.view.renderPreloader();
       const collection = await textbook.getGamesWordCollection(GameEnum.sprint);
       console.log('sprint', collection);
-      gamesEntrance.startSprintGameFromTextBook(collection);
+      await gamesEntrance.startSprintGameFromTextBook(collection);
       document.title = `Игра Спринт ${title}`;
     },
   },
