@@ -340,6 +340,7 @@ export class AudioChallengeView
     const skipBtn = createElement('button', ['btn', 'game-section__skip-btn', 'game-start-btn']);
     skipBtn.innerText = 'Не знаю';
     skipBtn.addEventListener('click', () => {
+      this.emit('skipAnswerBtnClicked');
       const answer = this.getRightAnswer();
       this.showRightAnswer();
       this.hideSkipBtn();
@@ -511,6 +512,8 @@ export class AudioChallengeView
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
     this.showOperationPanel();
+    // console.log(AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers);
+    // console.log(AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers);
   };
 
   closeGameResults = (): void => {
