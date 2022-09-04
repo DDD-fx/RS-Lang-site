@@ -474,9 +474,11 @@ export class AudioChallengeView
 
   checkRightAnswer = (word: string, id: string): void => {
     const answer = this.getRightAnswer();
+    const answerData = this.audioChallengeModel.wordsChunk.find((el) => el.word === answer);
+    const answerId = answerData!.id;
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (word === answer) {
-      this.emit('rightAnswerClicked', id, true);
+      this.emit('rightAnswerClicked', answerId, true);
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
@@ -487,7 +489,7 @@ export class AudioChallengeView
         this.turnOnCorrectAnswerSound();
       }
     } else {
-      this.emit('wrongAnswerClicked', id, false);
+      this.emit('wrongAnswerClicked', answerId, false);
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer)
