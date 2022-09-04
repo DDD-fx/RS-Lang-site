@@ -14,7 +14,6 @@ import { authFetch } from '../../../model/model';
 import { getStat, putStat } from '../../../model/api/statApi';
 import { AudioChallengeModelInterface } from '../../../types/games/audioChallengeTypes';
 import { CorrectAnswersStatus, WordStatusEnum } from '../../../types/enums';
-import { userIdValidator } from '../../../../server/src/utils/validation/validator';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];

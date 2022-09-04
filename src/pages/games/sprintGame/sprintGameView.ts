@@ -126,8 +126,6 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   };
 
   showResults = (): void => {
-    console.log(SPRINT_GAME_SETTINGS.unlearnedWords);
-    console.log(SPRINT_GAME_SETTINGS.learnedWords);
     const body = getElement('body') as HTMLDivElement;
     const modalWindow = createElement('div', 'fixed-sprint-window-wrapper');
     const sprintWrapper = createElement('div', 'fixed-result-window');
@@ -167,7 +165,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < SPRINT_GAME_SETTINGS.unlearnedWords.length; i += 1) {
-      const word = this.sprintModel.allPageChunk.find(
+      const word = this.sprintModel.shakedWordChunk.find(
         (el) => el.word === SPRINT_GAME_SETTINGS.unlearnedWords[i],
       );
       if (word) {
@@ -194,7 +192,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < SPRINT_GAME_SETTINGS.learnedWords.length; i += 1) {
-      const word = this.sprintModel.allPageChunk.find(
+      const word = this.sprintModel.shakedWordChunk.find(
         (el) => el.word === SPRINT_GAME_SETTINGS.learnedWords[i],
       );
       if (word) {
@@ -216,7 +214,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       `result-section__word-${word}`,
     ]);
     wordText.textContent = `${word} - ${wordTranslate}`;
-    const soundingWord = this.sprintModel.allPageChunk.find((el) => el.word === word);
+    const soundingWord = this.sprintModel.shakedWordChunk.find((el) => el.word === word);
     if (soundingWord) {
       const speaker = this.createSpeaker(soundingWord, 'result-section__speaker-img');
       speaker.classList.add('result-section__speaker-img_small');

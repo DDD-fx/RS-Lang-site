@@ -36,6 +36,7 @@ export class SprintController implements SprintControllerInterface {
   };
 
   checkSprintCorrectAnswer = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
+    this.checkChainOfCorrectAnswers(true);
     if (
       !SPRINT_GAME_SETTINGS.learnedWords.includes(gameCurrWord.word) &&
       !SPRINT_GAME_SETTINGS.unlearnedWords.includes(gameCurrWord.word)
@@ -62,6 +63,7 @@ export class SprintController implements SprintControllerInterface {
             0)
       )
         currWord.userWord.difficulty = WordStatusEnum.learned;
+        SPRINT_GAME_SETTINGS.learnedPerGame += 1;
       void this.sprintModel.updateWordOnSprintAnswer(currWord, ApiMethodsEnum.put);
     } else {
       (<AggregatedWordType>currWord).userWord = {
@@ -83,13 +85,13 @@ export class SprintController implements SprintControllerInterface {
   };
 
   checkSprintIncorrectAnswer = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
+    this.checkChainOfCorrectAnswers(false);
     if (
       !SPRINT_GAME_SETTINGS.learnedWords.includes(gameCurrWord.word) &&
       !SPRINT_GAME_SETTINGS.unlearnedWords.includes(gameCurrWord.word)
     ) {
       SPRINT_GAME_SETTINGS.unlearnedWords.push(gameCurrWord.word);
     }
-    SPRINT_GAME_SETTINGS.unlearnedWords.push(gameCurrWord.word);
     const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as
       | WordsChunkType
       | AggregatedWordType;
@@ -117,6 +119,21 @@ export class SprintController implements SprintControllerInterface {
         currWord as AggregatedWordType,
         ApiMethodsEnum.post,
       );
+    }
+  };
+
+  checkChainOfCorrectAnswers = (flag: boolean): void => {
+    if (flag === true) {
+      SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
+      if (
+        SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
+        SPRINT_GAME_SETTINGS.sequenceOfCorrectAnswers
+      ) {
+        SPRINT_GAME_SETTINGS.sequenceOfCorrectAnswers =
+        SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+      }
+    } else if (flag === false) {
+      SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
     }
   };
 }
