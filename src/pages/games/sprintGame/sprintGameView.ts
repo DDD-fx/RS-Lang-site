@@ -95,27 +95,31 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   };
 
   addCorrectBtnEvents = (): void => {
-    if (LocalStorage.currUserSettings.userId) {
-      if (this.isAnswerCorrect) {
-        this.flashBG(true);
+    if (this.isAnswerCorrect) {
+      this.flashBG(true);
+      if (LocalStorage.currUserSettings.userId)
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-      } else {
-        this.flashBG(false);
+      else this.drawNextSprintQuestion();
+    } else {
+      this.flashBG(false);
+      if (LocalStorage.currUserSettings.userId)
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-      }
-    } else this.drawNextSprintQuestion();
+      else this.drawNextSprintQuestion();
+    }
   };
 
   addIncorrectBtnEvents = (): void => {
-    if (LocalStorage.currUserSettings.userId) {
-      if (this.isAnswerCorrect) {
-        this.flashBG(false);
+    if (this.isAnswerCorrect) {
+      this.flashBG(false);
+      if (LocalStorage.currUserSettings.userId)
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-      } else {
-        this.flashBG(true);
+      else this.drawNextSprintQuestion();
+    } else {
+      this.flashBG(true);
+      if (LocalStorage.currUserSettings.userId)
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-      }
-    } else this.drawNextSprintQuestion();
+      else this.drawNextSprintQuestion();
+    }
   };
 
   drawNextSprintQuestion = (): void => {
@@ -249,14 +253,14 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     return closeBtnWrapper;
   };
 
-  createSpeaker = (word: WordsChunkType, className?: string): HTMLElement => {
+  createSpeaker = (word: WordsChunkType, className: string): HTMLElement => {
     const speaker = createElement('img', `${className}`) as HTMLImageElement;
     speaker.src = './assets/games/speaker.svg';
     speaker.addEventListener('click', () => {
       (async () => {
         const audio = new Audio(baseURL + word.audio);
         await audio.play();
-      })().catch();
+      })().catch((err) => console.error(err));
     });
     return speaker;
   };

@@ -22,7 +22,7 @@ const checkToken = async (): Promise<boolean> => {
 
 class Model {
   mount = async (): Promise<void> => {
-    LocalStorage.initLS('' || DEFAULT_USER_NAME);
+    LocalStorage.initLS(/*'' ||*/ DEFAULT_USER_NAME);
     if (LocalStorage.isAuth) await checkToken();
   };
 }

@@ -38,12 +38,12 @@ export class LocalStorage {
     LocalStorage.currUserSettings = userSettings;
 
     // если дефолтный юзер уже создан и что-то тыкал в учебнике, то это не запустится
-    if (
-      userID === DEFAULT_USER_NAME &&
-      JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)
-    ) {
-      LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
-    }
+    // if (
+    //   userID === DEFAULT_USER_NAME &&
+    //   JSON.stringify(userSettings) === JSON.stringify(DEFAULT_USER_SETTINGS)
+    // ) {
+    //   LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
+    // }
     if (LocalStorage.currUserSettings.token !== '') LocalStorage.isAuth = true;
   };
 

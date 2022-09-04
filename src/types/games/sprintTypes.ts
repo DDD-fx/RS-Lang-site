@@ -1,6 +1,7 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { AggregatedWordType, WordsChunkType } from '../textbookTypes';
+import { AggregatedWordType, RawAggregatedWordType, WordsChunkType } from '../textbookTypes';
 import { ApiMethodsEnum } from '../enums';
+import { ResultBtnType } from './commonGamesTypes';
 
 export type SprintEventsType = {
   sprintCorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
@@ -22,9 +23,13 @@ export interface SprintModelInterface extends TypedEmitter<SprintEventsType> {
   wordsChunk: WordsChunkType[] | AggregatedWordType[];
   shakedWordChunk: WordsChunkType[] | AggregatedWordType[];
   getWordsList(query: string): Promise<void>;
+  getUserWordsForSprint(): Promise<void>;
+  getDefaultWordsForSprint(): Promise<void>;
   getPageChunk(): Promise<void>;
   shakeWordsArr(words: WordsChunkType[]): void;
+  getWordsListFromTextbook(collection: WordsChunkType[] | AggregatedWordType[]): void;
   updateWordOnSprintAnswer(currWord: AggregatedWordType, method: ApiMethodsEnum): Promise<void>;
+  mapUserWordsID(aggregatedWords: RawAggregatedWordType[]): AggregatedWordType[];
 }
 
 export interface SprintViewInterface extends TypedEmitter<SprintEventsType> {
@@ -37,7 +42,17 @@ export interface SprintViewInterface extends TypedEmitter<SprintEventsType> {
   drawSprintGame(): void;
   createSprintQuestion(currIndex: number): void;
   addSprintAnswerListeners(): void;
+  addCorrectBtnEvents(): void;
+  addIncorrectBtnEvents(): void;
+  drawNextSprintQuestion(): void;
   showResults(): void;
+  flashBG(answer: boolean): void;
+  updateUnlearnedResultWordsWrapper(): Element;
+  updateLearnedResultWordsWrapper(): Element;
+  createResultWordsBtns({ word, wordTranslate }: ResultBtnType): HTMLElement;
+  createOperationPanel(): HTMLElement;
+  createResultsCloseBtn(): HTMLElement;
+  createSpeaker(word: WordsChunkType, className: string): HTMLElement;
 }
 
 export interface SprintViewUtilsInterface {
@@ -58,5 +73,5 @@ export type SprintGameType = {
   unlearnedWords: string[];
   sequenceOfCorrectAnswers: number;
   tempSequenceOfCorrectAnswers: number;
-  learnedPerGame: number,
+  learnedPerGame: number;
 };
