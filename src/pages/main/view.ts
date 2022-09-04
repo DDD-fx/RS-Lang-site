@@ -57,7 +57,10 @@ class View {
 
   bind = () => {
     getElement('main__wrapper').addEventListener('click', (event) => {
-      if ((<HTMLElement>event.target).classList.contains('btn-article')) history.push('/textbook');
+      if ((<HTMLElement>event.target).classList.contains('btn-article')) {
+        event.preventDefault();
+        history.push('/textbook');
+      }
       if ((<HTMLElement>event.target).classList.contains('main'))
         this.renderCustomTemplate(renderMainTemplate);
       if ((<HTMLElement>event.target).classList.contains('advantages'))

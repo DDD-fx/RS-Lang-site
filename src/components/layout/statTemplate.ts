@@ -11,7 +11,25 @@ const learnedWordChart = `
   <canvas class="learnedWordsChart" ></canvas>
 </div>
 `;
-const renderstatTemplate = (dayData: StatOptionalDayType) => {
+
+const anonimStatTemplate = `
+<div class="main__container statistics">
+    <div class="statistic__article anonim">
+        <div class="bubbles-top img-x3">
+          <img src="./assets/bubbles.svg" alt="">
+        </div>
+        <div class="skat img-x15">
+          <img src="./assets/skat.svg" alt="">
+        </div>
+        <div class="statistic__title">
+        <h4 class="article__title">Статистика доступна только <span class="accent">авторизованным</span> пользователям</h4>
+        <a href="/login" class="btn btn-stat-login"> Войти </a>
+        </div>
+    </div>
+</div>
+`;
+
+const renderStatTemplate = (dayData: StatOptionalDayType) => {
   const { userName } = LocalStorage.currUserSettings;
   const { audiochallenge, sprint } = dayData;
   const dayLearnedWords = audiochallenge.learnedWordsPerDay + sprint.learnedWordsPerDay;
@@ -97,4 +115,4 @@ const renderstatTemplate = (dayData: StatOptionalDayType) => {
 `;
 };
 
-export default renderstatTemplate;
+export { renderStatTemplate, anonimStatTemplate };

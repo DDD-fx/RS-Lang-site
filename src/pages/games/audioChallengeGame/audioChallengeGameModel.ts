@@ -77,7 +77,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
               correctSequenceSprint: '0',
             },
           };
-          void await this.updateWordOnChallengeAnswer(word, ApiMethodsEnum.post);
+          void (await this.updateWordOnChallengeAnswer(word, ApiMethodsEnum.post));
         }
         if (flag === true) {
           this.checkChallengeCorrectAnswer(word);
@@ -108,7 +108,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       currWord.userWord.difficulty = WordStatusEnum.learned;
       AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
     }
-    void await this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
+    void (await this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put));
   };
 
   checkChallengeIncorrectAnswer = async (gameCurrWord: AggregatedWordType): Promise<void> => {
@@ -119,7 +119,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     currWord.userWord.optional.correctSequenceChallenge = '0';
     if (currWord.userWord.difficulty === WordStatusEnum.learned)
       currWord.userWord.difficulty = WordStatusEnum.difficult;
-    void await this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
+    void (await this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put));
   };
 
   updateWordOnChallengeAnswer = async (

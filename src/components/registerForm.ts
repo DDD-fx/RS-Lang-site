@@ -13,7 +13,7 @@ const registerInner = `
 <form class="form register__form" id="registerForm" name="registerForm" action="/apply/" method="POST">
 <h2 class="register__title">Создать аккаунт</h2>
   <label>
- <span class="input-title">Имя</span>
+ <span class="input-title">Имя*</span>
     <input class="input" type="text" name="username" id="username" placeholder="Илон Маск" autocomplete="username" autofocus>
   </label>
   <label>
@@ -54,7 +54,6 @@ class RegForm {
     });
     this.regForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      console.log(<HTMLElement>event.target);
       const form = document.forms.namedItem('registerForm') as HTMLFormElement;
       handler(form).catch((err) => console.error(err));
     });

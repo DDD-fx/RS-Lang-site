@@ -1,9 +1,7 @@
 import { LocalStorage } from '../../utils/storage';
 import { STAT_ANONIM_DEFAULTS } from '../../utils/constants';
 import { getShortDate } from '../../utils/tools';
-//import { dataTest } from './testStatData';
 import { getStat } from '../../model/api/statApi';
-//import { RequestOptionType } from '../../types/types';
 import { StatAnswerType, StatStateType } from '../../types/userTypes';
 
 class StatModel {
@@ -16,9 +14,6 @@ class StatModel {
   mount = async (): Promise<void> => {
     if (LocalStorage.isAuth) {
       await this.getStatData();
-      // const { userId, token } = LocalStorage.currUserSettings;
-      // const putData = await putStat(userId, token, dataTest)
-      // console.log(putData);
     }
   };
 
