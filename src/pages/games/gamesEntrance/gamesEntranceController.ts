@@ -29,6 +29,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
   }
 
   startAudioChallengeGame = async (): Promise<void> => {
+    this.gamesEntranceView.renderPreloader();
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = false;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
@@ -36,6 +37,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
       audioChallengeModel,
       audioChallengeView,
     );
+    await audioChallengeModel.getStatistics();
     await audioChallengeController.getWordsList();
     audioChallengeView.drawAudioChallengeGame();
   };
@@ -43,6 +45,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
   startAudioChallengeFromTextBook = async (
     wordsCollection: WordsChunkType[] | AggregatedWordType[],
   ) => {
+    this.gamesEntranceView.renderPreloader();
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
@@ -56,27 +59,32 @@ export default class GamesEntranceController implements GamesEntranceControllerI
         AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage - wordsCollection.length,
       );
     }
+    await audioChallengeModel.getStatistics();
     audioChallengeView.drawAudioChallengeGame();
   };
 
-  startSprintGame = (): void => {
+  startSprintGame = async (): Promise<void> => {
+    this.gamesEntranceView.renderPreloader();
     SPRINT_GAME_SETTINGS.startFromTextbook = false;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
     const sprintController = new SprintController(sprintModel, sprintView);
     sprintController.getWordsList();
+    await sprintModel.getStatistics();
     sprintView.sprintViewUtils.buildBeReadyHTML();
   };
 
   startSprintGameFromTextBook = async (
     wordsCollection: WordsChunkType[] | AggregatedWordType[],
   ): Promise<void> => {
+    this.gamesEntranceView.renderPreloader();
     SPRINT_GAME_SETTINGS.startFromTextbook = true;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
     const sprintController = new SprintController(sprintModel, sprintView);
     sprintModel.getWordsListFromTextbook(wordsCollection);
     await sprintModel.getPageChunk();
+    await sprintModel.getStatistics();
     sprintView.drawSprintGame();
   };
 

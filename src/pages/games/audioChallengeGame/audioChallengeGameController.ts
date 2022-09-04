@@ -22,7 +22,7 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       .on('wordOfShakedArrCountAdded', () => this.changeWord())
       .on('pressedContinueGameBtn', () => this.getWordsList())
       .on('rightAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
-      .on('wrongAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
+      .on('wrongAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag));
   }
 
   getWordsList = async (): Promise<void> => {

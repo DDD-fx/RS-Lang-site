@@ -1,6 +1,6 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { AggregatedWordType, WordsChunkType } from '../textbookTypes';
-import { ApiMethodsEnum } from '../enums';
+import { ApiMethodsEnum, GameEnum } from '../enums';
 
 export type SprintEventsType = {
   sprintCorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
@@ -26,6 +26,8 @@ export interface SprintModelInterface extends TypedEmitter<SprintEventsType> {
   getPageChunk(): Promise<void>;
   shakeWordsArr(words: WordsChunkType[]): void;
   updateWordOnSprintAnswer(currWord: AggregatedWordType, method: ApiMethodsEnum): Promise<void>;
+  getStatistics(): Promise<void>;
+  setStatistics(gameKey: GameEnum): Promise<void>;
 }
 
 export interface SprintViewInterface extends TypedEmitter<SprintEventsType> {

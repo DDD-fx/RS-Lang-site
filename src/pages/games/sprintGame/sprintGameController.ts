@@ -63,7 +63,7 @@ export class SprintController implements SprintControllerInterface {
             0)
       )
         currWord.userWord.difficulty = WordStatusEnum.learned;
-        SPRINT_GAME_SETTINGS.learnedPerGame += 1;
+      SPRINT_GAME_SETTINGS.learnedPerGame += 1;
       void this.sprintModel.updateWordOnSprintAnswer(currWord, ApiMethodsEnum.put);
     } else {
       (<AggregatedWordType>currWord).userWord = {
@@ -130,7 +130,7 @@ export class SprintController implements SprintControllerInterface {
         SPRINT_GAME_SETTINGS.sequenceOfCorrectAnswers
       ) {
         SPRINT_GAME_SETTINGS.sequenceOfCorrectAnswers =
-        SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
+          SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
       }
     } else if (flag === false) {
       SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
