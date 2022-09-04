@@ -115,7 +115,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
 
-  checkChallengeIncorrectAnswer = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
+  checkChallengeIncorrectAnswer = (gameCurrWord: AggregatedWordType): void => {
     const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as
       AggregatedWordType;
       currWord.userWord.optional.incorrectAnswersChallenge = `${
