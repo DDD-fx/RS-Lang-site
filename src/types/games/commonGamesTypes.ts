@@ -21,15 +21,13 @@ export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceE
 }
 
 export type GamesEntranceEventType = {
-  audioChallengeGameStarted(): void;
+  audioChallengeGameStarted(): Promise<void>;
   sprintGameStarted(): void;
   drawChallenge(): void;
   gameOptionClicked: (level: number) => void;
 };
 
 export type GamesEventsType = {
-  sprintGameStarted: () => void;
-  audioChallengeGameStarted: () => void;
   gameOptionClicked: (i: number) => void;
   getWordList: () => void;
   wordBtnClicked: (id: string) => void;
@@ -37,7 +35,7 @@ export type GamesEventsType = {
   drawGameBtns: () => void;
   wordsAreOver: () => void;
   wordOfShakedArrCountAdded: () => void;
-  pressedContinueGameBtn: () => void;
+  pressedContinueGameBtn: () => Promise<void>;
   wrongAnswerClicked: (word: string, flag: boolean) => void;
   rightAnswerClicked: (word: string, flag: boolean) => void;
   theGameIsOver: () => void;

@@ -3,9 +3,6 @@ import { GamesEntranceModelInterface } from '../../../types/games/commonGamesTyp
 import { AUDIOCHALLENGE_GAME_SETTINGS, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 
 export class GamesEntranceModel extends TypedEmitter implements GamesEntranceModelInterface {
-  constructor() {
-    super();
-  }
 
   addGameLevel = (level: number) => {
     AUDIOCHALLENGE_GAME_SETTINGS.level = level - 1;
