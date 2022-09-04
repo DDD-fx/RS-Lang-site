@@ -1,4 +1,3 @@
-import { StringDecoder } from 'string_decoder';
 import {
   CreateUserType,
   UserLoginType,
@@ -10,11 +9,10 @@ import { baseURL } from '../../utils/constants';
 
 const getErrorMessageFromResponseBody = (string: string) => {
   let errorString = string;
-
   try {
     let json = JSON.parse(string);
-    if (json.errors) {
-      errorString = json.errors[0].msg;
+    if (json.error) {
+      errorString = json.error.errors[0].message;
     }
   } catch (parseOrAccessError) {}
 
@@ -23,7 +21,7 @@ const getErrorMessageFromResponseBody = (string: string) => {
 
 const createUser = async (
   user: CreateUserType,
-): Promise<[number, CreateUserResponseType | unknown]> => {
+): Promise<(string | number)[] | (number | CreateUserResponseType)[] | undefined> => {
   try {
     const rawResponse = await fetch(`${baseURL}users`, {
       method: 'POST',
@@ -35,15 +33,16 @@ const createUser = async (
     });
     const status = rawResponse.status;
     if (!rawResponse.ok) {
-      // step 2
       let errorString = getErrorMessageFromResponseBody(await rawResponse.text());
-      throw new Error(errorString); // API errors get thrown here
+      return [status , errorString]; 
     }
     const content = (await rawResponse.json()) as CreateUserResponseType;
     return [status, content];
   } catch (error) {
-    return [404, error];
+    console.log(error)
   }
+
+
 };
 
 const loginUser = async (
