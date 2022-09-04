@@ -23,7 +23,6 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
       .on('pressedContinueGameBtn', () => this.getWordsList())
       .on('rightAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
       .on('wrongAnswerClicked', (id: string, flag: boolean) => this.getWordData(id, flag))
-      .on('skipAnswerBtnClicked', () => this.stopChainOfCorrectAnswers())
   }
 
   getWordsList = async (): Promise<void> => {
@@ -53,9 +52,5 @@ export class AudioChallengeController implements AudioChallengeControllerInterfa
     const page = this.getRandomPage();
     const query = `words?group=${AUDIOCHALLENGE_GAME_SETTINGS.level}&page=${page}`;
     await this.audioChallengeModel.getNewWordData(query, diff);
-  };
-
-  stopChainOfCorrectAnswers = (): void => {
-    this.audioChallengeModel.checkChainOfCorrectAnswers(false);
   };
 }

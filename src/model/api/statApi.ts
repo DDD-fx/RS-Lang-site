@@ -11,7 +11,6 @@ const getStat = async (userId: string, token: string): Promise<StatAnswerType | 
         'Content-Type': 'application/json',
       },
     });
-    console.log(response.status);
     return await ((await response.json()) as Promise<StatAnswerType>);
   } catch (err) {
     return null;

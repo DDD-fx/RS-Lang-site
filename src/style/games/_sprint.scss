@@ -185,7 +185,7 @@
     background-color: $sprint-correct;
 
     &::after {
-      content: "→";
+      content: '→';
     }
   }
 
@@ -193,7 +193,7 @@
     background-color: $sprint-incorrect;
 
     &::after {
-      content: "←";
+      content: '←';
     }
   }
 
@@ -222,7 +222,7 @@
 
     @media (max-width: 500px) {
       &::after {
-        content: "";
+        content: '';
       }
     }
   }

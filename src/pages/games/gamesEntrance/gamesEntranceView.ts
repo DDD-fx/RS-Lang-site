@@ -4,7 +4,8 @@ import {
   GamesEntranceModelInterface,
   GamesEntranceViewInterface,
 } from '../../../types/games/commonGamesTypes';
-import { createElement } from '../../../utils/tools';
+import { createElement, getElement } from '../../../utils/tools';
+import { preloader } from '../../../components/layout/mainTemplate';
 
 export class GamesEntranceView
   extends TypedEmitter<GamesEntranceEventType>
@@ -135,5 +136,13 @@ export class GamesEntranceView
     const image = createElement('div', 'img-x15');
     image.innerHTML = `<img src='./assets/games/tail.svg' alt='whale tail' />`;
     return image;
+  };
+
+  renderPreloader = (someClass?: string): void => {
+    const mainWrapper = getElement('main__wrapper');
+    mainWrapper.innerHTML = '';
+    mainWrapper.insertAdjacentHTML('afterbegin', preloader);
+    if (someClass) mainWrapper.classList.add(`${someClass}`);
+    else mainWrapper.classList.remove('textbook');
   };
 }
