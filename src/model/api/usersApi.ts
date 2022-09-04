@@ -34,15 +34,13 @@ const createUser = async (
     const status = rawResponse.status;
     if (!rawResponse.ok) {
       let errorString = getErrorMessageFromResponseBody(await rawResponse.text());
-      return [status , errorString]; 
+      return [status, errorString];
     }
     const content = (await rawResponse.json()) as CreateUserResponseType;
     return [status, content];
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-
-
 };
 
 const loginUser = async (
