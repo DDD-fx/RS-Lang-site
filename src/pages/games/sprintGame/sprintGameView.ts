@@ -95,28 +95,51 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   };
 
   addCorrectBtnEvents = (): void => {
-    if (LocalStorage.currUserSettings.userId) {
-      if (this.isAnswerCorrect) {
-        this.flashBG(true);
+    const greenBtn = getElement('game-operations-group__btn-wrapper_green');
+    if (this.isAnswerCorrect) {
+      this.flashBG(true);
+      if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-      } else {
-        this.flashBG(false);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnCorrectAnswerSound();
+        }
+      } else this.drawNextSprintQuestion();
+    } else {
+      this.flashBG(false);
+      if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnWrongAnswerSound();
+        }
       }
-    } else this.drawNextSprintQuestion();
+      else this.drawNextSprintQuestion();
+    }
   };
 
   addIncorrectBtnEvents = (): void => {
-    if (LocalStorage.currUserSettings.userId) {
-      if (this.isAnswerCorrect) {
-        this.flashBG(false);
+    const greenBtn = getElement('game-operations-group__btn-wrapper_green');
+    if (this.isAnswerCorrect) {
+      this.flashBG(false);
+      if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-      } else {
-        this.flashBG(true);
-        this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnWrongAnswerSound();
+        }
       }
-    } else this.drawNextSprintQuestion();
+      else this.drawNextSprintQuestion();
+    } else {
+      this.flashBG(true);
+      if (LocalStorage.currUserSettings.userId) {
+        this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnCorrectAnswerSound();
+        }
+      } else {
+        this.drawNextSprintQuestion();
+      }
+    }
   };
+
 
   drawNextSprintQuestion = (): void => {
     if (this.isSprintRunning && this.currIndex < this.sprintModel.shakedWordChunk.length) {
@@ -126,8 +149,6 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   };
 
   showResults = (): void => {
-    console.log(SPRINT_GAME_SETTINGS.unlearnedWords);
-    console.log(SPRINT_GAME_SETTINGS.learnedWords);
     const body = getElement('body') as HTMLDivElement;
     const modalWindow = createElement('div', 'fixed-sprint-window-wrapper');
     const sprintWrapper = createElement('div', 'fixed-result-window');
@@ -167,7 +188,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < SPRINT_GAME_SETTINGS.unlearnedWords.length; i += 1) {
-      const word = this.sprintModel.allPageChunk.find(
+      const word = this.sprintModel.shakedWordChunk.find(
         (el) => el.word === SPRINT_GAME_SETTINGS.unlearnedWords[i],
       );
       if (word) {
@@ -194,7 +215,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < SPRINT_GAME_SETTINGS.learnedWords.length; i += 1) {
-      const word = this.sprintModel.allPageChunk.find(
+      const word = this.sprintModel.shakedWordChunk.find(
         (el) => el.word === SPRINT_GAME_SETTINGS.learnedWords[i],
       );
       if (word) {
@@ -216,7 +237,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       `result-section__word-${word}`,
     ]);
     wordText.textContent = `${word} - ${wordTranslate}`;
-    const soundingWord = this.sprintModel.allPageChunk.find((el) => el.word === word);
+    const soundingWord = this.sprintModel.shakedWordChunk.find((el) => el.word === word);
     if (soundingWord) {
       const speaker = this.createSpeaker(soundingWord, 'result-section__speaker-img');
       speaker.classList.add('result-section__speaker-img_small');
@@ -259,5 +280,17 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       })().catch();
     });
     return speaker;
+  };
+
+  turnOnCorrectAnswerSound = (): void => {
+    const audio = new Audio();
+    audio.src = './assets/games-sounds/sprint-correct.mp3';
+    audio.autoplay = true;
+  };
+
+  turnOnWrongAnswerSound = (): void => {
+    const audio = new Audio();
+    audio.src = './assets/games-sounds/sprint-wrong.mp3';
+    audio.autoplay = true;
   };
 }

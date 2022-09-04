@@ -15,6 +15,7 @@ export interface SprintControllerInterface {
   getRandomPage(): void;
   checkSprintCorrectAnswer(gameCurrWord: WordsChunkType | AggregatedWordType): void;
   checkSprintIncorrectAnswer(gameCurrWord: WordsChunkType | AggregatedWordType): void;
+  checkChainOfCorrectAnswers(answer: boolean): void;
 }
 
 export interface SprintModelInterface extends TypedEmitter<SprintEventsType> {
