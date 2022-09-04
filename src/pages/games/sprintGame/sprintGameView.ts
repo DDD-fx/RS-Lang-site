@@ -14,6 +14,7 @@ import { LocalStorage } from '../../../utils/storage';
 import { baseURL, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 import { ResultBtnType } from '../../../types/games/commonGamesTypes';
 import history from '../../../utils/history';
+import { GameEnum } from '../../../types/enums';
 
 export class SprintView extends TypedEmitter<SprintEventsType> implements SprintViewInterface {
   sprintModel: SprintModelInterface;
@@ -152,6 +153,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     sprintWrapper.append(resultSection);
     modalWindow.append(sprintWrapper);
     body.append(modalWindow);
+    void this.sprintModel.setStatistics(GameEnum.sprint);
   };
 
   flashBG = (answer: boolean): void => {

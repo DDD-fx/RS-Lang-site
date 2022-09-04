@@ -89,7 +89,7 @@ export class AudioChallengeView
         );
       }
     }
-  }
+  };
 
   shakeWordsForCurrentGamePage = (): WordsChunkType[] => {
     const wordsArr = [];
@@ -344,9 +344,7 @@ export class AudioChallengeView
     skipBtn.innerText = 'Не знаю';
     skipBtn.addEventListener('click', () => {
       const answer = this.getRightAnswer();
-      const word = this.audioChallengeModel.wordsChunk.find(
-        (el) => el.word === answer
-      );
+      const word = this.audioChallengeModel.wordsChunk.find((el) => el.word === answer);
       this.emit('skipAnswerBtnClicked');
       this.emit('wrongAnswerClicked', (word as WordsChunkType).id, false);
       this.showRightAnswer();
@@ -355,7 +353,7 @@ export class AudioChallengeView
       this.makeWordsTransparent(answer);
       this.wordsBtnsDisable();
       this.countBarProgress();
-      console.log('skip')
+      console.log('skip');
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)
@@ -679,8 +677,8 @@ export class AudioChallengeView
       this.crossWrongWord(englishWord);
       this.wordsBtnsDisable();
       if (word) {
-        this.checkRightAnswer(englishWord, word.id)
-      };
+        this.checkRightAnswer(englishWord, word.id);
+      }
       this.countBarProgress();
     }
   };
@@ -700,9 +698,7 @@ export class AudioChallengeView
     const continueBtn = getElement('game-section__next-btn-wrapper');
     const gameWrapper = getElement('fixed-window');
     const answer = this.getRightAnswer();
-    const word = this.audioChallengeModel.wordsChunk.find(
-      (el) => el.word === answer
-    );
+    const word = this.audioChallengeModel.wordsChunk.find((el) => el.word === answer);
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (skipBtn.classList.contains('hidden') && !continueBtn.classList.contains('hidden')) {
       this.emit('nextBtnClicked');

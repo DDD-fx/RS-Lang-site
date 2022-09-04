@@ -31,7 +31,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   getWordsList = async (query: string): Promise<void> => {
     const data = await fetch(baseURL + query);
-    this.wordsChunk = await data.json() as WordsChunkType[];
+    this.wordsChunk = (await data.json()) as WordsChunkType[];
     this.shakedWordChunk = this.shakeWordsArr();
   };
 
@@ -77,10 +77,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
               correctSequenceSprint: '0',
             },
           };
-          void this.updateWordOnChallengeAnswer(
-            word,
-            ApiMethodsEnum.post,
-          );
+          void this.updateWordOnChallengeAnswer(word, ApiMethodsEnum.post);
         }
         if (flag === true) {
           this.checkChallengeCorrectAnswer(word);
@@ -92,39 +89,36 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   checkChallengeCorrectAnswer = (gameCurrWord: AggregatedWordType): void => {
-    const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as
-       AggregatedWordType;
-      currWord.userWord.optional.correctAnswersChallenge = `${
-        +currWord.userWord.optional.correctAnswersChallenge + 1
-      }`;
-      currWord.userWord.optional.correctAnswersChallenge = `${
-        +currWord.userWord.optional.correctAnswersChallenge + 1
-      }`;
-      if (
-        (currWord.userWord.difficulty === WordStatusEnum.difficult &&
-          +currWord.userWord.optional.correctAnswersChallenge %
-            CorrectAnswersStatus.learnedForDifficult ===
-            0) ||
-        (currWord.userWord.difficulty === WordStatusEnum.new &&
-          +currWord.userWord.optional.correctAnswersChallenge % CorrectAnswersStatus.learnedForNew ===
-            0)
-      )
-        currWord.userWord.difficulty = WordStatusEnum.learned;
-        AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
-      void this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
+    const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as AggregatedWordType;
+    currWord.userWord.optional.correctAnswersChallenge = `${
+      +currWord.userWord.optional.correctAnswersChallenge + 1
+    }`;
+    currWord.userWord.optional.correctAnswersChallenge = `${
+      +currWord.userWord.optional.correctAnswersChallenge + 1
+    }`;
+    if (
+      (currWord.userWord.difficulty === WordStatusEnum.difficult &&
+        +currWord.userWord.optional.correctAnswersChallenge %
+          CorrectAnswersStatus.learnedForDifficult ===
+          0) ||
+      (currWord.userWord.difficulty === WordStatusEnum.new &&
+        +currWord.userWord.optional.correctAnswersChallenge % CorrectAnswersStatus.learnedForNew ===
+          0)
+    )
+      currWord.userWord.difficulty = WordStatusEnum.learned;
+    AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
+    void this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
   };
 
-
   checkChallengeIncorrectAnswer = (gameCurrWord: AggregatedWordType): void => {
-    const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as
-      AggregatedWordType;
-      currWord.userWord.optional.incorrectAnswersChallenge = `${
-        +currWord.userWord.optional.incorrectAnswersChallenge + 1
-      }`;
-      currWord.userWord.optional.correctSequenceChallenge = '0';
-      if (currWord.userWord.difficulty === WordStatusEnum.learned)
-        currWord.userWord.difficulty = WordStatusEnum.difficult;
-      void this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
+    const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as AggregatedWordType;
+    currWord.userWord.optional.incorrectAnswersChallenge = `${
+      +currWord.userWord.optional.incorrectAnswersChallenge + 1
+    }`;
+    currWord.userWord.optional.correctSequenceChallenge = '0';
+    if (currWord.userWord.difficulty === WordStatusEnum.learned)
+      currWord.userWord.difficulty = WordStatusEnum.difficult;
+    void this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
   };
 
   updateWordOnChallengeAnswer = async (
@@ -167,7 +161,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   getNewWordData = async (query: string, diff: number): Promise<void> => {
     const promise = await fetch(baseURL + query);
-    const data = await promise.json() as WordsChunkType[];
+    const data = (await promise.json()) as WordsChunkType[];
     for (let i = 0; i < diff; i += 1) {
       AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(
         data[Math.floor(Math.random() * (data.length - 1))],
@@ -206,7 +200,6 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         };
       }
       if (!(dateKey in this.userStat.optional)) {
-        console.log('kek');
         this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
       }
     }
