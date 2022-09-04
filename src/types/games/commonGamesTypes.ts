@@ -1,5 +1,5 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { WordsChunkType } from '../textbookTypes';
+import { AggregatedWordType, WordsChunkType } from '../textbookTypes';
 
 export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEventType> {
   gamesEntranceModel: GamesEntranceModelInterface;
@@ -45,6 +45,15 @@ export type GamesEventsType = {
 export interface GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
   gamesEntranceModel: GamesEntranceModelInterface;
+  startAudioChallengeGame(): Promise<void>;
+  startAudioChallengeFromTextBook(
+    wordsCollection: WordsChunkType[] | AggregatedWordType[],
+  ): Promise<void>;
+  startSprintGame(): Promise<void>;
+  startSprintGameFromTextBook(
+    wordsCollection: WordsChunkType[] | AggregatedWordType[],
+  ): Promise<void>;
+  addGameLevel(level: number): void;
 }
 
 export type WordBtnType = Pick<WordsChunkType, 'id' | 'wordTranslate' | 'group' | 'word'>;

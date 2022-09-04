@@ -118,7 +118,7 @@ export class TextBookController implements TextBookControllerInterface {
   getGamesWordCollection = async (
     game: GameEnum,
   ): Promise<WordsChunkType[] | AggregatedWordType[]> => {
-    if (!LocalStorage.currUserID) {
+    if (!LocalStorage.currUserSettings.userId) {
       return this.textBookModel.wordsChunk;
     }
     const rawCollection = await this.textBookModel.getWordsForGames();

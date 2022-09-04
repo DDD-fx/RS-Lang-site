@@ -13,6 +13,7 @@ import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes
 import { SprintModel } from '../sprintGame/sprintGameModel';
 import { SprintView } from '../sprintGame/sprintGameView';
 import { SprintController } from '../sprintGame/sprintGameController';
+import { LocalStorage } from '../../../utils/storage';
 
 export default class GamesEntranceController implements GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
@@ -42,7 +43,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
 
   startAudioChallengeFromTextBook = async (
     wordsCollection: WordsChunkType[] | AggregatedWordType[],
-  ) => {
+  ): Promise<void> => {
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
@@ -59,12 +60,13 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     audioChallengeView.drawAudioChallengeGame();
   };
 
-  startSprintGame = (): void => {
+  startSprintGame = async (): Promise<void> => {
     SPRINT_GAME_SETTINGS.startFromTextbook = false;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
     const sprintController = new SprintController(sprintModel, sprintView);
-    sprintController.getWordsList();
+    if (LocalStorage.currUserSettings.userId) await sprintModel.getUserWordsForSprint();
+    else await sprintModel.getDefaultWordsForSprint();
     sprintView.sprintViewUtils.buildBeReadyHTML();
   };
 
@@ -77,10 +79,10 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     const sprintController = new SprintController(sprintModel, sprintView);
     sprintModel.getWordsListFromTextbook(wordsCollection);
     await sprintModel.getPageChunk();
-    sprintView.drawSprintGame();
+    sprintView.sprintViewUtils.buildBeReadyHTML();
   };
 
-  addGameLevel = (level: number) => {
+  addGameLevel = (level: number): void => {
     this.gamesEntranceModel.addGameLevel(level);
   };
 }
