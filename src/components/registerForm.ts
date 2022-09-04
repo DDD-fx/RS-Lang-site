@@ -54,7 +54,6 @@ class RegForm {
     });
     this.regForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      console.log(<HTMLElement>event.target);
       const form = document.forms.namedItem('registerForm') as HTMLFormElement;
       handler(form).catch((err) => console.error(err));
     });
