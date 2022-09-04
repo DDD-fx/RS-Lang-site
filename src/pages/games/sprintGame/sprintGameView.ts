@@ -95,25 +95,39 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   };
 
   addCorrectBtnEvents = (): void => {
+    const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (LocalStorage.currUserSettings.userId) {
       if (this.isAnswerCorrect) {
         this.flashBG(true);
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnCorrectAnswerSound();
+        }
       } else {
         this.flashBG(false);
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnWrongAnswerSound();
+        }
       }
     } else this.drawNextSprintQuestion();
   };
 
   addIncorrectBtnEvents = (): void => {
+    const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (LocalStorage.currUserSettings.userId) {
       if (this.isAnswerCorrect) {
         this.flashBG(false);
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnWrongAnswerSound();
+        }
       } else {
         this.flashBG(true);
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
+        if (!greenBtn.classList.contains('hidden')) {
+          this.turnOnCorrectAnswerSound();
+        }
       }
     } else this.drawNextSprintQuestion();
   };
@@ -257,5 +271,17 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       })().catch();
     });
     return speaker;
+  };
+
+  turnOnCorrectAnswerSound = (): void => {
+    const audio = new Audio();
+    audio.src = './assets/games-sounds/sprint-correct.mp3';
+    audio.autoplay = true;
+  };
+
+  turnOnWrongAnswerSound = (): void => {
+    const audio = new Audio();
+    audio.src = './assets/games-sounds/sprint-wrong.mp3';
+    audio.autoplay = true;
   };
 }
