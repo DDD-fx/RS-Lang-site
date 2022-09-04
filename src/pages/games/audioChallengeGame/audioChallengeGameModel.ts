@@ -88,13 +88,13 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
   };
 
-  checkChallengeCorrectAnswer = (gameCurrWord: AggregatedWordType): void => {
+  checkChallengeCorrectAnswer = async (gameCurrWord: AggregatedWordType): Promise<void> => {
     const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as AggregatedWordType;
     currWord.userWord.optional.correctAnswersChallenge = `${
       +currWord.userWord.optional.correctAnswersChallenge + 1
     }`;
-    currWord.userWord.optional.correctAnswersChallenge = `${
-      +currWord.userWord.optional.correctAnswersChallenge + 1
+    currWord.userWord.optional.correctSequenceChallenge = `${
+      +currWord.userWord.optional.correctSequenceChallenge + 1
     }`;
     if (
       (currWord.userWord.difficulty === WordStatusEnum.difficult &&
@@ -104,13 +104,14 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       (currWord.userWord.difficulty === WordStatusEnum.new &&
         +currWord.userWord.optional.correctAnswersChallenge % CorrectAnswersStatus.learnedForNew ===
           0)
-    )
+    ) {
       currWord.userWord.difficulty = WordStatusEnum.learned;
-    AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
-    void this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
+      AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
+    }
+    void await this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
   };
 
-  checkChallengeIncorrectAnswer = (gameCurrWord: AggregatedWordType): void => {
+  checkChallengeIncorrectAnswer = async (gameCurrWord: AggregatedWordType): Promise<void> => {
     const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as AggregatedWordType;
     currWord.userWord.optional.incorrectAnswersChallenge = `${
       +currWord.userWord.optional.incorrectAnswersChallenge + 1
@@ -118,7 +119,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     currWord.userWord.optional.correctSequenceChallenge = '0';
     if (currWord.userWord.difficulty === WordStatusEnum.learned)
       currWord.userWord.difficulty = WordStatusEnum.difficult;
-    void this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
+    void await this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
   };
 
   updateWordOnChallengeAnswer = async (
