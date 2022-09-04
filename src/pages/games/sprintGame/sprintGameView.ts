@@ -96,41 +96,50 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
 
   addCorrectBtnEvents = (): void => {
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
-    if (LocalStorage.currUserSettings.userId) {
-      if (this.isAnswerCorrect) {
-        this.flashBG(true);
+    if (this.isAnswerCorrect) {
+      this.flashBG(true);
+      if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
         if (!greenBtn.classList.contains('hidden')) {
           this.turnOnCorrectAnswerSound();
         }
-      } else {
-        this.flashBG(false);
+      } else this.drawNextSprintQuestion();
+    } else {
+      this.flashBG(false);
+      if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
         if (!greenBtn.classList.contains('hidden')) {
           this.turnOnWrongAnswerSound();
         }
       }
-    } else this.drawNextSprintQuestion();
+      else this.drawNextSprintQuestion();
+    }
   };
 
   addIncorrectBtnEvents = (): void => {
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
-    if (LocalStorage.currUserSettings.userId) {
-      if (this.isAnswerCorrect) {
-        this.flashBG(false);
+    if (this.isAnswerCorrect) {
+      this.flashBG(false);
+      if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
         if (!greenBtn.classList.contains('hidden')) {
           this.turnOnWrongAnswerSound();
         }
-      } else {
-        this.flashBG(true);
+      }
+      else this.drawNextSprintQuestion();
+    } else {
+      this.flashBG(true);
+      if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
         if (!greenBtn.classList.contains('hidden')) {
           this.turnOnCorrectAnswerSound();
         }
+      } else {
+        this.drawNextSprintQuestion();
       }
-    } else this.drawNextSprintQuestion();
+    }
   };
+
 
   drawNextSprintQuestion = (): void => {
     if (this.isSprintRunning && this.currIndex < this.sprintModel.shakedWordChunk.length) {
