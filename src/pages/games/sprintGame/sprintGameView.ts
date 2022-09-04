@@ -261,11 +261,11 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     return closeBtnWrapper;
   };
 
-  createSpeaker = (word: WordsChunkType, className?: string): HTMLElement => {
+  createSpeaker = (word: WordsChunkType, className: string): HTMLElement => {
     const speaker = createElement('img', `${className}`) as HTMLImageElement;
     speaker.src = './assets/games/speaker.svg';
     speaker.addEventListener('click', () => {
-      (async () => {
+      void (async () => {
         const audio = new Audio(baseURL + word.audio);
         await audio.play();
       })().catch();
