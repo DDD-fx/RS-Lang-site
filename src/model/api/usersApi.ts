@@ -10,11 +10,11 @@ import { baseURL } from '../../utils/constants';
 const getErrorMessageFromResponseBody = (string: string) => {
   let errorString = string;
   try {
-    let json = JSON.parse(string);
+    const json = JSON.parse(string) as CreateUserResponseType;
     if (json.error) {
       errorString = json.error.errors[0].message;
     }
-  } catch (parseOrAccessError) {}
+  } catch (parseOrAccessError) { console.error(parseOrAccessError)}
 
   return errorString;
 };
@@ -33,7 +33,7 @@ const createUser = async (
     });
     const status = rawResponse.status;
     if (!rawResponse.ok) {
-      let errorString = getErrorMessageFromResponseBody(await rawResponse.text());
+      const errorString = getErrorMessageFromResponseBody(await rawResponse.text());
       return [status, errorString];
     }
     const content = (await rawResponse.json()) as CreateUserResponseType;
