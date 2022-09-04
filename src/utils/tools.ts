@@ -61,7 +61,7 @@ const imgLinkArr = [
 ];
 
 const preloadImages = () => {
-  for (let link of imgLinkArr) {
+  for (const link of imgLinkArr) {
     const img = new Image();
     img.src = link;
   }

@@ -74,7 +74,7 @@ const routes: Routes[] = [
       app.view.renderPreloader();
       const collection = await textbook.getGamesWordCollection(GameEnum.audioChallenge);
       console.log('audiochallenge', collection);
-      gamesEntrance.startAudioChallengeFromTextBook(collection);
+      gamesEntrance.startAudioChallengeFromTextBook(collection).catch((err) => console.error(err));
       document.title = `Игра Аудиовызов ${title}`;
     },
   },
