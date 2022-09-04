@@ -43,7 +43,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
 
   startAudioChallengeFromTextBook = async (
     wordsCollection: WordsChunkType[] | AggregatedWordType[],
-  ) => {
+  ): Promise<void> => {
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
@@ -67,9 +67,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     const sprintController = new SprintController(sprintModel, sprintView);
     if (LocalStorage.currUserSettings.userId) await sprintModel.getUserWordsForSprint();
     else await sprintModel.getDefaultWordsForSprint();
-
-    // sprintView.sprintViewUtils.buildBeReadyHTML();
-    sprintView.drawSprintGame();
+    sprintView.sprintViewUtils.buildBeReadyHTML();
   };
 
   startSprintGameFromTextBook = async (
@@ -81,11 +79,10 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     const sprintController = new SprintController(sprintModel, sprintView);
     sprintModel.getWordsListFromTextbook(wordsCollection);
     await sprintModel.getPageChunk();
-    // sprintView.sprintViewUtils.buildBeReadyHTML();
-    sprintView.drawSprintGame();
+    sprintView.sprintViewUtils.buildBeReadyHTML();
   };
 
-  addGameLevel = (level: number) => {
+  addGameLevel = (level: number): void => {
     this.gamesEntranceModel.addGameLevel(level);
   };
 }
