@@ -14,7 +14,6 @@ import { LocalStorage } from '../../../utils/storage';
 import { baseURL, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 import { ResultBtnType } from '../../../types/games/commonGamesTypes';
 import history from '../../../utils/history';
-import { GameEnum } from '../../../types/enums';
 
 export class SprintView extends TypedEmitter<SprintEventsType> implements SprintViewInterface {
   sprintModel: SprintModelInterface;
@@ -99,19 +98,15 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (this.isAnswerCorrect) {
       this.flashBG(true);
+      if (!greenBtn.classList.contains('hidden')) this.turnOnCorrectAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-        if (!greenBtn.classList.contains('hidden')) {
-          this.turnOnCorrectAnswerSound();
-        }
       } else this.drawNextSprintQuestion();
     } else {
       this.flashBG(false);
+      if (!greenBtn.classList.contains('hidden')) this.turnOnWrongAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-        if (!greenBtn.classList.contains('hidden')) {
-          this.turnOnWrongAnswerSound();
-        }
       } else this.drawNextSprintQuestion();
     }
   };
@@ -120,19 +115,15 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     const greenBtn = getElement('game-operations-group__btn-wrapper_green');
     if (this.isAnswerCorrect) {
       this.flashBG(false);
+      if (!greenBtn.classList.contains('hidden')) this.turnOnWrongAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-        if (!greenBtn.classList.contains('hidden')) {
-          this.turnOnWrongAnswerSound();
-        }
       } else this.drawNextSprintQuestion();
     } else {
       this.flashBG(true);
+      if (!greenBtn.classList.contains('hidden')) this.turnOnCorrectAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-        if (!greenBtn.classList.contains('hidden')) {
-          this.turnOnCorrectAnswerSound();
-        }
       } else {
         this.drawNextSprintQuestion();
       }
@@ -161,7 +152,6 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     sprintWrapper.append(resultSection);
     modalWindow.append(sprintWrapper);
     body.append(modalWindow);
-    void this.sprintModel.setStatistics(GameEnum.sprint);
   };
 
   flashBG = (answer: boolean): void => {

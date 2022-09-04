@@ -180,8 +180,8 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     }
   };
 
-  mapUserWordsID = (difficultWords: RawAggregatedWordType[]): AggregatedWordType[] => {
-    return difficultWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
+  mapUserWordsID = (aggregatedWords: RawAggregatedWordType[]): AggregatedWordType[] => {
+    return aggregatedWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
 
   updateAllCollections = async (): Promise<void> => {

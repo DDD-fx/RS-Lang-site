@@ -1,15 +1,15 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { SprintEventsType, SprintModelInterface } from '../../../types/games/sprintTypes';
-import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
-import { baseURL } from '../../../utils/constants';
-import { GameEnum } from '../../../types/enums';
+import {
+  AggregatedWordsRespType,
+  AggregatedWordType,
+  RawAggregatedWordType,
+  WordsChunkType,
+} from '../../../types/textbookTypes';
+import { baseURL, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 import { LocalStorage } from '../../../utils/storage';
-import { getShortDate } from '../../../utils/tools';
 import { authFetch } from '../../../model/model';
 import { ApiMethodsEnum } from '../../../types/enums';
-import { PutStatBodyType, StatAnswerType } from '../../../types/userTypes';
-import { SPRINT_GAME_SETTINGS, STAT_ANONIM_DAY_DEFAULTS } from '../../../utils/constants';
-import { getStat, putStat } from '../../../model/api/statApi';
 
 export class SprintModel extends TypedEmitter<SprintEventsType> implements SprintModelInterface {
   allPageChunk: WordsChunkType[];
@@ -18,19 +18,45 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
 
   shakedWordChunk: WordsChunkType[] | AggregatedWordType[];
 
-  userStat: PutStatBodyType | null;
-
   constructor() {
     super();
     this.allPageChunk = [];
     this.wordsChunk = [];
     this.shakedWordChunk = [];
-    this.userStat = null;
   }
 
   getWordsList = async (query: string): Promise<void> => {
     const data = await fetch(baseURL + query);
     this.wordsChunk = (await data.json()) as WordsChunkType[];
+    this.shakedWordChunk = this.shakeWordsArr();
+  };
+
+  getUserWordsForSprint = async (): Promise<void> => {
+    const query = `users/${LocalStorage.currUserSettings.userId}/aggregatedWords?group=${SPRINT_GAME_SETTINGS.level}&wordsPerPage=600`;
+    try {
+      const rawResponse = await authFetch(baseURL + query, {
+        method: 'GET',
+        headers: this.API_USER_REQ_HEADER,
+      });
+      const content = (await rawResponse.json()) as AggregatedWordsRespType[];
+      this.wordsChunk = this.mapUserWordsID(content[0].paginatedResults.slice());
+      this.allPageChunk = this.wordsChunk.slice();
+      this.shakedWordChunk = this.shakeWordsArr().slice(0, 100);
+      console.log('shaked', this.shakedWordChunk);
+      console.log('allPage', this.allPageChunk);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  getDefaultWordsForSprint = async (): Promise<void> => {
+    for (let i = 0; i < 5; i += 1) {
+      const query = `words?group=${SPRINT_GAME_SETTINGS.level}&page=${i}`;
+      const data = await fetch(baseURL + query);
+      const words = (await data.json()) as WordsChunkType[];
+      this.wordsChunk = (<WordsChunkType[]>this.wordsChunk).concat(words);
+    }
+    this.allPageChunk = this.wordsChunk.slice();
     this.shakedWordChunk = this.shakeWordsArr();
   };
 
@@ -78,48 +104,7 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
     'Content-Type': 'application/json',
   };
 
-  getStatistics = async (): Promise<void> => {
-    if (LocalStorage.isAuth) {
-      const { userId, token } = LocalStorage.currUserSettings;
-      const answer = (await getStat(userId, token)) as StatAnswerType | null;
-      if (answer) {
-        delete answer.id;
-      }
-      this.userStat = answer;
-      const dateKey = getShortDate();
-      if (!this.userStat) {
-        this.userStat = {
-          learnedWords: 0,
-          optional: { [dateKey]: JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) },
-        };
-      }
-      if (!(dateKey in this.userStat.optional)) {
-        this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
-      }
-    }
-    console.log(this.userStat);
-  };
-
-  setStatistics = async (gameKey: GameEnum): Promise<void> => {
-    if (LocalStorage.isAuth) {
-      if (this.userStat) {
-        const dateKey = getShortDate();
-        const { userId, token } = LocalStorage.currUserSettings;
-        const oldGameStat = this.userStat.optional[dateKey][gameKey];
-        console.log(oldGameStat);
-        const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
-          SPRINT_GAME_SETTINGS;
-        const gameStatObj = {
-          newWordsPerDay: learnedWords.length + unlearnedWords.length + oldGameStat.newWordsPerDay,
-          learnedWordsPerDay: learnedPerGame + oldGameStat.learnedWordsPerDay,
-          longestSeries: sequenceOfCorrectAnswers + oldGameStat.longestSeries,
-          correctAnswers: learnedWords.length + oldGameStat.correctAnswers,
-          incorrectAnswers: unlearnedWords.length + oldGameStat.incorrectAnswers,
-        };
-        this.userStat.optional[dateKey][gameKey] = gameStatObj;
-        console.log(this.userStat);
-        await putStat(userId, token, this.userStat);
-      }
-    }
+  mapUserWordsID = (aggregatedWords: RawAggregatedWordType[]): AggregatedWordType[] => {
+    return aggregatedWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
 }
