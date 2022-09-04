@@ -6,7 +6,7 @@ import { GameEnum } from '../enums';
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
   audioChallengeModel: AudioChallengeModelInterface;
-  getWordsList(): void;
+  getWordsList(): Promise<void>;
   turnGamePage(): void;
 }
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
@@ -16,7 +16,7 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   turnGamePage(): void;
   changeWord(): void;
   getWordData(word: string, flag: boolean): void;
-  getNewWordData(query: string, diff: number): void;
+  getNewWordData(query: string, diff: number): Promise<void>;
   checkChainOfCorrectAnswers(flag: boolean): void;
   getStatistics(): Promise<void>;
   setStatistics(gameKey: GameEnum): Promise<void>;

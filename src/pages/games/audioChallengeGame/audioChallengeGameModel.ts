@@ -31,7 +31,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   getWordsList = async (query: string): Promise<void> => {
     const data = await fetch(baseURL + query);
-    this.wordsChunk = await data.json();
+    this.wordsChunk = await data.json() as WordsChunkType[];
     this.shakedWordChunk = this.shakeWordsArr();
   };
 
@@ -41,7 +41,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   shakeWordsArr = (): WordsChunkType[] => {
-    const wordsArr = JSON.parse(JSON.stringify(this.wordsChunk));
+    const wordsArr = JSON.parse(JSON.stringify(this.wordsChunk)) as WordsChunkType[];
     for (let i = this.wordsChunk.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [wordsArr[i], wordsArr[j]] = [wordsArr[j], wordsArr[i]];
@@ -60,13 +60,13 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
   };
 
-  getWordData = async (id: string, flag: boolean) => {
+  getWordData = (id: string, flag: boolean) => {
     this.checkChainOfCorrectAnswers(flag);
     if (LocalStorage.currUserSettings.userId) {
       const word = this.wordsChunk.find((el) => el.id === id) as AggregatedWordType;
       if (word) {
-        if (!(word as AggregatedWordType).userWord) {
-          (<AggregatedWordType>word).userWord = {
+        if (!word.userWord) {
+          word.userWord = {
             difficulty: WordStatusEnum.new,
             optional: {
               correctAnswersChallenge: '0',
@@ -167,9 +167,9 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   getNewWordData = async (query: string, diff: number): Promise<void> => {
     const promise = await fetch(baseURL + query);
-    const data = await promise.json();
+    const data = await promise.json() as WordsChunkType[];
     for (let i = 0; i < diff; i += 1) {
-      await AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(
+      AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(
         data[Math.floor(Math.random() * (data.length - 1))],
       );
     }
