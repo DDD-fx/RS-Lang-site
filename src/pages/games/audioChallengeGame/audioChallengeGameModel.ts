@@ -104,9 +104,10 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       (currWord.userWord.difficulty === WordStatusEnum.new &&
         +currWord.userWord.optional.correctAnswersChallenge % CorrectAnswersStatus.learnedForNew ===
           0)
-    )
+    ) {
       currWord.userWord.difficulty = WordStatusEnum.learned;
-    AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
+      AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
+    }
     void this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put);
   };
 
