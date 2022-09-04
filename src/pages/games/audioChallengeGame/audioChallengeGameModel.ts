@@ -60,7 +60,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
   };
 
-  getWordData = (id: string, flag: boolean) => {
+  getWordData = async (id: string, flag: boolean) => {
     this.checkChainOfCorrectAnswers(flag);
     if (LocalStorage.currUserSettings.userId) {
       const word = this.wordsChunk.find((el) => el.id === id) as AggregatedWordType;
@@ -77,7 +77,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
               correctSequenceSprint: '0',
             },
           };
-          void this.updateWordOnChallengeAnswer(word, ApiMethodsEnum.post);
+          void await this.updateWordOnChallengeAnswer(word, ApiMethodsEnum.post);
         }
         if (flag === true) {
           this.checkChallengeCorrectAnswer(word);
