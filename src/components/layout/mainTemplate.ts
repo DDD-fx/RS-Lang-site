@@ -20,7 +20,7 @@ const renderMainTemplate = (): string => `
   </div>
 <h2 class="article__title">Погрузись в <span class="accent">океан</span> знаний вместе с RS Lang</h2>
 <p class="article__text">Добро пожаловать на образовательную игровую площадку, которая помогает детям выучить английский язык.
-  Также, у нас есть миниигры игры, которые помогают улучшить навыки мышления у детей.</p>
+  Также, у нас есть миниигры, которые помогают улучшить навыки мышления у детей.</p>
   <a href="/textbook" class="btn btn-article" data-btn="textbook"> Начать </a>
   <div class="article__bottom-nav"><button class="btn btn-bottom-nav advantages"> О приложении <img class="advantages" src="./assets/icon-right.svg" alt=""></button></div>
   </div>

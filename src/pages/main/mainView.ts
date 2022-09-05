@@ -46,7 +46,7 @@ class MainView implements ViewInterface {
       this.mainWrapper.innerHTML = '';
       this.mainWrapper.insertAdjacentHTML('afterbegin', template());
       this.mainWrapper.style.opacity = '1';
-    }, 250);
+    }, 450);
   };
 
   renderPreloader = (someClass?: string): void => {
@@ -70,7 +70,7 @@ class MainView implements ViewInterface {
         this.renderCustomTemplate(renderTeamTemplate);
     });
 
-    document.addEventListener('click', this.nav.closeNav); //set the event
+    document.addEventListener('click', this.nav.closeNav);
   };
 }
 
