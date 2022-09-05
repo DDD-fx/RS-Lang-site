@@ -22,6 +22,7 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   getWordData(word: string, flag: boolean): void;
   getNewWordData(query: string, diff: number): Promise<void>;
   checkChainOfCorrectAnswers(flag: boolean): void;
+  closeBtnModel(): Promise<void>;
   getStatistics(): Promise<void>;
   setStatistics(gameKey: GameEnum): Promise<void>;
   getWordsListFromTextbook(array: WordsChunkType[] | AggregatedWordType[]): void;
@@ -62,7 +63,7 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   turnOnWrongAnswerSound(): void;
   createSpeaker(word: WordsChunkType, className: string): HTMLElement;
   stopTheGame(): void;
-  showGameResults(): void;
+  showGameResults(): Promise<void>;
   closeGameResults(): void;
   updateUnlearnedResultWordsWrapper(): Element;
   updateLearnedResultWordsWrapper(): Element;
@@ -92,4 +93,5 @@ export type AudioChallengeGameType = {
   sequenceOfCorrectAnswers: number;
   tempSequenceOfCorrectAnswers: number;
   learnedPerGame: number;
+  newWords: number;
 };

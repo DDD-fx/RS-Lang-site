@@ -1,5 +1,5 @@
 import './styles.scss';
-import App from './pages/main/controller';
+import MainController from './pages/main/mainController';
 import Router from './utils/router';
 import { getElement } from './utils/tools';
 import { Routes } from './types/types';
@@ -14,7 +14,7 @@ import Nav from './components/nav';
 import Login from './pages/login/loginController';
 import { GameEnum } from './types/enums';
 
-const app = new App();
+const app = new MainController();
 app.init();
 
 const title = '| rs lang';

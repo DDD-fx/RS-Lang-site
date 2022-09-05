@@ -6,7 +6,7 @@ import { createElement, getElement, preloadImages } from '../../utils/tools';
 import history from '../../utils/history';
 import { ViewInterface } from '../../types/types';
 
-class View implements ViewInterface {
+class MainView implements ViewInterface {
   header: HTMLElement;
 
   main: HTMLElement;
@@ -74,4 +74,4 @@ class View implements ViewInterface {
   };
 }
 
-export default View;
+export default MainView;

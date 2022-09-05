@@ -1,5 +1,5 @@
-import { StatAnswerType, PutStatBodyType } from '../../types/userTypes';
-import { baseURL } from '../../utils/constants';
+import { StatAnswerType, PutStatBodyType } from '../types/userTypes';
+import { baseURL } from '../utils/constants';
 
 const getStat = async (userId: string, token: string): Promise<StatAnswerType | undefined> => {
   try {

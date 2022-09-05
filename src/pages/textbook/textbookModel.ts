@@ -9,7 +9,7 @@ import {
 import { baseURL } from '../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { LocalStorage } from '../../utils/storage';
-import { authFetch } from '../../model/model';
+import { authFetch } from '../main/mainModel';
 import { getElement } from '../../utils/tools';
 import { WordStatusEnum } from '../../types/enums';
 

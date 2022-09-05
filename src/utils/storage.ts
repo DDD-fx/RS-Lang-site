@@ -1,6 +1,6 @@
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './constants';
 import { UserSettingsType } from '../types/types';
-import { getExpirationDate } from '../model/api/usersApi';
+import { getExpirationDate } from '../api/usersApi';
 
 export class LocalStorage {
   static createLocalKey = (key: string) => `rsl13-${key}`;

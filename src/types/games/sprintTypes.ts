@@ -35,6 +35,7 @@ export interface SprintModelInterface extends TypedEmitter<SprintEventsType> {
   getWordsListFromTextbook(collection: WordsChunkType[] | AggregatedWordType[]): void;
   updateWordOnSprintAnswer(currWord: AggregatedWordType, method: ApiMethodsEnum): Promise<void>;
   mapUserWordsID(aggregatedWords: RawAggregatedWordType[]): AggregatedWordType[];
+  closeBtnModel(): Promise<void>;
   getStatistics(): Promise<void>;
   setStatistics(gameKey: GameEnum): Promise<void>;
 }
@@ -52,7 +53,7 @@ export interface SprintViewInterface extends TypedEmitter<SprintEventsType> {
   addCorrectBtnEvents(): void;
   addIncorrectBtnEvents(): void;
   drawNextSprintQuestion(): void;
-  showResults(): void;
+  showResults(): Promise<void>;
   flashBG(answer: boolean): void;
   updateUnlearnedResultWordsWrapper(): Element;
   updateLearnedResultWordsWrapper(): Element;
@@ -81,4 +82,5 @@ export type SprintGameType = {
   sequenceOfCorrectAnswers: number;
   tempSequenceOfCorrectAnswers: number;
   learnedPerGame: number;
+  newWords: number;
 };

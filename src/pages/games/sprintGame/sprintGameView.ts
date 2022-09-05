@@ -52,7 +52,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
 
     setTimeout(() => {
       this.isSprintRunning = false;
-      this.showResults();
+      this.showResults().catch((err) => console.error(err));
     }, 60000);
     this.drawNextSprintQuestion();
   };
@@ -147,11 +147,11 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       this.currIndex += 1;
     } else {
       window.addEventListener('keyup', (e) => e.stopImmediatePropagation(), true);
-      this.showResults();
+      this.showResults().catch((err) => console.error(err));
     }
   };
 
-  showResults = (): void => {
+  showResults = async (): Promise<void> => {
     const body = getElement('body') as HTMLDivElement;
     const modalWindow = createElement('div', 'fixed-sprint-window-wrapper');
     const sprintWrapper = createElement('div', 'fixed-result-window');
@@ -166,7 +166,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     sprintWrapper.append(resultSection);
     modalWindow.append(sprintWrapper);
     body.append(modalWindow);
-    void this.sprintModel.setStatistics(GameEnum.sprint);
+    void (await this.sprintModel.setStatistics(GameEnum.sprint));
   };
 
   flashBG = (answer: boolean): void => {

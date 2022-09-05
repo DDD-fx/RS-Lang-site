@@ -1,6 +1,5 @@
 import LoginView from '../pages/login/loginView';
 import { StatOptionalDayType, StatStateType, UserSuccessLoginType } from './userTypes';
-import View from '../pages/main/view';
 
 type Routes = {
   path: string;
@@ -85,8 +84,8 @@ export interface LoginViewInterface {
 
 export type Handler = (form: HTMLFormElement) => Promise<void>;
 
-export interface AppInterface {
-  view: View;
+export interface MainControllerInterface {
+  view: ViewInterface;
   model: ModelInterface;
   init(): void;
 }
