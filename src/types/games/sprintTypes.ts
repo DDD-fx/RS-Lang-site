@@ -7,6 +7,8 @@ export type SprintEventsType = {
   sprintCorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
   sprintIncorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
   drawNextSprintQuestion: () => void;
+  sprintUnauthIncorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
+  sprintUnauthCorrectAnswerClicked: (gameCurrWord: WordsChunkType | AggregatedWordType) => void;
 };
 
 export interface SprintControllerInterface {
@@ -17,6 +19,8 @@ export interface SprintControllerInterface {
   checkSprintCorrectAnswer(gameCurrWord: WordsChunkType | AggregatedWordType): void;
   checkSprintIncorrectAnswer(gameCurrWord: WordsChunkType | AggregatedWordType): void;
   checkChainOfCorrectAnswers(answer: boolean): void;
+  addWordsToGuessRightArr(gameCurrWord: WordsChunkType | AggregatedWordType): void;
+  addWordsToGuessWrongArr(gameCurrWord: WordsChunkType | AggregatedWordType): void;
 }
 
 export interface SprintModelInterface extends TypedEmitter<SprintEventsType> {

@@ -49,8 +49,6 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
       this.wordsChunk = this.mapUserWordsID(content[0].paginatedResults.slice());
       this.allPageChunk = this.wordsChunk.slice();
       this.shakedWordChunk = this.shakeWordsArr().slice(0, 100);
-      console.log('shaked', this.shakedWordChunk);
-      console.log('allPage', this.allPageChunk);
     } catch (e) {
       console.error(e);
     }
@@ -92,7 +90,6 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
     method: ApiMethodsEnum,
   ): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${currWord.id}`;
-    console.log(currWord);
     try {
       await authFetch(baseURL + query, {
         method: `${method}`,
@@ -134,7 +131,6 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
         this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
       }
     }
-    console.log(this.userStat);
   };
 
   setStatistics = async (gameKey: GameEnum): Promise<void> => {
@@ -143,7 +139,6 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
         const dateKey = getShortDate();
         const { userId, token } = LocalStorage.currUserSettings;
         const oldGameStat = this.userStat.optional[dateKey][gameKey];
-        console.log(oldGameStat);
         const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
           SPRINT_GAME_SETTINGS;
         const gameStatObj = {
@@ -154,7 +149,6 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
           incorrectAnswers: unlearnedWords.length + oldGameStat.incorrectAnswers,
         };
         this.userStat.optional[dateKey][gameKey] = gameStatObj;
-        console.log(this.userStat);
         await putStat(userId, token, this.userStat);
       }
     }

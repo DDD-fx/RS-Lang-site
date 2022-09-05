@@ -1,5 +1,4 @@
 import { ChartConfiguration, ChartData } from 'chart.js';
-// 'Количество новых слов', 'Количество изученных слов'
 
 const setWordsData = (label: string, wordsData: number[], labelsData: string[]) => {
   return {
@@ -30,7 +29,6 @@ const getChartConfig = (data: ChartData<'line'>): ChartConfiguration<'line'> => 
         },
         title: {
           display: false,
-          // text: 'Количество новых слов',
           color: 'white',
         },
       },
@@ -38,15 +36,12 @@ const getChartConfig = (data: ChartData<'line'>): ChartConfiguration<'line'> => 
         x: {
           ticks: {
             color: 'white',
-            //  borderColor: 'white'
           },
         },
         y: {
-          // suggestedMin: 0,
           ticks: {
             color: 'white',
             precision: 0,
-            //  borderColor: 'white'
           },
         },
       },

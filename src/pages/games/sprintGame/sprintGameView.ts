@@ -53,7 +53,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     setTimeout(() => {
       this.isSprintRunning = false;
       this.showResults();
-    }, 60000); //60000
+    }, 60000);
     this.drawNextSprintQuestion();
   };
 
@@ -102,13 +102,19 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       if (!greenBtn.classList.contains('hidden')) this.turnOnCorrectAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-      } else this.drawNextSprintQuestion();
+      } else {
+        this.drawNextSprintQuestion();
+        this.emit('sprintUnauthCorrectAnswerClicked', this.gameCurrWord);
+      }
     } else {
       this.flashBG(false);
       if (!greenBtn.classList.contains('hidden')) this.turnOnWrongAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-      } else this.drawNextSprintQuestion();
+      } else {
+        this.drawNextSprintQuestion();
+        this.emit('sprintUnauthIncorrectAnswerClicked', this.gameCurrWord);
+      }
     }
   };
 
@@ -119,7 +125,10 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       if (!greenBtn.classList.contains('hidden')) this.turnOnWrongAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-      } else this.drawNextSprintQuestion();
+      } else {
+        this.drawNextSprintQuestion();
+        this.emit('sprintUnauthIncorrectAnswerClicked', this.gameCurrWord);
+      }
     } else {
       this.flashBG(true);
       if (!greenBtn.classList.contains('hidden')) this.turnOnCorrectAnswerSound();
@@ -127,6 +136,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
       } else {
         this.drawNextSprintQuestion();
+        this.emit('sprintUnauthCorrectAnswerClicked', this.gameCurrWord);
       }
     }
   };

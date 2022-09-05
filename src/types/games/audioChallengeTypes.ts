@@ -12,7 +12,7 @@ export interface AudioChallengeControllerInterface {
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
   shakedWordChunk: WordsChunkType[];
-  getWordsList(query: string): void;
+  getWordsList(query: string): Promise<void>;
   turnGamePage(): void;
   changeWord(): void;
   getWordData(word: string, flag: boolean): void;

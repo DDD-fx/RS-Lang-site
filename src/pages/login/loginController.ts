@@ -29,7 +29,6 @@ class Login {
         showModal('Успешная авторизация!');
         this.setUserSettings(userData.email, response[1]);
         window.location.replace('/');
-        //  history.push('/');
         new Nav(getElement('header') as HTMLElement).render();
       } else showModal('Неверный логин или пароль!');
     }

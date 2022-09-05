@@ -73,7 +73,6 @@ const routes: Routes[] = [
     action: async () => {
       app.view.renderPreloader();
       const collection = await textbook.getGamesWordCollection(GameEnum.audioChallenge);
-      console.log('audiochallenge', collection);
       gamesEntrance.startAudioChallengeFromTextBook(collection).catch((err) => console.error(err));
       document.title = `Игра Аудиовызов ${title}`;
     },
@@ -94,7 +93,6 @@ const routes: Routes[] = [
     action: async () => {
       app.view.renderPreloader();
       const collection = await textbook.getGamesWordCollection(GameEnum.sprint);
-      console.log('sprint', collection);
       await gamesEntrance.startSprintGameFromTextBook(collection);
       document.title = `Игра Спринт ${title}`;
     },
