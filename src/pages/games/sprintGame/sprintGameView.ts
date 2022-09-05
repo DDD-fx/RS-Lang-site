@@ -15,6 +15,7 @@ import { baseURL, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 import { ResultBtnType } from '../../../types/games/commonGamesTypes';
 import history from '../../../utils/history';
 import { GameEnum } from '../../../types/enums';
+import { Console } from 'console';
 
 export class SprintView extends TypedEmitter<SprintEventsType> implements SprintViewInterface {
   sprintModel: SprintModelInterface;
@@ -102,13 +103,25 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       if (!greenBtn.classList.contains('hidden')) this.turnOnCorrectAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
-      } else this.drawNextSprintQuestion();
+      } else {
+        this.drawNextSprintQuestion();
+        const word = this.getAnswerWord();
+        if (word) {
+          this.emit('sprintUnauthCorrectAnswerClicked', word);
+        }
+      }
     } else {
       this.flashBG(false);
       if (!greenBtn.classList.contains('hidden')) this.turnOnWrongAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-      } else this.drawNextSprintQuestion();
+      } else {
+        this.drawNextSprintQuestion();
+        const word = this.getAnswerWord();
+        if (word) {
+          this.emit('sprintUnauthIncorrectAnswerClicked', word);
+        }
+      }
     }
   };
 
@@ -119,7 +132,13 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       if (!greenBtn.classList.contains('hidden')) this.turnOnWrongAnswerSound();
       if (LocalStorage.currUserSettings.userId) {
         this.emit('sprintIncorrectAnswerClicked', this.gameCurrWord);
-      } else this.drawNextSprintQuestion();
+      } else {
+        this.drawNextSprintQuestion();
+        const word = this.getAnswerWord();
+        if (word) {
+          this.emit('sprintUnauthIncorrectAnswerClicked', word);
+        }
+      }
     } else {
       this.flashBG(true);
       if (!greenBtn.classList.contains('hidden')) this.turnOnCorrectAnswerSound();
@@ -127,9 +146,21 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
         this.emit('sprintCorrectAnswerClicked', this.gameCurrWord);
       } else {
         this.drawNextSprintQuestion();
+        const word = this.getAnswerWord();
+        if (word) {
+          this.emit('sprintUnauthCorrectAnswerClicked', word);
+        }
       }
     }
   };
+
+  getAnswerWord = () :WordsChunkType | AggregatedWordType => {
+    const word = getElement('sprint-english-word').textContent;
+        const checkedWord = this.sprintModel.shakedWordChunk.find(
+          (el) => el.word === word,
+        ) as WordsChunkType | AggregatedWordType;
+    return checkedWord;
+  }
 
   drawNextSprintQuestion = (): void => {
     if (this.isSprintRunning && this.currIndex < this.sprintModel.shakedWordChunk.length) {
