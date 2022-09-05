@@ -69,7 +69,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     SPRINT_GAME_SETTINGS.startFromTextbook = false;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
-    const sprintController = new SprintController(sprintModel, sprintView);
+    (() => new SprintController(sprintModel, sprintView))();
     if (LocalStorage.currUserSettings.userId) await sprintModel.getUserWordsForSprint();
     else await sprintModel.getDefaultWordsForSprint();
     await sprintModel.getStatistics();
@@ -83,7 +83,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     SPRINT_GAME_SETTINGS.startFromTextbook = true;
     const sprintModel = new SprintModel();
     const sprintView = new SprintView(sprintModel);
-    const sprintController = new SprintController(sprintModel, sprintView);
+    (() => new SprintController(sprintModel, sprintView))();
     sprintModel.getWordsListFromTextbook(wordsCollection);
     await sprintModel.getPageChunk();
     await sprintModel.getStatistics();
