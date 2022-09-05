@@ -7,18 +7,40 @@ import {
 } from '../../types/userTypes';
 import { baseURL } from '../../utils/constants';
 
-const createUser = async (user: CreateUserType): Promise<(number | CreateUserResponseType)[]> => {
-  const rawResponse = await fetch(`${baseURL}users`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(user),
-  });
-  const status = rawResponse.status;
-  const content = (await rawResponse.json()) as CreateUserResponseType;
-  return [status, content];
+const getErrorMessageFromResponseBody = (string: string) => {
+  let errorString = string;
+  try {
+    const json = JSON.parse(string) as CreateUserResponseType;
+    if (json.error) {
+      errorString = json.error.errors[0].message;
+    }
+  } catch (parseOrAccessError) { console.error(parseOrAccessError)}
+
+  return errorString;
+};
+
+const createUser = async (
+  user: CreateUserType,
+): Promise<(string | number)[] | (number | CreateUserResponseType)[] | undefined> => {
+  try {
+    const rawResponse = await fetch(`${baseURL}users`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+    const status = rawResponse.status;
+    if (!rawResponse.ok) {
+      const errorString = getErrorMessageFromResponseBody(await rawResponse.text());
+      return [status, errorString];
+    }
+    const content = (await rawResponse.json()) as CreateUserResponseType;
+    return [status, content];
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const loginUser = async (

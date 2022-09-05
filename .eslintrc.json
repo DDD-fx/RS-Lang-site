@@ -28,7 +28,7 @@
     "no-new": 1,
     "max-lines-per-function": [
       "error",
-      40
+      85
     ]
   },
   "globals": {

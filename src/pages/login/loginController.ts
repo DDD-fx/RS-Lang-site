@@ -47,12 +47,13 @@ class Login {
         email: email,
         password: password,
       };
-      const response = (await createUser(userData)) as [number, CreateUserResponseType];
+      const response = (await createUser(userData)) as [number, CreateUserResponseType | unknown];
       if (response[0] === 200) {
         showModal('Успешная регистрация!');
-        // window.location.replace('/login')
         history.push('/login');
-      } else showModal(response[1].error.errors[0].message);
+      } else {
+        showModal(response[1] as string);
+      }
     }
   };
 
