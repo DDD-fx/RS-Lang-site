@@ -69,6 +69,8 @@ export class TextBookController implements TextBookControllerInterface {
   };
 
   addUserWord = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
+    this.controlWordBtnOnFetch(wordID, true);
+
     const onDictPage = this.textBookView.userTextBookView.onDictPage;
 
     if (this.isWordDifficult(wordID)) {
@@ -93,6 +95,7 @@ export class TextBookController implements TextBookControllerInterface {
     } else if (this.isWordNew(wordID)) {
       await this.textBookModel.updateUserWord(wordID, onDictPage, wordStatus, true, false);
     }
+    this.controlWordBtnOnFetch(wordID, false);
   };
 
   makeWordNew = async (wordID: string, wordStatus: WordStatusEnum): Promise<void> => {
@@ -138,4 +141,9 @@ export class TextBookController implements TextBookControllerInterface {
       throw new Error('collection gathering failed');
     }
   };
+
+  controlWordBtnOnFetch(wordID: string, fetchStatus: boolean): void {
+    const wordBtn = document.getElementById(wordID) as HTMLDivElement;
+    wordBtn.style.pointerEvents = fetchStatus ? 'none' : 'auto';
+  }
 }

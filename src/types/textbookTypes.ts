@@ -69,6 +69,7 @@ export interface TextBookControllerInterface {
   isWordDifficult(wordID: string): boolean;
   isWordLearned(wordID: string): boolean;
   getGamesWordCollection(game: GameEnum): Promise<WordsChunkType[] | AggregatedWordType[]>;
+  controlWordBtnOnFetch(wordID: string, fetchStatus: boolean): void;
 }
 
 export interface TextBookViewInterface extends TypedEmitter<TextBookEventsType> {
