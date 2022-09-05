@@ -56,7 +56,7 @@ export class AudioChallengeView
         );
       } else {
         this.stopTheGame();
-        this.showGameResults();
+        this.showGameResults().catch((err) => console.error(err));
       }
     }
     if (currentGamePageArray.length < 5) {
@@ -136,12 +136,7 @@ export class AudioChallengeView
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
     closeBtn.addEventListener('click', () => {
-      if (!AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook) {
-        window.location.reload();
-      } else {
-        history.push('/textbook');
-        window.location.reload();
-      }
+      this.audioChallengeModel.closeBtnModel().catch((err) => console.error(err));
     });
     gameOperationsGroup.append(closeBtn);
   };
@@ -511,7 +506,7 @@ export class AudioChallengeView
     this.emit('theGameIsOver');
   };
 
-  showGameResults = (): void => {
+  showGameResults = async (): Promise<void> => {
     const gameWrapper = getElement('fixed-result-window');
     if (gameWrapper.classList.contains('hidden')) {
       gameWrapper.classList.remove('hidden');
@@ -521,7 +516,7 @@ export class AudioChallengeView
     this.updateUnlearnedResultWordsWrapper();
     this.updateLearnedResultWordsWrapper();
     this.showOperationPanel();
-    void this.audioChallengeModel.setStatistics(GameEnum.audioChallenge);
+    void (await this.audioChallengeModel.setStatistics(GameEnum.audioChallenge));
   };
 
   closeGameResults = (): void => {

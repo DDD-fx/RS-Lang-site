@@ -10,15 +10,11 @@ import { baseURL, SPRINT_GAME_SETTINGS, STAT_ANONIM_DAY_DEFAULTS } from '../../.
 import { GameEnum } from '../../../types/enums';
 import { LocalStorage } from '../../../utils/storage';
 import { getShortDate } from '../../../utils/tools';
-import { authFetch } from '../../../model/model';
+import { authFetch } from '../../main/mainModel';
 import { ApiMethodsEnum } from '../../../types/enums';
-import { getStat, putStat } from '../../../model/api/statApi';
-import {
-  PutStatBodyType,
-  StatAnswerType,
-  StatOptionalDayType,
-  StatOptionalGameType,
-} from '../../../types/userTypes';
+import { getStat, putStat } from '../../../api/statApi';
+import { PutStatBodyType, StatAnswerType, StatOptionalDayType } from '../../../types/userTypes';
+import history from '../../../utils/history';
 
 export class SprintModel extends TypedEmitter<SprintEventsType> implements SprintModelInterface {
   allPageChunk: WordsChunkType[];
@@ -117,6 +113,16 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
     return aggregatedWords.map(({ _id: id, ...rest }) => ({ id, ...rest }));
   };
 
+  closeBtnModel = async () => {
+    void (await this.setStatistics(GameEnum.sprint));
+    if (!SPRINT_GAME_SETTINGS.startFromTextbook) {
+      window.location.reload();
+    } else {
+      history.push('/textbook');
+      window.location.reload();
+    }
+  };
+
   getStatistics = async (): Promise<void> => {
     if (LocalStorage.isAuth) {
       const { userId, token } = LocalStorage.currUserSettings;
@@ -147,11 +153,11 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
       if (this.userStat) {
         const dateKey = getShortDate();
         const { userId, token } = LocalStorage.currUserSettings;
-        const oldGameStat = this.userStat.optional[dateKey][gameKey] as StatOptionalGameType;
-        const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
+        const oldGameStat = this.userStat.optional[dateKey][gameKey];
+        const { newWords, learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
           SPRINT_GAME_SETTINGS;
         const gameStatObj = {
-          newWordsPerDay: learnedWords.length + unlearnedWords.length + oldGameStat.newWordsPerDay,
+          newWordsPerDay: newWords + oldGameStat.newWordsPerDay,
           learnedWordsPerDay: learnedPerGame + oldGameStat.learnedWordsPerDay,
           longestSeries: sequenceOfCorrectAnswers + oldGameStat.longestSeries,
           correctAnswers: learnedWords.length + oldGameStat.correctAnswers,

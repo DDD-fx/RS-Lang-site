@@ -5,8 +5,6 @@ import {
 } from '../../../types/games/sprintTypes';
 import { createElement, getElement } from '../../../utils/tools';
 import { renderSprintGameBeReadyTemplate } from '../../../components/games/sprintGame';
-import { SPRINT_GAME_SETTINGS } from '../../../utils/constants';
-import history from '../../../utils/history';
 
 export class SprintViewUtils implements SprintViewUtilsInterface {
   sprintModel: SprintModelInterface;
@@ -49,13 +47,8 @@ export class SprintViewUtils implements SprintViewUtilsInterface {
     ]) as HTMLImageElement;
     cross.src = './assets/games/cross.svg';
     closeBtn.append(cross);
-    closeBtn.addEventListener('click', () => {
-      if (!SPRINT_GAME_SETTINGS.startFromTextbook) {
-        window.location.reload();
-      } else {
-        history.push('/textbook');
-        window.location.reload();
-      }
+    closeBtn.addEventListener('click', (): void => {
+      this.sprintModel.closeBtnModel().catch((err) => console.error(err));
     });
     gameOperationsGroup.append(closeBtn);
   };

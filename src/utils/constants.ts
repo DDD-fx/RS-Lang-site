@@ -38,6 +38,7 @@ export const AUDIOCHALLENGE_GAME_SETTINGS: AudioChallengeGameType = {
   sequenceOfCorrectAnswers: 0,
   tempSequenceOfCorrectAnswers: 0,
   learnedPerGame: 0,
+  newWords: 0,
 };
 
 export const SPRINT_GAME_SETTINGS: SprintGameType = {
@@ -48,6 +49,7 @@ export const SPRINT_GAME_SETTINGS: SprintGameType = {
   sequenceOfCorrectAnswers: 0,
   tempSequenceOfCorrectAnswers: 0,
   learnedPerGame: 0,
+  newWords: 0,
 };
 
 export const STAR_SVG = `<?xml version="1.0" encoding="UTF-8"?>

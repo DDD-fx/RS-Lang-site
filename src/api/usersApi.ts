@@ -4,8 +4,8 @@ import {
   UserSuccessLoginType,
   CreateUserResponseType,
   DecodedTokenType,
-} from '../../types/userTypes';
-import { baseURL } from '../../utils/constants';
+} from '../types/userTypes';
+import { baseURL } from '../utils/constants';
 
 const getErrorMessageFromResponseBody = (string: string): string => {
   let errorString = string;

@@ -49,6 +49,14 @@ export class SprintController implements SprintControllerInterface {
       | WordsChunkType
       | AggregatedWordType;
     if ('userWord' in currWord) {
+      if (
+        +currWord.userWord.optional.correctAnswersSprint === 0 &&
+        +currWord.userWord.optional.incorrectAnswersSprint === 0 &&
+        +currWord.userWord.optional.correctAnswersChallenge === 0 &&
+        +currWord.userWord.optional.incorrectAnswersChallenge === 0
+      ) {
+        SPRINT_GAME_SETTINGS.newWords += 1;
+      }
       currWord.userWord.optional.correctAnswersSprint = `${
         +currWord.userWord.optional.correctAnswersSprint + 1
       }`;
@@ -69,6 +77,7 @@ export class SprintController implements SprintControllerInterface {
       }
       void this.sprintModel.updateWordOnSprintAnswer(currWord, ApiMethodsEnum.put);
     } else {
+      SPRINT_GAME_SETTINGS.newWords += 1;
       (<AggregatedWordType>currWord).userWord = {
         difficulty: WordStatusEnum.new,
         optional: {
@@ -93,6 +102,14 @@ export class SprintController implements SprintControllerInterface {
       | WordsChunkType
       | AggregatedWordType;
     if ('userWord' in currWord) {
+      if (
+        +currWord.userWord.optional.correctAnswersSprint === 0 &&
+        +currWord.userWord.optional.incorrectAnswersSprint === 0 &&
+        +currWord.userWord.optional.correctAnswersChallenge === 0 &&
+        +currWord.userWord.optional.incorrectAnswersChallenge === 0
+      ) {
+        SPRINT_GAME_SETTINGS.newWords += 1;
+      }
       currWord.userWord.optional.incorrectAnswersSprint = `${
         +currWord.userWord.optional.incorrectAnswersSprint + 1
       }`;
@@ -101,6 +118,7 @@ export class SprintController implements SprintControllerInterface {
         currWord.userWord.difficulty = WordStatusEnum.difficult;
       void this.sprintModel.updateWordOnSprintAnswer(currWord, ApiMethodsEnum.put);
     } else {
+      SPRINT_GAME_SETTINGS.newWords += 1;
       (<AggregatedWordType>currWord).userWord = {
         difficulty: WordStatusEnum.new,
         optional: {

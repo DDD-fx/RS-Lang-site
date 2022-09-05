@@ -1,7 +1,7 @@
 import { LocalStorage } from '../../utils/storage';
 import { STAT_ANONIM_DEFAULTS } from '../../utils/constants';
 import { getShortDate } from '../../utils/tools';
-import { getStat } from '../../model/api/statApi';
+import { getStat } from '../../api/statApi';
 import { StatAnswerType, StatStateType } from '../../types/userTypes';
 import { StatModelInterface } from '../../types/types';
 

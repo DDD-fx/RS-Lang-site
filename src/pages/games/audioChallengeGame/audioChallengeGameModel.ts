@@ -6,19 +6,15 @@ import {
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
-import {
-  PutStatBodyType,
-  StatAnswerType,
-  StatOptionalDayType,
-  StatOptionalGameType,
-} from '../../../types/userTypes';
+import { PutStatBodyType, StatAnswerType, StatOptionalDayType } from '../../../types/userTypes';
 import { GameEnum } from '../../../types/enums';
 import { LocalStorage } from '../../../utils/storage';
 import { getShortDate } from '../../../utils/tools';
-import { authFetch } from '../../../model/model';
-import { getStat, putStat } from '../../../model/api/statApi';
+import { authFetch } from '../../main/mainModel';
+import { getStat, putStat } from '../../../api/statApi';
 import { AudioChallengeModelInterface } from '../../../types/games/audioChallengeTypes';
 import { ApiMethodsEnum, CorrectAnswersStatus, WordStatusEnum } from '../../../types/enums';
+import history from '../../../utils/history';
 
 export class AudioChallengeModel extends TypedEmitter implements AudioChallengeModelInterface {
   wordsChunk: WordsChunkType[];
@@ -95,6 +91,15 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   checkChallengeCorrectAnswer = async (gameCurrWord: AggregatedWordType): Promise<void> => {
     const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as AggregatedWordType;
+    if (
+      +currWord.userWord.optional.correctAnswersSprint === 0 &&
+      +currWord.userWord.optional.incorrectAnswersSprint === 0 &&
+      +currWord.userWord.optional.correctAnswersChallenge === 0 &&
+      +currWord.userWord.optional.incorrectAnswersChallenge === 0
+    ) {
+      AUDIOCHALLENGE_GAME_SETTINGS.newWords += 1;
+      console.log(AUDIOCHALLENGE_GAME_SETTINGS.newWords);
+    }
     currWord.userWord.optional.correctAnswersChallenge = `${
       +currWord.userWord.optional.correctAnswersChallenge + 1
     }`;
@@ -118,6 +123,14 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
 
   checkChallengeIncorrectAnswer = async (gameCurrWord: AggregatedWordType): Promise<void> => {
     const currWord = JSON.parse(JSON.stringify(gameCurrWord)) as AggregatedWordType;
+    if (
+      +currWord.userWord.optional.correctAnswersSprint === 0 &&
+      +currWord.userWord.optional.incorrectAnswersSprint === 0 &&
+      +currWord.userWord.optional.correctAnswersChallenge === 0 &&
+      +currWord.userWord.optional.incorrectAnswersChallenge === 0
+    ) {
+      AUDIOCHALLENGE_GAME_SETTINGS.newWords += 1;
+    }
     currWord.userWord.optional.incorrectAnswersChallenge = `${
       +currWord.userWord.optional.incorrectAnswersChallenge + 1
     }`;
@@ -189,6 +202,16 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     }
   };
 
+  closeBtnModel = async () => {
+    void (await this.setStatistics(GameEnum.audioChallenge));
+    if (!AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook) {
+      window.location.reload();
+    } else {
+      history.push('/textbook');
+      window.location.reload();
+    }
+  };
+
   getStatistics = async (): Promise<void> => {
     if (LocalStorage.isAuth) {
       const { userId, token } = LocalStorage.currUserSettings;
@@ -219,11 +242,11 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       if (this.userStat) {
         const dateKey = getShortDate();
         const { userId, token } = LocalStorage.currUserSettings;
-        const oldGameStat = this.userStat.optional[dateKey][gameKey] as StatOptionalGameType;
-        const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
+        const oldGameStat = this.userStat.optional[dateKey][gameKey];
+        const { newWords, learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
           AUDIOCHALLENGE_GAME_SETTINGS;
         const gameStatObj = {
-          newWordsPerDay: learnedWords.length + unlearnedWords.length + oldGameStat.newWordsPerDay,
+          newWordsPerDay: newWords + oldGameStat.newWordsPerDay,
           learnedWordsPerDay: learnedPerGame + oldGameStat.learnedWordsPerDay,
           longestSeries: sequenceOfCorrectAnswers + oldGameStat.longestSeries,
           correctAnswers: learnedWords.length + oldGameStat.correctAnswers,
