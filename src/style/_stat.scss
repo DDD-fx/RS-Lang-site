@@ -1,0 +1,224 @@
+@import 'mixins';
+
+.statistic__article {
+  padding: 2rem 1rem 4rem 1rem;
+  margin: auto 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__container.statistics {
+  min-height: 70vh;
+}
+
+.main__container.statistics .skat {
+  right: -4%;
+  left: auto;
+  top: -2rem;
+}
+
+.main__container.statistics .whale {
+  position: absolute;
+  right: -4rem;
+  bottom: -3rem;
+  z-index: -1;
+}
+
+.main__container.statistics .img-x20 img {
+  max-width: 23rem;
+  width: 100%;
+}
+
+.statistic__title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-self: center;
+  padding-bottom: 1.5rem;
+}
+
+.anonim .statistic__title {
+  justify-content: center;
+  flex-direction: column;
+}
+
+.statistics .anonim .article__title {
+  text-align: center;
+  font-size: 2rem;
+  line-height: 3.3rem;
+  max-width: 45rem;
+}
+
+.statistic__today {
+  padding-bottom: 2.5rem;
+}
+
+.statistics .article__title {
+  padding: 0;
+  padding-right: 1rem;
+}
+
+.statistic__sub-title {
+  font-size: 2rem;
+  line-height: 2.3rem;
+}
+
+.btn.btn-stat-login {
+  font-size: 1.25rem;
+  padding: 6px 32px;
+  box-shadow: 0px 4px 20px rgb(61 61 61 / 25%);
+  margin-top: 1rem;
+}
+
+.statistic__words {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1.5rem;
+  gap: 1.5rem;
+}
+
+.stat-words-data span {
+  font-size: 2rem;
+}
+
+.statistic__games {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.stat-game-card {
+  border-radius: 20px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
+  padding: 1rem;
+  backdrop-filter: blur(22px);
+  background: rgb(255 255 255 / 10%);
+  filter: opacity(0.9);
+  color: black;
+}
+
+.stat-game-card.audiochallenge {
+  background: rgb(255 255 255 / 100%) url(assets/games/headphones.svg) no-repeat center;
+  background-size: 40%;
+  background-position: right -10px top -30px;
+}
+
+.stat-game-card.sprint {
+  background: rgb(255 255 255 / 100%) url(assets/games/fish.svg) no-repeat center;
+  background-size: 60%;
+  background-position: right -20px top -20px;
+}
+
+.stat-game-card__accent {
+  font-weight: 500;
+}
+
+.stat-game-card__name {
+  align-self: center;
+  margin-left: 0;
+  font-size: 1.25rem;
+}
+
+.stat-words-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-game-card__data {
+  display: flex;
+  flex-direction: column;
+}
+
+.statistic__all-time {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.all-time__card__name {
+  text-align: center;
+}
+
+.all-time__card__chart {
+  padding-top: 1rem;
+}
+
+canvas.newWordsChart,
+canvas.learnedWordsChart {
+  width: 450px !important;
+}
+
+@include md {
+  .main__container.statistics .img-x20 img {
+    max-width: 23rem;
+    width: 100%;
+    opacity: 0.5;
+  }
+
+  .main__container.statistics .skat {
+    right: -10%;
+    top: -3rem;
+  }
+
+  .statistics .anonim .article__title {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+    max-width: 40rem;
+  }
+}
+
+@include sm {
+  .statistic__article {
+    padding: 7rem 1rem 13rem 1rem;
+  }
+
+  .statistics .anonim .article__title {
+    font-size: 1.2rem;
+    line-height: 2rem;
+  }
+
+  .statistic__games {
+    flex-wrap: wrap;
+  }
+
+  .stat-words-data {
+    font-size: 1rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .statistic__sub-title {
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+  }
+
+  .stat-game-card__data {
+    font-size: 1rem;
+  }
+
+  .main__container.statistics .whale {
+    right: 0rem;
+  }
+
+  .main__container.statistics .img-x20 img {
+    opacity: 1;
+  }
+
+  .main__container.statistics .bubbles {
+    bottom: 11rem;
+    right: -3rem;
+  }
+
+  canvas.newWordsChart,
+  canvas.learnedWordsChart {
+    width: 300px !important;
+  }
+}

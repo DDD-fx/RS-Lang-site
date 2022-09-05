@@ -1,0 +1,471 @@
+.game-operations-group {
+  margin: 0.5% 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-operations-group__close-btn,
+.game-operations-group__btn-wrapper {
+  width: 40px;
+  height: 40px;
+  margin: 0.5%;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+  &.hidden {
+    display: none;
+  }
+}
+
+.game-operations-group__close-btn,
+.game-operations-group__green-sound,
+.game-operations-group__red-sound {
+  width: 40px;
+  height: 40px;
+}
+
+.game-operations-group__sound-btns-wrapper {
+  display: flex;
+  margin: 2%;
+}
+
+.game-section {
+  width: 95%;
+  margin: 1% auto;
+}
+
+.game-operations-group__cross-img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.game-operations-group__cross-img_light {
+  filter: invert(92%) sepia(57%) saturate(287%) hue-rotate(90deg) brightness(99%) contrast(89%);
+}
+
+.game-section__speaker-wrapper,
+.game-section__answer-image-wrapper {
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+}
+
+.game-section__speaker-wrapper {
+  margin: auto;
+  min-height: 354px;
+  width: 170px;
+  display: flex;
+  align-items: center;
+  &.hidden {
+    display: none;
+  }
+}
+
+.game-section__answer-image-wrapper {
+  margin: 0 auto;
+  width: 50%;
+  border: solid 1px var(--maintheme);
+  border-radius: 50%;
+}
+
+.game-section__speaker-img {
+  display: block;
+  margin: 8% auto;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+}
+
+.game-section__speaker-img_big {
+  width: 140px;
+  height: 140px;
+  border: solid 1px var(--maintheme);
+  border-radius: 50%;
+  padding: 20px;
+  box-shadow: 0px 15px 40px 5px var(--light-shadow);
+}
+
+.game-section__speaker-img_small {
+  width: 30px;
+  height: 30px;
+}
+
+.game-section__answer-speaker-wrapper {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  cursor: pointer;
+}
+
+.game-section__word-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding: 10px;
+}
+
+.game-section__word,
+.game-section__selected-word {
+  text-align: center;
+  line-height: 2.5rem;
+  margin-left: 2%;
+  font-size: 2rem;
+  &:hover {
+    transition: all 0.3s linear;
+    opacity: 70%;
+  }
+}
+
+.game-section__word {
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.game-section__words-wrapper,
+.game-section__next-btn-wrapper,
+.game-section__skip-btn-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.game-section__words-wrapper {
+  justify-content: space-evenly;
+}
+
+.game-section__next-btn-wrapper,
+.game-section__skip-btn-wrapper {
+  &.hidden {
+    display: none;
+  }
+}
+
+.game-section__word {
+  margin-left: 2%;
+  background-color: transparent;
+  border: none;
+  color: var(--white);
+  &.semitransparent {
+    color: var(--white-transparent);
+  }
+  &.strikethrough {
+    text-decoration: line-through var(--light-red);
+    text-decoration-thickness: 3px;
+    color: var(--light-red);
+  }
+}
+
+.game-section__answer-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &.hidden {
+    display: none;
+  }
+}
+
+.game-section__answer-img {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 1rem;
+  box-shadow: 0px 15px 40px 5px var(--light-shadow);
+}
+
+.game-section__next-btn-wrapper .game-start-btn {
+  font-size: 3rem;
+  vertical-align: top;
+  padding-bottom: 11px;
+  padding: 7px 60px 10px 60px;
+}
+
+.game-start-btn.result-section__close-btn {
+  font-size: 1.5rem;
+  vertical-align: top;
+  padding-bottom: 11px;
+  padding: 10px 20px 10px 20px;
+  max-width: inherit;
+  box-shadow: 0px 4px 20px rgb(61 61 61 / 19%);
+  margin-top: 2rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  background: rgb(134 146 166);
+}
+
+.fixed-window-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url(assets/games/challenge-bg.jpeg) no-repeat;
+  background-size: cover;
+}
+
+.game-section__answer-word-wrapper {
+  margin-left: 1%;
+  display: flex;
+  padding: 1%;
+  font-size: 1rem;
+}
+
+.game-section__wrong-sign-wrapper,
+.game-section__correct-sign-wrapper,
+.game-section__default-sign-wrapper {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.hidden {
+    display: none;
+  }
+}
+
+.game-section__correct-sign-img {
+  width: 38px;
+  height: 38px;
+}
+
+.game-section__wrong-sign-img {
+  width: 25px;
+  height: 25px;
+}
+
+.game-section__default-sign-img {
+  width: 25px;
+  height: 25px;
+}
+
+.game-section__answer-signs-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.fixed-window {
+  &.hiiden {
+    display: none;
+  }
+}
+
+.fixed-result-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--light);
+  border-radius: 10px;
+}
+
+.result-section__word-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 3%;
+}
+
+.result-section__speaker-img_small {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.result-section__header {
+  font-size: 1.5rem;
+}
+
+.result-section__word {
+  font-size: 1rem;
+  text-align: center;
+  line-height: 3rem;
+}
+
+.result-section {
+  width: 30vw;
+  height: 0;
+}
+
+.result-section__words {
+  margin: 3% 3% 0;
+  background-color: var(--white);
+  color: var(--dark-bg-color);
+  overflow-y: scroll;
+  border-radius: 10px;
+  height: 90%;
+}
+
+.result-section__speaker-img {
+  display: block;
+  align-self: center;
+  margin-right: 1rem;
+}
+
+.result-section__learned-words {
+  padding: 1% 5%;
+}
+
+.result-section__unlearned-words {
+  padding: 1% 5%;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--light-grey);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--maintheme);
+}
+
+.result-section__operation-panel {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: var(--light);
+  border-radius: 10px;
+  &.hidden {
+    display: none;
+  }
+}
+
+.result-section__span {
+  padding: 1.5% 3%;
+  border-radius: 50%;
+}
+
+.result-section__span_correct {
+  background-color: var(--light-green);
+}
+
+.result-section__span_errors {
+  background-color: var(--light-red);
+}
+
+.game-progress {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 30px;
+  background: var(--white);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.game-progress__fill {
+  width: 0%;
+  height: 100%;
+  background: var(--light-green);
+  transition: all 0.3s ease-out;
+}
+
+.game-progress__text {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  font-weight: 700;
+  color: var(--green);
+}
+
+@media screen and (max-width: 1600px) {
+  .result-section {
+    width: 70vw;
+  }
+
+  .game-section__answer-word-wrapper {
+    justify-content: center;
+    padding: 1%;
+  }
+
+  .game-section__speaker-img_big {
+    width: 120px;
+    height: 120px;
+  }
+
+  .game-section__speaker-wrapper {
+    min-height: auto;
+  }
+
+  .game-section__answer-wrapper {
+    flex-direction: row;
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  .game-section__word-wrapper {
+    margin-top: 0;
+  }
+
+  .game-section__selected-word {
+    margin-left: 8%;
+    font-size: 1.5rem;
+    line-height: 1.7rem;
+  }
+
+  .game-section__word {
+    font-size: 1.5rem;
+    line-height: 1.7rem;
+  }
+
+  .game-section__skip-btn,
+  .game-section__next-btn {
+    font-size: 1.5rem;
+  }
+
+  .game-section__skip-btn-wrapper,
+  .game-section__next-btn-wrapper {
+    margin-top: 2%;
+  }
+
+  .game-operations-group__green-sound,
+  .game-operations-group__red-sound,
+  .game-operations-group__cross-img {
+    width: 80%;
+  }
+
+  .game-operations-group {
+    margin: 0;
+  }
+
+  .game-section__words-wrapper {
+    margin-top: 5%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .game-section__answer-wrapper {
+    width: 40%;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .game-section__answer-word-wrapper {
+    width: 100%;
+  }
+}

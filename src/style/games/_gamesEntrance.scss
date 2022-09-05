@@ -1,0 +1,99 @@
+.game-entrance__wrapper {
+  margin-bottom: 5%;
+}
+
+.game-entrance {
+  width: 50%;
+  height: 100%;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.game-entrance__title {
+  margin: 0 auto;
+}
+
+.game-entrance__title_audiochallenge {
+  width: 10rem;
+}
+
+.game-entrance__title_sprint {
+  width: 5rem;
+}
+
+.game-entrance__text-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+select.select-input {
+  display: flex;
+  width: 18.6rem;
+  height: 3rem;
+  background: #fff;
+  background: #fff;
+  background: var(--white);
+  border-radius: 4px;
+  border: none;
+  color: white;
+  padding-left: 2.4rem;
+  cursor: pointer;
+  background-color: rgb(255 255 255 / 20%);
+  box-shadow: 0px 4px 20px rgb(61 61 61 / 25%);
+  margin-top: 1rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 90%;
+  background-position-y: 50%;
+}
+
+.game-option-1,
+.game-option-2,
+.game-option-3,
+.game-option-4,
+.game-option-5,
+.game-option-6 {
+  background-color: #85959c;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.game-start-btn {
+  font-size: 1.5rem;
+  vertical-align: top;
+  padding-bottom: 11px;
+  padding: 20px 60px 20px 60px;
+  max-width: fit-content;
+  box-shadow: 0px 4px 20px rgb(61 61 61 / 25%);
+  margin-top: 2rem;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none;
+}
+
+.game-modal-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 84vh;
+  min-width: 100%;
+  background: var(--modal-background);
+}
+
+@media (max-width: 540px) {
+  .select-input,
+  .game-start-btn {
+    width: 15rem;
+  }
+}
