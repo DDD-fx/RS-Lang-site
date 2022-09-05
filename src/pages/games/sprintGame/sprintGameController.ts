@@ -22,8 +22,14 @@ export class SprintController implements SprintControllerInterface {
       .on('sprintIncorrectAnswerClicked', (gameCurrWord: WordsChunkType | AggregatedWordType) =>
         this.checkSprintIncorrectAnswer(gameCurrWord),
       )
-      .on('sprintUnauthCorrectAnswerClicked', (gameCurrWord: WordsChunkType | AggregatedWordType) => this.addWordsToGuessRightArr(gameCurrWord))
-      .on('sprintUnauthIncorrectAnswerClicked', (gameCurrWord: WordsChunkType | AggregatedWordType) => this.addWordsToGuessWrongArr(gameCurrWord))
+      .on('sprintUnauthCorrectAnswerClicked', (gameCurrWord: WordsChunkType | AggregatedWordType) =>
+        this.addWordsToGuessRightArr(gameCurrWord),
+      )
+      .on(
+        'sprintUnauthIncorrectAnswerClicked',
+        (gameCurrWord: WordsChunkType | AggregatedWordType) =>
+          this.addWordsToGuessWrongArr(gameCurrWord),
+      );
   }
 
   getWordsList = (): void => {
@@ -57,11 +63,10 @@ export class SprintController implements SprintControllerInterface {
         (currWord.userWord.difficulty === WordStatusEnum.new &&
           +currWord.userWord.optional.correctSequenceSprint % CorrectAnswersStatus.learnedForNew ===
             0)
-      )
-        {
-          currWord.userWord.difficulty = WordStatusEnum.learned;
-          SPRINT_GAME_SETTINGS.learnedPerGame += 1;
-        }
+      ) {
+        currWord.userWord.difficulty = WordStatusEnum.learned;
+        SPRINT_GAME_SETTINGS.learnedPerGame += 1;
+      }
       void this.sprintModel.updateWordOnSprintAnswer(currWord, ApiMethodsEnum.put);
     } else {
       (<AggregatedWordType>currWord).userWord = {
@@ -115,7 +120,7 @@ export class SprintController implements SprintControllerInterface {
   };
 
   checkChainOfCorrectAnswers = (flag: boolean): void => {
-    if (flag === true) {
+    if (flag) {
       SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
       if (
         SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
@@ -124,20 +129,20 @@ export class SprintController implements SprintControllerInterface {
         SPRINT_GAME_SETTINGS.sequenceOfCorrectAnswers =
           SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
       }
-    } else if (flag === false) {
+    } else if (!flag) {
       SPRINT_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
     }
   };
 
   addWordsToGuessRightArr = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
-     this.checkChainOfCorrectAnswers(true);
+    this.checkChainOfCorrectAnswers(true);
     if (
       !SPRINT_GAME_SETTINGS.learnedWords.includes(gameCurrWord.word) &&
       !SPRINT_GAME_SETTINGS.unlearnedWords.includes(gameCurrWord.word)
     ) {
       SPRINT_GAME_SETTINGS.learnedWords.push(gameCurrWord.word);
     }
-  }
+  };
 
   addWordsToGuessWrongArr = (gameCurrWord: WordsChunkType | AggregatedWordType): void => {
     this.checkChainOfCorrectAnswers(false);
@@ -147,5 +152,5 @@ export class SprintController implements SprintControllerInterface {
     ) {
       SPRINT_GAME_SETTINGS.unlearnedWords.push(gameCurrWord.word);
     }
-  }
+  };
 }

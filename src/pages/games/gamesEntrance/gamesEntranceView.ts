@@ -1,16 +1,12 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import {
-  GamesEntranceEventType,
   GamesEntranceModelInterface,
   GamesEntranceViewInterface,
 } from '../../../types/games/commonGamesTypes';
 import { createElement, getElement } from '../../../utils/tools';
 import { preloader } from '../../../components/layout/mainTemplate';
 
-export class GamesEntranceView
-  extends TypedEmitter<GamesEntranceEventType>
-  implements GamesEntranceViewInterface
-{
+export class GamesEntranceView extends TypedEmitter implements GamesEntranceViewInterface {
   gamesEntranceModel: GamesEntranceModelInterface;
 
   constructor(gamesEntranceModel: GamesEntranceModelInterface) {
@@ -18,7 +14,7 @@ export class GamesEntranceView
     this.gamesEntranceModel = gamesEntranceModel;
   }
 
-  buildSprintHTML = () => {
+  buildSprintHTML = (): HTMLElement => {
     const game = createElement('div', 'game-entrance');
     const gameWrapper = createElement('div', 'game-entrance__wrapper');
     const gameInfoBox = createElement('div', 'game-entrance__text-box');
@@ -32,7 +28,7 @@ export class GamesEntranceView
     return game;
   };
 
-  buildAudioChallengeHTML = () => {
+  buildAudioChallengeHTML = (): HTMLElement => {
     const game = createElement('div', 'game-entrance');
     const gameWrapper = createElement('div', 'game-entrance__wrapper');
     const gameInfoBox = createElement('div', 'game-entrance__text-box');
@@ -46,7 +42,7 @@ export class GamesEntranceView
     return game;
   };
 
-  createSelect = () => {
+  createSelect = (): HTMLElement => {
     const selectElem = createElement('select', 'select-input');
     for (let i = 0; i < 6; i += 1) {
       const option = createElement('option', `game-option-${i + 1}`);
@@ -61,7 +57,7 @@ export class GamesEntranceView
     return selectElem;
   };
 
-  createAudioChallengeTitle = () => {
+  createAudioChallengeTitle = (): HTMLElement => {
     const titleElem = createElement('h2', [
       'game-entrance__title',
       'game-entrance__title_audiochallenge',
@@ -70,13 +66,13 @@ export class GamesEntranceView
     return titleElem;
   };
 
-  createSprintTitle = () => {
+  createSprintTitle = (): HTMLElement => {
     const titleElem = createElement('h2', ['game-entrance__title', 'game-entrance__title_sprint']);
     titleElem.textContent = 'Спринт';
     return titleElem;
   };
 
-  createSprintStartButton = () => {
+  createSprintStartButton = (): HTMLElement => {
     const startBtn = createElement('button', ['btn', 'game-start-btn', 'game-start-btn_sprint']);
     startBtn.textContent = 'Начать';
     startBtn.addEventListener('click', () => {
@@ -85,7 +81,7 @@ export class GamesEntranceView
     return startBtn;
   };
 
-  createAudioChallengeStartButton = () => {
+  createAudioChallengeStartButton = (): HTMLElement => {
     const startBtn = createElement('button', [
       'btn',
       'game-start-btn',
@@ -98,7 +94,7 @@ export class GamesEntranceView
     return startBtn;
   };
 
-  createSprintDescription = () => {
+  createSprintDescription = (): HTMLElement => {
     const descriptionDiv = createElement('div');
     const description = `
     <p>Тренировка 'Спринт' позволяет повторять слова из вашего словаря.</p>
@@ -111,7 +107,7 @@ export class GamesEntranceView
     return descriptionDiv;
   };
 
-  createAudioChallengeDescription = () => {
+  createAudioChallengeDescription = (): HTMLElement => {
     const descriptionDiv = createElement('div');
     const description = `
     <p>Тренировка 'Аудиовызов' улучшает восприятие речи на слух.</p>
@@ -126,13 +122,13 @@ export class GamesEntranceView
     return descriptionDiv;
   };
 
-  createSprintImage = () => {
+  createSprintImage = (): HTMLElement => {
     const image = createElement('div', 'img-x15');
     image.innerHTML = `<img src='./assets/games/delphins.svg' alt='dolphins' />`;
     return image;
   };
 
-  createAudioChallengeImage = () => {
+  createAudioChallengeImage = (): HTMLElement => {
     const image = createElement('div', 'img-x15');
     image.innerHTML = `<img src='./assets/games/tail.svg' alt='whale tail' />`;
     return image;

@@ -1,10 +1,9 @@
 import { getElement } from '../../utils/tools';
 import LoginForm from '../../components/loginForm';
 import RegForm from '../../components/registerForm';
+import { Handler, LoginViewInterface } from '../../types/types';
 
-type Handler = (form: HTMLFormElement) => Promise<void>;
-
-class LoginView {
+class LoginView implements LoginViewInterface {
   handleLogin;
 
   handleAuth;

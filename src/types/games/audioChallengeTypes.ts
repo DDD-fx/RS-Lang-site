@@ -1,13 +1,17 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import { GamesEventsType, WordBtnType } from './commonGamesTypes';
-import { WordsChunkType } from '../textbookTypes';
-import { GameEnum } from '../enums';
+import { GamesEventsType, ResultBtnType, WordBtnType } from './commonGamesTypes';
+import { AggregatedWordType, WordsChunkType } from '../textbookTypes';
+import { ApiMethodsEnum, GameEnum } from '../enums';
 
 export interface AudioChallengeControllerInterface {
   audioChallengeView: AudioChallengeViewInterface;
   audioChallengeModel: AudioChallengeModelInterface;
   getWordsList(): Promise<void>;
   turnGamePage(): void;
+  getRandomPage(): number;
+  changeWord(): void;
+  getWordData(id: string, flag: boolean): void;
+  getNewWordData(diff: number): Promise<void>;
 }
 export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsType> {
   wordsChunk: WordsChunkType[];
@@ -20,6 +24,12 @@ export interface AudioChallengeModelInterface extends TypedEmitter<GamesEventsTy
   checkChainOfCorrectAnswers(flag: boolean): void;
   getStatistics(): Promise<void>;
   setStatistics(gameKey: GameEnum): Promise<void>;
+  getWordsListFromTextbook(array: WordsChunkType[] | AggregatedWordType[]): void;
+  shakeWordsArr(): WordsChunkType[];
+  checkChallengeCorrectAnswer(gameCurrWord: AggregatedWordType): Promise<void>;
+  checkChallengeIncorrectAnswer(gameCurrWord: AggregatedWordType): Promise<void>;
+  updateWordOnChallengeAnswer(currWord: AggregatedWordType, method: ApiMethodsEnum): Promise<void>;
+  getUserWords(query: string): Promise<AggregatedWordType | void>;
 }
 
 export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsType> {
@@ -43,6 +53,28 @@ export interface AudioChallengeViewInterface extends TypedEmitter<GamesEventsTyp
   makeWordsTransparent(word: string): void;
   crossWrongWord(word: string): void;
   wordsBtnsDisable(): void;
+  createAdditionalWordBtns(): void;
+  shakeWordsForCurrentGamePage(): WordsChunkType[];
+  createSoundsBtns(): void;
+  createSoundBtn(): HTMLElement;
+  createStopSoundBtn(): HTMLElement;
+  turnOnCorrectAnswerSound(): void;
+  turnOnWrongAnswerSound(): void;
+  createSpeaker(word: WordsChunkType, className: string): HTMLElement;
+  stopTheGame(): void;
+  showGameResults(): void;
+  closeGameResults(): void;
+  updateUnlearnedResultWordsWrapper(): Element;
+  updateLearnedResultWordsWrapper(): Element;
+  createResultWordsBtns({ word, wordTranslate }: ResultBtnType): HTMLElement;
+  showOperationPanel(): void;
+  createResultsCloseBtn(): HTMLElement;
+  checkPressedBtn(e: KeyboardEvent): void;
+  handlePressedNumber(pressedKey: string): void;
+  handlePressedSpace(): void;
+  handlePressedEnter(): void;
+  countBarProgress(): void;
+  updateProgressBar(value: number): void;
 }
 
 export type AudioChallengeGameType = {

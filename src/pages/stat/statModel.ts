@@ -3,8 +3,9 @@ import { STAT_ANONIM_DEFAULTS } from '../../utils/constants';
 import { getShortDate } from '../../utils/tools';
 import { getStat } from '../../model/api/statApi';
 import { StatAnswerType, StatStateType } from '../../types/userTypes';
+import { StatModelInterface } from '../../types/types';
 
-class StatModel {
+class StatModel implements StatModelInterface {
   state: StatStateType;
 
   constructor() {

@@ -1,11 +1,12 @@
 import { createElement, getElement } from '../utils/tools';
 import { LocalStorage } from '../utils/storage';
 import history from '../utils/history';
+import { NavInterface } from '../types/types';
 
 const logIn = `<a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>`;
 const logOut = `<a href="/logout"><button class="btn btn-logout " data-btn="login"> Выйти </button></a>`;
 
-const navInner = (isAuthorized: boolean) => `
+const navInner = (isAuthorized: boolean): string => `
 <a href="/"><h1>RS Lang</h1></a>
 <nav class="nav">
 <ul class="nav__list">
@@ -33,25 +34,25 @@ ${isAuthorized ? logOut : logIn}
 </div>
 `;
 
-class Nav {
-  nav;
+class Nav implements NavInterface {
+  nav: HTMLDivElement;
 
   parent;
 
   constructor(parent: HTMLElement) {
-    this.nav = createElement('div', ['wrapper', 'header__wrapper']);
+    this.nav = createElement('div', ['wrapper', 'header__wrapper']) as HTMLDivElement;
     this.parent = parent;
     this.bind();
   }
 
-  render = () => {
+  render = (): void => {
     const isAuthorized = LocalStorage.isAuth;
     this.nav.innerHTML = navInner(isAuthorized);
     this.parent.innerHTML = '';
     this.parent.append(this.nav);
   };
 
-  bind = () => {
+  bind = (): void => {
     this.nav.addEventListener('click', (event) => {
       event.preventDefault();
 
@@ -73,7 +74,7 @@ class Nav {
     getElement('nav').classList.toggle('is-active');
   };
 
-  closeNav = (event: Event) => {
+  closeNav = (event: Event): void => {
     const burgerButton = getElement('hamburger');
     if (burgerButton) {
       const nav = getElement('nav');

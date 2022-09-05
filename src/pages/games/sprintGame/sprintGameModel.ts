@@ -13,7 +13,12 @@ import { getShortDate } from '../../../utils/tools';
 import { authFetch } from '../../../model/model';
 import { ApiMethodsEnum } from '../../../types/enums';
 import { getStat, putStat } from '../../../model/api/statApi';
-import { PutStatBodyType, StatAnswerType } from '../../../types/userTypes';
+import {
+  PutStatBodyType,
+  StatAnswerType,
+  StatOptionalDayType,
+  StatOptionalGameType,
+} from '../../../types/userTypes';
 
 export class SprintModel extends TypedEmitter<SprintEventsType> implements SprintModelInterface {
   allPageChunk: WordsChunkType[];
@@ -124,11 +129,15 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
       if (!this.userStat) {
         this.userStat = {
           learnedWords: 0,
-          optional: { [dateKey]: JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) },
+          optional: {
+            [dateKey]: JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) as StatOptionalDayType,
+          },
         };
       }
       if (!(dateKey in this.userStat.optional)) {
-        this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
+        this.userStat.optional[dateKey] = JSON.parse(
+          JSON.stringify(STAT_ANONIM_DAY_DEFAULTS),
+        ) as StatOptionalDayType;
       }
     }
   };
@@ -138,7 +147,7 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
       if (this.userStat) {
         const dateKey = getShortDate();
         const { userId, token } = LocalStorage.currUserSettings;
-        const oldGameStat = this.userStat.optional[dateKey][gameKey];
+        const oldGameStat = this.userStat.optional[dateKey][gameKey] as StatOptionalGameType;
         const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
           SPRINT_GAME_SETTINGS;
         const gameStatObj = {

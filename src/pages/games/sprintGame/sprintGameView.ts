@@ -145,7 +145,10 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     if (this.isSprintRunning && this.currIndex < this.sprintModel.shakedWordChunk.length) {
       this.createSprintQuestion(this.currIndex);
       this.currIndex += 1;
-    } else this.showResults();
+    } else {
+      window.addEventListener('keyup', (e) => e.stopImmediatePropagation(), true);
+      this.showResults();
+    }
   };
 
   showResults = (): void => {

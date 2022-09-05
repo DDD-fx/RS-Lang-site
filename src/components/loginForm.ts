@@ -1,5 +1,6 @@
 import { createElement } from '../utils/tools';
 import history from '../utils/history';
+import { LoginFormInterface } from '../types/types';
 
 const loginInner = `
 <div class="register__images">
@@ -26,11 +27,11 @@ const loginInner = `
 </form>
 `;
 
-class LoginForm {
-  regForm;
+class LoginForm implements LoginFormInterface {
+  regForm: HTMLDivElement;
 
   constructor(handler: (form: HTMLFormElement) => Promise<void>) {
-    this.regForm = createElement('div', 'register');
+    this.regForm = createElement('div', 'register') as HTMLDivElement;
     this.regForm.innerHTML = loginInner;
     this.bind(handler);
   }
@@ -39,7 +40,7 @@ class LoginForm {
     return this.regForm;
   };
 
-  bind = (handler: (form: HTMLFormElement) => Promise<void>) => {
+  bind = (handler: (form: HTMLFormElement) => Promise<void>): void => {
     this.regForm.addEventListener('click', (event) => {
       if ((<HTMLElement>event.target).classList.contains('register__link-link')) {
         event.preventDefault();

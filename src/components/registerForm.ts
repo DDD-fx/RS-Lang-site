@@ -1,5 +1,6 @@
 import { createElement } from '../utils/tools';
 import history from '../utils/history';
+import { RegFormInterface } from '../types/types';
 
 const registerInner = `
 <div class="register__images">
@@ -30,11 +31,11 @@ const registerInner = `
 </form>
 `;
 
-class RegForm {
-  regForm;
+class RegForm implements RegFormInterface {
+  regForm: HTMLDivElement;
 
   constructor(handler: (form: HTMLFormElement) => Promise<void>) {
-    this.regForm = createElement('div', 'register');
+    this.regForm = createElement('div', 'register') as HTMLDivElement;
     this.regForm.innerHTML = registerInner;
     this.bind(handler);
   }

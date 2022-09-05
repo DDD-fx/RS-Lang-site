@@ -1,4 +1,4 @@
-const renderAudioChallengeGameTemplate = () => `
+const renderAudioChallengeGameTemplate = (): string => `
 <div class="fixed-window-wrapper">
       <div class="fixed-window">
         <div class='game-progress'>

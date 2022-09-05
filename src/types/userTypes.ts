@@ -84,4 +84,5 @@ export {
   StatAllDaysType,
   StatStateType,
   PutStatBodyType,
+  StatOptionalGameType,
 };

@@ -6,7 +6,12 @@ import {
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
-import { PutStatBodyType, StatAnswerType } from '../../../types/userTypes';
+import {
+  PutStatBodyType,
+  StatAnswerType,
+  StatOptionalDayType,
+  StatOptionalGameType,
+} from '../../../types/userTypes';
 import { GameEnum } from '../../../types/enums';
 import { LocalStorage } from '../../../utils/storage';
 import { getShortDate } from '../../../utils/tools';
@@ -79,9 +84,9 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
           };
           void (await this.updateWordOnChallengeAnswer(word, ApiMethodsEnum.post));
         }
-        if (flag === true) {
+        if (flag) {
           await this.checkChallengeCorrectAnswer(word);
-        } else if (flag === false) {
+        } else if (!flag) {
           await this.checkChallengeIncorrectAnswer(word);
         }
       }
@@ -170,7 +175,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
   };
 
   checkChainOfCorrectAnswers = (flag: boolean): void => {
-    if (flag === true) {
+    if (flag) {
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers += 1;
       if (
         AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers >
@@ -179,7 +184,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         AUDIOCHALLENGE_GAME_SETTINGS.sequenceOfCorrectAnswers =
           AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers;
       }
-    } else if (flag === false) {
+    } else if (!flag) {
       AUDIOCHALLENGE_GAME_SETTINGS.tempSequenceOfCorrectAnswers = 0;
     }
   };
@@ -196,11 +201,15 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       if (!this.userStat) {
         this.userStat = {
           learnedWords: 0,
-          optional: { [dateKey]: JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) },
+          optional: {
+            [dateKey]: JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) as StatOptionalDayType,
+          },
         };
       }
       if (!(dateKey in this.userStat.optional)) {
-        this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
+        this.userStat.optional[dateKey] = JSON.parse(
+          JSON.stringify(STAT_ANONIM_DAY_DEFAULTS),
+        ) as StatOptionalDayType;
       }
     }
   };
@@ -210,7 +219,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       if (this.userStat) {
         const dateKey = getShortDate();
         const { userId, token } = LocalStorage.currUserSettings;
-        const oldGameStat = this.userStat.optional[dateKey][gameKey];
+        const oldGameStat = this.userStat.optional[dateKey][gameKey] as StatOptionalGameType;
         const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
           AUDIOCHALLENGE_GAME_SETTINGS;
         const gameStatObj = {
