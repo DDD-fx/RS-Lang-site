@@ -23,6 +23,7 @@ https://rslang-outlaw0.netlify.app/
 ### Teamwork
 - UML Diagram https://www.figma.com/file/rZePELL1qlV456ZThdaUJk/RS-Lang?node-id=0%3A1
 - RACI matrix https://docs.google.com/spreadsheets/d/1z9BwNLuw7uLmhOj7V21CJqfVTwZ3pMbn31P39GqKKWc/edit?usp=sharing
+![image](https://user-images.githubusercontent.com/41901260/188512113-1296f870-a39f-44b0-a6e5-88b0dffb6921.png)
 - Kanban board (trello) 
 
 ### Overview (for crosscheck)
