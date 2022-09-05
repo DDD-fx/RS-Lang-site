@@ -80,9 +80,9 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
           void (await this.updateWordOnChallengeAnswer(word, ApiMethodsEnum.post));
         }
         if (flag === true) {
-          this.checkChallengeCorrectAnswer(word);
+          await this.checkChallengeCorrectAnswer(word);
         } else if (flag === false) {
-          this.checkChallengeIncorrectAnswer(word);
+          await this.checkChallengeIncorrectAnswer(word);
         }
       }
     }

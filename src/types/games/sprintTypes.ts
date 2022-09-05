@@ -60,7 +60,6 @@ export interface SprintViewInterface extends TypedEmitter<SprintEventsType> {
   createOperationPanel(): HTMLElement;
   createResultsCloseBtn(): HTMLElement;
   createSpeaker(word: WordsChunkType, className: string): HTMLElement;
-  getAnswerWord(): WordsChunkType | AggregatedWordType
 }
 
 export interface SprintViewUtilsInterface {

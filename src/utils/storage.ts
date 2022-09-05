@@ -52,4 +52,3 @@ export class LocalStorage {
 
   static currUserSettings = DEFAULT_USER_SETTINGS;
 }
-
