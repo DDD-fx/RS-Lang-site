@@ -632,7 +632,7 @@ export class AudioChallengeView
   };
 
   keyPressMethod = (() => {
-    document.addEventListener('keydown', (e) => this.checkPressedBtn(e));
+    document.addEventListener('keyup', (e) => this.checkPressedBtn(e));
   })();
 
   checkPressedBtn = (e: KeyboardEvent): void => {
