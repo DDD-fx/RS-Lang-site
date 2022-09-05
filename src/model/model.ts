@@ -1,7 +1,7 @@
 import { LocalStorage } from '../utils/storage';
 import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from '../utils/constants';
 import { getNewToken, getExpirationDate, isExpired } from './api/usersApi';
-import { RequestOptionType } from '../types/types';
+import { ModelInterface, RequestOptionType } from '../types/types';
 import { UserSuccessLoginType } from '../types/userTypes';
 
 const checkToken = async (): Promise<boolean> => {
@@ -20,7 +20,7 @@ const checkToken = async (): Promise<boolean> => {
   return false;
 };
 
-class Model {
+class Model implements ModelInterface {
   mount = async (): Promise<void> => {
     LocalStorage.initLS(DEFAULT_USER_NAME);
     if (LocalStorage.isAuth) await checkToken();

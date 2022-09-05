@@ -1,7 +1,7 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { AggregatedWordType, WordsChunkType } from '../textbookTypes';
 
-export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEventType> {
+export interface GamesEntranceViewInterface extends TypedEmitter {
   gamesEntranceModel: GamesEntranceModelInterface;
   buildSprintHTML(): HTMLElement;
   buildAudioChallengeHTML(): HTMLElement;
@@ -13,19 +13,13 @@ export interface GamesEntranceViewInterface extends TypedEmitter<GamesEntranceEv
   createAudioChallengeDescription(): HTMLElement;
   createSprintImage(): HTMLElement;
   createAudioChallengeImage(): HTMLElement;
-  renderPreloader(): void;
+  renderPreloader(someClass?: string): void;
+  createSelect(): HTMLElement;
 }
 
-export interface GamesEntranceModelInterface extends TypedEmitter<GamesEntranceEventType> {
+export interface GamesEntranceModelInterface extends TypedEmitter {
   addGameLevel(level: number): void;
 }
-
-export type GamesEntranceEventType = {
-  audioChallengeGameStarted(): Promise<void>;
-  sprintGameStarted(): void;
-  drawChallenge(): void;
-  gameOptionClicked: (level: number) => void;
-};
 
 export type GamesEventsType = {
   gameOptionClicked: (i: number) => void;

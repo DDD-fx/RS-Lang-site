@@ -89,10 +89,6 @@
   height: 150px;
   margin: 0 auto;
 
-  &__svg {
-    transform: scaleX(-1);
-  }
-
   &__circle {
     fill: none;
     stroke: none;
@@ -137,6 +133,7 @@
     color: var(--body-color);
   }
 }
+
 .sprint-question {
   padding: 40px 0;
   display: flex;

@@ -1,4 +1,4 @@
-const renderAdvTemplate = () => `
+const renderAdvTemplate = (): string => `
 <div class="main__container advantages">
   <div class="article main__article">
     <div class="bubbles-top img-x3">

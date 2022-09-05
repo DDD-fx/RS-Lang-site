@@ -7,14 +7,16 @@ import {
 } from '../../types/userTypes';
 import { baseURL } from '../../utils/constants';
 
-const getErrorMessageFromResponseBody = (string: string) => {
+const getErrorMessageFromResponseBody = (string: string): string => {
   let errorString = string;
   try {
     const json = JSON.parse(string) as CreateUserResponseType;
     if (json.error) {
       errorString = json.error.errors[0].message;
     }
-  } catch (parseOrAccessError) { console.error(parseOrAccessError)}
+  } catch (parseOrAccessError) {
+    console.error(parseOrAccessError);
+  }
 
   return errorString;
 };

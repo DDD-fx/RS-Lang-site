@@ -26,7 +26,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     this.gamesEntranceView
       .on('sprintGameStarted', () => this.startSprintGame())
       .on('audioChallengeGameStarted', () => this.startAudioChallengeGame())
-      .on('gameOptionClicked', (i) => this.addGameLevel(i));
+      .on('gameOptionClicked', (i: number) => this.addGameLevel(i));
   }
 
   startAudioChallengeGame = async (): Promise<void> => {

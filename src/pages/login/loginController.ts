@@ -6,8 +6,9 @@ import { LocalStorage } from '../../utils/storage';
 import history from '../../utils/history';
 import Nav from '../../components/nav';
 import { getElement } from '../../utils/tools';
+import { LoginInterface } from '../../types/types';
 
-class Login {
+class Login implements LoginInterface {
   view: LoginView;
 
   constructor() {

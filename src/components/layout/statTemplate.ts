@@ -29,7 +29,7 @@ const anonimStatTemplate = `
 </div>
 `;
 
-const renderStatTemplate = (dayData: StatOptionalDayType) => {
+const renderStatTemplate = (dayData: StatOptionalDayType): string => {
   const { userName } = LocalStorage.currUserSettings;
   const { audiochallenge, sprint } = dayData;
   const dayLearnedWords = audiochallenge.learnedWordsPerDay + sprint.learnedWordsPerDay;

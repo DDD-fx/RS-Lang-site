@@ -8,7 +8,7 @@ const headerInner = `
 `;
 */
 
-const renderMainTemplate = () => `
+const renderMainTemplate = (): string => `
 
 <div class="main__container">
 <div class="article main__article">

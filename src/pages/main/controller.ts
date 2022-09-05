@@ -1,10 +1,11 @@
 import View from './view';
 import { Model } from '../../model/model';
+import { AppInterface, ModelInterface, ViewInterface } from '../../types/types';
 
-class App {
-  view: View;
+class App implements AppInterface {
+  view: ViewInterface;
 
-  model: Model;
+  model: ModelInterface;
 
   constructor() {
     this.model = new Model();

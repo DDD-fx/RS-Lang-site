@@ -4,8 +4,9 @@ import renderTeamTemplate from '../../components/layout/teamTemplate';
 import Nav from '../../components/nav';
 import { createElement, getElement, preloadImages } from '../../utils/tools';
 import history from '../../utils/history';
+import { ViewInterface } from '../../types/types';
 
-class View {
+class View implements ViewInterface {
   header: HTMLElement;
 
   main: HTMLElement;
@@ -55,7 +56,7 @@ class View {
     else this.mainWrapper.classList.remove('textbook');
   };
 
-  bind = () => {
+  bind = (): void => {
     getElement('main__wrapper').addEventListener('click', (event) => {
       if ((<HTMLElement>event.target).classList.contains('btn-article')) {
         event.preventDefault();

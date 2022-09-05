@@ -6,9 +6,14 @@ import { StatOptionalDayType } from '../../types/userTypes';
 import { getElement } from '../../utils/tools';
 import history from '../../utils/history';
 import { Chart, registerables } from 'chart.js';
+import {
+  StatisticsInterface,
+  StatisticsViewInterface,
+  StatModelInterface,
+} from '../../types/types';
 Chart.register(...registerables);
 
-class StatisticsView {
+class StatisticsView implements StatisticsViewInterface {
   render = (dayData?: StatOptionalDayType): void => {
     const mainWrapper = getElement('main__wrapper');
     mainWrapper.innerHTML = '';
@@ -34,10 +39,10 @@ class StatisticsView {
   };
 }
 
-class Statistics {
-  view;
+class Statistics implements StatisticsInterface {
+  view: StatisticsViewInterface;
 
-  model;
+  model: StatModelInterface;
 
   constructor() {
     this.model = new StatModel();
