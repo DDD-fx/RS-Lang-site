@@ -14,7 +14,6 @@ type HistoryLocation = {
 export { Routes, HistoryLocation, RequestOptionType };
 
 export type LocalStorageType = {
-  // это зачем ?
   userId: UserSettingsType;
 };
 

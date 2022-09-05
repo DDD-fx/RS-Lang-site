@@ -20,11 +20,9 @@ class StatModel {
   getStatData = async (): Promise<void> => {
     const { userId, token } = LocalStorage.currUserSettings;
     const statData = (await getStat(userId, token)) as StatAnswerType | null;
-    console.log(statData);
     if (statData) {
       const statOptData = statData.optional;
       const todayKey = getShortDate();
-      console.log(todayKey);
       const statDataKeys = Object.keys(statOptData);
       if (todayKey in statOptData) this.state.dayData = statOptData[todayKey];
       const allDaysNewWords = [];

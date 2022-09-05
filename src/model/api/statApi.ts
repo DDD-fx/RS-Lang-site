@@ -32,7 +32,6 @@ const putStat = async (
       },
       body: JSON.stringify(bodyStat),
     });
-    console.log(response.status);
     return await ((await response.json()) as Promise<StatAnswerType>);
   } catch (err) {
     console.error(err);

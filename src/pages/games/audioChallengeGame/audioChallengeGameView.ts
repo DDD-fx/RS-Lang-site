@@ -353,7 +353,6 @@ export class AudioChallengeView
       this.makeWordsTransparent(answer);
       this.wordsBtnsDisable();
       this.countBarProgress();
-      console.log('skip');
       if (
         !AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.includes(answer) &&
         !AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.includes(answer)

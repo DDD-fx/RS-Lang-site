@@ -127,7 +127,6 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     method: ApiMethodsEnum,
   ): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${currWord.id}`;
-    console.log(currWord);
     try {
       await authFetch(baseURL + query, {
         method: `${method}`,
@@ -204,7 +203,6 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS));
       }
     }
-    console.log(this.userStat);
   };
 
   setStatistics = async (gameKey: GameEnum): Promise<void> => {
@@ -213,7 +211,6 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         const dateKey = getShortDate();
         const { userId, token } = LocalStorage.currUserSettings;
         const oldGameStat = this.userStat.optional[dateKey][gameKey];
-        console.log(oldGameStat);
         const { learnedWords, unlearnedWords, sequenceOfCorrectAnswers, learnedPerGame } =
           AUDIOCHALLENGE_GAME_SETTINGS;
         const gameStatObj = {
@@ -224,7 +221,6 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
           incorrectAnswers: unlearnedWords.length + oldGameStat.incorrectAnswers,
         };
         this.userStat.optional[dateKey][gameKey] = gameStatObj;
-        console.log(this.userStat);
         await putStat(userId, token, this.userStat);
       }
     }

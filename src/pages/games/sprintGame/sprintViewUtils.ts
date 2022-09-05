@@ -37,7 +37,7 @@ export class SprintViewUtils implements SprintViewUtilsInterface {
     const inter = setInterval(fun, 1000);
     if (counter <= 0) clearInterval(inter);
 
-    setTimeout(() => this.sprintView.drawSprintGame(), 4000); ////// 4000
+    setTimeout(() => this.sprintView.drawSprintGame(), 4000);
   };
 
   createCloseBtn = (): void => {

@@ -54,7 +54,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
     setTimeout(() => {
       this.isSprintRunning = false;
       this.showResults();
-    }, 60000); //60000
+    }, 60000);
     this.drawNextSprintQuestion();
   };
 

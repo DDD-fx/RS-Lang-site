@@ -37,9 +37,6 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
 
     if (LocalStorage.currUserSettings.userId) {
       await this.updateAllCollections();
-      console.log('dif', this.difficultWords);
-      console.log('learned', this.learnedWords);
-      console.log('new', this.newWords);
     }
     this.emit('getTextBookList');
   };
