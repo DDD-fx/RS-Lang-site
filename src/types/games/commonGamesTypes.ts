@@ -40,13 +40,9 @@ export interface GamesEntranceControllerInterface {
   gamesEntranceView: GamesEntranceViewInterface;
   gamesEntranceModel: GamesEntranceModelInterface;
   startAudioChallengeGame(): Promise<void>;
-  startAudioChallengeFromTextBook(
-    wordsCollection: WordsChunkType[] | AggregatedWordType[],
-  ): Promise<void>;
+  startAudioChallengeFromTextBook(wordsCollection: WordsChunkType[] | AggregatedWordType[]): Promise<void>;
   startSprintGame(): Promise<void>;
-  startSprintGameFromTextBook(
-    wordsCollection: WordsChunkType[] | AggregatedWordType[],
-  ): Promise<void>;
+  startSprintGameFromTextBook(wordsCollection: WordsChunkType[] | AggregatedWordType[]): Promise<void>;
   addGameLevel(level: number): void;
 }
 

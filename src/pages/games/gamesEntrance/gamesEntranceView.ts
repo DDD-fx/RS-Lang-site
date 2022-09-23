@@ -1,8 +1,5 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import {
-  GamesEntranceModelInterface,
-  GamesEntranceViewInterface,
-} from '../../../types/games/commonGamesTypes';
+import { GamesEntranceModelInterface, GamesEntranceViewInterface } from '../../../types/games/commonGamesTypes';
 import { createElement, getElement } from '../../../utils/tools';
 import { preloader } from '../../../components/layout/mainTemplate';
 
@@ -18,11 +15,7 @@ export class GamesEntranceView extends TypedEmitter implements GamesEntranceView
     const game = createElement('div', 'game-entrance');
     const gameWrapper = createElement('div', 'game-entrance__wrapper');
     const gameInfoBox = createElement('div', 'game-entrance__text-box');
-    gameInfoBox.append(
-      this.createSprintDescription(),
-      this.createSelect(),
-      this.createSprintStartButton(),
-    );
+    gameInfoBox.append(this.createSprintDescription(), this.createSelect(), this.createSprintStartButton());
     gameWrapper.append(this.createSprintTitle(), gameInfoBox);
     game.append(gameWrapper, this.createSprintImage());
     return game;
@@ -58,10 +51,7 @@ export class GamesEntranceView extends TypedEmitter implements GamesEntranceView
   };
 
   createAudioChallengeTitle = (): HTMLElement => {
-    const titleElem = createElement('h2', [
-      'game-entrance__title',
-      'game-entrance__title_audiochallenge',
-    ]);
+    const titleElem = createElement('h2', ['game-entrance__title', 'game-entrance__title_audiochallenge']);
     titleElem.textContent = 'Аудиовызов';
     return titleElem;
   };
@@ -82,11 +72,7 @@ export class GamesEntranceView extends TypedEmitter implements GamesEntranceView
   };
 
   createAudioChallengeStartButton = (): HTMLElement => {
-    const startBtn = createElement('button', [
-      'btn',
-      'game-start-btn',
-      'game-start-btn_audio-challenge',
-    ]);
+    const startBtn = createElement('button', ['btn', 'game-start-btn', 'game-start-btn_audio-challenge']);
     startBtn.textContent = 'Начать';
     startBtn.addEventListener('click', () => {
       this.emit('audioChallengeGameStarted');

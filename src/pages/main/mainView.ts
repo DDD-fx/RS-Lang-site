@@ -62,12 +62,9 @@ class MainView implements ViewInterface {
         event.preventDefault();
         history.push('/textbook');
       }
-      if ((<HTMLElement>event.target).classList.contains('main'))
-        this.renderCustomTemplate(renderMainTemplate);
-      if ((<HTMLElement>event.target).classList.contains('advantages'))
-        this.renderCustomTemplate(renderAdvTemplate);
-      if ((<HTMLElement>event.target).classList.contains('team'))
-        this.renderCustomTemplate(renderTeamTemplate);
+      if ((<HTMLElement>event.target).classList.contains('main')) this.renderCustomTemplate(renderMainTemplate);
+      if ((<HTMLElement>event.target).classList.contains('advantages')) this.renderCustomTemplate(renderAdvTemplate);
+      if ((<HTMLElement>event.target).classList.contains('team')) this.renderCustomTemplate(renderTeamTemplate);
     });
 
     document.addEventListener('click', this.nav.closeNav);

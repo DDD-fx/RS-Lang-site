@@ -45,9 +45,7 @@ const createUser = async (
   }
 };
 
-const loginUser = async (
-  user: UserLoginType,
-): Promise<string[] | (number | UserSuccessLoginType)[]> => {
+const loginUser = async (user: UserLoginType): Promise<string[] | (number | UserSuccessLoginType)[]> => {
   try {
     const rawResponse = await fetch(`${baseURL}signin`, {
       method: 'POST',
@@ -65,10 +63,7 @@ const loginUser = async (
   }
 };
 
-const getNewToken = async (
-  userId: string,
-  refreshToken: string,
-): Promise<UserSuccessLoginType | undefined> => {
+const getNewToken = async (userId: string, refreshToken: string): Promise<UserSuccessLoginType | undefined> => {
   try {
     const response = await fetch(`${baseURL}users/${userId}/tokens`, {
       method: 'GET',

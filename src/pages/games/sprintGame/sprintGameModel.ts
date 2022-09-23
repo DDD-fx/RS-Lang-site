@@ -86,10 +86,7 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
     this.shakedWordChunk = this.shakeWordsArr().slice();
   };
 
-  updateWordOnSprintAnswer = async (
-    currWord: AggregatedWordType,
-    method: ApiMethodsEnum,
-  ): Promise<void> => {
+  updateWordOnSprintAnswer = async (currWord: AggregatedWordType, method: ApiMethodsEnum): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${currWord.id}`;
     try {
       await authFetch(baseURL + query, {
@@ -141,9 +138,7 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
         };
       }
       if (!(dateKey in this.userStat.optional)) {
-        this.userStat.optional[dateKey] = JSON.parse(
-          JSON.stringify(STAT_ANONIM_DAY_DEFAULTS),
-        ) as StatOptionalDayType;
+        this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) as StatOptionalDayType;
       }
     }
   };

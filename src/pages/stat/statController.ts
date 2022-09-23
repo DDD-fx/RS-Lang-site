@@ -6,11 +6,7 @@ import { StatOptionalDayType } from '../../types/userTypes';
 import { getElement } from '../../utils/tools';
 import history from '../../utils/history';
 import { Chart, registerables } from 'chart.js';
-import {
-  StatisticsInterface,
-  StatisticsViewInterface,
-  StatModelInterface,
-} from '../../types/types';
+import { StatisticsInterface, StatisticsViewInterface, StatModelInterface } from '../../types/types';
 Chart.register(...registerables);
 
 class StatisticsView implements StatisticsViewInterface {
@@ -19,10 +15,7 @@ class StatisticsView implements StatisticsViewInterface {
     mainWrapper.innerHTML = '';
 
     if (LocalStorage.isAuth) {
-      mainWrapper.insertAdjacentHTML(
-        'afterbegin',
-        renderStatTemplate(dayData as StatOptionalDayType),
-      );
+      mainWrapper.insertAdjacentHTML('afterbegin', renderStatTemplate(dayData as StatOptionalDayType));
     } else {
       mainWrapper.insertAdjacentHTML('afterbegin', anonimStatTemplate);
       this.bind();
@@ -57,16 +50,12 @@ class Statistics implements StatisticsInterface {
       (() =>
         new Chart(
           <HTMLCanvasElement>getElement('newWordsChart'),
-          getChartConfig(
-            setWordsData('Количество новых слов', allDaysData.newWords, allDaysData.labels),
-          ),
+          getChartConfig(setWordsData('Количество новых слов', allDaysData.newWords, allDaysData.labels)),
         ))();
       (() =>
         new Chart(
           <HTMLCanvasElement>getElement('learnedWordsChart'),
-          getChartConfig(
-            setWordsData('Количество изученных слов', allDaysData.learnedWords, allDaysData.labels),
-          ),
+          getChartConfig(setWordsData('Количество изученных слов', allDaysData.learnedWords, allDaysData.labels)),
         ))();
     } else {
       this.view.render();

@@ -31,12 +31,9 @@ class StatModel implements StatModelInterface {
       let allDaysLearnedWordsTemp = 0;
       if (statDataKeys.length !== 0) {
         for (const key in statOptData) {
-          allDaysNewWords.push(
-            statOptData[key].audiochallenge.newWordsPerDay + statOptData[key].sprint.newWordsPerDay,
-          );
+          allDaysNewWords.push(statOptData[key].audiochallenge.newWordsPerDay + statOptData[key].sprint.newWordsPerDay);
           allDaysLearnedWordsTemp +=
-            statOptData[key].audiochallenge.learnedWordsPerDay +
-            statOptData[key].sprint.learnedWordsPerDay;
+            statOptData[key].audiochallenge.learnedWordsPerDay + statOptData[key].sprint.learnedWordsPerDay;
           allDaysLearnedWords.push(allDaysLearnedWordsTemp);
         }
 

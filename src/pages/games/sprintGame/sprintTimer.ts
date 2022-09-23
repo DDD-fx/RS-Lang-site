@@ -73,9 +73,7 @@ function calculateTimeFraction(): number {
 
 function setCircleDasharray(): void {
   const circleDasharray = `${(calculateTimeFraction() * FULL_DASH_ARRAY).toFixed(0)} 283`;
-  document
-    .getElementById('base-timer-path-remaining')
-    ?.setAttribute('stroke-dasharray', circleDasharray);
+  document.getElementById('base-timer-path-remaining')?.setAttribute('stroke-dasharray', circleDasharray);
 }
 
 function startTimer() {

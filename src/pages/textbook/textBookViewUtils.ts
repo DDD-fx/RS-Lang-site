@@ -11,10 +11,7 @@ import { LocalStorage } from '../../utils/storage';
 import { getElement } from '../../utils/tools';
 import history from '../../utils/history';
 
-export class TextBookViewUtils
-  extends TypedEmitter<TextBookEventsType>
-  implements TextBookViewUtilsInterface
-{
+export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implements TextBookViewUtilsInterface {
   textBookModel;
 
   textBookView;
@@ -48,9 +45,7 @@ export class TextBookViewUtils
 
   checkGamesBtnsColor = (): void => {
     const currGroup = `group-${LocalStorage.currUserSettings.currGroup}`;
-    const gameBtns = document.getElementsByClassName(
-      'textbook-games-btn',
-    ) as HTMLCollectionOf<HTMLButtonElement>;
+    const gameBtns = document.getElementsByClassName('textbook-games-btn') as HTMLCollectionOf<HTMLButtonElement>;
     [...gameBtns].forEach((btn) => btn.classList.add(currGroup));
   };
 
@@ -87,13 +82,9 @@ export class TextBookViewUtils
   };
 
   checkActiveDifficultyBtn = (activeGroupNum: number): void => {
-    const activeDifficultyBtns = document.getElementsByClassName(
-      'textbook-difficulty-group__btn--active',
-    );
+    const activeDifficultyBtns = document.getElementsByClassName('textbook-difficulty-group__btn--active');
     if (activeDifficultyBtns.length > 0) {
-      [...activeDifficultyBtns].forEach((btn) =>
-        btn.classList.remove('textbook-difficulty-group__btn--active'),
-      );
+      [...activeDifficultyBtns].forEach((btn) => btn.classList.remove('textbook-difficulty-group__btn--active'));
     }
     const difficultyBtns = document.getElementsByClassName('textbook-difficulty-group__btn');
     difficultyBtns[activeGroupNum].classList.add('textbook-difficulty-group__btn--active');

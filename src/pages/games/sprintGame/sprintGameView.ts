@@ -183,18 +183,13 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   updateUnlearnedResultWordsWrapper = (): Element => {
     const wordsWrapper = createElement('div', 'result-section__unlearned-words');
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    const headerSpan = createElement('span', [
-      'result-section__span',
-      'result-section__span_errors',
-    ]);
+    const headerSpan = createElement('span', ['result-section__span', 'result-section__span_errors']);
     headerSpan.textContent = `${SPRINT_GAME_SETTINGS.unlearnedWords.length}`;
     wordsWrapperHeader.textContent = 'Ошибок ';
     wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < SPRINT_GAME_SETTINGS.unlearnedWords.length; i += 1) {
-      const word = this.sprintModel.shakedWordChunk.find(
-        (el) => el.word === SPRINT_GAME_SETTINGS.unlearnedWords[i],
-      );
+      const word = this.sprintModel.shakedWordChunk.find((el) => el.word === SPRINT_GAME_SETTINGS.unlearnedWords[i]);
       if (word) {
         wordsWrapper.append(
           this.createResultWordsBtns({
@@ -210,18 +205,13 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
   updateLearnedResultWordsWrapper = (): Element => {
     const wordsWrapper = createElement('div', 'result-section__learned-words');
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    const headerSpan = createElement('span', [
-      'result-section__span',
-      'result-section__span_correct',
-    ]);
+    const headerSpan = createElement('span', ['result-section__span', 'result-section__span_correct']);
     headerSpan.textContent = `${SPRINT_GAME_SETTINGS.learnedWords.length}`;
     wordsWrapperHeader.textContent = 'Знаю ';
     wordsWrapperHeader.append(headerSpan);
     wordsWrapper.append(wordsWrapperHeader);
     for (let i = 0; i < SPRINT_GAME_SETTINGS.learnedWords.length; i += 1) {
-      const word = this.sprintModel.shakedWordChunk.find(
-        (el) => el.word === SPRINT_GAME_SETTINGS.learnedWords[i],
-      );
+      const word = this.sprintModel.shakedWordChunk.find((el) => el.word === SPRINT_GAME_SETTINGS.learnedWords[i]);
       if (word) {
         wordsWrapper.append(
           this.createResultWordsBtns({
@@ -236,10 +226,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
 
   createResultWordsBtns = ({ word, wordTranslate }: ResultBtnType): HTMLElement => {
     const wordWrapper = createElement('div', 'result-section__word-wrapper');
-    const wordText = createElement('span', [
-      'result-section__word',
-      `result-section__word-${word}`,
-    ]);
+    const wordText = createElement('span', ['result-section__word', `result-section__word-${word}`]);
     wordText.textContent = `${word} - ${wordTranslate}`;
     const soundingWord = this.sprintModel.shakedWordChunk.find((el) => el.word === word);
     if (soundingWord) {

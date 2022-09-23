@@ -291,6 +291,8 @@
   &__game-stats-block {
     padding: 0 10px;
     border-radius: 10px;
+    display: inline-flex;
+    gap: 5px;
   }
 
   @media (max-width: 994px) {

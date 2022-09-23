@@ -23,16 +23,10 @@ export class TextBookController implements TextBookControllerInterface {
       .on('groupBtnClicked', (group) => this.changeTextBookGroup(group))
       .on('wordBtnClicked', (id, onDictPage) => this.getWordCardData(id, onDictPage))
       .on('dictBtnClicked', () => this.getUserDictWords())
-      .on('addDifficultWordBtnClicked', (wordID, wordStatus) =>
-        this.addUserWord(wordID, wordStatus),
-      )
-      .on('deleteDifficultWordBtnClicked', (wordID, wordStatus) =>
-        this.makeWordNew(wordID, wordStatus),
-      )
+      .on('addDifficultWordBtnClicked', (wordID, wordStatus) => this.addUserWord(wordID, wordStatus))
+      .on('deleteDifficultWordBtnClicked', (wordID, wordStatus) => this.makeWordNew(wordID, wordStatus))
       .on('addLearnedWordBtnClicked', (wordID, wordStatus) => this.addUserWord(wordID, wordStatus))
-      .on('deleteLearnedWordBtnClicked', (wordID, wordStatus) =>
-        this.makeWordNew(wordID, wordStatus),
-      );
+      .on('deleteLearnedWordBtnClicked', (wordID, wordStatus) => this.makeWordNew(wordID, wordStatus));
   }
 
   init = async (): Promise<void> => {
@@ -118,9 +112,7 @@ export class TextBookController implements TextBookControllerInterface {
     return learnedWordsString.includes(wordID);
   };
 
-  getGamesWordCollection = async (
-    game: GameEnum,
-  ): Promise<WordsChunkType[] | AggregatedWordType[]> => {
+  getGamesWordCollection = async (game: GameEnum): Promise<WordsChunkType[] | AggregatedWordType[]> => {
     if (!LocalStorage.currUserSettings.userId) {
       return this.textBookModel.wordsChunk;
     }
@@ -133,9 +125,7 @@ export class TextBookController implements TextBookControllerInterface {
         return this.textBookModel.mapUserWordsID(rawCollectionForCurrPage);
 
       if (rawCollectionForCurrPage.length > 20 && game === GameEnum.audioChallenge) {
-        return this.textBookModel.mapUserWordsID(
-          rawCollectionForCurrPage.slice(-WORDS_PER_TEXTBOOK_PAGE),
-        );
+        return this.textBookModel.mapUserWordsID(rawCollectionForCurrPage.slice(-WORDS_PER_TEXTBOOK_PAGE));
       } else return this.textBookModel.mapUserWordsID(rawCollectionForCurrPage);
     } else {
       throw new Error('collection gathering failed');

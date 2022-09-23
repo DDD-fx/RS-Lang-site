@@ -1,8 +1,4 @@
-import {
-  SprintModelInterface,
-  SprintViewInterface,
-  SprintViewUtilsInterface,
-} from '../../../types/games/sprintTypes';
+import { SprintModelInterface, SprintViewInterface, SprintViewUtilsInterface } from '../../../types/games/sprintTypes';
 import { createElement, getElement } from '../../../utils/tools';
 import { renderSprintGameBeReadyTemplate } from '../../../components/games/sprintGame';
 
@@ -63,10 +59,7 @@ export class SprintViewUtils implements SprintViewUtilsInterface {
       if (!greenSoundBtn.classList.contains('hidden') && redSoundBtn.classList.contains('hidden')) {
         greenSoundBtn.classList.add('hidden');
         redSoundBtn.classList.remove('hidden');
-      } else if (
-        greenSoundBtn.classList.contains('hidden') &&
-        !redSoundBtn.classList.contains('hidden')
-      ) {
+      } else if (greenSoundBtn.classList.contains('hidden') && !redSoundBtn.classList.contains('hidden')) {
         greenSoundBtn.classList.remove('hidden');
         redSoundBtn.classList.add('hidden');
       }
@@ -79,10 +72,7 @@ export class SprintViewUtils implements SprintViewUtilsInterface {
       'game-operations-group__btn-wrapper',
       'game-operations-group__btn-wrapper_green',
     ]);
-    const greenSoundBtn = createElement(
-      'img',
-      'game-operations-group__green-sound',
-    ) as HTMLImageElement;
+    const greenSoundBtn = createElement('img', 'game-operations-group__green-sound') as HTMLImageElement;
     greenSoundBtn.src = './assets/games/sound.svg';
     soundBtn.append(greenSoundBtn);
     return soundBtn;
@@ -94,10 +84,7 @@ export class SprintViewUtils implements SprintViewUtilsInterface {
       'game-operations-group__btn-wrapper_red',
       'hidden',
     ]);
-    const redSoundBtn = createElement(
-      'img',
-      'game-operations-group__red-sound',
-    ) as HTMLImageElement;
+    const redSoundBtn = createElement('img', 'game-operations-group__red-sound') as HTMLImageElement;
     redSoundBtn.src = './assets/games/no-sound.svg';
     soundBtn.append(redSoundBtn);
     return soundBtn;

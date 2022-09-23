@@ -12,10 +12,7 @@ import { renderDictTemplate, renderWordDescriptionGamesBlock } from '../../compo
 import { LocalStorage } from '../../utils/storage';
 import { WordStatusEnum } from '../../types/enums';
 
-export class UserTextBookView
-  extends TypedEmitter<TextBookEventsType>
-  implements UserTextBookViewInterface
-{
+export class UserTextBookView extends TypedEmitter<TextBookEventsType> implements UserTextBookViewInterface {
   textBookModel;
 
   textBookView;
@@ -38,9 +35,7 @@ export class UserTextBookView
       this.textBookView.appendWordsBtns();
       this.drawUserTextBookElems();
       this.textBookView.textBookViewUtils.disableDictBtn();
-      this.textBookView.textBookViewUtils.checkActiveWordsBtns(
-        (LocalStorage.currUserSettings.currWord = ''),
-      );
+      this.textBookView.textBookViewUtils.checkActiveWordsBtns((LocalStorage.currUserSettings.currWord = ''));
       this.makeStarBtnActive();
     } else {
       const wordsTitle = getElement('words-title');
@@ -57,9 +52,7 @@ export class UserTextBookView
   };
 
   createStarBtn = (): void => {
-    const wordBtn = document.getElementsByClassName(
-      'words-btns__btn',
-    ) as HTMLCollectionOf<HTMLDivElement>;
+    const wordBtn = document.getElementsByClassName('words-btns__btn') as HTMLCollectionOf<HTMLDivElement>;
     [...wordBtn].forEach((btn) => {
       const wordBtnStar = createElement('div', 'word-btn__star');
       wordBtnStar.innerHTML = STAR_SVG;
@@ -70,20 +63,10 @@ export class UserTextBookView
         const star = starDiv.firstElementChild as SVGElement;
         const wordID = (<HTMLDivElement>star.closest('.words-btns__btn')).id;
         if (wordID && !star.classList.contains('star-svg--active')) {
-          this.emit.call(
-            this.textBookView,
-            'addDifficultWordBtnClicked',
-            wordID,
-            WordStatusEnum.difficult,
-          );
+          this.emit.call(this.textBookView, 'addDifficultWordBtnClicked', wordID, WordStatusEnum.difficult);
           star.classList.add('star-svg--active');
         } else {
-          this.emit.call(
-            this.textBookView,
-            'deleteDifficultWordBtnClicked',
-            wordID,
-            WordStatusEnum.difficult,
-          );
+          this.emit.call(this.textBookView, 'deleteDifficultWordBtnClicked', wordID, WordStatusEnum.difficult);
           star.classList.remove('star-svg--active');
         }
       });
@@ -103,20 +86,10 @@ export class UserTextBookView
         const bin = binDiv.firstElementChild as SVGElement;
         const wordID = (<HTMLDivElement>bin.closest('.words-btns__btn')).id;
         if (wordID && !bin.classList.contains('bin-svg--active')) {
-          this.emit.call(
-            this.textBookView,
-            'addLearnedWordBtnClicked',
-            wordID,
-            WordStatusEnum.learned,
-          );
+          this.emit.call(this.textBookView, 'addLearnedWordBtnClicked', wordID, WordStatusEnum.learned);
           bin.classList.add('bin-svg--active');
         } else {
-          this.emit.call(
-            this.textBookView,
-            'deleteLearnedWordBtnClicked',
-            wordID,
-            WordStatusEnum.learned,
-          );
+          this.emit.call(this.textBookView, 'deleteLearnedWordBtnClicked', wordID, WordStatusEnum.learned);
           bin.classList.remove('bin-svg--active');
         }
       });
@@ -207,20 +180,14 @@ export class UserTextBookView
 
   updateMarkedPages = (): void => {
     const currPage = LocalStorage.currUserSettings.currPage;
-    const currPagelearnedWords = this.textBookModel.learnedWords.filter(
-      (word) => word.page === currPage,
-    );
+    const currPagelearnedWords = this.textBookModel.learnedWords.filter((word) => word.page === currPage);
     if (currPagelearnedWords.length === 20) this.markPageLearned(currPage, true);
     else this.markPageLearned(currPage, false);
   };
 
   checkGameBtnsActive = (): void => {
-    const pageBtn = getElement(
-      `page-${LocalStorage.currUserSettings.currPage}`,
-    ) as HTMLButtonElement;
-    const gameBtns = document.getElementsByClassName(
-      'textbook-games-btn',
-    ) as HTMLCollectionOf<HTMLButtonElement>;
+    const pageBtn = getElement(`page-${LocalStorage.currUserSettings.currPage}`) as HTMLButtonElement;
+    const gameBtns = document.getElementsByClassName('textbook-games-btn') as HTMLCollectionOf<HTMLButtonElement>;
     if (pageBtn.classList.contains('learned-page')) {
       [...gameBtns].forEach((btn) => (btn.disabled = true));
     } else {
@@ -245,15 +212,11 @@ export class UserTextBookView
     const currWord = allUserWords.find((word) => word.id === currWordElem.id);
     if (currWord) {
       const totalAnswersChallenge =
-        +currWord.userWord.optional.correctAnswersChallenge +
-        +currWord.userWord.optional.incorrectAnswersChallenge;
+        +currWord.userWord.optional.correctAnswersChallenge + +currWord.userWord.optional.incorrectAnswersChallenge;
       const totalAnswersSprint =
-        +currWord.userWord.optional.correctAnswersSprint +
-        +currWord.userWord.optional.incorrectAnswersSprint;
-      challengeStats.textContent = `${+currWord.userWord.optional
-        .correctAnswersChallenge} из ${totalAnswersChallenge}`;
-      sprintStats.textContent = `${+currWord.userWord.optional
-        .correctAnswersSprint} из ${totalAnswersSprint}`;
+        +currWord.userWord.optional.correctAnswersSprint + +currWord.userWord.optional.incorrectAnswersSprint;
+      challengeStats.textContent = `${+currWord.userWord.optional.correctAnswersChallenge} из ${totalAnswersChallenge}`;
+      sprintStats.textContent = `${+currWord.userWord.optional.correctAnswersSprint} из ${totalAnswersSprint}`;
     } else {
       challengeStats.textContent = '0 из 0';
       sprintStats.textContent = '0 из 0';

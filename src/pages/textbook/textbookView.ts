@@ -16,10 +16,7 @@ import { LocalStorage } from '../../utils/storage';
 import { UserTextBookView } from './userTextbookView';
 import { TextBookViewUtils } from './textBookViewUtils';
 
-export class TextBookView
-  extends TypedEmitter<TextBookEventsType>
-  implements TextBookViewInterface
-{
+export class TextBookView extends TypedEmitter<TextBookEventsType> implements TextBookViewInterface {
   textBookModel;
 
   userTextBookView: UserTextBookViewInterface;
@@ -141,18 +138,14 @@ export class TextBookView
     meaningTitle.after(this.createAudioBtn(word.audioMeaning));
     const textMeaning = getElement('word-description__text-meaning') as HTMLParagraphElement;
     textMeaning.innerHTML = word.textMeaning;
-    const textMeaningTranslate = getElement(
-      'word-description__text-meaning-translate',
-    ) as HTMLParagraphElement;
+    const textMeaningTranslate = getElement('word-description__text-meaning-translate') as HTMLParagraphElement;
     textMeaningTranslate.innerHTML = word.textMeaningTranslate;
 
     const exampleTitle = getElement('word-description__word-example-title') as HTMLHeadingElement;
     exampleTitle.after(this.createAudioBtn(word.audioExample));
     const textExample = getElement('word-description__text-example') as HTMLParagraphElement;
     textExample.innerHTML = word.textExample;
-    const textExampleTranslate = getElement(
-      'word-description__text-example-translate',
-    ) as HTMLParagraphElement;
+    const textExampleTranslate = getElement('word-description__text-example-translate') as HTMLParagraphElement;
     textExampleTranslate.innerHTML = word.textExampleTranslate;
 
     if (LocalStorage.currUserSettings.userId) {

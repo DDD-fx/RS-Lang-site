@@ -1,20 +1,14 @@
 import { createElement, getElement } from '../../../utils/tools';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import renderAudioChallengeGameTemplate from '../../../components/games/audioChallengeGame';
-import {
-  AudioChallengeModelInterface,
-  AudioChallengeViewInterface,
-} from '../../../types/games/audioChallengeTypes';
+import { AudioChallengeModelInterface, AudioChallengeViewInterface } from '../../../types/games/audioChallengeTypes';
 import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
 import { GamesEventsType, ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
 import { GameEnum } from '../../../types/enums';
 
-export class AudioChallengeView
-  extends TypedEmitter<GamesEventsType>
-  implements AudioChallengeViewInterface
-{
+export class AudioChallengeView extends TypedEmitter<GamesEventsType> implements AudioChallengeViewInterface {
   audioChallengeModel: AudioChallengeModelInterface;
 
   constructor(audioChallengeModel: AudioChallengeModelInterface) {
@@ -62,12 +56,9 @@ export class AudioChallengeView
     if (currentGamePageArray.length < 5) {
       this.createAdditionalWordBtns();
     }
-    if (
-      this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]
-    ) {
+    if (this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]) {
       const soundingWord =
-        this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]
-          .word;
+        this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount].word;
       this.createAnswerWrapper(soundingWord);
       this.createSpeakerWrapper(soundingWord);
       this.emit('wordOfShakedArrCountAdded');
@@ -93,12 +84,8 @@ export class AudioChallengeView
 
   shakeWordsForCurrentGamePage = (): WordsChunkType[] => {
     const wordsArr = [];
-    wordsArr.push(
-      this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount],
-    );
-    if (
-      this.audioChallengeModel.shakedWordChunk.length >= AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage
-    ) {
+    wordsArr.push(this.audioChallengeModel.shakedWordChunk[AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount]);
+    if (this.audioChallengeModel.shakedWordChunk.length >= AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage) {
       while (wordsArr.length < AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage) {
         const word =
           this.audioChallengeModel.shakedWordChunk[
@@ -151,10 +138,7 @@ export class AudioChallengeView
       if (!greenSoundBtn.classList.contains('hidden') && redSoundBtn.classList.contains('hidden')) {
         greenSoundBtn.classList.add('hidden');
         redSoundBtn.classList.remove('hidden');
-      } else if (
-        greenSoundBtn.classList.contains('hidden') &&
-        !redSoundBtn.classList.contains('hidden')
-      ) {
+      } else if (greenSoundBtn.classList.contains('hidden') && !redSoundBtn.classList.contains('hidden')) {
         greenSoundBtn.classList.remove('hidden');
         redSoundBtn.classList.add('hidden');
       }
@@ -167,10 +151,7 @@ export class AudioChallengeView
       'game-operations-group__btn-wrapper',
       'game-operations-group__btn-wrapper_green',
     ]);
-    const greenSoundBtn = createElement(
-      'img',
-      'game-operations-group__green-sound',
-    ) as HTMLImageElement;
+    const greenSoundBtn = createElement('img', 'game-operations-group__green-sound') as HTMLImageElement;
     greenSoundBtn.src = './assets/games/sound.svg';
     soundBtn.append(greenSoundBtn);
     return soundBtn;
@@ -182,10 +163,7 @@ export class AudioChallengeView
       'game-operations-group__btn-wrapper_red',
       'hidden',
     ]);
-    const redSoundBtn = createElement(
-      'img',
-      'game-operations-group__red-sound',
-    ) as HTMLImageElement;
+    const redSoundBtn = createElement('img', 'game-operations-group__red-sound') as HTMLImageElement;
     redSoundBtn.src = './assets/games/no-sound.svg';
     soundBtn.append(redSoundBtn);
     return soundBtn;
@@ -298,16 +276,10 @@ export class AudioChallengeView
       `game-section__wrong-sign-wrapper-${word}`,
       'hidden',
     ]);
-    const defaultSignImg = createElement(
-      'img',
-      'game-section__default-sign-img',
-    ) as HTMLImageElement;
+    const defaultSignImg = createElement('img', 'game-section__default-sign-img') as HTMLImageElement;
     defaultSignImg.src = ' ./assets/games/dot.svg';
     defaultSignWrapper.append(defaultSignImg);
-    const correctSignImg = createElement(
-      'img',
-      'game-section__correct-sign-img',
-    ) as HTMLImageElement;
+    const correctSignImg = createElement('img', 'game-section__correct-sign-img') as HTMLImageElement;
     correctSignImg.src = ' ./assets/games/right-sign.svg';
     correctSignWrapper.append(correctSignImg);
     const wrongSignImg = createElement('img', 'game-section__wrong-sign-img') as HTMLImageElement;
@@ -536,10 +508,7 @@ export class AudioChallengeView
     const wordsWrapper = getElement('result-section__unlearned-words');
     wordsWrapper.innerHTML = '';
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    const headerSpan = createElement('span', [
-      'result-section__span',
-      'result-section__span_errors',
-    ]);
+    const headerSpan = createElement('span', ['result-section__span', 'result-section__span_errors']);
     headerSpan.textContent = `${AUDIOCHALLENGE_GAME_SETTINGS.unlearnedWords.length}`;
     wordsWrapperHeader.textContent = 'Ошибок ';
     wordsWrapperHeader.append(headerSpan);
@@ -564,10 +533,7 @@ export class AudioChallengeView
     const wordsWrapper = getElement('result-section__learned-words');
     wordsWrapper.innerHTML = '';
     const wordsWrapperHeader = createElement('h2', 'result-section__header');
-    const headerSpan = createElement('span', [
-      'result-section__span',
-      'result-section__span_correct',
-    ]);
+    const headerSpan = createElement('span', ['result-section__span', 'result-section__span_correct']);
     headerSpan.textContent = `${AUDIOCHALLENGE_GAME_SETTINGS.learnedWords.length}`;
     wordsWrapperHeader.textContent = 'Знаю ';
     wordsWrapperHeader.append(headerSpan);
@@ -590,10 +556,7 @@ export class AudioChallengeView
 
   createResultWordsBtns = ({ word, wordTranslate }: ResultBtnType): HTMLElement => {
     const wordWrapper = createElement('div', 'result-section__word-wrapper');
-    const wordText = createElement('span', [
-      'result-section__word',
-      `result-section__word-${word}`,
-    ]);
+    const wordText = createElement('span', ['result-section__word', `result-section__word-${word}`]);
     wordText.textContent = `${word} - ${wordTranslate}`;
     const soundingWord = this.audioChallengeModel.wordsChunk.find((el) => el.word === word);
     if (soundingWord) {
@@ -663,9 +626,7 @@ export class AudioChallengeView
     const wordsBtns = document.getElementsByClassName('game-section__word');
     const index = +pressedKey.slice(-1) - 1;
     const translatedWord = wordsBtns[index].textContent;
-    const word = this.audioChallengeModel.wordsChunk.find(
-      (el) => el.wordTranslate === translatedWord,
-    );
+    const word = this.audioChallengeModel.wordsChunk.find((el) => el.wordTranslate === translatedWord);
     const englishWord = word?.word;
     if (englishWord && !(wordsBtns[index] as HTMLButtonElement).disabled) {
       this.showRightAnswer();
@@ -728,8 +689,7 @@ export class AudioChallengeView
 
   countBarProgress = (): void => {
     const filledValue = Math.round(
-      (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount * 100) /
-        this.audioChallengeModel.shakedWordChunk.length,
+      (AUDIOCHALLENGE_GAME_SETTINGS.wordOfShakedArrCount * 100) / this.audioChallengeModel.shakedWordChunk.length,
     );
     this.updateProgressBar(filledValue);
   };

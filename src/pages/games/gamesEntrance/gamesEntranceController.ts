@@ -34,31 +34,21 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = false;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
-    const audioChallengeController = new AudioChallengeController(
-      audioChallengeModel,
-      audioChallengeView,
-    );
+    const audioChallengeController = new AudioChallengeController(audioChallengeModel, audioChallengeView);
     await audioChallengeModel.getStatistics();
     await audioChallengeController.getWordsList();
     audioChallengeView.drawAudioChallengeGame();
   };
 
-  startAudioChallengeFromTextBook = async (
-    wordsCollection: WordsChunkType[] | AggregatedWordType[],
-  ): Promise<void> => {
+  startAudioChallengeFromTextBook = async (wordsCollection: WordsChunkType[] | AggregatedWordType[]): Promise<void> => {
     this.gamesEntranceView.renderPreloader();
     AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook = true;
     const audioChallengeModel = new AudioChallengeModel();
     const audioChallengeView = new AudioChallengeView(audioChallengeModel);
-    const audioChallengeController = new AudioChallengeController(
-      audioChallengeModel,
-      audioChallengeView,
-    );
+    const audioChallengeController = new AudioChallengeController(audioChallengeModel, audioChallengeView);
     audioChallengeModel.getWordsListFromTextbook(wordsCollection);
     if (wordsCollection.length < AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage) {
-      await audioChallengeController.getNewWordData(
-        AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage - wordsCollection.length,
-      );
+      await audioChallengeController.getNewWordData(AUDIOCHALLENGE_GAME_SETTINGS.wordsPerPage - wordsCollection.length);
     }
     await audioChallengeModel.getStatistics();
     audioChallengeView.drawAudioChallengeGame();
@@ -76,9 +66,7 @@ export default class GamesEntranceController implements GamesEntranceControllerI
     sprintView.sprintViewUtils.buildBeReadyHTML();
   };
 
-  startSprintGameFromTextBook = async (
-    wordsCollection: WordsChunkType[] | AggregatedWordType[],
-  ): Promise<void> => {
+  startSprintGameFromTextBook = async (wordsCollection: WordsChunkType[] | AggregatedWordType[]): Promise<void> => {
     this.gamesEntranceView.renderPreloader();
     SPRINT_GAME_SETTINGS.startFromTextbook = true;
     const sprintModel = new SprintModel();

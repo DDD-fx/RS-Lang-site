@@ -6,10 +6,7 @@ export type TextBookEventsType = {
   groupBtnClicked: (group: number) => void;
   wordBtnClicked: (id: string, onDictPage: boolean) => void;
   dictBtnClicked: () => void;
-  addDifficultWordBtnClicked: (
-    wordID: string,
-    wordStatus: WordStatusEnum.difficult,
-  ) => Promise<void>;
+  addDifficultWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.difficult) => Promise<void>;
   deleteDifficultWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.difficult) => void;
   addLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => Promise<void>;
   deleteLearnedWordBtnClicked: (wordID: string, wordStatus: WordStatusEnum.learned) => void;
@@ -46,10 +43,7 @@ export interface TextBookModelInterface extends TypedEmitter<TextBookEventsType>
     wordStatus: WordStatusEnum,
     isWordNew: boolean,
   ): AddUserWordBodyType | undefined;
-  getAggregatedUserWordOptionsForNew(
-    wordID: string,
-    wordStatus: WordStatusEnum,
-  ): AddUserWordBodyType | undefined;
+  getAggregatedUserWordOptionsForNew(wordID: string, wordStatus: WordStatusEnum): AddUserWordBodyType | undefined;
   mapUserWordsID(difficultWords: RawAggregatedWordType[]): AggregatedWordType[];
   updateAllCollections(): Promise<void>;
   getWordsForGames(): Promise<RawAggregatedWordType[] | undefined>;

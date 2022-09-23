@@ -5,8 +5,7 @@ import { getExpirationDate } from '../api/usersApi';
 export class LocalStorage {
   static createLocalKey = (key: string) => `rsl13-${key}`;
 
-  static loadData = async <T>(url: string): Promise<T> =>
-    fetch(url).then((response): Promise<T> => response.json()); //delete if no local .json items
+  static loadData = async <T>(url: string): Promise<T> => fetch(url).then((response): Promise<T> => response.json()); //delete if no local .json items
 
   static setLSData = <T>(key: string, value: T) => {
     const stringData = JSON.stringify(value);
@@ -18,9 +17,7 @@ export class LocalStorage {
   };
 
   static getLSData = (key: string): UserSettingsType => {
-    const userSettings: string | null = window.localStorage.getItem(
-      LocalStorage.createLocalKey(key),
-    );
+    const userSettings: string | null = window.localStorage.getItem(LocalStorage.createLocalKey(key));
     if (userSettings) return <UserSettingsType>JSON.parse(userSettings);
 
     const defaultUserSettings: string | null = window.localStorage.getItem(

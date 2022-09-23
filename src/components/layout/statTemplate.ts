@@ -45,13 +45,10 @@ const renderStatTemplate = (dayData: StatOptionalDayType): string => {
     ) || 0;
   const challengeCorrectRate =
     Math.round(
-      (audiochallenge.correctAnswers /
-        (audiochallenge.correctAnswers + audiochallenge.incorrectAnswers)) *
-        100,
+      (audiochallenge.correctAnswers / (audiochallenge.correctAnswers + audiochallenge.incorrectAnswers)) * 100,
     ) || 0;
   const sprintCorrectRate =
-    Math.round((sprint.correctAnswers / (sprint.correctAnswers + sprint.incorrectAnswers)) * 100) ||
-    0;
+    Math.round((sprint.correctAnswers / (sprint.correctAnswers + sprint.incorrectAnswers)) * 100) || 0;
 
   return `
   <div class="main__container statistics">

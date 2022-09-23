@@ -28,8 +28,7 @@ class MainModel implements ModelInterface {
 }
 
 const authFetch = async (url: string, options: RequestOptionType): Promise<Response> => {
-  if (await checkToken())
-    options.headers.Authorization = `Bearer ${LocalStorage.currUserSettings.token}`; // добавляем токен в headers запроса
+  if (await checkToken()) options.headers.Authorization = `Bearer ${LocalStorage.currUserSettings.token}`; // добавляем токен в headers запроса
   return fetch(url, options); // возвращаем изначальную функцию, но уже с валидным токеном в headers
 };
 

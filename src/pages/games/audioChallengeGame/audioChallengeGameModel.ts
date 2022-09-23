@@ -100,20 +100,13 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
       AUDIOCHALLENGE_GAME_SETTINGS.newWords += 1;
       console.log(AUDIOCHALLENGE_GAME_SETTINGS.newWords);
     }
-    currWord.userWord.optional.correctAnswersChallenge = `${
-      +currWord.userWord.optional.correctAnswersChallenge + 1
-    }`;
-    currWord.userWord.optional.correctSequenceChallenge = `${
-      +currWord.userWord.optional.correctSequenceChallenge + 1
-    }`;
+    currWord.userWord.optional.correctAnswersChallenge = `${+currWord.userWord.optional.correctAnswersChallenge + 1}`;
+    currWord.userWord.optional.correctSequenceChallenge = `${+currWord.userWord.optional.correctSequenceChallenge + 1}`;
     if (
       (currWord.userWord.difficulty === WordStatusEnum.difficult &&
-        +currWord.userWord.optional.correctAnswersChallenge %
-          CorrectAnswersStatus.learnedForDifficult ===
-          0) ||
+        +currWord.userWord.optional.correctAnswersChallenge % CorrectAnswersStatus.learnedForDifficult === 0) ||
       (currWord.userWord.difficulty === WordStatusEnum.new &&
-        +currWord.userWord.optional.correctAnswersChallenge % CorrectAnswersStatus.learnedForNew ===
-          0)
+        +currWord.userWord.optional.correctAnswersChallenge % CorrectAnswersStatus.learnedForNew === 0)
     ) {
       currWord.userWord.difficulty = WordStatusEnum.learned;
       AUDIOCHALLENGE_GAME_SETTINGS.learnedPerGame += 1;
@@ -140,10 +133,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     void (await this.updateWordOnChallengeAnswer(currWord, ApiMethodsEnum.put));
   };
 
-  updateWordOnChallengeAnswer = async (
-    currWord: AggregatedWordType,
-    method: ApiMethodsEnum,
-  ): Promise<void> => {
+  updateWordOnChallengeAnswer = async (currWord: AggregatedWordType, method: ApiMethodsEnum): Promise<void> => {
     const query = `users/${LocalStorage.currUserSettings.userId}/words/${currWord.id}`;
     try {
       await authFetch(baseURL + query, {
@@ -181,9 +171,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     const promise = await fetch(baseURL + query);
     const data = (await promise.json()) as WordsChunkType[];
     for (let i = 0; i < diff; i += 1) {
-      AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(
-        data[Math.floor(Math.random() * (data.length - 1))],
-      );
+      AUDIOCHALLENGE_GAME_SETTINGS.shakedWordsArray.push(data[Math.floor(Math.random() * (data.length - 1))]);
     }
   };
 
@@ -230,9 +218,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
         };
       }
       if (!(dateKey in this.userStat.optional)) {
-        this.userStat.optional[dateKey] = JSON.parse(
-          JSON.stringify(STAT_ANONIM_DAY_DEFAULTS),
-        ) as StatOptionalDayType;
+        this.userStat.optional[dateKey] = JSON.parse(JSON.stringify(STAT_ANONIM_DAY_DEFAULTS)) as StatOptionalDayType;
       }
     }
   };

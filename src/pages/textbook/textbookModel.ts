@@ -71,8 +71,7 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
       });
       const content = (await rawResponse.json()) as AggregatedWordsRespType[];
       const userWords = content[0].paginatedResults.slice();
-      if (wordStatus === WordStatusEnum.difficult)
-        this.difficultWords = this.mapUserWordsID(userWords);
+      if (wordStatus === WordStatusEnum.difficult) this.difficultWords = this.mapUserWordsID(userWords);
       if (wordStatus === WordStatusEnum.learned) {
         this.learnedWords = this.mapUserWordsID(userWords);
         if (getElement('pagination ')) this.emit('updateMarkedPages');
@@ -138,17 +137,13 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
       return currWordOptions;
     }
     if (wordStatus === WordStatusEnum.difficult && !isWordNew) {
-      const updatedWord = this.learnedWords.find(
-        (word) => word.id === wordID,
-      ) as AggregatedWordType;
+      const updatedWord = this.learnedWords.find((word) => word.id === wordID) as AggregatedWordType;
       const currWordOptions = updatedWord.userWord;
       currWordOptions.difficulty = wordStatus;
       return currWordOptions;
     }
     if (wordStatus === WordStatusEnum.learned && !isWordNew) {
-      const updatedWord = this.difficultWords.find(
-        (word) => word.id === wordID,
-      ) as AggregatedWordType;
+      const updatedWord = this.difficultWords.find((word) => word.id === wordID) as AggregatedWordType;
       const currWordOptions = updatedWord.userWord;
       currWordOptions.difficulty = wordStatus;
       return currWordOptions;
@@ -160,17 +155,13 @@ export class TextBookModel extends TypedEmitter implements TextBookModelInterfac
     wordStatus: WordStatusEnum,
   ): AddUserWordBodyType | undefined => {
     if (wordStatus === WordStatusEnum.difficult) {
-      const updatedWord = this.difficultWords.find(
-        (word) => word.id === wordID,
-      ) as AggregatedWordType;
+      const updatedWord = this.difficultWords.find((word) => word.id === wordID) as AggregatedWordType;
       const currWordOptions = updatedWord.userWord;
       currWordOptions.difficulty = WordStatusEnum.new;
       return currWordOptions;
     }
     if (wordStatus === WordStatusEnum.learned) {
-      const updatedWord = this.learnedWords.find(
-        (word) => word.id === wordID,
-      ) as AggregatedWordType;
+      const updatedWord = this.learnedWords.find((word) => word.id === wordID) as AggregatedWordType;
       const currWordOptions = updatedWord.userWord;
       currWordOptions.difficulty = WordStatusEnum.new;
       return currWordOptions;
