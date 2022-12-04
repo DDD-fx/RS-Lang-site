@@ -4,7 +4,7 @@ import { StatStateType, StatOptionalDayType } from '../types/userTypes';
 import { UserSettingsType } from '../types/types';
 import { getShortDate } from './tools';
 
-export const baseURL = 'https://react-rslang-be-13.herokuapp.com/';
+export const baseURL = 'https://rs-lang-api-pj48.onrender.com/';
 
 export const MAX_TEXTBOOK_PAGES = 30;
 export const DEFAULT_USER_SETTINGS: UserSettingsType = {
