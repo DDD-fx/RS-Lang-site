@@ -56,7 +56,7 @@ const footerInner = `<div class="wrapper footer__wrapper">
 
 const preloader = `<div class="loader">
 <div class="loading">
-  <h2>rslang fetching</h2>
+  <h2>loading (may take up to 30 secs)</h2>
   <span></span>
   <span></span>
   <span></span>
