@@ -8,7 +8,7 @@ import { GamesSection } from './pages/games/games';
 import GamesEntranceController from './pages/games/gamesEntrance/gamesEntranceController';
 import Statistics from './pages/stat/statController';
 import { LocalStorage } from './utils/storage';
-import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
+import { BASE_HREF, DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from './utils/constants';
 import history from './utils/history';
 import Nav from './components/nav';
 import Login from './pages/login/loginController';
@@ -33,7 +33,7 @@ const main = getElement('main__wrapper');
 
 const routes: Routes[] = [
   {
-    path: '',
+    path: BASE_HREF,
     action: () => {
       app.view.renderPreloader();
       app.view.renderMainTemplate();
@@ -41,7 +41,7 @@ const routes: Routes[] = [
     },
   },
   {
-    path: '/textbook',
+    path: `${BASE_HREF}/textbook`,
     action: () => {
       app.view.renderPreloader('textbook');
       textbook.init().catch((err) => console.error(err));
@@ -49,7 +49,7 @@ const routes: Routes[] = [
     },
   },
   {
-    path: '/games',
+    path: `${BASE_HREF}/games`,
     action: () => {
       app.view.renderPreloader();
       gamesSection.render();
@@ -58,7 +58,7 @@ const routes: Routes[] = [
     },
   },
   {
-    path: '/audiochallenge',
+    path: `${BASE_HREF}/audiochallenge`,
     action: () => {
       app.view.renderPreloader();
       main.innerHTML = '';
@@ -68,7 +68,7 @@ const routes: Routes[] = [
   },
 
   {
-    path: '/audiochallenge-pages',
+    path: `${BASE_HREF}/audiochallenge-pages`,
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     action: async () => {
       app.view.renderPreloader();
@@ -79,7 +79,7 @@ const routes: Routes[] = [
   },
 
   {
-    path: '/sprint',
+    path: `${BASE_HREF}/sprint`,
     action: () => {
       app.view.renderPreloader();
       main.innerHTML = '';
@@ -88,7 +88,7 @@ const routes: Routes[] = [
     },
   },
   {
-    path: '/sprint-pages',
+    path: `${BASE_HREF}/sprint-pages`,
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     action: async () => {
       app.view.renderPreloader();
@@ -99,7 +99,7 @@ const routes: Routes[] = [
   },
 
   {
-    path: '/stat',
+    path: `${BASE_HREF}/stat`,
     action: () => {
       app.view.renderPreloader();
       stat.init().catch((err) => console.error(err));
@@ -107,7 +107,7 @@ const routes: Routes[] = [
     },
   },
   {
-    path: '/login',
+    path: `${BASE_HREF}/login`,
     action: () => {
       app.view.renderPreloader();
       login.view.renderLoginForm();
@@ -115,17 +115,17 @@ const routes: Routes[] = [
     },
   },
   {
-    path: '/logout',
+    path: `${BASE_HREF}/logout`,
     action: () => {
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
       LocalStorage.isAuth = false;
-      window.location.replace('/');
+      window.location.replace(`${BASE_HREF}/`);
       new Nav(getElement('header') as HTMLElement).render();
       document.title = `Выход ${title}`;
     },
   },
   {
-    path: '/auth',
+    path: `${BASE_HREF}/auth`,
     action: () => {
       login.view.renderRegForm();
       document.title = `Регистрация ${title}`;

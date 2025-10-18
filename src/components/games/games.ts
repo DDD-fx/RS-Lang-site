@@ -2,6 +2,7 @@ import { createElement } from '../../utils/tools';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 import { TypedEmitter } from 'tiny-typed-emitter';
+import { BASE_HREF } from '../../utils/constants';
 
 const gamesTemplateInner = `
 <h2 class="games-title">Игры</h2>
@@ -9,11 +10,11 @@ const gamesTemplateInner = `
   <img src="./assets/bubbles.svg" alt="bubbles"/>
 </div>
 <article class="games-wrapper">
-  <a href="/audiochallenge" class="games-link games-link__audiochallenge">
+  <a href="${BASE_HREF}/audiochallenge" class="games-link games-link__audiochallenge">
     <figure class="games-figure">
       <p>
         <img
-          src="../../assets/games/headphones.svg"
+          src="./assets/games/headphones.svg"
           alt="headphones"
           class="games-figure__image"
         />
@@ -21,11 +22,11 @@ const gamesTemplateInner = `
       <figcaption class="games-figcaption">Аудиовызов</figcaption>
     </figure>
   </a>
-  <a href="/sprint" class="games-link games-link__sprint">
+  <a href="${BASE_HREF}/sprint" class="games-link games-link__sprint">
     <figure class="games-figure">
       <p>
         <img
-          src="../../assets/games/fish.svg"
+          src="./assets/games/fish.svg"
           alt="fish"
           class="games-figure__image games-figure__image_fish"
         />

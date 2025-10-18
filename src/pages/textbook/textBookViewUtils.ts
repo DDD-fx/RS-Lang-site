@@ -10,6 +10,7 @@ import {
 import { LocalStorage } from '../../utils/storage';
 import { getElement } from '../../utils/tools';
 import history from '../../utils/history';
+import { BASE_HREF } from '../../utils/constants';
 
 export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implements TextBookViewUtilsInterface {
   textBookModel;
@@ -119,11 +120,11 @@ export class TextBookViewUtils extends TypedEmitter<TextBookEventsType> implemen
   addGameBtnsListeners = (): void => {
     const audioChallengeBtn = getElement('textbook-games-btn-challenge') as HTMLButtonElement;
     audioChallengeBtn.addEventListener('click', () => {
-      history.push('/audiochallenge-pages');
+      history.push(`${BASE_HREF}/audiochallenge-pages`);
     });
     const sprintBtn = getElement('textbook-games-btn-sprint') as HTMLButtonElement;
     sprintBtn.addEventListener('click', () => {
-      history.push('/sprint-pages');
+      history.push(`${BASE_HREF}/sprint-pages`);
     });
   };
 }

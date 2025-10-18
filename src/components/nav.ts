@@ -2,31 +2,32 @@ import { createElement, getElement } from '../utils/tools';
 import { LocalStorage } from '../utils/storage';
 import history from '../utils/history';
 import { NavInterface } from '../types/types';
+import { BASE_HREF } from '../utils/constants';
 
-const logIn = `<a href="/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>`;
-const logOut = `<a href="/logout"><button class="btn btn-logout " data-btn="login"> Выйти </button></a>`;
+const logIn = `<a href="${BASE_HREF}/login"><button class="btn btn-login" data-btn="login"> Войти </button></a>`;
+const logOut = `<a href="${BASE_HREF}/logout"><button class="btn btn-logout " data-btn="login"> Выйти </button></a>`;
 
 const navInner = (isAuthorized: boolean): string => `
-<a href="/"><h1>RS Lang</h1></a>
+<a href="${BASE_HREF}/"><h1>RS Lang</h1></a>
 <nav class="nav">
 <ul class="nav__list">
 <li>
-<a href="/"><button class="btn" data-btn="main"> Главная </button></a>
+<a href="${BASE_HREF}/"><button class="btn" data-btn="main"> Главная </button></a>
 </li>
 <li>
-  <a href="/textbook"><button class="btn js-menu-textbook-btn" data-btn="textbook"> Учебник </button></a>
+  <a href="${BASE_HREF}/textbook"><button class="btn js-menu-textbook-btn" data-btn="textbook"> Учебник </button></a>
 </li>
 <li>
-  <a href="/games" ><button class="btn" data-btn="games"> Миниигры </button></a>
+  <a href="${BASE_HREF}/games" ><button class="btn" data-btn="games"> Миниигры </button></a>
 </li>
 <li>
-  <a href="/stat"><button  class="btn" data-btn="stat"> Статистика </button></a>
+  <a href="${BASE_HREF}/stat"><button  class="btn" data-btn="stat"> Статистика </button></a>
 </li>
 <li>
 ${isAuthorized ? logOut : logIn}
 </ul>
 </nav>
-<!--<div class="shadow"></div>-->
+
 <div class="hamburger" id="hamburger-1">
 <span class="line"></span> 
 <span class="line"></span> 

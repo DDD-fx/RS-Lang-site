@@ -6,7 +6,7 @@ import {
   RawAggregatedWordType,
   WordsChunkType,
 } from '../../../types/textbookTypes';
-import { baseURL, SPRINT_GAME_SETTINGS, STAT_ANONIM_DAY_DEFAULTS } from '../../../utils/constants';
+import { BASE_HREF, baseURL, SPRINT_GAME_SETTINGS, STAT_ANONIM_DAY_DEFAULTS } from '../../../utils/constants';
 import { GameEnum } from '../../../types/enums';
 import { LocalStorage } from '../../../utils/storage';
 import { getShortDate } from '../../../utils/tools';
@@ -115,7 +115,7 @@ export class SprintModel extends TypedEmitter<SprintEventsType> implements Sprin
     if (!SPRINT_GAME_SETTINGS.startFromTextbook) {
       window.location.reload();
     } else {
-      history.push('/textbook');
+      history.push(`${BASE_HREF}/textbook`);
       window.location.reload();
     }
   };

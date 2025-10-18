@@ -2,6 +2,7 @@ import { getElement } from '../../utils/tools';
 import { Games } from '../../components/games/games';
 import history from '../../utils/history';
 import { GamesSectionInterface } from '../../types/types';
+import { BASE_HREF } from '../../utils/constants';
 
 export class GamesSection implements GamesSectionInterface {
   render = (): void => {
@@ -17,11 +18,11 @@ export class GamesSection implements GamesSectionInterface {
     const sprintBtn = document.getElementsByClassName('games-link__sprint')[0];
     challengeBtn.addEventListener('click', () => {
       main.innerHTML = '';
-      history.push('/audiochallenge');
+      history.push(`${BASE_HREF}/audiochallenge`);
     });
     sprintBtn.addEventListener('click', () => {
       main.innerHTML = '';
-      history.push('/sprint');
+      history.push(`${BASE_HREF}/sprint`);
     });
   };
 }

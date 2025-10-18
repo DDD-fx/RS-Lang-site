@@ -1,12 +1,4 @@
-/*
-const headerInner = `
-<div class="wrapper header__wrapper">
-<h1><a href="/">RS Lang</a></h1>
-<nav class="nav">
-</nav>
-</div>
-`;
-*/
+import { BASE_HREF } from '../../utils/constants';
 
 const renderMainTemplate = (): string => `
 
@@ -21,7 +13,7 @@ const renderMainTemplate = (): string => `
 <h2 class="article__title">Погрузись в <span class="accent">океан</span> знаний вместе с RS Lang</h2>
 <p class="article__text">Добро пожаловать на образовательную игровую площадку, которая помогает детям выучить английский язык.
   Также, у нас есть миниигры, которые помогают улучшить навыки мышления у детей.</p>
-  <a href="/textbook" class="btn btn-article" data-btn="textbook"> Начать </a>
+  <a href="${BASE_HREF}/textbook" class="btn btn-article" data-btn="textbook"> Начать </a>
   <div class="article__bottom-nav"><button class="btn btn-bottom-nav advantages"> О приложении <img class="advantages" src="./assets/icon-right.svg" alt=""></button></div>
   </div>
   <div class="bubbles img-x5">
@@ -32,13 +24,6 @@ const renderMainTemplate = (): string => `
     <img src="./assets/whale.svg" alt="">
   </div>
   </div>
-  <!--<div class="main__container advantages-screen">
-  <h2 class="article__title">Наши преимущества </h2>
-  </div>
-  <div class="main__container about-us-screen">
-  <h2 class="article__title">О нас </h2>
-  </div>-->
-
 `;
 
 const footerInner = `<div class="wrapper footer__wrapper">
@@ -56,7 +41,7 @@ const footerInner = `<div class="wrapper footer__wrapper">
 
 const preloader = `<div class="loader">
 <div class="loading">
-  <h2>loading (may take up to 30 secs)</h2>
+  <h2>loading</h2>
   <span></span>
   <span></span>
   <span></span>

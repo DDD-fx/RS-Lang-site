@@ -7,6 +7,7 @@ import { getElement } from '../../utils/tools';
 import history from '../../utils/history';
 import { Chart, registerables } from 'chart.js';
 import { StatisticsInterface, StatisticsViewInterface, StatModelInterface } from '../../types/types';
+import { BASE_HREF } from '../../utils/constants';
 Chart.register(...registerables);
 
 class StatisticsView implements StatisticsViewInterface {
@@ -26,7 +27,7 @@ class StatisticsView implements StatisticsViewInterface {
     getElement('statistics').addEventListener('click', (event) => {
       if ((<HTMLElement>event.target).classList.contains('btn-stat-login')) {
         event.preventDefault();
-        history.push('/login');
+        history.push(`${BASE_HREF}/login`);
       }
     });
   };

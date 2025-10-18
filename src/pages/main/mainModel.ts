@@ -1,5 +1,5 @@
 import { LocalStorage } from '../../utils/storage';
-import { DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from '../../utils/constants';
+import { BASE_HREF, DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS } from '../../utils/constants';
 import { getNewToken, getExpirationDate, isExpired } from '../../api/usersApi';
 import { ModelInterface, RequestOptionType } from '../../types/types';
 import { UserSuccessLoginType } from '../../types/userTypes';
@@ -10,7 +10,7 @@ const checkToken = async (): Promise<boolean> => {
     if (isExpired(getExpirationDate(refreshToken))) {
       LocalStorage.isAuth = false;
       LocalStorage.setLSData(DEFAULT_USER_NAME, DEFAULT_USER_SETTINGS);
-      window.location.replace('/login');
+      window.location.replace(`${BASE_HREF}/login`);
     } else {
       const newTokenData = (await getNewToken(userId, refreshToken)) as UserSuccessLoginType;
       LocalStorage.saveToken(newTokenData.token, newTokenData.refreshToken);

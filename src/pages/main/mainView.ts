@@ -5,6 +5,7 @@ import Nav from '../../components/nav';
 import { createElement, getElement, preloadImages } from '../../utils/tools';
 import history from '../../utils/history';
 import { ViewInterface } from '../../types/types';
+import { BASE_HREF } from '../../utils/constants';
 
 class MainView implements ViewInterface {
   header: HTMLElement;
@@ -60,7 +61,7 @@ class MainView implements ViewInterface {
     getElement('main__wrapper').addEventListener('click', (event) => {
       if ((<HTMLElement>event.target).classList.contains('btn-article')) {
         event.preventDefault();
-        history.push('/textbook');
+        history.push(`${BASE_HREF}/textbook`);
       }
       if ((<HTMLElement>event.target).classList.contains('main')) this.renderCustomTemplate(renderMainTemplate);
       if ((<HTMLElement>event.target).classList.contains('advantages')) this.renderCustomTemplate(renderAdvTemplate);

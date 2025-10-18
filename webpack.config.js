@@ -7,7 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index.ts'),
     mode: 'development',
-   
+
     module: {
         rules: [
           {
@@ -31,7 +31,7 @@ const baseConfig = {
                               plugins: [
                                   [
                                       "postcss-preset-env",
-                                                
+
                                       {
                                           //options
                                       },
@@ -46,7 +46,7 @@ const baseConfig = {
           {
               test: /\.(png|svg|jpg|jpeg|gif|json)$/i,
               type: 'asset/resource',
-             
+
                 generator: {
                   filename: (name) => {
                       /**
@@ -64,7 +64,7 @@ const baseConfig = {
               test: /\.(woff|woff2|eot|ttf|otf)$/i,
               type: 'asset/resource'
           },
-      
+
          /* {
               test: /\.m?js$/,
               exclude: /node_modules/,
@@ -82,26 +82,26 @@ const baseConfig = {
     optimization: {
       splitChunks: {
           chunks: 'all',
-       
+
       },
   },
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
-    
+
     },
     output: {
         filename: '[name].js', // '[name].[contenthash].js',
         path: path.resolve(__dirname, './dist'),
         assetModuleFilename: "assets/[name][ext][query]", // "assets/[hash][ext][query]",
         clean: true,
- 
+        publicPath: '/projects/rss-eng-learner/',
     },
 
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
-   
+
         }),
         new MiniCssExtractPlugin({
           filename: 'style.css' //'[name].[contenthash].css'
@@ -111,15 +111,11 @@ const baseConfig = {
             {
               from: path.resolve(__dirname, 'src/assets/'),
               to:   path.resolve(__dirname, 'dist/assets/')
-            }, 
-            {
-              from: path.resolve(__dirname, 'src/_redirects'),
-              to:   path.resolve(__dirname, 'dist/')
-            }
+            },
           ]
         }),
     ],
- 
+
 };
 
 module.exports = ({ mode }) => {

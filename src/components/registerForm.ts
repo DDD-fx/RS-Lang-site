@@ -1,6 +1,7 @@
 import { createElement } from '../utils/tools';
 import history from '../utils/history';
 import { RegFormInterface } from '../types/types';
+import { BASE_HREF } from '../utils/constants';
 
 const registerInner = `
 <div class="register__images">
@@ -27,7 +28,7 @@ const registerInner = `
 </label>
   <button class="btn btn-register" type="submit" >Регистрация</button>
   
-  <div class="register__link"><span>Есть аккаунт? </span><a class="register__link-link" href="/login"> Войти </a></div>
+  <div class="register__link"><span>Есть аккаунт? </span><a class="register__link-link" href="${BASE_HREF}/login"> Войти </a></div>
 </form>
 `;
 

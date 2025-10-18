@@ -2,7 +2,7 @@ import {
   AUDIOCHALLENGE_GAME_SETTINGS,
   baseURL,
   WORDS_PER_TEXTBOOK_PAGE,
-  STAT_ANONIM_DAY_DEFAULTS,
+  STAT_ANONIM_DAY_DEFAULTS, BASE_HREF,
 } from '../../../utils/constants';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
@@ -195,7 +195,7 @@ export class AudioChallengeModel extends TypedEmitter implements AudioChallengeM
     if (!AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook) {
       window.location.reload();
     } else {
-      history.push('/textbook');
+      history.push(`${BASE_HREF}/textbook`);
       window.location.reload();
     }
   };

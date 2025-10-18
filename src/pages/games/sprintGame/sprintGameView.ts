@@ -11,7 +11,7 @@ import { drawSprintTimer } from './sprintTimer';
 import { SprintViewUtils } from './sprintViewUtils';
 import { AggregatedWordType, WordsChunkType } from '../../../types/textbookTypes';
 import { LocalStorage } from '../../../utils/storage';
-import { baseURL, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
+import { BASE_HREF, baseURL, SPRINT_GAME_SETTINGS } from '../../../utils/constants';
 import { ResultBtnType } from '../../../types/games/commonGamesTypes';
 import history from '../../../utils/history';
 import { GameEnum } from '../../../types/enums';
@@ -253,7 +253,7 @@ export class SprintView extends TypedEmitter<SprintEventsType> implements Sprint
       if (!SPRINT_GAME_SETTINGS.startFromTextbook) {
         window.location.reload();
       } else {
-        history.push('/textbook');
+        history.push(`${BASE_HREF}/textbook`);
         window.location.reload();
       }
     });

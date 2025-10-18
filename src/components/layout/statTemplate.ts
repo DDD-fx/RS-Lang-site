@@ -1,5 +1,6 @@
 import { LocalStorage } from '../../utils/storage';
 import { StatOptionalDayType } from '../../types/userTypes';
+import { BASE_HREF } from '../../utils/constants';
 
 const newWordsChart = `
 <div>
@@ -23,7 +24,7 @@ const anonimStatTemplate = `
         </div>
         <div class="statistic__title">
         <h4 class="article__title">Статистика доступна только <span class="accent">авторизованным</span> пользователям</h4>
-        <a href="/login" class="btn btn-stat-login"> Войти </a>
+        <a href="${BASE_HREF}/login" class="btn btn-stat-login"> Войти </a>
         </div>
     </div>
 </div>

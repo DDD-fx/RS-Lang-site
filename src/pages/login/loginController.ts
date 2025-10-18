@@ -7,6 +7,7 @@ import history from '../../utils/history';
 import Nav from '../../components/nav';
 import { getElement } from '../../utils/tools';
 import { LoginInterface } from '../../types/types';
+import { BASE_HREF } from '../../utils/constants';
 
 class Login implements LoginInterface {
   view: LoginView;
@@ -29,7 +30,7 @@ class Login implements LoginInterface {
       if (response[0] === 200) {
         showModal('Успешная авторизация!');
         this.setUserSettings(userData.email, response[1]);
-        window.location.replace('/');
+        window.location.replace(`${BASE_HREF}`);
         new Nav(getElement('header') as HTMLElement).render();
       } else showModal('Неверный логин или пароль!');
     }
@@ -50,7 +51,7 @@ class Login implements LoginInterface {
       const response = (await createUser(userData)) as [number, CreateUserResponseType | unknown];
       if (response[0] === 200) {
         showModal('Успешная регистрация!');
-        history.push('/login');
+        history.push(`${BASE_HREF}/login`);
       } else {
         showModal(response[1] as string);
       }

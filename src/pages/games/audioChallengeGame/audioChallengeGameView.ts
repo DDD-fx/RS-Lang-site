@@ -2,7 +2,7 @@ import { createElement, getElement } from '../../../utils/tools';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import renderAudioChallengeGameTemplate from '../../../components/games/audioChallengeGame';
 import { AudioChallengeModelInterface, AudioChallengeViewInterface } from '../../../types/games/audioChallengeTypes';
-import { AUDIOCHALLENGE_GAME_SETTINGS, baseURL } from '../../../utils/constants';
+import { AUDIOCHALLENGE_GAME_SETTINGS, BASE_HREF, baseURL } from '../../../utils/constants';
 import { WordsChunkType } from '../../../types/textbookTypes';
 import history from '../../../utils/history';
 import { GamesEventsType, ResultBtnType, WordBtnType } from '../../../types/games/commonGamesTypes';
@@ -583,7 +583,7 @@ export class AudioChallengeView extends TypedEmitter<GamesEventsType> implements
       if (!AUDIOCHALLENGE_GAME_SETTINGS.startFromTextbook) {
         window.location.reload();
       } else {
-        history.push('/textbook');
+        history.push(`${BASE_HREF}/textbook`);
         window.location.reload();
       }
     });

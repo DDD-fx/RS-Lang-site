@@ -1,6 +1,7 @@
 import { createElement } from '../utils/tools';
 import history from '../utils/history';
 import { LoginFormInterface } from '../types/types';
+import { BASE_HREF } from '../utils/constants';
 
 const loginInner = `
 <div class="register__images">
@@ -23,7 +24,7 @@ const loginInner = `
 </label>
   <button class="btn btn-register" type="submit">Вход</button>
   
-  <div class="register__link"><span>Нет аккаунта? </span> <a class="register__link-link" href="/auth"> Регистрация </a></div>
+  <div class="register__link"><span>Нет аккаунта? </span> <a class="register__link-link" href="${BASE_HREF}/auth"> Регистрация </a></div>
 </form>
 `;
 
